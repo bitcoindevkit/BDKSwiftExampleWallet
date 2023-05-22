@@ -13,6 +13,7 @@
 		AE4984832A1BBBD7009951E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE4984822A1BBBD7009951E2 /* Preview Assets.xcassets */; };
 		AE49848D2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE49848C2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift */; };
 		AE4984A62A1BBCB8009951E2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AE4984A52A1BBCB8009951E2 /* README.md */; };
+		AE4984A92A1BD425009951E2 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AE4984A82A1BD425009951E2 /* BitcoinDevKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE4984A92A1BD425009951E2 /* BitcoinDevKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +118,9 @@
 			dependencies = (
 			);
 			name = BDKSwiftExampleWallet;
+			packageProductDependencies = (
+				AE4984A82A1BD425009951E2 /* BitcoinDevKit */,
+			);
 			productName = BDKSwiftExampleWallet;
 			productReference = AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */;
 			productType = "com.apple.product-type.application";
@@ -166,6 +171,9 @@
 				Base,
 			);
 			mainGroup = AE49846F2A1BBBD6009951E2;
+			packageReferences = (
+				AE4984A72A1BD425009951E2 /* XCRemoteSwiftPackageReference "bdk-swift" */,
+			);
 			productRefGroup = AE4984792A1BBBD6009951E2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -466,6 +474,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AE4984A72A1BD425009951E2 /* XCRemoteSwiftPackageReference "bdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bitcoindevkit/bdk-swift";
+			requirement = {
+				kind = exactVersion;
+				version = 0.28.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AE4984A82A1BD425009951E2 /* BitcoinDevKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AE4984A72A1BD425009951E2 /* XCRemoteSwiftPackageReference "bdk-swift" */;
+			productName = BitcoinDevKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AE4984702A1BBBD6009951E2 /* Project object */;
 }
