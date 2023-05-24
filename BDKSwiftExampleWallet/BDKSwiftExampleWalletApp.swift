@@ -11,7 +11,7 @@ import SwiftUI
 struct BDKSwiftExampleWalletApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            OnboardingView(viewModel: .init())
         }
     }
 }
