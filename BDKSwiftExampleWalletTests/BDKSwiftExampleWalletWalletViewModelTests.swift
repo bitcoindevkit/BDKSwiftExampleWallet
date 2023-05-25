@@ -24,21 +24,29 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
         return addressPredicate.evaluate(with: address)
     }
     
-    func testWalletViewModel() {
+    func testWalletViewModel() async {
         
         // Set up viewModel
         let viewModel = WalletViewModel()
+        XCTAssertEqual(viewModel.walletSyncState, .notStarted)
         XCTAssertEqual(viewModel.address, "")
         
         // Simulate successful getAddress() call
         viewModel.getAddress()
+        XCTAssertEqual(viewModel.walletSyncState, .notStarted)
+        XCTAssertEqual(viewModel.address, "tb1qzqkzcgqshhx753vay388tqmdnk6yrpfz9ue8cn")
+        
+        // Simulate successful sync() call
+        await viewModel.sync()
+        try? await Task.sleep(nanoseconds: 10_000_000_000)  // Wait for for the state to be updated
+        let walletSyncState = viewModel.walletSyncState
+        XCTAssertEqual(walletSyncState, .synced)
         XCTAssertEqual(viewModel.address, "tb1qzqkzcgqshhx753vay388tqmdnk6yrpfz9ue8cn")
         
         // Additional validation
         XCTAssertTrue(validateSegwitAddress(viewModel.address), "Invalid Segwit address")
         XCTAssertFalse(validateTaprootAddress(viewModel.address), "Invalid Segwit address: Taproot address")
         XCTAssertFalse(viewModel.address.isEmpty, "Address should not be empty")
-        
     }
     
 }
