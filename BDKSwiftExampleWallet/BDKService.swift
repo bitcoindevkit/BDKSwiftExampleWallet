@@ -9,6 +9,8 @@ import Foundation
 import BitcoinDevKit
 
 class BDKService {
+    private var balance: Balance?
+    private var blockchainConfig: BlockchainConfig?
     private var network: Network = .signet
     private var wallet: Wallet?
     
@@ -20,6 +22,15 @@ class BDKService {
     }
     
     init() {
+        let esploraConfig = EsploraConfig(
+            baseUrl: "https://mutinynet.com/api",
+            proxy: nil,
+            concurrency: nil,
+            stopGap: UInt64(20),
+            timeout: nil
+        )
+        let blockchainConfig = BlockchainConfig.esplora(config: esploraConfig)
+        self.blockchainConfig = blockchainConfig
         self.getWallet()
     }
     
@@ -64,6 +75,25 @@ class BDKService {
         } catch {
             print("BDKService getWallet error: \(error.localizedDescription)")
         }
+    }
+    
+    func sync() async throws {
+        guard let config = self.blockchainConfig else {
+            throw NSError(
+                domain: "WalletError",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "Blockchain Config does not exist"]
+            )
+        }
+        guard let wallet = self.wallet else {
+            throw NSError(
+                domain: "WalletError",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "Wallet does not exist"]
+            )
+        }
+        let blockchain = try Blockchain(config: config)
+        try wallet.sync(blockchain: blockchain, progress: nil)
     }
     
 }
