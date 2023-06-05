@@ -14,6 +14,9 @@
 		AE4984A62A1BBCB8009951E2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AE4984A52A1BBCB8009951E2 /* README.md */; };
 		AE4984A92A1BD425009951E2 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AE4984A82A1BD425009951E2 /* BitcoinDevKit */; };
 		AE4984AC2A1BD651009951E2 /* WalletUI in Frameworks */ = {isa = PBXBuildFile; productRef = AE4984AB2A1BD651009951E2 /* WalletUI */; };
+		AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538D2A2D59F000CCB277 /* Constants.swift */; };
+		AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */; };
+		AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */; };
 		AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC092A1D297600CE1831 /* BDKService.swift */; };
 		AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */; };
 		AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0F2A1D522100CE1831 /* WalletView.swift */; };
@@ -38,6 +41,9 @@
 		AE4984882A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BDKSwiftExampleWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE49848C2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletTests.swift; sourceTree = "<group>"; };
 		AE4984A52A1BBCB8009951E2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		AE79538D2A2D59F000CCB277 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletError.swift; sourceTree = "<group>"; };
+		AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		AED4CC092A1D297600CE1831 /* BDKService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKService.swift; sourceTree = "<group>"; };
 		AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AED4CC0F2A1D522100CE1831 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -88,8 +94,11 @@
 			children = (
 				AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */,
 				AED4CC092A1D297600CE1831 /* BDKService.swift */,
+				AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */,
+				AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */,
 				AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */,
 				AED4CC0F2A1D522100CE1831 /* WalletView.swift */,
+				AE79538D2A2D59F000CCB277 /* Constants.swift */,
 				AE49847F2A1BBBD7009951E2 /* Assets.xcassets */,
 				AE4984812A1BBBD7009951E2 /* Preview Content */,
 			);
@@ -222,6 +231,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */,
+				AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */,
+				AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */,
 				AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */,
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,

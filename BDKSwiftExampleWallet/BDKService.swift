@@ -23,7 +23,7 @@ class BDKService {
     
     init() {
         let esploraConfig = EsploraConfig(
-            baseUrl: "https://mutinynet.com/api",
+            baseUrl: Constants.Config.EsploraServerURLNetwork.signet,
             proxy: nil,
             concurrency: nil,
             stopGap: UInt64(20),
@@ -36,14 +36,16 @@ class BDKService {
     
     func getAddress() throws -> String {
         guard let wallet = self.wallet else {
-            throw NSError(
-                domain: "WalletError",
-                code: 1,
-                userInfo: [NSLocalizedDescriptionKey: "Wallet does not exist"]
-            )
+            throw WalletError.walletNotFound
         }
         let addressInfo = try wallet.getAddress(addressIndex: .lastUnused)
         return addressInfo.address.asString()
+    }
+    
+    func getBalance() throws -> Balance {
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let balance = try wallet.getBalance()
+        return balance
     }
     
     private func getWallet() {
@@ -79,18 +81,10 @@ class BDKService {
     
     func sync() async throws {
         guard let config = self.blockchainConfig else {
-            throw NSError(
-                domain: "WalletError",
-                code: 1,
-                userInfo: [NSLocalizedDescriptionKey: "Blockchain Config does not exist"]
-            )
+            throw WalletError.blockchainConfigNotFound
         }
         guard let wallet = self.wallet else {
-            throw NSError(
-                domain: "WalletError",
-                code: 1,
-                userInfo: [NSLocalizedDescriptionKey: "Wallet does not exist"]
-            )
+            throw WalletError.walletNotFound
         }
         let blockchain = try Blockchain(config: config)
         try wallet.sync(blockchain: blockchain, progress: nil)
