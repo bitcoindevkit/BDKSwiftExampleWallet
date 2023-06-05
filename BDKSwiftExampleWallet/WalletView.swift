@@ -28,7 +28,6 @@ class WalletViewModel: ObservableObject {
     func getAddress() {
         do {
             let address = try BDKService.shared.getAddress()
-            print("Address: \n \(address)")
             self.address = address
         } catch {
             self.address = "Error getting address."
@@ -38,7 +37,6 @@ class WalletViewModel: ObservableObject {
     func getBalance() {
         do {
             let balance = try BDKService.shared.getBalance()
-            print("balance: \n \(balance)")
             self.balanceTotal = balance.total
             self.balanceSpendable = balance.spendable
             self.balanceImmature = balance.immature
@@ -67,8 +65,7 @@ class WalletViewModel: ObservableObject {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    print("sync error: \(error.localizedDescription)")
-                    self.walletSyncState = .error(error)//.error
+                    self.walletSyncState = .error(error)
                 }
             }
         }
