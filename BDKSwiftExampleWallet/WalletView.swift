@@ -74,7 +74,7 @@ class WalletViewModel: ObservableObject {
 }
 
 extension WalletViewModel {
-    enum WalletSyncState: CustomStringConvertible {
+    enum WalletSyncState: CustomStringConvertible, Equatable {
         case error(Error)
         case notStarted
         case synced
