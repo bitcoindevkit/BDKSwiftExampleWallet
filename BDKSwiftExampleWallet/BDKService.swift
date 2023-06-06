@@ -11,7 +11,7 @@ import BitcoinDevKit
 class BDKService {
     private var balance: Balance?
     private var blockchainConfig: BlockchainConfig?
-    private var network: Network = .testnet//.signet
+    private var network: Network = .signet
     private var wallet: Wallet?
     
     class var shared: BDKService {
@@ -23,7 +23,7 @@ class BDKService {
     
     init() {
         let esploraConfig = EsploraConfig(
-            baseUrl: Constants.Config.EsploraServerURLNetwork.testnet,//.signet,
+            baseUrl: Constants.Config.EsploraServerURLNetwork.signet,
             proxy: nil,
             concurrency: nil,
             stopGap: UInt64(20),
