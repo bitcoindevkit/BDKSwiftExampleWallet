@@ -11,7 +11,7 @@ import BitcoinDevKit
 class BDKService {
     private var balance: Balance?
     private var blockchainConfig: BlockchainConfig?
-    private var network: Network = .signet
+    private var network: Network = .testnet//.signet
     private var wallet: Wallet?
     
     class var shared: BDKService {
@@ -23,7 +23,7 @@ class BDKService {
     
     init() {
         let esploraConfig = EsploraConfig(
-            baseUrl: Constants.Config.EsploraServerURLNetwork.signet,
+            baseUrl: Constants.Config.EsploraServerURLNetwork.testnet,//.signet,
             proxy: nil,
             concurrency: nil,
             stopGap: UInt64(20),
@@ -77,6 +77,12 @@ class BDKService {
         } catch {
             print("BDKService getWallet error: \(error.localizedDescription)")
         }
+    }
+    
+    func getTransactions() throws -> [TransactionDetails] {
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let transactionDetails = try wallet.listTransactions(includeRaw: false)
+        return transactionDetails
     }
     
     func sync() async throws {

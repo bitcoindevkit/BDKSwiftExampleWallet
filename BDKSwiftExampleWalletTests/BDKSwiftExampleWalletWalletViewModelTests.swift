@@ -49,6 +49,11 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.balanceTotal, 0)
         XCTAssertEqual(viewModel.balanceSpendable, 0)
         
+        // Simulate successful getTransactions() call
+        viewModel.getTransactions()
+        XCTAssertEqual(viewModel.walletSyncState, .notStarted)
+        XCTAssertEqual(viewModel.transactionDetails.count, 0)
+        
         // Additional validation
         XCTAssertTrue(validateSegwitAddress(viewModel.address), "Invalid Segwit address")
         XCTAssertFalse(validateTaprootAddress(viewModel.address), "Invalid Segwit address: Taproot address")
