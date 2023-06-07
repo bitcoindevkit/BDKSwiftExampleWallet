@@ -79,6 +79,12 @@ class BDKService {
         }
     }
     
+    func getTransactions() throws -> [TransactionDetails] {
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let transactionDetails = try wallet.listTransactions(includeRaw: false)
+        return transactionDetails
+    }
+    
     func sync() async throws {
         guard let config = self.blockchainConfig else {
             throw WalletError.blockchainConfigNotFound

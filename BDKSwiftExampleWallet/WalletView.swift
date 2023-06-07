@@ -24,6 +24,9 @@ class WalletViewModel: ObservableObject {
     // Sync
     @Published var lastSyncTime: Date? = nil
     @Published var walletSyncState: WalletSyncState = .notStarted
+    
+    // Transactions
+    @Published var transactionDetails: [TransactionDetails] = []
 
     func getAddress() {
         do {
@@ -50,6 +53,15 @@ class WalletViewModel: ObservableObject {
         }
     }
     
+    func getTransactions() {
+        do {
+            let transactionDetails = try BDKService.shared.getTransactions()
+            self.transactionDetails = transactionDetails
+        } catch {
+            print("getTransactions - none: \(error.localizedDescription)")
+        }
+    }
+    
     func sync() async {
         DispatchQueue.main.async {
             self.walletSyncState = .syncing
@@ -62,6 +74,7 @@ class WalletViewModel: ObservableObject {
                     self.lastSyncTime = Date()
                     self.getAddress()
                     self.getBalance()
+                    self.getTransactions()
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -158,6 +171,13 @@ struct WalletView: View {
                     .font(.caption)
                 }
                 VStack {
+                    List(viewModel.transactionDetails, id: \.txid) { transaction in
+                        VStack(alignment: .leading) {
+                            Text("Transaction ID: \(transaction.txid)")
+                        }
+                    }
+                }
+                VStack {
                     HStack(spacing: 5) {
                         Text(viewModel.walletSyncState.description)
                         if viewModel.walletSyncState == .syncing {
@@ -184,6 +204,7 @@ struct WalletView: View {
             .onAppear {
                 viewModel.getAddress()
                 viewModel.getBalance()
+                viewModel.getTransactions()
             }
             .task {
                 await viewModel.sync()
