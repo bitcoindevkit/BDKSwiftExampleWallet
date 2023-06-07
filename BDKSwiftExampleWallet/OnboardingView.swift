@@ -22,25 +22,64 @@ struct OnboardingView: View {
                     .ignoresSafeArea()
                 
                 VStack {
-                    Text("Onboarding")
-                    NavigationLink {
-                        WalletView(viewModel: .init())
-                    } label: {
-                        Text("Create Wallet")
-                            .foregroundColor(Color(uiColor: .systemBackground))
+                    
+                    Spacer()
+                    
+                    VStack(spacing: 25) {
+                        
+                        Image(systemName:"bitcoinsign.circle.fill")
+                            .resizable()
+                            .foregroundColor(.bitcoinOrange)
+                            .frame(width: 100, height: 100, alignment: .center)
+                        
+                        Text("Bitcoin wallet")
+                            .textStyle(BitcoinTitle1())
+                            .multilineTextAlignment(.center)
+                        
+                        Text("A simple bitcoin wallet for your enjoyment.")
+                            .textStyle(BitcoinBody1())
+                            .opacity(0.4)
+                            .multilineTextAlignment(.center)
                     }
-                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
+                    
+                    VStack(spacing: 25){
+                        
+                        NavigationLink {
+                            WalletView(viewModel: .init())
+                        } label: {
+                            Text("Create a new wallet")
+                                .foregroundColor(Color.white)
+                                .textStyle(BitcoinBody1())
+                        }
+                        .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
+                        
+                        NavigationLink {
+                            
+                        } label: {
+                            Text("Restore existing wallet")
+                                .foregroundColor(Color.orange)
+                                .textStyle(BitcoinBody1())
+                        }
+                        .disabled(true)
+                    }
+                    .padding(.top, 30)
+                    
+                    Spacer()
+                    
+                    VStack {
+                        
+                        Text("Your wallet, your coins \n 100% open-source & open-design")
+                            .textStyle(BitcoinBody4())
+                            .multilineTextAlignment(.center)
+                        
+                    }
+                    .padding(EdgeInsets(top: 32, leading: 32, bottom: 8, trailing: 32))
+                    
                 }
-                .padding()
-                
             }
-            
         }
-        
-    }
-    
+    }    
 }
-
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingView(viewModel: .init())
