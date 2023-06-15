@@ -133,49 +133,46 @@ struct WalletView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                VStack {
-                    Text("Address:")
-                    Text(viewModel.address)
-                        .font(.caption)
+                Text("Your Balance")
+                    .bold()
+                    .foregroundColor(.secondary)
+                HStack {
+                    Text(viewModel.balanceTotal.delimiter)
+                        .font(.largeTitle)
+                    Text("sats")
+                        .font(.largeTitle)
                 }
                 VStack {
-                    VStack {
-                        Text("Total Balance:")
-                        Text(String(viewModel.balanceTotal))
-                            .font(.largeTitle)
-                    }
                     HStack {
-                        Text("Immature Balance:")
-                        Text(String(viewModel.balanceImmature))
+                        Text("Activity")
+                            .bold()
+                        Spacer()
                     }
-                    .font(.caption)
-                    HStack {
-                        Text("Trusted Pending Balance:")
-                        Text(String(viewModel.balanceTrustedPending))
-                    }
-                    .font(.caption)
-                    HStack {
-                        Text("Untrusted Pending Balance:")
-                        Text(String(viewModel.balanceUntrustedPending))
-                    }
-                    .font(.caption)
-                    HStack {
-                        Text("Confirmed Balance:")
-                        Text(String(viewModel.balanceConfirmed))
-                    }
-                    .font(.caption)
-                    HStack {
-                        Text("Spendable Balance:")
-                        Text(String(viewModel.balanceSpendable))
-                    }
-                    .font(.caption)
-                }
-                VStack {
-                    List(viewModel.transactionDetails, id: \.txid) { transaction in
-                        VStack(alignment: .leading) {
-                            Text("Transaction ID: \(transaction.txid)")
+                    List {
+                        ForEach(viewModel.transactionDetails, id: \.txid) { transaction in
+                            HStack {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.gray.opacity(0.2))
+                                        .frame(width: 40, height: 40)
+                                    Image(systemName: "arrow.down")
+                                        .frame(width: 20, height: 20)
+                                }
+                                VStack(alignment: .leading, spacing: 1){
+                                    Text(transaction.txid)
+                                        .truncationMode(.middle)
+                                        .lineLimit(1)
+                                    Text("Received")
+                                }
+                                .padding(.trailing, 40)
+                                HStack {
+                                    Text("+") + Text(String(transaction.received.delimiter)) + Text(" sats")
+                                        .font(.title3)
+                                }
+                            }
                         }
                     }
+                    .listStyle(.plain)
                 }
                 VStack {
                     HStack(spacing: 5) {
