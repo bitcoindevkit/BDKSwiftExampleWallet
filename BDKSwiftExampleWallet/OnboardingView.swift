@@ -45,7 +45,7 @@ struct OnboardingView: View {
                     VStack(spacing: 25){
                         
                         NavigationLink {
-                            WalletView(viewModel: .init())
+                            TabHomeView()
                         } label: {
                             Text("Create a new wallet")
                                 .foregroundColor(Color.white)
