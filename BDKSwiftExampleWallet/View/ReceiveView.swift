@@ -33,7 +33,15 @@ struct ReceiveView: View {
                 .ignoresSafeArea()
             
             VStack {
+                if viewModel.address != "" {
+                    QRCodeView(address: viewModel.address)
+                        .animation(.default, value: viewModel.address)
+                } else {
+                    QRCodeView(address: viewModel.address)
+                        .blur(radius: 15)
+                }
                 Text("Address")
+                    .foregroundColor(.secondary)
                 Text(viewModel.address)
                     .font(.caption)
             }

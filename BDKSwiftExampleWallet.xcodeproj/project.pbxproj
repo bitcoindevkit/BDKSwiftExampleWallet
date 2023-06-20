@@ -22,6 +22,7 @@
 		AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */; };
 		AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */; };
 		AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveTests.swift */; };
+		AE96F6672A4259260055623C /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6662A4259260055623C /* QRCodeView.swift */; };
 		AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC092A1D297600CE1831 /* BDKService.swift */; };
 		AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */; };
 		AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0F2A1D522100CE1831 /* WalletView.swift */; };
@@ -54,6 +55,7 @@
 		AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletError.swift; sourceTree = "<group>"; };
 		AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletReceiveTests.swift; sourceTree = "<group>"; };
+		AE96F6662A4259260055623C /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		AED4CC092A1D297600CE1831 /* BDKService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKService.swift; sourceTree = "<group>"; };
 		AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AED4CC0F2A1D522100CE1831 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */,
 				AED4CC0F2A1D522100CE1831 /* WalletView.swift */,
 				AE1C34232A424456008F807A /* ReceiveView.swift */,
+				AE96F6662A4259260055623C /* QRCodeView.swift */,
 				AE1C34252A4248A5008F807A /* SendView.swift */,
 			);
 			path = View;
@@ -286,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE96F6672A4259260055623C /* QRCodeView.swift in Sources */,
 				AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */,
 				AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */,
 				AE1C34242A424456008F807A /* ReceiveView.swift in Sources */,
