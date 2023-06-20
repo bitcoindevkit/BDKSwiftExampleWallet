@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */; };
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
+		AE1C34242A424456008F807A /* ReceiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C34232A424456008F807A /* ReceiveView.swift */; };
+		AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */; };
 		AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */; };
 		AE4984802A1BBBD7009951E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE49847F2A1BBBD7009951E2 /* Assets.xcassets */; };
 		AE4984832A1BBBD7009951E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE4984822A1BBBD7009951E2 /* Preview Assets.xcassets */; };
@@ -36,8 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHomeView.swift; sourceTree = "<group>"; };
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		AE1C34232A424456008F807A /* ReceiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveView.swift; sourceTree = "<group>"; };
+		AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHomeView.swift; sourceTree = "<group>"; };
 		AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BDKSwiftExampleWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletApp.swift; sourceTree = "<group>"; };
 		AE49847F2A1BBBD7009951E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -74,6 +76,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AE1C341E2A42440A008F807A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */,
+				A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		AE1C341F2A424415008F807A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */,
+				AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */,
+				AED4CC0F2A1D522100CE1831 /* WalletView.swift */,
+				AE1C34232A424456008F807A /* ReceiveView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AE1C34202A42441F008F807A /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				AE79538D2A2D59F000CCB277 /* Constants.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		AE1C34212A424434008F807A /* BDK Service */ = {
+			isa = PBXGroup;
+			children = (
+				AED4CC092A1D297600CE1831 /* BDKService.swift */,
+				AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */,
+			);
+			path = "BDK Service";
+			sourceTree = "<group>";
+		};
+		AE1C34222A424440008F807A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		AE49846F2A1BBBD6009951E2 = {
 			isa = PBXGroup;
 			children = (
@@ -96,15 +143,11 @@
 		AE49847A2A1BBBD6009951E2 /* BDKSwiftExampleWallet */ = {
 			isa = PBXGroup;
 			children = (
-				AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */,
-				AED4CC092A1D297600CE1831 /* BDKService.swift */,
-				AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */,
-				AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */,
-				A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */,
-				AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */,
-				AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */,
-				AED4CC0F2A1D522100CE1831 /* WalletView.swift */,
-				AE79538D2A2D59F000CCB277 /* Constants.swift */,
+				AE1C34222A424440008F807A /* App */,
+				AE1C34212A424434008F807A /* BDK Service */,
+				AE1C341F2A424415008F807A /* View */,
+				AE1C341E2A42440A008F807A /* Extensions */,
+				AE1C34202A42441F008F807A /* Utilities */,
 				AE49847F2A1BBBD7009951E2 /* Assets.xcassets */,
 				AE4984812A1BBBD7009951E2 /* Preview Content */,
 			);
@@ -239,6 +282,7 @@
 			files = (
 				AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */,
 				AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */,
+				AE1C34242A424456008F807A /* ReceiveView.swift in Sources */,
 				AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */,
 				AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */,
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,

@@ -23,6 +23,15 @@ struct TabHomeView: View {
                             systemImage: "bitcoinsign"
                         )
                     }
+                
+                ReceiveView(viewModel: .init())
+                    .tabItem {
+                        Label(
+                            "Receive",
+                            systemImage: "arrow.down"
+                        )
+                    }
+
                                 
             }
             .tint(.orange)

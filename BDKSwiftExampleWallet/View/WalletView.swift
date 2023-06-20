@@ -10,8 +10,6 @@ import WalletUI
 import BitcoinDevKit
 
 class WalletViewModel: ObservableObject {
-    // Address
-    @Published var address: String = ""
     
     // Balance
     @Published var balanceImmature: UInt64 = 0
@@ -27,15 +25,6 @@ class WalletViewModel: ObservableObject {
     
     // Transactions
     @Published var transactionDetails: [TransactionDetails] = []
-
-    func getAddress() {
-        do {
-            let address = try BDKService.shared.getAddress()
-            self.address = address
-        } catch {
-            self.address = "Error getting address."
-        }
-    }
     
     func getBalance() {
         do {
@@ -72,7 +61,6 @@ class WalletViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.walletSyncState = .synced
                     self.lastSyncTime = Date()
-                    self.getAddress()
                     self.getBalance()
                     self.getTransactions()
                 }
@@ -205,7 +193,6 @@ struct WalletView: View {
             }
             .padding()
             .onAppear {
-                viewModel.getAddress()
                 viewModel.getBalance()
                 viewModel.getTransactions()
             }
