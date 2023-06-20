@@ -156,6 +156,7 @@ struct WalletView: View {
                                             .foregroundColor(.secondary)
                                     }
                                     .padding(.trailing, 40.0)
+                                    Spacer()
                                     Text("+" + transaction.received.delimiter + " sats")
                                         .font(.caption)
                                 }
