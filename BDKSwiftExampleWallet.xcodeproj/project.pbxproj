@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
 		AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */; };
 		AE4984802A1BBBD7009951E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE49847F2A1BBBD7009951E2 /* Assets.xcassets */; };
 		AE4984832A1BBBD7009951E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE4984822A1BBBD7009951E2 /* Preview Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BDKSwiftExampleWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletApp.swift; sourceTree = "<group>"; };
 		AE49847F2A1BBBD7009951E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				AED4CC092A1D297600CE1831 /* BDKService.swift */,
 				AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */,
 				AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */,
+				A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */,
 				AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */,
 				AED4CC0F2A1D522100CE1831 /* WalletView.swift */,
 				AE79538D2A2D59F000CCB277 /* Constants.swift */,
@@ -236,6 +239,7 @@
 				AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */,
 				AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */,
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,
+				A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */,
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
 			);
