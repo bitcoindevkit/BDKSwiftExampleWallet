@@ -134,41 +134,48 @@ struct WalletView: View {
             
             VStack(spacing: 20) {
                 Text("Your Balance")
-                    .font(.title3)
+                    .bold()
                     .foregroundColor(.secondary)
                 HStack {
                     Text(viewModel.balanceTotal.delimiter)
-                        .font(.largeTitle)
                     Text("sats")
                 }
+                .font(.largeTitle)
                 VStack {
                     HStack {
                         Text("Activity")
                             .bold()
                         Spacer()
                     }
-                    ScrollView(.vertical) {
-                        ForEach(viewModel.transactionDetails, id: \.txid) { transaction in
-                            Divider()
-                            HStack {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.gray.opacity(0.2))
-                                        .frame(width: 40, height: 40)
-                                    Image(systemName: "arrow.up")
-                                        .frame(width: 20, height: 20)
-                                }
-                                VStack(alignment: .leading, spacing: 1){
-                                    Text(transaction.txid)
-                                        .truncationMode(.middle)
-                                        .lineLimit(1)
-                                    Text("Sending...")
-                                }
+                    if viewModel.transactionDetails.isEmpty {
+                        Text("No Transactions")
+                    } else {
+                        List {
+                            ForEach(viewModel.transactionDetails, id: \.txid) { transaction in
                                 HStack {
-                                    Text(Image(systemName: "bitcoinsign")) + Text("-") + Text(String(transaction.received))
-                                        .font(.title3)
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.gray.opacity(0.2))
+                                            .frame(width: 40, height: 40)
+                                        Image(systemName: "arrow.down")
+                                            .frame(width: 20, height: 20)
+                                    }
+                                    VStack(alignment: .leading, spacing: 1){
+                                        Text(transaction.txid)
+                                            .truncationMode(.middle)
+                                            .lineLimit(1)
+                                        Text("Received")
+                                            .foregroundColor(.secondary)
+                                    }
+                                    .padding(.trailing, 40.0)
+                                    Text("+" + transaction.received.delimiter + " sats")
+                                        .font(.caption)
                                 }
                             }
+                        }
+                        .listStyle(.plain)
+                        .refreshable {
+                            await viewModel.sync()
                         }
                     }
                     Spacer()
