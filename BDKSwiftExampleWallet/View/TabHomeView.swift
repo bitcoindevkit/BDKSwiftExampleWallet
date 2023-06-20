@@ -31,6 +31,14 @@ struct TabHomeView: View {
                             systemImage: "arrow.down"
                         )
                     }
+                
+                SendView(viewModel: .init())
+                    .tabItem {
+                        Label(
+                            "Send",
+                            systemImage: "arrow.up"
+                        )
+                    }
 
                                 
             }
