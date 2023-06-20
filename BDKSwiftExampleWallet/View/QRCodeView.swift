@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-
-import SwiftUI
 import CoreImage.CIFilterBuiltins
 
 struct QRCodeView: View {
