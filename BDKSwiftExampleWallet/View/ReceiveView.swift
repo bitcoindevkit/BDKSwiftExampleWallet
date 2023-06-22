@@ -25,6 +25,8 @@ class ReceiveViewModel: ObservableObject {
 
 struct ReceiveView: View {
     @ObservedObject var viewModel: ReceiveViewModel
+    @State private var isCopied = false
+    @State private var showCheckmark = false
 
     var body: some View {
         
@@ -33,6 +35,7 @@ struct ReceiveView: View {
                 .ignoresSafeArea()
             
             VStack {
+                
                 if viewModel.address != "" {
                     QRCodeView(address: viewModel.address)
                         .animation(.default, value: viewModel.address)
@@ -40,10 +43,36 @@ struct ReceiveView: View {
                     QRCodeView(address: viewModel.address)
                         .blur(radius: 15)
                 }
-                Text("Address")
-                    .foregroundColor(.secondary)
-                Text(viewModel.address)
-                    .font(.caption)
+                
+                HStack {
+                    
+                    Text(viewModel.address)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    
+                    Button {
+                        UIPasteboard.general.string = viewModel.address
+                        isCopied = true
+                        showCheckmark = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            isCopied = false
+                            showCheckmark = false
+                        }
+                    } label: {
+                        HStack {
+                            withAnimation {
+                                Image(systemName: showCheckmark ? "checkmark" : "doc.on.doc")
+                                    .font(.headline)
+                            }
+                        }
+                        .bold()
+                        .foregroundColor(.bitcoinOrange)
+                    }
+                    
+                }
+                .padding()
+                
             }
             .padding()
             .onAppear {
