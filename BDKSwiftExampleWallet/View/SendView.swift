@@ -6,9 +6,24 @@
 //
 
 import SwiftUI
+import WalletUI
+import BitcoinDevKit
 
-class SendViewModel: ObservableObject {}
+class SendViewModel: ObservableObject {
+    
+    @Published var balanceTotal: UInt64 = 0
 
+    func getBalance() {
+        do {
+            let balance = try BDKService.shared.getBalance()
+            self.balanceTotal = balance.total
+        } catch let error as WalletError {
+            print("getBalance - Wallet Error: \(error.localizedDescription)")
+        } catch {
+            print("getBalance - Undefined Error: \(error.localizedDescription)")
+        }
+    }
+}
 struct SendView: View {
     @ObservedObject var viewModel: SendViewModel
 
@@ -18,11 +33,21 @@ struct SendView: View {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
             
-            VStack {
-                Text("Send")
+            VStack(spacing: 20) {
+                Text("Your Balance")
+                    .bold()
+                    .foregroundColor(.secondary)
+                HStack {
+                    Text(viewModel.balanceTotal.delimiter)
+                    Text("sats")
+                }
+                .font(.largeTitle)
+                Spacer()
             }
             .padding()
-            
+            .onAppear {
+                viewModel.getBalance()
+            }
         }
         
     }
