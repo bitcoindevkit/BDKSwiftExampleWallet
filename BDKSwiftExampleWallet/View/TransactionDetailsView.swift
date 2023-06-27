@@ -7,22 +7,22 @@
 
 import SwiftUI
 import BitcoinDevKit
+
 struct TransactionDetailsView: View {
     let transaction: TransactionDetails
     
     var body: some View {
         VStack(spacing: 5) {
-            VStack {
-                if let transactionT = transaction.transaction {
-                    Text("Transaction lockTime: \(transactionT.lockTime())")
-                    // TODO: ask about other items
-                }
-            }
+            
+            // Need
             VStack {
                 if let fee = transaction.fee {
                     Text("Fee: \(fee)")
                 }
             }
+            
+            // TODO: I need to subtract sent from received and if its negative it was a send and if its positive it was a receive
+            // this is because of change amounts
             VStack {
                 if transaction.received > 0 {
                     Text("Received: \(transaction.received)")
@@ -33,12 +33,18 @@ struct TransactionDetailsView: View {
                     Text("Sent: \(transaction.sent)")
                 }
             }
+
+            // TODO: add copy button
+            // Need,
             VStack {
                 Text("Txid: ")
                 Text(transaction.txid)
                     .lineLimit(1)
                     .truncationMode(.middle)
             }
+            
+            // TODO: if block time is nil its unconfirmed, if its not null its confirmed
+            // Need
             VStack {
                 VStack {
                     Text("Block Height: ")
