@@ -140,7 +140,12 @@ struct WalletView: View {
                     } else {
                         List {
                             ForEach(viewModel.transactionDetails, id: \.txid) { transaction in
-                                NavigationLink(destination: TransactionDetailsView(transaction: transaction)) {
+                                NavigationLink(
+                                    destination: TransactionDetailsView(
+                                        transaction: transaction,
+                                        amount: transaction.received - transaction.sent
+                                    )
+                                ) {
                                     HStack {
                                         ZStack {
                                             Circle()
