@@ -38,7 +38,7 @@ class BDKService {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        let addressInfo = try wallet.getAddress(addressIndex: .lastUnused)
+        let addressInfo = try wallet.getAddress(addressIndex: .new)
         return addressInfo.address.asString()
     }
     

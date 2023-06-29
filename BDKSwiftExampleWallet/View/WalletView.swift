@@ -140,25 +140,32 @@ struct WalletView: View {
                     } else {
                         List {
                             ForEach(viewModel.transactionDetails, id: \.txid) { transaction in
-                                HStack {
-                                    ZStack {
-                                        Circle()
-                                            .fill(Color.gray.opacity(0.2))
-                                            .frame(width: 40, height: 40)
-                                        Image(systemName: "arrow.down")
-                                            .frame(width: 20, height: 20)
+                                NavigationLink(
+                                    destination: TransactionDetailsView(
+                                        transaction: transaction,
+                                        amount: transaction.received - transaction.sent
+                                    )
+                                ) {
+                                    HStack {
+                                        ZStack {
+                                            Circle()
+                                                .fill(Color.gray.opacity(0.2))
+                                                .frame(width: 40, height: 40)
+                                            Image(systemName: "arrow.down")
+                                                .frame(width: 20, height: 20)
+                                        }
+                                        VStack(alignment: .leading, spacing: 1){
+                                            Text(transaction.txid)
+                                                .truncationMode(.middle)
+                                                .lineLimit(1)
+                                            Text("Received")
+                                                .foregroundColor(.secondary)
+                                        }
+                                        .padding(.trailing, 40.0)
+                                        Spacer()
+                                        Text("+" + transaction.received.delimiter + " sats")
+                                            .font(.caption)
                                     }
-                                    VStack(alignment: .leading, spacing: 1){
-                                        Text(transaction.txid)
-                                            .truncationMode(.middle)
-                                            .lineLimit(1)
-                                        Text("Received")
-                                            .foregroundColor(.secondary)
-                                    }
-                                    .padding(.trailing, 40.0)
-                                    Spacer()
-                                    Text("+" + transaction.received.delimiter + " sats")
-                                        .font(.caption)
                                 }
                             }
                         }
