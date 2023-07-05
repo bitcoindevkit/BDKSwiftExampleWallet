@@ -12,12 +12,7 @@ import BitcoinDevKit
 class WalletViewModel: ObservableObject {
     
     // Balance
-    @Published var balanceImmature: UInt64 = 0
-    @Published var balanceTrustedPending: UInt64 = 0
-    @Published var balanceUntrustedPending: UInt64 = 0
-    @Published var balanceConfirmed: UInt64 = 0
     @Published var balanceTotal: UInt64 = 0
-    @Published var balanceSpendable: UInt64 = 0
 
     // Sync
     @Published var lastSyncTime: Date? = nil
@@ -30,11 +25,6 @@ class WalletViewModel: ObservableObject {
         do {
             let balance = try BDKService.shared.getBalance()
             self.balanceTotal = balance.total
-            self.balanceSpendable = balance.spendable
-            self.balanceImmature = balance.immature
-            self.balanceTrustedPending = balance.trustedPending
-            self.balanceUntrustedPending = balance.untrustedPending
-            self.balanceConfirmed = balance.confirmed
         } catch let error as WalletError {
             print("getBalance - Wallet Error: \(error.localizedDescription)")
         } catch {
