@@ -95,9 +95,9 @@ class BDKService {
             .feeRate(satPerVbyte: feeRate ?? 1.0)
             .finish(wallet: wallet)
         let _ = try wallet.sign(psbt: txBuilderResult.psbt, signOptions: nil)
-        let tx = txBuilderResult.psbt.extractTx()
+        let transaction = txBuilderResult.psbt.extractTx()
         let blockchain = try Blockchain(config: config)
-        try blockchain.broadcast(transaction: tx)
+        try blockchain.broadcast(transaction: transaction)
     }
     
     func sync() async throws {
