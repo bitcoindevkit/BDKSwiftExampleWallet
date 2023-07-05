@@ -48,6 +48,12 @@ class BDKService {
         return balance
     }
     
+    func getTransactions() throws -> [TransactionDetails] {
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let transactionDetails = try wallet.listTransactions(includeRaw: false)
+        return transactionDetails
+    }
+    
     private func getWallet() {
         let mnemonicWords12 = "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
         do {
@@ -79,10 +85,22 @@ class BDKService {
         }
     }
     
-    func getTransactions() throws -> [TransactionDetails] {
+    // TODO: do we want feeRate?
+    func send(address: String, amount: UInt64) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let transactionDetails = try wallet.listTransactions(includeRaw: false)
-        return transactionDetails
+        guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
+        let script = try Address(address: address)
+            .scriptPubkey()
+        let txBuilderResult = try TxBuilder()
+            .addRecipient(script: script, amount: amount)
+            .feeRate(satPerVbyte: 2.0)
+            .finish(wallet: wallet)
+        // TODO: do we want `signOptions`?
+        // TODO: how to handle if this is `false` (it already throws)
+        let _ = try wallet.sign(psbt: txBuilderResult.psbt, signOptions: nil)
+        let tx = txBuilderResult.psbt.extractTx()
+        let blockchain = try Blockchain(config: config)
+        try blockchain.broadcast(transaction: tx)
     }
     
     func sync() async throws {
