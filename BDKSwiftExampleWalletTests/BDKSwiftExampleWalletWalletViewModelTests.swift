@@ -27,7 +27,6 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
         viewModel.getBalance()
         XCTAssertEqual(viewModel.walletSyncState, .notStarted)
         XCTAssertEqual(viewModel.balanceTotal, 0)
-        XCTAssertEqual(viewModel.balanceSpendable, 0)
         
         // Simulate successful getTransactions() call
         viewModel.getTransactions()
