@@ -86,17 +86,15 @@ class BDKService {
     }
     
     // TODO: do we want feeRate?
-    func send(address: String, amount: UInt64) throws {
+    func send(address: String, amount: UInt64, feeRate: Float?) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
         let script = try Address(address: address)
             .scriptPubkey()
         let txBuilderResult = try TxBuilder()
             .addRecipient(script: script, amount: amount)
-            .feeRate(satPerVbyte: 2.0)
+            .feeRate(satPerVbyte: feeRate ?? 1.0)
             .finish(wallet: wallet)
-        // TODO: do we want `signOptions`?
-        // TODO: handle if this returns `false`? (it already throws)
         let _ = try wallet.sign(psbt: txBuilderResult.psbt, signOptions: nil)
         let tx = txBuilderResult.psbt.extractTx()
         let blockchain = try Blockchain(config: config)
