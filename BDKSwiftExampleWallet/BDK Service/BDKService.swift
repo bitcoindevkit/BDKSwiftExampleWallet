@@ -90,12 +90,12 @@ class BDKService {
         guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
         let script = try Address(address: address)
             .scriptPubkey()
-        let txBuilderResult = try TxBuilder()
+        let txBuilder = try TxBuilder()
             .addRecipient(script: script, amount: amount)
             .feeRate(satPerVbyte: feeRate ?? 1.0)
             .finish(wallet: wallet)
-        let _ = try wallet.sign(psbt: txBuilderResult.psbt, signOptions: nil)
-        let transaction = txBuilderResult.psbt.extractTx()
+        let _ = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
+        let transaction = txBuilder.psbt.extractTx()
         let blockchain = try Blockchain(config: config)
         try blockchain.broadcast(transaction: transaction)
     }
