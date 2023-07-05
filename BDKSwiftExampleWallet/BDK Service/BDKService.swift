@@ -96,7 +96,7 @@ class BDKService {
             .feeRate(satPerVbyte: 2.0)
             .finish(wallet: wallet)
         // TODO: do we want `signOptions`?
-        // TODO: how to handle if this is `false` (it already throws)
+        // TODO: handle if this returns `false`? (it already throws)
         let _ = try wallet.sign(psbt: txBuilderResult.psbt, signOptions: nil)
         let tx = txBuilderResult.psbt.extractTx()
         let blockchain = try Blockchain(config: config)
