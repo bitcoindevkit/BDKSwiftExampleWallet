@@ -85,7 +85,6 @@ class BDKService {
         }
     }
     
-    // TODO: do we want feeRate?
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
