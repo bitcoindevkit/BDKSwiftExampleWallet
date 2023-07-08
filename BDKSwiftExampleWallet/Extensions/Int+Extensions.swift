@@ -8,6 +8,25 @@
 import Foundation
 
 extension UInt64 {
+    func formattedSatoshis() -> String {
+        if self == 0 {
+            return "0.00 000 000"
+        } else {
+            let balanceString = String(format: "%010d", self)
+
+            let zero = balanceString.prefix(2)
+            let first = balanceString.dropFirst(2).prefix(2)
+            let second = balanceString.dropFirst(4).prefix(3)
+            let third = balanceString.dropFirst(7).prefix(3)
+
+            let formattedBalance = "\(zero).\(first) \(second) \(third)"
+
+            return formattedBalance
+        }
+    }
+}
+
+extension UInt64 {
     var formattedTime: String {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
         let dateFormatter = DateFormatter()

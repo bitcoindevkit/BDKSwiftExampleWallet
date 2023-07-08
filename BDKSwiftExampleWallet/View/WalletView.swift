@@ -114,11 +114,18 @@ struct WalletView: View {
                 Text("Your Balance")
                     .bold()
                     .foregroundColor(.secondary)
-                HStack {
-                    Text(viewModel.balanceTotal.delimiter)
+                HStack(spacing: 15) {
+                    Image(systemName: "bitcoinsign")
+                        .foregroundColor(.secondary)
+                        .font(.title)
+                    Text(viewModel.balanceTotal.formattedSatoshis())
                     Text("sats")
+                        .foregroundColor(.secondary)
                 }
                 .font(.largeTitle)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                
                 VStack {
                     HStack {
                         Text("Activity")
