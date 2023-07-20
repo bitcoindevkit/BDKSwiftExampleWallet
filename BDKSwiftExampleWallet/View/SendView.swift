@@ -26,32 +26,55 @@ class SendViewModel: ObservableObject {
 }
 struct SendView: View {
     @ObservedObject var viewModel: SendViewModel
-
+    @State private var amount: String = ""
+    @State private var address: String = ""
+    
     var body: some View {
         
         ZStack {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
             
-            VStack(spacing: 20) {
-                Text("Your Balance")
-                    .bold()
-                    .foregroundColor(.secondary)
-                HStack {
-                    Text(viewModel.balanceTotal.delimiter)
-                    Text("sats")
+            VStack(spacing: 50){
+                VStack(spacing: 20) {
+                    Text("Your Balance")
+                        .bold()
+                        .foregroundColor(.secondary)
+                    HStack {
+                        Text(viewModel.balanceTotal.delimiter)
+                        Text("sats")
+                    }
+                    .font(.largeTitle)
+                    Spacer()
                 }
-                .font(.largeTitle)
-                Spacer()
-            }
-            .padding()
-            .onAppear {
-                viewModel.getBalance()
+                .padding()
+                .onAppear {
+                    viewModel.getBalance()
+                }
+                TextField("Enter amount to send", text: $amount)
+                    .padding()
+                    .keyboardType(.decimalPad)
+                
+                TextField("Enter address to send BTC to", text: $address)
+                    .padding()
+                    .keyboardType(.default)
+                
+                Button(action: { }) {
+                    
+                    Text("Send")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding(.all, 8)
+                    
+                }
+                .buttonBorderShape(.capsule)
+                .buttonStyle(.borderedProminent)
+                .tint(Color.bitcoinOrange)
+                .padding(.horizontal, 30.0)
+                .padding(.bottom, 40.0)
             }
         }
-        
     }
-    
 }
 
 struct SendView_Previews: PreviewProvider {
