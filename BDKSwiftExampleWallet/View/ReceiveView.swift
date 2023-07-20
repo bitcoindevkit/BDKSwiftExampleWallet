@@ -8,7 +8,6 @@
 import SwiftUI
 
 class ReceiveViewModel: ObservableObject {
-    // Address
     @Published var address: String = ""
     
     func getAddress() {

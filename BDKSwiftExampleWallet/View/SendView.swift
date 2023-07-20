@@ -10,9 +10,8 @@ import WalletUI
 import BitcoinDevKit
 
 class SendViewModel: ObservableObject {
-    
     @Published var balanceTotal: UInt64 = 0
-
+    
     func getBalance() {
         do {
             let balance = try BDKService.shared.getBalance()
@@ -23,7 +22,19 @@ class SendViewModel: ObservableObject {
             print("getBalance - Undefined Error: \(error.localizedDescription)")
         }
     }
+    
+    func send(address: String, amount: UInt64, feeRate: Float?) {
+        do {
+            try BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+        } catch let error as WalletError {
+            print("getBalance - Wallet Error: \(error.localizedDescription)")
+        } catch {
+            print("getBalance - Undefined Error: \(error.localizedDescription)")
+        }
+    }
+    
 }
+
 struct SendView: View {
     @ObservedObject var viewModel: SendViewModel
     @State private var amount: String = ""
@@ -36,6 +47,7 @@ struct SendView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 50){
+                
                 VStack(spacing: 20) {
                     Text("Your Balance")
                         .bold()
@@ -54,26 +66,23 @@ struct SendView: View {
                 TextField("Enter amount to send", text: $amount)
                     .padding()
                     .keyboardType(.decimalPad)
-                
                 TextField("Enter address to send BTC to", text: $address)
                     .padding()
                     .keyboardType(.default)
-                
-                Button(action: { }) {
-                    
+                Button {
+                    viewModel.send(address: address, amount: UInt64(amount) ?? UInt64(0), feeRate: nil)
+                } label: {
                     Text("Send")
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding(.all, 8)
-                    
                 }
-                .buttonBorderShape(.capsule)
-                .buttonStyle(.borderedProminent)
-                .tint(Color.bitcoinOrange)
-                .padding(.horizontal, 30.0)
-                .padding(.bottom, 40.0)
+                .buttonStyle(BitcoinOutlined(tintColor: .bitcoinOrange))
+                
             }
+            
         }
+        
     }
 }
 
