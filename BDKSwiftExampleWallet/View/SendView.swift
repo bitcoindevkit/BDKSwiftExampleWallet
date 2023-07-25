@@ -63,14 +63,46 @@ struct SendView: View {
                 .onAppear {
                     viewModel.getBalance()
                 }
-                TextField("Enter amount to send", text: $amount)
-                    .padding()
-                    .keyboardType(.decimalPad)
-                TextField("Enter address to send BTC to", text: $address)
-                    .padding()
-                    .keyboardType(.default)
+                VStack(spacing: 25) {
+                    VStack {
+                        HStack {
+                            Text("Amount")
+                                .bold()
+                            Spacer()
+                        }
+                        .padding(.horizontal, 15.0)
+                        TextField(
+                            "Enter amount to send",
+                            text: $amount
+                        )
+                        .padding()
+                        .keyboardType(.numberPad)
+                    }
+                    VStack {
+                        HStack {
+                            Text("Address")
+                                .bold()
+                            Spacer()
+                        }
+                        .padding(.horizontal, 15.0)
+                        TextField(
+                            "Enter address to send BTC to",
+                            text: $address
+                        )
+                        .padding()
+                        .truncationMode(.middle)
+                        .lineLimit(1)
+                    }
+                }
+                .padding(.vertical, 50.0)
                 Button {
-                    viewModel.send(address: address, amount: UInt64(amount) ?? UInt64(0), feeRate: nil)
+                    viewModel.send(
+                        address: address,
+                        amount: UInt64(amount) ?? UInt64(0),
+                        feeRate: nil
+                    )
+                    amount = ""
+                    address = ""
                 } label: {
                     Text("Send")
                         .bold()
@@ -78,8 +110,8 @@ struct SendView: View {
                         .padding(.all, 8)
                 }
                 .buttonStyle(BitcoinOutlined(tintColor: .bitcoinOrange))
-                
             }
+            .padding()
             
         }
         
