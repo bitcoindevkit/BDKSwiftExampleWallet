@@ -21,10 +21,47 @@ class WalletViewModel: ObservableObject {
     // Transactions
     @Published var transactionDetails: [TransactionDetails] = []
     
+    // Price
+    @Published var price: Double = 0.0
+    @Published var time: Int?
+    @Published var satsPrice: String = "0"
+    let priceService: PriceService
+    
+    init(priceService: PriceService) {
+        self.priceService = priceService
+    }
+    
+    func fetchPrice() async {
+        do {
+            let response = try await priceService.hourlyPrice()
+            if let latestPrice = response.prices.first?.USD {
+                DispatchQueue.main.async {
+                    self.price = latestPrice
+                }
+            }
+            if let latestTime = response.prices.first?.time {
+                DispatchQueue.main.async {
+                    self.time = latestTime
+                }
+            }
+        } catch {
+            print("priceMem error: \(error.localizedDescription)")
+        }
+    }
+    
+    private func valueInUSD() {
+        let bitcoin = Double(balanceTotal) / 100000000.0 // Convert satoshis to bitcoin
+        let usdValue = bitcoin * price
+        let sats = usdValue.formattedPrice(currencyCode: .USD)
+
+        self.satsPrice = sats
+    }
+    
     func getBalance() {
         do {
             let balance = try BDKService.shared.getBalance()
             self.balanceTotal = balance.total
+            self.valueInUSD()
         } catch let error as WalletError {
             print("getBalance - Wallet Error: \(error.localizedDescription)")
         } catch {
@@ -111,20 +148,33 @@ struct WalletView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                Text("Your Balance")
-                    .bold()
+                
+                VStack(spacing: 10) {
+                    Text("Your Balance")
+                        .bold()
+                        .foregroundColor(.secondary)
+                    HStack(spacing: 15) {
+                        Image(systemName: "bitcoinsign")
+                            .foregroundColor(.secondary)
+                            .font(.title)
+                        Text(viewModel.balanceTotal.formattedSatoshis())
+                        Text("sats")
+                            .foregroundColor(.secondary)
+                    }
+                    .font(.largeTitle)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                                        
+                    HStack {
+                        Text(viewModel.satsPrice)
+                        if let time = viewModel.time?.newDateAgo() {
+                            Text(time)
+                        }
+                    }
                     .foregroundColor(.secondary)
-                HStack(spacing: 15) {
-                    Image(systemName: "bitcoinsign")
-                        .foregroundColor(.secondary)
-                        .font(.title)
-                    Text(viewModel.balanceTotal.formattedSatoshis())
-                    Text("sats")
-                        .foregroundColor(.secondary)
+                    .font(.footnote)
+                    .padding(.top, 10.0)
                 }
-                .font(.largeTitle)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
                 
                 VStack {
                     HStack {
@@ -227,6 +277,7 @@ struct WalletView: View {
             }
             .task {
                 await viewModel.sync()
+                await viewModel.fetchPrice()
             }
             
         }
@@ -237,9 +288,9 @@ struct WalletView: View {
 
 struct WalletView_Previews: PreviewProvider {
     static var previews: some View {
-        WalletView(viewModel: .init())
+        WalletView(viewModel: .init(priceService: .init()))
             .previewDisplayName("Light Mode")
-        WalletView(viewModel: .init())
+        WalletView(viewModel: .init(priceService: .init()))
             .environment(\.colorScheme, .dark)
             .previewDisplayName("Dark Mode")
     }
