@@ -34,7 +34,7 @@ class WalletViewModel: ObservableObject {
     func fetchPrice() async {
         do {
             let response = try await priceService.hourlyPrice()
-            if let latestPrice = response.prices.first?.USD {
+            if let latestPrice = response.prices.first?.usd {
                 DispatchQueue.main.async {
                     self.price = latestPrice
                 }
