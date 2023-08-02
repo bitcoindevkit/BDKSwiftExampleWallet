@@ -12,8 +12,10 @@ extension Date {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
-        formatter.timeZone = TimeZone.autoupdatingCurrent // Use the device's time zone
+        formatter.timeZone = TimeZone.autoupdatingCurrent
         
-        return formatter.string(from: self)
+        let formattedTime = formatter.string(from: self)
+
+        return formattedTime
     }
 }
