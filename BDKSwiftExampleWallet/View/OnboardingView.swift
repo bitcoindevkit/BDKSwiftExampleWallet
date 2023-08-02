@@ -32,6 +32,7 @@ struct OnboardingView: View {
                     Text("Bitcoin wallet")
                         .textStyle(BitcoinTitle1())
                         .multilineTextAlignment(.center)
+                        .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
                     
                     Text("A simple bitcoin wallet for your enjoyment.")
                         .textStyle(BitcoinBody1())
@@ -45,6 +46,7 @@ struct OnboardingView: View {
                         viewModel.createWallet()
                     }
                     .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
+                    .minimumScaleFactor(0.9)
                     
                     Button("Restore Wallet from Keychain") {
                         viewModel.restoreWallet()
