@@ -13,7 +13,7 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
     func testWalletViewModel() async {
         
         // Set up viewModel
-        let viewModel = WalletViewModel()
+        let viewModel = WalletViewModel(priceService: .init())
         XCTAssertEqual(viewModel.walletSyncState, .notStarted)
         
         // Simulate successful sync() call
