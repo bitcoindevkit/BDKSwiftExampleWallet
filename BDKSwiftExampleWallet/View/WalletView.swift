@@ -31,7 +31,7 @@ class WalletViewModel: ObservableObject {
         self.priceService = priceService
     }
     
-    func fetchPrice() async {
+    func getPrice() async {
         do {
             let response = try await priceService.hourlyPrice()
             if let latestPrice = response.prices.first?.usd {
@@ -50,18 +50,13 @@ class WalletViewModel: ObservableObject {
     }
     
     private func valueInUSD() {
-        let bitcoin = Double(balanceTotal) / 100000000.0 // Convert satoshis to bitcoin
-        let usdValue = bitcoin * price
-        let sats = usdValue.formattedPrice(currencyCode: .USD)
-
-        self.satsPrice = sats
+        self.satsPrice = Double(balanceTotal).valueInUSD(price: price)
     }
     
     func getBalance() {
         do {
             let balance = try BDKService.shared.getBalance()
             self.balanceTotal = balance.total
-            self.valueInUSD()
         } catch let error as WalletError {
             print("getBalance - Wallet Error: \(error.localizedDescription)")
         } catch {
@@ -90,6 +85,7 @@ class WalletViewModel: ObservableObject {
                     self.lastSyncTime = Date()
                     self.getBalance()
                     self.getTransactions()
+                    self.valueInUSD()
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -277,7 +273,7 @@ struct WalletView: View {
             }
             .task {
                 await viewModel.sync()
-                await viewModel.fetchPrice()
+                await viewModel.getPrice()
             }
             
         }

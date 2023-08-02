@@ -65,6 +65,7 @@ extension UInt64 {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
         return dateFormatter.string(from: date)
     }
 }
@@ -75,6 +76,7 @@ extension Int {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .full
         let relativeDate = formatter.localizedString(for: date, relativeTo: Date.now)
+        
         return relativeDate
     }
 }

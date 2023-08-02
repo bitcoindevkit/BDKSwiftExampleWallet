@@ -8,6 +8,7 @@
 import Foundation
 
 extension Double {
+    
     func formattedPrice(currencyCode: CurrencyCode) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
@@ -15,9 +16,11 @@ extension Double {
         
         return numberFormatter.string(from: NSNumber(value: self)) ?? "\(self)"
     }
+    
     func valueInUSD(price: Double) -> String {
-        let bitcoin = self / 100000000.0 // Convert satoshis to bitcoin
+        let bitcoin = self / 100_000_000.0
         let usdValue = bitcoin * price
         return usdValue.formattedPrice(currencyCode: .USD)
     }
+    
 }
