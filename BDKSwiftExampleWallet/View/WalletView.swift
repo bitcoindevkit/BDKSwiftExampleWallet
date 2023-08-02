@@ -21,6 +21,38 @@ class WalletViewModel: ObservableObject {
     // Transactions
     @Published var transactionDetails: [TransactionDetails] = []
     
+    // Price
+    @Published var price: Double = 0.0
+    @Published var time: Int?
+    @Published var satsPrice: String = "0"
+    let priceService: PriceService
+    
+    init(priceService: PriceService) {
+        self.priceService = priceService
+    }
+    
+    func getPrice() async {
+        do {
+            let response = try await priceService.hourlyPrice()
+            if let latestPrice = response.prices.first?.usd {
+                DispatchQueue.main.async {
+                    self.price = latestPrice
+                }
+            }
+            if let latestTime = response.prices.first?.time {
+                DispatchQueue.main.async {
+                    self.time = latestTime
+                }
+            }
+        } catch {
+            print("priceMem error: \(error.localizedDescription)")
+        }
+    }
+    
+    private func valueInUSD() {
+        self.satsPrice = Double(balanceTotal).valueInUSD(price: price)
+    }
+    
     func getBalance() {
         do {
             let balance = try BDKService.shared.getBalance()
@@ -53,6 +85,7 @@ class WalletViewModel: ObservableObject {
                     self.lastSyncTime = Date()
                     self.getBalance()
                     self.getTransactions()
+                    self.valueInUSD()
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -111,20 +144,33 @@ struct WalletView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                Text("Your Balance")
-                    .bold()
+                
+                VStack(spacing: 10) {
+                    Text("Your Balance")
+                        .bold()
+                        .foregroundColor(.secondary)
+                    HStack(spacing: 15) {
+                        Image(systemName: "bitcoinsign")
+                            .foregroundColor(.secondary)
+                            .font(.title)
+                        Text(viewModel.balanceTotal.formattedSatoshis())
+                        Text("sats")
+                            .foregroundColor(.secondary)
+                    }
+                    .font(.largeTitle)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                                        
+                    HStack {
+                        Text(viewModel.satsPrice)
+                        if let time = viewModel.time?.newDateAgo() {
+                            Text(time)
+                        }
+                    }
                     .foregroundColor(.secondary)
-                HStack(spacing: 15) {
-                    Image(systemName: "bitcoinsign")
-                        .foregroundColor(.secondary)
-                        .font(.title)
-                    Text(viewModel.balanceTotal.formattedSatoshis())
-                    Text("sats")
-                        .foregroundColor(.secondary)
+                    .font(.footnote)
+                    .padding(.top, 10.0)
                 }
-                .font(.largeTitle)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
                 
                 VStack {
                     HStack {
@@ -227,6 +273,7 @@ struct WalletView: View {
             }
             .task {
                 await viewModel.sync()
+                await viewModel.getPrice()
             }
             
         }
@@ -237,9 +284,9 @@ struct WalletView: View {
 
 struct WalletView_Previews: PreviewProvider {
     static var previews: some View {
-        WalletView(viewModel: .init())
+        WalletView(viewModel: .init(priceService: .init()))
             .previewDisplayName("Light Mode")
-        WalletView(viewModel: .init())
+        WalletView(viewModel: .init(priceService: .init()))
             .environment(\.colorScheme, .dark)
             .previewDisplayName("Dark Mode")
     }
