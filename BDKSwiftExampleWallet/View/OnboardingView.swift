@@ -14,6 +14,7 @@ class OnboardingViewModel: ObservableObject {}
 struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
 //    @Environment(\.dismiss) var dismiss
+    @AppStorage("isOnboarding") var isOnboarding: Bool?
 
     var body: some View {
         
@@ -49,6 +50,7 @@ struct OnboardingView: View {
                         Button("Create a new wallet") {
                             BDKService.shared.createWallet()
 //                            dismiss()
+                            isOnboarding = false
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
 

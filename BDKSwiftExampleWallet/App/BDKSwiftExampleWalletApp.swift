@@ -10,7 +10,8 @@ import BitcoinDevKit
 
 @main
 struct BDKSwiftExampleWalletApp: App {
-    @State private var isOnboardingPresented = false // Add this state variable to track if the onboarding view is presented
+//    @State private var isOnboardingPresented = false // Add this state variable to track if the onboarding view is presented
+    @AppStorage("isOnboarding") var isOnboarding: Bool = true
 
     init() {
         do {
@@ -30,23 +31,29 @@ struct BDKSwiftExampleWalletApp: App {
         WindowGroup {
             
             // if something in wallet go to TabView/WalletView
-            if BDKService.shared.wallet != nil {
-                TabHomeView()
+//            if BDKService.shared.wallet != nil {
+//                TabHomeView()
+////                    .fullScreenCover(
+////                        isPresented: $isOnboardingPresented,
+////                        onDismiss: { /*isOnboardingPresented = false */ }
+////                    ) {
+////                        OnboardingView(viewModel: .init())
+////                    }
+//            } else {
+//                 //else go to OnboardingView
+//                OnboardingView(viewModel: .init())
 //                    .fullScreenCover(
 //                        isPresented: $isOnboardingPresented,
-//                        onDismiss: { /*isOnboardingPresented = false */ }
+//                        onDismiss: { isOnboardingPresented = false }
 //                    ) {
-//                        OnboardingView(viewModel: .init())
+//                        TabHomeView()
 //                    }
-            } else {
-                 //else go to OnboardingView
+//            }
+            
+            if isOnboarding {
                 OnboardingView(viewModel: .init())
-                    .fullScreenCover(
-                        isPresented: $isOnboardingPresented,
-                        onDismiss: { isOnboardingPresented = false }
-                    ) {
-                        TabHomeView()
-                    }
+            } else {
+                TabHomeView()
             }
  
         }
