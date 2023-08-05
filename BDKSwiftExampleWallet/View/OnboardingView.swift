@@ -49,16 +49,19 @@ struct OnboardingView: View {
                             isOnboarding = false
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
-
-                        NavigationLink {
-                            TabHomeView()
-                        } label: {
-                            Text("Create a new wallet")
-                                .foregroundColor(Color.white)
-                                .textStyle(BitcoinBody1())
+                        
+                        Button("Restore Wallet from Keychain") {
+                            do {
+                                let keyData = try KeyService().getBackupInfo()//try KeyService().getKeyData()
+                                let descriptor = try Descriptor(descriptor: keyData.descriptor, network: BDKService.shared.network)
+                                let changeDescriptor = try Descriptor(descriptor: keyData.changeDescriptor, network: BDKService.shared.network)
+                                BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
+                            } catch {
+                                print("BDKSwiftExampleWalletApp getKeyData error: \(error.localizedDescription)")
+                            }
+                            isOnboarding = false
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
-                        .disabled(true)
                         
                     }
                     .padding(.top, 30)
