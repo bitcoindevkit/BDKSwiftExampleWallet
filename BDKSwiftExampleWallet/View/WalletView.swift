@@ -136,7 +136,8 @@ extension WalletViewModel {
 
 struct WalletView: View {
     @ObservedObject var viewModel: WalletViewModel
-    
+    @State private var isAnimating: Bool = false
+
     var body: some View {
         
         NavigationView {
@@ -151,6 +152,13 @@ struct WalletView: View {
                         Text("Your Balance")
                             .bold()
                             .foregroundColor(.secondary)
+                            .scaleEffect(isAnimating ? 1.0 : 0.6)
+                            .onAppear {
+                              withAnimation(.easeOut(duration: 0.5)) {
+                                isAnimating = true
+                              }
+                            }
+
                         HStack(spacing: 15) {
                             Image(systemName: "bitcoinsign")
                                 .foregroundColor(.secondary)
