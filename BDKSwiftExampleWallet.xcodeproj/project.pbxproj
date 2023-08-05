@@ -22,6 +22,7 @@
 		AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538D2A2D59F000CCB277 /* Constants.swift */; };
 		AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */; };
 		AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */; };
+		AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */; };
 		AE7E68962A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7E68952A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift */; };
 		AE7F67052A7446B600CED561 /* PriceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67042A7446B600CED561 /* PriceService.swift */; };
 		AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67062A744CE200CED561 /* Double+Extensions.swift */; };
@@ -83,6 +84,7 @@
 			files = (
 				AE4984A92A1BD425009951E2 /* BitcoinDevKit in Frameworks */,
 				AE4984AC2A1BD651009951E2 /* WalletUI in Frameworks */,
+				AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +230,7 @@
 			packageProductDependencies = (
 				AE4984A82A1BD425009951E2 /* BitcoinDevKit */,
 				AE4984AB2A1BD651009951E2 /* WalletUI */,
+				AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */,
 			);
 			productName = BDKSwiftExampleWallet;
 			productReference = AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */;
@@ -282,6 +285,7 @@
 			packageReferences = (
 				AE4984A72A1BD425009951E2 /* XCRemoteSwiftPackageReference "bdk-swift" */,
 				AE4984AA2A1BD651009951E2 /* XCRemoteSwiftPackageReference "WalletUI" */,
+				AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = AE4984792A1BBBD6009951E2 /* Products */;
 			projectDirPath = "";
@@ -620,6 +624,14 @@
 				version = 0.2.1;
 			};
 		};
+		AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.2.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -632,6 +644,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AE4984AA2A1BD651009951E2 /* XCRemoteSwiftPackageReference "WalletUI" */;
 			productName = WalletUI;
+		};
+		AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

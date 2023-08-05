@@ -113,7 +113,7 @@ class BDKService {
 //            )
 //            self.wallet = wallet
             let keyData = KeyData(mnemonic: mnemonic.asString(), descriptor: descriptor.asString(), changeDescriptor: changeDescriptor.asStringPrivate()) // what is asStringPrivate again?
-            try KeyService().saveKeyData(keyData: keyData)
+            try KeyService().saveBackupInfo(backupInfo: keyData)//try KeyService().saveKeyData(keyData: keyData)
             self.keyData = keyData
             
             let wallet = try Wallet.init(
