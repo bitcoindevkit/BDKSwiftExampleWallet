@@ -105,14 +105,12 @@ class BDKService {
                 keychain: .internal,
                 network: network
             )
-//            let wallet = try Wallet.init(
-//                descriptor: descriptor,
-//                changeDescriptor: changeDescriptor,
-//                network: network,
-//                databaseConfig: .memory
-//            )
-//            self.wallet = wallet
-            let keyData = KeyData(mnemonic: mnemonic.asString(), descriptor: descriptor.asString(), changeDescriptor: changeDescriptor.asStringPrivate()) // what is asStringPrivate again?
+
+            let keyData = KeyData(
+                mnemonic: mnemonic.asString(),
+                descriptor: descriptor.asString(),
+                changeDescriptor: changeDescriptor.asStringPrivate()
+            ) // what is asStringPrivate again?
             try KeyService().saveBackupInfo(backupInfo: keyData)//try KeyService().saveKeyData(keyData: keyData)
             self.keyData = keyData
             

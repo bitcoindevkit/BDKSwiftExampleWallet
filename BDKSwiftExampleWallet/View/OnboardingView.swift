@@ -13,13 +13,10 @@ class OnboardingViewModel: ObservableObject {}
 
 struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
-//    @Environment(\.dismiss) var dismiss
     @AppStorage("isOnboarding") var isOnboarding: Bool?
 
     var body: some View {
         
-//        NavigationView {
-            
             ZStack {
                 Color(uiColor: .systemBackground)
                     .ignoresSafeArea()
@@ -49,7 +46,6 @@ struct OnboardingView: View {
                         
                         Button("Create a new wallet") {
                             BDKService.shared.createWallet()
-//                            dismiss()
                             isOnboarding = false
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
@@ -64,14 +60,6 @@ struct OnboardingView: View {
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
                         .disabled(true)
                         
-//                        NavigationLink {
-//
-//                        } label: {
-//                            Text("Restore existing wallet")
-//                                .foregroundColor(Color.orange)
-//                                .textStyle(BitcoinBody1())
-//                        }
-//                        .disabled(true)
                     }
                     .padding(.top, 30)
                     
@@ -88,7 +76,7 @@ struct OnboardingView: View {
                     
                 }
             }
-//        }
+
     }    
 }
 struct OnboardingView_Previews: PreviewProvider {
