@@ -7,15 +7,17 @@
 
 import SwiftUI
 import WalletUI
+import BitcoinDevKit
 
 class OnboardingViewModel: ObservableObject {}
 
 struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
-    
+//    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         
-        NavigationView {
+//        NavigationView {
             
             ZStack {
                 Color(uiColor: .systemBackground)
@@ -44,6 +46,12 @@ struct OnboardingView: View {
                     
                     VStack(spacing: 25){
                         
+                        Button("Create a new wallet") {
+                            BDKService.shared.createWallet()
+//                            dismiss()
+                        }
+                        .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
+
                         NavigationLink {
                             TabHomeView()
                         } label: {
@@ -52,15 +60,16 @@ struct OnboardingView: View {
                                 .textStyle(BitcoinBody1())
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
-                        
-                        NavigationLink {
-                            
-                        } label: {
-                            Text("Restore existing wallet")
-                                .foregroundColor(Color.orange)
-                                .textStyle(BitcoinBody1())
-                        }
                         .disabled(true)
+                        
+//                        NavigationLink {
+//
+//                        } label: {
+//                            Text("Restore existing wallet")
+//                                .foregroundColor(Color.orange)
+//                                .textStyle(BitcoinBody1())
+//                        }
+//                        .disabled(true)
                     }
                     .padding(.top, 30)
                     
@@ -77,7 +86,7 @@ struct OnboardingView: View {
                     
                 }
             }
-        }
+//        }
     }    
 }
 struct OnboardingView_Previews: PreviewProvider {

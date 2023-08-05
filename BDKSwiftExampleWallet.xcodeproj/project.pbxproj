@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
+		AE1390C72A7DB0AF0098127A /* KeyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1390C62A7DB0AF0098127A /* KeyService.swift */; };
 		AE1C34242A424456008F807A /* ReceiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C34232A424456008F807A /* ReceiveView.swift */; };
 		AE1C34262A4248A5008F807A /* SendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C34252A4248A5008F807A /* SendView.swift */; };
 		AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		AE1390C62A7DB0AF0098127A /* KeyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyService.swift; sourceTree = "<group>"; };
 		AE1C34232A424456008F807A /* ReceiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveView.swift; sourceTree = "<group>"; };
 		AE1C34252A4248A5008F807A /* SendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendView.swift; sourceTree = "<group>"; };
 		AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHomeView.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 		AE49847A2A1BBBD6009951E2 /* BDKSwiftExampleWallet */ = {
 			isa = PBXGroup;
 			children = (
+				AE1390C62A7DB0AF0098127A /* KeyService.swift */,
 				AE1C34222A424440008F807A /* App */,
 				AE1C34212A424434008F807A /* BDK Service */,
 				AE7F670A2A7451B600CED561 /* Model */,
@@ -322,6 +325,7 @@
 				AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */,
 				AE1C34242A424456008F807A /* ReceiveView.swift in Sources */,
 				AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */,
+				AE1390C72A7DB0AF0098127A /* KeyService.swift in Sources */,
 				AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */,
 				AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */,
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,
