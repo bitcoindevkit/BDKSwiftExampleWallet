@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
+		AE1390C72A7DB0AF0098127A /* KeyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1390C62A7DB0AF0098127A /* KeyService.swift */; };
 		AE1C34242A424456008F807A /* ReceiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C34232A424456008F807A /* ReceiveView.swift */; };
 		AE1C34262A4248A5008F807A /* SendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C34252A4248A5008F807A /* SendView.swift */; };
 		AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */; };
@@ -21,6 +22,7 @@
 		AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538D2A2D59F000CCB277 /* Constants.swift */; };
 		AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */; };
 		AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */; };
+		AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */; };
 		AE7E68962A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7E68952A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift */; };
 		AE7F67052A7446B600CED561 /* PriceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67042A7446B600CED561 /* PriceService.swift */; };
 		AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67062A744CE200CED561 /* Double+Extensions.swift */; };
@@ -29,6 +31,7 @@
 		AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveTests.swift */; };
 		AE96F6672A4259260055623C /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6662A4259260055623C /* QRCodeView.swift */; };
 		AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB130C82A44E4850087785B /* TransactionDetailsView.swift */; };
+		AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */; };
 		AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC092A1D297600CE1831 /* BDKService.swift */; };
 		AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */; };
 		AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0F2A1D522100CE1831 /* WalletView.swift */; };
@@ -47,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		AE1390C62A7DB0AF0098127A /* KeyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyService.swift; sourceTree = "<group>"; };
 		AE1C34232A424456008F807A /* ReceiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveView.swift; sourceTree = "<group>"; };
 		AE1C34252A4248A5008F807A /* SendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendView.swift; sourceTree = "<group>"; };
 		AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHomeView.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 		AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletReceiveTests.swift; sourceTree = "<group>"; };
 		AE96F6662A4259260055623C /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		AEB130C82A44E4850087785B /* TransactionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsView.swift; sourceTree = "<group>"; };
+		AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupInfo.swift; sourceTree = "<group>"; };
 		AED4CC092A1D297600CE1831 /* BDKService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKService.swift; sourceTree = "<group>"; };
 		AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AED4CC0F2A1D522100CE1831 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -81,6 +86,7 @@
 			files = (
 				AE4984A92A1BD425009951E2 /* BitcoinDevKit in Frameworks */,
 				AE4984AC2A1BD651009951E2 /* WalletUI in Frameworks */,
+				AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +116,6 @@
 				AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */,
 				AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */,
 				AED4CC0F2A1D522100CE1831 /* WalletView.swift */,
-				AE7F67042A7446B600CED561 /* PriceService.swift */,
 				AEB130C82A44E4850087785B /* TransactionDetailsView.swift */,
 				AE1C34232A424456008F807A /* ReceiveView.swift */,
 				AE96F6662A4259260055623C /* QRCodeView.swift */,
@@ -167,7 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				AE1C34222A424440008F807A /* App */,
-				AE1C34212A424434008F807A /* BDK Service */,
+				AEB905C52A7EECD900CD0337 /* Service */,
 				AE7F670A2A7451B600CED561 /* Model */,
 				AE1C341F2A424415008F807A /* View */,
 				AE1C341E2A42440A008F807A /* Extensions */,
@@ -202,8 +207,35 @@
 			children = (
 				AE7F67082A7451AA00CED561 /* PriceResponse.swift */,
 				AE7F670B2A7451D700CED561 /* CurrencyCode.swift */,
+				AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		AEB905C12A7EEB9200CD0337 /* Key Service */ = {
+			isa = PBXGroup;
+			children = (
+				AE1390C62A7DB0AF0098127A /* KeyService.swift */,
+			);
+			path = "Key Service";
+			sourceTree = "<group>";
+		};
+		AEB905C42A7EECAF00CD0337 /* Price Service */ = {
+			isa = PBXGroup;
+			children = (
+				AE7F67042A7446B600CED561 /* PriceService.swift */,
+			);
+			path = "Price Service";
+			sourceTree = "<group>";
+		};
+		AEB905C52A7EECD900CD0337 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				AEB905C42A7EECAF00CD0337 /* Price Service */,
+				AEB905C12A7EEB9200CD0337 /* Key Service */,
+				AE1C34212A424434008F807A /* BDK Service */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +257,7 @@
 			packageProductDependencies = (
 				AE4984A82A1BD425009951E2 /* BitcoinDevKit */,
 				AE4984AB2A1BD651009951E2 /* WalletUI */,
+				AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */,
 			);
 			productName = BDKSwiftExampleWallet;
 			productReference = AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */;
@@ -279,6 +312,7 @@
 			packageReferences = (
 				AE4984A72A1BD425009951E2 /* XCRemoteSwiftPackageReference "bdk-swift" */,
 				AE4984AA2A1BD651009951E2 /* XCRemoteSwiftPackageReference "WalletUI" */,
+				AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = AE4984792A1BBBD6009951E2 /* Products */;
 			projectDirPath = "";
@@ -315,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */,
 				AE96F6672A4259260055623C /* QRCodeView.swift in Sources */,
 				AE7F670C2A7451D700CED561 /* CurrencyCode.swift in Sources */,
 				AE7F67052A7446B600CED561 /* PriceService.swift in Sources */,
@@ -322,6 +357,7 @@
 				AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */,
 				AE1C34242A424456008F807A /* ReceiveView.swift in Sources */,
 				AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */,
+				AE1390C72A7DB0AF0098127A /* KeyService.swift in Sources */,
 				AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */,
 				AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */,
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,
@@ -616,6 +652,14 @@
 				version = 0.2.1;
 			};
 		};
+		AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.2.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -628,6 +672,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AE4984AA2A1BD651009951E2 /* XCRemoteSwiftPackageReference "WalletUI" */;
 			productName = WalletUI;
+		};
+		AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

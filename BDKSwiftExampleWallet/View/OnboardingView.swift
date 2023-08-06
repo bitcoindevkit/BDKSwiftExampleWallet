@@ -7,16 +7,40 @@
 
 import SwiftUI
 import WalletUI
+import BitcoinDevKit
 
-class OnboardingViewModel: ObservableObject {}
+class OnboardingViewModel: ObservableObject {
+    @AppStorage("isOnboarding") var isOnboarding: Bool?
+
+    func createWallet() {
+        do {
+            try BDKService.shared.createWallet()
+            isOnboarding = false
+        } catch let error as WalletError {
+            print("createWallet - Wallet Error: \(error.localizedDescription)")
+        } catch {
+            print("createWallet - Undefined Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func restoreWallet() {
+        do {
+            try BDKService.shared.loadWalletFromBackup()
+        } catch let error as WalletError {
+            print("restoreWallet - Wallet Error: \(error.localizedDescription)")
+        } catch {
+            print("restoreWallet - Undefined Error: \(error.localizedDescription)")
+        }
+    }
+    
+}
 
 struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
-    
+    @AppStorage("isOnboarding") var isOnboarding: Bool?
+
     var body: some View {
         
-        NavigationView {
-            
             ZStack {
                 Color(uiColor: .systemBackground)
                     .ignoresSafeArea()
@@ -44,40 +68,31 @@ struct OnboardingView: View {
                     
                     VStack(spacing: 25){
                         
-                        NavigationLink {
-                            TabHomeView()
-                        } label: {
-                            Text("Create a new wallet")
-                                .foregroundColor(Color.white)
-                                .textStyle(BitcoinBody1())
+                        Button("Create a new wallet") {
+                            viewModel.createWallet()
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
-                        
-                        NavigationLink {
-                            
-                        } label: {
-                            Text("Restore existing wallet")
-                                .foregroundColor(Color.orange)
-                                .textStyle(BitcoinBody1())
+
+                        Button("Restore Wallet from Keychain") {
+                            viewModel.restoreWallet()
                         }
-                        .disabled(true)
+                        .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
+
                     }
                     .padding(.top, 30)
                     
                     Spacer()
                     
                     VStack {
-                        
                         Text("Your wallet, your coins \n 100% open-source & open-design")
                             .textStyle(BitcoinBody4())
                             .multilineTextAlignment(.center)
-                        
                     }
                     .padding(EdgeInsets(top: 32, leading: 32, bottom: 8, trailing: 32))
                     
                 }
             }
-        }
+
     }    
 }
 struct OnboardingView_Previews: PreviewProvider {

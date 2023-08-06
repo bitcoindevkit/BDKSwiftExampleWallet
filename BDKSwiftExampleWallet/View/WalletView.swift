@@ -136,144 +136,155 @@ extension WalletViewModel {
 
 struct WalletView: View {
     @ObservedObject var viewModel: WalletViewModel
-    
+    @State private var isAnimating: Bool = false
+
     var body: some View {
         
-        ZStack {
-            Color(uiColor: .systemBackground)
-                .ignoresSafeArea()
+        NavigationView {
             
-            VStack(spacing: 20) {
+            ZStack {
+                Color(uiColor: .systemBackground)
+                    .ignoresSafeArea()
                 
-                VStack(spacing: 10) {
-                    Text("Your Balance")
-                        .bold()
-                        .foregroundColor(.secondary)
-                    HStack(spacing: 15) {
-                        Image(systemName: "bitcoinsign")
-                            .foregroundColor(.secondary)
-                            .font(.title)
-                        Text(viewModel.balanceTotal.formattedSatoshis())
-                        Text("sats")
-                            .foregroundColor(.secondary)
-                    }
-                    .font(.largeTitle)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                                        
-                    HStack {
-                        Text(viewModel.satsPrice)
-                        if let time = viewModel.time?.newDateAgo() {
-                            Text(time)
-                        }
-                    }
-                    .foregroundColor(.secondary)
-                    .font(.footnote)
-                    .padding(.top, 10.0)
-                }
-                
-                VStack {
-                    HStack {
-                        Text("Activity")
+                VStack(spacing: 20) {
+                    
+                    VStack(spacing: 10) {
+                        Text("Your Balance")
                             .bold()
-                        Spacer()
-                    }
-                    if viewModel.transactionDetails.isEmpty {
-                        Text("No Transactions")
-                    } else {
-                        List {
-                            ForEach(
-                                viewModel.transactionDetails.sorted(
-                                    by: {
-                                        $0.confirmationTime?.timestamp ?? $0.received > $1.confirmationTime?.timestamp ?? $1.received
-                                    }
-                                ),
-                                id: \.txid
-                            ) { transaction in
-                                
-                                NavigationLink(
-                                    destination: TransactionDetailsView(
-                                        transaction: transaction,
-                                        amount:
-                                            transaction.sent > 0 ?
-                                        transaction.sent - transaction.received :
-                                            transaction.received - transaction.sent
-                                    )
-                                ) {
-                                    HStack {
-                                        ZStack {
-                                            Circle()
-                                                .fill(Color.gray.opacity(0.2))
-                                                .frame(width: 40, height: 40)
-                                            Image(systemName:
-                                                    transaction.sent > 0 ?
-                                                  "arrow.up" :
-                                                    "arrow.down"
-                                            )
-                                            .frame(width: 20, height: 20)
-                                        }
-                                        VStack(alignment: .leading, spacing: 1){
-                                            Text(transaction.txid)
-                                                .truncationMode(.middle)
-                                                .lineLimit(1)
-                                            Text(
-                                                transaction.sent > 0 ?
-                                                "Sent" :
-                                                    "Received"
-                                            )
-                                            .foregroundColor(.secondary)
-                                        }
-                                        .padding(.trailing, 40.0)
-                                        Spacer()
-                                        Text(
-                                            transaction.sent > 0 ?
-                                            "- \(transaction.sent - transaction.received) sats" :
-                                                "+ \(transaction.received - transaction.sent) sats"
-                                        )
-                                        .font(.caption)
-                                    }
-                                }
-                                
+                            .foregroundColor(.secondary)
+                            .scaleEffect(isAnimating ? 1.0 : 0.6)
+                            .onAppear {
+                              withAnimation(.easeOut(duration: 0.5)) {
+                                isAnimating = true
+                              }
+                            }
+
+                        HStack(spacing: 15) {
+                            Image(systemName: "bitcoinsign")
+                                .foregroundColor(.secondary)
+                                .font(.title)
+                            Text(viewModel.balanceTotal.formattedSatoshis())
+                            Text("sats")
+                                .foregroundColor(.secondary)
+                        }
+                        .font(.largeTitle)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        
+                        HStack {
+                            Text(viewModel.satsPrice)
+                            if let time = viewModel.time?.newDateAgo() {
+                                Text(time)
                             }
                         }
-                        .listStyle(.plain)
-                        .refreshable {
+                        .foregroundColor(.secondary)
+                        .font(.footnote)
+                        .padding(.top, 10.0)
+                    }
+                    
+                    VStack {
+                        HStack {
+                            Text("Activity")
+                                .bold()
+                            Spacer()
+                        }
+                        if viewModel.transactionDetails.isEmpty {
+                            Text("No Transactions")
+                        } else {
+                            List {
+                                ForEach(
+                                    viewModel.transactionDetails.sorted(
+                                        by: {
+                                            $0.confirmationTime?.timestamp ?? $0.received > $1.confirmationTime?.timestamp ?? $1.received
+                                        }
+                                    ),
+                                    id: \.txid
+                                ) { transaction in
+                                    
+                                    NavigationLink(
+                                        destination: TransactionDetailsView(
+                                            transaction: transaction,
+                                            amount:
+                                                transaction.sent > 0 ?
+                                            transaction.sent - transaction.received :
+                                                transaction.received - transaction.sent
+                                        )
+                                    ) {
+                                        HStack {
+                                            ZStack {
+                                                Circle()
+                                                    .fill(Color.gray.opacity(0.2))
+                                                    .frame(width: 40, height: 40)
+                                                Image(systemName:
+                                                        transaction.sent > 0 ?
+                                                      "arrow.up" :
+                                                        "arrow.down"
+                                                )
+                                                .frame(width: 20, height: 20)
+                                            }
+                                            VStack(alignment: .leading, spacing: 1){
+                                                Text(transaction.txid)
+                                                    .truncationMode(.middle)
+                                                    .lineLimit(1)
+                                                Text(
+                                                    transaction.sent > 0 ?
+                                                    "Sent" :
+                                                        "Received"
+                                                )
+                                                .foregroundColor(.secondary)
+                                            }
+                                            .padding(.trailing, 40.0)
+                                            Spacer()
+                                            Text(
+                                                transaction.sent > 0 ?
+                                                "- \(transaction.sent - transaction.received) sats" :
+                                                    "+ \(transaction.received - transaction.sent) sats"
+                                            )
+                                            .font(.caption)
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                            .listStyle(.plain)
+                            .refreshable {
+                                await viewModel.sync()
+                            }
+                        }
+                        Spacer()
+                    }
+                    VStack {
+                        HStack(spacing: 5) {
+                            Text(viewModel.walletSyncState.description)
+                            if viewModel.walletSyncState == .syncing {
+                                ProgressView()
+                            }
+                        }
+                        if let lastSyncTime = viewModel.lastSyncTime {
+                            Text("Last Synced: \(lastSyncTime.formattedSyncTime())")
+                                .font(.caption)
+                        }
+                    }
+                    Button {
+                        Task {
                             await viewModel.sync()
                         }
+                    } label: {
+                        Text("Sync")
                     }
-                    Spacer()
+                    .buttonStyle(BitcoinOutlined(tintColor: .bitcoinOrange))
+                    .disabled(viewModel.walletSyncState == .syncing)
                 }
-                VStack {
-                    HStack(spacing: 5) {
-                        Text(viewModel.walletSyncState.description)
-                        if viewModel.walletSyncState == .syncing {
-                            ProgressView()
-                        }
-                        
-                    }
-                    if let lastSyncTime = viewModel.lastSyncTime {
-                        Text("Last Synced: \(lastSyncTime.formattedSyncTime())")
-                            .font(.caption)
-                    }
+                .padding()
+                .onAppear {
+                    viewModel.getBalance()
+                    viewModel.getTransactions()
                 }
-                Button {
-                    Task {
-                        await viewModel.sync()
-                    }
-                } label: {
-                    Text("Sync")
+                .task {
+                    await viewModel.sync()
+                    await viewModel.getPrice()
                 }
-                .buttonStyle(BitcoinOutlined(tintColor: .bitcoinOrange))
-                .disabled(viewModel.walletSyncState == .syncing)
-            }
-            .padding()
-            .onAppear {
-                viewModel.getBalance()
-                viewModel.getTransactions()
-            }
-            .task {
-                await viewModel.sync()
-                await viewModel.getPrice()
+                
             }
             
         }

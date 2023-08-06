@@ -11,17 +11,19 @@ import BitcoinDevKit
 class BDKService {
     private var balance: Balance?
     private var blockchainConfig: BlockchainConfig?
-    private var network: Network = .signet
+    var network: Network = .signet
     private var wallet: Wallet?
+    private let keyService: KeyService // The KeyService instance used by BDKService
+
     
     class var shared: BDKService {
         struct Singleton {
-            static let instance = BDKService()
+            static let instance = BDKService(keyService: .init())
         }
         return Singleton.instance
     }
     
-    init() {
+    init(keyService: KeyService) {
         let esploraConfig = EsploraConfig(
             baseUrl: Constants.Config.EsploraServerURLNetwork.signet,
             proxy: nil,
@@ -31,7 +33,7 @@ class BDKService {
         )
         let blockchainConfig = BlockchainConfig.esplora(config: esploraConfig)
         self.blockchainConfig = blockchainConfig
-        self.getWallet()
+        self.keyService = keyService
     }
     
     func getAddress() throws -> String {
@@ -54,35 +56,54 @@ class BDKService {
         return transactionDetails
     }
     
-    private func getWallet() {
+    func createWallet() throws {
         let mnemonicWords12 = "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
-        do {
-            let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
-            let secretKey = DescriptorSecretKey(
-                network: network,
-                mnemonic: mnemonic,
-                password: nil
-            )
-            let descriptor = Descriptor.newBip84(
-                secretKey: secretKey,
-                keychain: .external,
-                network: network
-            )
-            let changeDescriptor = Descriptor.newBip84(
-                secretKey: secretKey,
-                keychain: .internal,
-                network: network
-            )
-            let wallet = try Wallet.init(
-                descriptor: descriptor,
-                changeDescriptor: changeDescriptor,
-                network: network,
-                databaseConfig: .memory
-            )
-            self.wallet = wallet
-        } catch {
-            print("BDKService getWallet error: \(error.localizedDescription)")
-        }
+        let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
+        let secretKey = DescriptorSecretKey(
+            network: network,
+            mnemonic: mnemonic,
+            password: nil
+        )
+        let descriptor = Descriptor.newBip84(
+            secretKey: secretKey,
+            keychain: .external,
+            network: network
+        )
+        let changeDescriptor = Descriptor.newBip84(
+            secretKey: secretKey,
+            keychain: .internal,
+            network: network
+        )
+        let backupInfo = BackupInfo(
+            mnemonic: mnemonic.asString(),
+            descriptor: descriptor.asString(),
+            changeDescriptor: changeDescriptor.asStringPrivate()
+        )
+        try keyService.saveBackupInfo(backupInfo: backupInfo)//KeyService().saveBackupInfo(backupInfo: backupInfo)
+        let wallet = try Wallet.init(
+            descriptor: descriptor,
+            changeDescriptor: changeDescriptor,
+            network: network,
+            databaseConfig: .memory
+        )
+        self.wallet = wallet
+    }
+    
+    private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
+        let wallet = try Wallet.init(
+            descriptor: descriptor,
+            changeDescriptor: changeDescriptor,
+            network: network,
+            databaseConfig: .memory
+        )
+        self.wallet = wallet
+    }
+    
+    func loadWalletFromBackup() throws {
+        let backupInfo = try keyService.getBackupInfo()//KeyService().getBackupInfo()
+        let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
+        let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: self.network)
+        try self.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
     }
     
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
