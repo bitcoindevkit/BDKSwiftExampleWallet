@@ -18,8 +18,9 @@ struct BDKSwiftExampleWalletApp: App {
             let descriptor = try Descriptor(descriptor: keyData.descriptor, network: BDKService.shared.network)
             let changeDescriptor = try Descriptor(descriptor: keyData.changeDescriptor, network: BDKService.shared.network)
             BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
-        } catch {
-            print("BDKSwiftExampleWalletApp getKeyData error: \(error.localizedDescription)")
+        }
+        catch {
+            print("BDKSwiftExampleWalletApp error: \(error.localizedDescription)")
         }
     }
     
