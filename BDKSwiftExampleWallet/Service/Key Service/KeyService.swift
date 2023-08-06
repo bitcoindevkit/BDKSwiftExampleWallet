@@ -23,7 +23,7 @@ struct KeyService {
 extension KeyService {
     
     // look at ways to encode + encrypt
-    func saveBackupInfo(backupInfo: KeyData) throws {
+    func saveBackupInfo(backupInfo: BackupInfo) throws {
         do {
             let encoder = JSONEncoder()
             let data = try encoder.encode(backupInfo)
@@ -33,13 +33,13 @@ extension KeyService {
         }
      }
 
-    func getBackupInfo() throws -> KeyData {
+    func getBackupInfo() throws -> BackupInfo {
         do {
             guard let encryptedJsonData = try keychain.getData("BackupInfo") else {
                 throw KeyDataError.readError
             }
             let decoder = JSONDecoder()
-            let backupInfo = try decoder.decode(KeyData.self, from: encryptedJsonData)
+            let backupInfo = try decoder.decode(BackupInfo.self, from: encryptedJsonData)
             return backupInfo
         } catch {
             throw KeyDataError.decodingError

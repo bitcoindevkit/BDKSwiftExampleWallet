@@ -1,5 +1,5 @@
 //
-//  KeyData.swift
+//  BackupInfo.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 8/5/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KeyData: Codable {
+struct BackupInfo: Codable {
     var mnemonic: String
     var descriptor: String
     var changeDescriptor: String

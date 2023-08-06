@@ -13,7 +13,7 @@ class BDKService {
     private var blockchainConfig: BlockchainConfig?
     var network: Network = .signet
     var wallet: Wallet?
-    private var keyData: KeyData?
+    private var keyData: BackupInfo?
     
     class var shared: BDKService {
         struct Singleton {
@@ -106,7 +106,7 @@ class BDKService {
                 network: network
             )
 
-            let keyData = KeyData(
+            let keyData = BackupInfo(
                 mnemonic: mnemonic.asString(),
                 descriptor: descriptor.asString(),
                 changeDescriptor: changeDescriptor.asStringPrivate()
