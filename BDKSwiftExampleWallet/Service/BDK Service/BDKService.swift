@@ -13,15 +13,17 @@ class BDKService {
     private var blockchainConfig: BlockchainConfig?
     var network: Network = .signet
     private var wallet: Wallet?
+    private let keyService: KeyService // The KeyService instance used by BDKService
+
     
     class var shared: BDKService {
         struct Singleton {
-            static let instance = BDKService()
+            static let instance = BDKService(keyService: .init())
         }
         return Singleton.instance
     }
     
-    init() {
+    init(keyService: KeyService) {
         let esploraConfig = EsploraConfig(
             baseUrl: Constants.Config.EsploraServerURLNetwork.signet,
             proxy: nil,
@@ -31,6 +33,7 @@ class BDKService {
         )
         let blockchainConfig = BlockchainConfig.esplora(config: esploraConfig)
         self.blockchainConfig = blockchainConfig
+        self.keyService = keyService
     }
     
     func getAddress() throws -> String {
@@ -76,7 +79,7 @@ class BDKService {
             descriptor: descriptor.asString(),
             changeDescriptor: changeDescriptor.asStringPrivate()
         )
-        try KeyService().saveBackupInfo(backupInfo: backupInfo)
+        try keyService.saveBackupInfo(backupInfo: backupInfo)//KeyService().saveBackupInfo(backupInfo: backupInfo)
         let wallet = try Wallet.init(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
@@ -97,7 +100,7 @@ class BDKService {
     }
     
     func loadWalletFromBackup() throws {
-        let backupInfo = try KeyService().getBackupInfo()
+        let backupInfo = try keyService.getBackupInfo()//KeyService().getBackupInfo()
         let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
         let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: self.network)
         try self.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
