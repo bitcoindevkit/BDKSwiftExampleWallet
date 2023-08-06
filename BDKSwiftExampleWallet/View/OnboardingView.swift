@@ -49,7 +49,7 @@ struct OnboardingView: View {
                             isOnboarding = false
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
-                        
+
                         Button("Restore Wallet from Keychain") {
                             do {
                                 let backupInfo = try KeyService().getBackupInfo()
@@ -62,7 +62,7 @@ struct OnboardingView: View {
                             }
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
-                        
+
                     }
                     .padding(.top, 30)
                     

@@ -259,7 +259,6 @@ struct WalletView: View {
                             if viewModel.walletSyncState == .syncing {
                                 ProgressView()
                             }
-                            
                         }
                         if let lastSyncTime = viewModel.lastSyncTime {
                             Text("Last Synced: \(lastSyncTime.formattedSyncTime())")
