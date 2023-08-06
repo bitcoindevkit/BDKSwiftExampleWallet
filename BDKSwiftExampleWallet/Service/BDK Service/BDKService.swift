@@ -12,8 +12,7 @@ class BDKService {
     private var balance: Balance?
     private var blockchainConfig: BlockchainConfig?
     var network: Network = .signet
-    var wallet: Wallet?
-    private var keyData: BackupInfo?
+    private var wallet: Wallet?
     
     class var shared: BDKService {
         struct Singleton {
@@ -32,7 +31,6 @@ class BDKService {
         )
         let blockchainConfig = BlockchainConfig.esplora(config: esploraConfig)
         self.blockchainConfig = blockchainConfig
-//        self.getWallet()
     }
     
     func getAddress() throws -> String {
@@ -55,37 +53,8 @@ class BDKService {
         return transactionDetails
     }
     
-//    private func getWallet() {
-//        let mnemonicWords12 = "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
-//        do {
-//            let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
-//            let secretKey = DescriptorSecretKey(
-//                network: network,
-//                mnemonic: mnemonic,
-//                password: nil
-//            )
-//            let descriptor = Descriptor.newBip84(
-//                secretKey: secretKey,
-//                keychain: .external,
-//                network: network
-//            )
-//            let changeDescriptor = Descriptor.newBip84(
-//                secretKey: secretKey,
-//                keychain: .internal,
-//                network: network
-//            )
-//            let wallet = try Wallet.init(
-//                descriptor: descriptor,
-//                changeDescriptor: changeDescriptor,
-//                network: network,
-//                databaseConfig: .memory
-//            )
-//            self.wallet = wallet
-//        } catch {
-//            print("BDKService getWallet error: \(error.localizedDescription)")
-//        }
-//    }
-    
+    // TODO: throw wallet error in catch
+    // want to pass this throw to call site?
     func createWallet() {
         let mnemonicWords12 = "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
         do {
@@ -105,15 +74,12 @@ class BDKService {
                 keychain: .internal,
                 network: network
             )
-
-            let keyData = BackupInfo(
+            let backupInfo = BackupInfo(
                 mnemonic: mnemonic.asString(),
                 descriptor: descriptor.asString(),
                 changeDescriptor: changeDescriptor.asStringPrivate()
-            ) // what is asStringPrivate again?
-            try KeyService().saveBackupInfo(backupInfo: keyData)//try KeyService().saveKeyData(keyData: keyData)
-            self.keyData = keyData
-            
+            )
+            try KeyService().saveBackupInfo(backupInfo: backupInfo)
             let wallet = try Wallet.init(
                 descriptor: descriptor,
                 changeDescriptor: changeDescriptor,
@@ -121,12 +87,13 @@ class BDKService {
                 databaseConfig: .memory
             )
             self.wallet = wallet
-            
         } catch {
             print("BDKService createWallet error: \(error.localizedDescription)")
         }
     }
     
+    // TODO: throw wallet error in catch
+    // want to pass this throw to call site? use guard let if so like other methods
     func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) {
         do {
             let wallet = try Wallet.init(

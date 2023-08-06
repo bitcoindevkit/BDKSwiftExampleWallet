@@ -11,7 +11,7 @@ import KeychainAccess
 struct KeyService {
     private let keychain = Keychain(service: "com.matthewramsden.bdkswiftexamplewallet.testservice")
 
-    enum KeyDataError: Error {
+    enum BackupInfoError: Error {
         case encodingError
         case writeError
         case urlError
@@ -29,20 +29,20 @@ extension KeyService {
             let data = try encoder.encode(backupInfo)
             keychain[data: "BackupInfo"] = data
         } catch {
-            throw KeyDataError.encodingError
+            throw BackupInfoError.encodingError
         }
      }
 
     func getBackupInfo() throws -> BackupInfo {
         do {
             guard let encryptedJsonData = try keychain.getData("BackupInfo") else {
-                throw KeyDataError.readError
+                throw BackupInfoError.readError
             }
             let decoder = JSONDecoder()
             let backupInfo = try decoder.decode(BackupInfo.self, from: encryptedJsonData)
             return backupInfo
         } catch {
-            throw KeyDataError.decodingError
+            throw BackupInfoError.decodingError
         }
     }
         
