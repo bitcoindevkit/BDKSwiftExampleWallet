@@ -24,13 +24,6 @@ extension KeyService {
     
     // look at ways to encode + encrypt
     func saveBackupInfo(backupInfo: BackupInfo) throws {
-//        do {
-//            let encoder = JSONEncoder()
-//            let data = try encoder.encode(backupInfo)
-//            keychain[data: "BackupInfo"] = data
-//        } catch {
-//            throw BackupInfoError.encodingError
-//        }
         let encoder = JSONEncoder()
         let data = try encoder.encode(backupInfo)
         keychain[data: "BackupInfo"] = data
@@ -38,16 +31,6 @@ extension KeyService {
 
     // look at ways to decode + decrypt
     func getBackupInfo() throws -> BackupInfo {
-//        do {
-//            guard let encryptedJsonData = try keychain.getData("BackupInfo") else {
-//                throw BackupInfoError.readError
-//            }
-//            let decoder = JSONDecoder()
-//            let backupInfo = try decoder.decode(BackupInfo.self, from: encryptedJsonData)
-//            return backupInfo
-//        } catch {
-//            throw BackupInfoError.decodingError
-//        }
         guard let encryptedJsonData = try keychain.getData("BackupInfo") else {
             throw BackupInfoError.readError
         }
@@ -56,12 +39,8 @@ extension KeyService {
         return backupInfo
     }
         
+    // remove private and use in App if want to delete
     private func deleteBackupInfo() throws {
-//        do {
-//            try keychain.remove("BackupInfo")
-//        } catch let error {
-//            throw error
-//        }
         try keychain.remove("BackupInfo")
     }
 
