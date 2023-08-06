@@ -9,7 +9,34 @@ import SwiftUI
 import WalletUI
 import BitcoinDevKit
 
-class OnboardingViewModel: ObservableObject {}
+class OnboardingViewModel: ObservableObject {
+    @AppStorage("isOnboarding") var isOnboarding: Bool?
+
+    func createWallet() {
+        do {
+            try BDKService.shared.createWallet()
+//            self.balanceTotal = balance.total
+            isOnboarding = false
+        } catch let error as WalletError {
+            print("getBalance - Wallet Error: \(error.localizedDescription)")
+        } catch {
+            print("getBalance - Undefined Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func restoreWallet() {
+        do {
+            let backupInfo = try KeyService().getBackupInfo()
+            let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: BDKService.shared.network)
+            let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: BDKService.shared.network)
+            try BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
+            isOnboarding = false
+        } catch {
+            print("BDKSwiftExampleWalletApp backupInfo error: \(error.localizedDescription)")
+        }
+    }
+    
+}
 
 struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
@@ -45,21 +72,22 @@ struct OnboardingView: View {
                     VStack(spacing: 25){
                         
                         Button("Create a new wallet") {
-                            BDKService.shared.createWallet()
-                            isOnboarding = false
+                            viewModel.createWallet()//BDKService.shared.createWallet()
+//                            isOnboarding = false
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
 
                         Button("Restore Wallet from Keychain") {
-                            do {
-                                let backupInfo = try KeyService().getBackupInfo()
-                                let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: BDKService.shared.network)
-                                let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: BDKService.shared.network)
-                                BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
-                                isOnboarding = false
-                            } catch {
-                                print("BDKSwiftExampleWalletApp backupInfo error: \(error.localizedDescription)")
-                            }
+//                            do {
+//                                let backupInfo = try KeyService().getBackupInfo()
+//                                let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: BDKService.shared.network)
+//                                let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: BDKService.shared.network)
+//                                BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
+//                                isOnboarding = false
+//                            } catch {
+//                                print("BDKSwiftExampleWalletApp backupInfo error: \(error.localizedDescription)")
+//                            }
+                            viewModel.restoreWallet()
                         }
                         .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange))
 

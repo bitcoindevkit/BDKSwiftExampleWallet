@@ -53,59 +53,47 @@ class BDKService {
         return transactionDetails
     }
     
-    // TODO: throw wallet error in catch
-    // want to pass this throw to call site?
-    func createWallet() {
+    func createWallet() throws {
         let mnemonicWords12 = "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
-        do {
-            let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
-            let secretKey = DescriptorSecretKey(
-                network: network,
-                mnemonic: mnemonic,
-                password: nil
-            )
-            let descriptor = Descriptor.newBip84(
-                secretKey: secretKey,
-                keychain: .external,
-                network: network
-            )
-            let changeDescriptor = Descriptor.newBip84(
-                secretKey: secretKey,
-                keychain: .internal,
-                network: network
-            )
-            let backupInfo = BackupInfo(
-                mnemonic: mnemonic.asString(),
-                descriptor: descriptor.asString(),
-                changeDescriptor: changeDescriptor.asStringPrivate()
-            )
-            try KeyService().saveBackupInfo(backupInfo: backupInfo)
-            let wallet = try Wallet.init(
-                descriptor: descriptor,
-                changeDescriptor: changeDescriptor,
-                network: network,
-                databaseConfig: .memory
-            )
-            self.wallet = wallet
-        } catch {
-            print("BDKService createWallet error: \(error.localizedDescription)")
-        }
+        let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
+        let secretKey = DescriptorSecretKey(
+            network: network,
+            mnemonic: mnemonic,
+            password: nil
+        )
+        let descriptor = Descriptor.newBip84(
+            secretKey: secretKey,
+            keychain: .external,
+            network: network
+        )
+        let changeDescriptor = Descriptor.newBip84(
+            secretKey: secretKey,
+            keychain: .internal,
+            network: network
+        )
+        let backupInfo = BackupInfo(
+            mnemonic: mnemonic.asString(),
+            descriptor: descriptor.asString(),
+            changeDescriptor: changeDescriptor.asStringPrivate()
+        )
+        try KeyService().saveBackupInfo(backupInfo: backupInfo)
+        let wallet = try Wallet.init(
+            descriptor: descriptor,
+            changeDescriptor: changeDescriptor,
+            network: network,
+            databaseConfig: .memory
+        )
+        self.wallet = wallet
     }
     
-    // TODO: throw wallet error in catch
-    // want to pass this throw to call site? use guard let if so like other methods
-    func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) {
-        do {
-            let wallet = try Wallet.init(
-                descriptor: descriptor,
-                changeDescriptor: changeDescriptor,
-                network: network,
-                databaseConfig: .memory
-            )
-            self.wallet = wallet
-        } catch {
-            print("BDKService loadWallet error: \(error.localizedDescription)")
-        }
+    func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
+        let wallet = try Wallet.init(
+            descriptor: descriptor,
+            changeDescriptor: changeDescriptor,
+            network: network,
+            databaseConfig: .memory
+        )
+        self.wallet = wallet
     }
     
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
