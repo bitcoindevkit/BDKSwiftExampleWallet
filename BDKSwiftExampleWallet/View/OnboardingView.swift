@@ -17,21 +17,28 @@ class OnboardingViewModel: ObservableObject {
             try BDKService.shared.createWallet()
             isOnboarding = false
         } catch let error as WalletError {
-            print("getBalance - Wallet Error: \(error.localizedDescription)")
+            print("createWallet - Wallet Error: \(error.localizedDescription)")
         } catch {
-            print("getBalance - Undefined Error: \(error.localizedDescription)")
+            print("createWallet - Undefined Error: \(error.localizedDescription)")
         }
     }
     
     func restoreWallet() {
+//        do {
+//            let backupInfo = try KeyService().getBackupInfo()
+//            let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: BDKService.shared.network)
+//            let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: BDKService.shared.network)
+//            try BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
+//            isOnboarding = false
+//        } catch {
+//            print("BDKSwiftExampleWalletApp backupInfo error: \(error.localizedDescription)")
+//        }
         do {
-            let backupInfo = try KeyService().getBackupInfo()
-            let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: BDKService.shared.network)
-            let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: BDKService.shared.network)
-            try BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
-            isOnboarding = false
+            try BDKService.shared.loadWalletFromBackup()
+        } catch let error as WalletError {
+            print("restoreWallet - Wallet Error: \(error.localizedDescription)")
         } catch {
-            print("BDKSwiftExampleWalletApp backupInfo error: \(error.localizedDescription)")
+            print("restoreWallet - Undefined Error: \(error.localizedDescription)")
         }
     }
     

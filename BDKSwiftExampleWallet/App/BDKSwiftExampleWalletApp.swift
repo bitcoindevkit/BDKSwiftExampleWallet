@@ -13,13 +13,18 @@ struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
 
     init() {
+//        do {
+//            let backupInfo = try KeyService().getBackupInfo()
+//            let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: BDKService.shared.network)
+//            let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: BDKService.shared.network)
+//            try BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
+//        }
+//        catch {
+//            print("BDKSwiftExampleWalletApp error: \(error.localizedDescription)")
+//        }
         do {
-            let backupInfo = try KeyService().getBackupInfo()
-            let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: BDKService.shared.network)
-            let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: BDKService.shared.network)
-            try BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
-        }
-        catch {
+            try BDKService.shared.loadWalletFromBackup()
+        } catch {
             print("BDKSwiftExampleWalletApp error: \(error.localizedDescription)")
         }
     }

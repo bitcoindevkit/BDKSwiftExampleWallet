@@ -86,7 +86,7 @@ class BDKService {
         self.wallet = wallet
     }
     
-    func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
+    private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
         let wallet = try Wallet.init(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
@@ -94,6 +94,13 @@ class BDKService {
             databaseConfig: .memory
         )
         self.wallet = wallet
+    }
+    
+    func loadWalletFromBackup() throws {
+        let backupInfo = try KeyService().getBackupInfo()
+        let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
+        let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: self.network)
+        try self.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
     }
     
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
