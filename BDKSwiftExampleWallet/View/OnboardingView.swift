@@ -24,15 +24,6 @@ class OnboardingViewModel: ObservableObject {
     }
     
     func restoreWallet() {
-//        do {
-//            let backupInfo = try KeyService().getBackupInfo()
-//            let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: BDKService.shared.network)
-//            let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: BDKService.shared.network)
-//            try BDKService.shared.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
-//            isOnboarding = false
-//        } catch {
-//            print("BDKSwiftExampleWalletApp backupInfo error: \(error.localizedDescription)")
-//        }
         do {
             try BDKService.shared.loadWalletFromBackup()
         } catch let error as WalletError {
