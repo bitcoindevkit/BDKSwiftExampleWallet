@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
+		AE0C30F72A804A2D008F1EAE /* WalletTransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0C30F62A804A2D008F1EAE /* WalletTransactionListView.swift */; };
+		AE0C30F92A804B65008F1EAE /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0C30F82A804B65008F1EAE /* OnboardingViewModel.swift */; };
+		AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0C30FA2A804B95008F1EAE /* WalletViewModel.swift */; };
+		AE0C30FD2A804BC1008F1EAE /* ReceiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0C30FC2A804BC1008F1EAE /* ReceiveViewModel.swift */; };
+		AE0C30FF2A804BDE008F1EAE /* SendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0C30FE2A804BDE008F1EAE /* SendViewModel.swift */; };
 		AE1390C72A7DB0AF0098127A /* KeyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1390C62A7DB0AF0098127A /* KeyService.swift */; };
 		AE1C34242A424456008F807A /* ReceiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C34232A424456008F807A /* ReceiveView.swift */; };
 		AE1C34262A4248A5008F807A /* SendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C34252A4248A5008F807A /* SendView.swift */; };
@@ -50,6 +55,11 @@
 
 /* Begin PBXFileReference section */
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		AE0C30F62A804A2D008F1EAE /* WalletTransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTransactionListView.swift; sourceTree = "<group>"; };
+		AE0C30F82A804B65008F1EAE /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		AE0C30FA2A804B95008F1EAE /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
+		AE0C30FC2A804BC1008F1EAE /* ReceiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveViewModel.swift; sourceTree = "<group>"; };
+		AE0C30FE2A804BDE008F1EAE /* SendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendViewModel.swift; sourceTree = "<group>"; };
 		AE1390C62A7DB0AF0098127A /* KeyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyService.swift; sourceTree = "<group>"; };
 		AE1C34232A424456008F807A /* ReceiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveView.swift; sourceTree = "<group>"; };
 		AE1C34252A4248A5008F807A /* SendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendView.swift; sourceTree = "<group>"; };
@@ -100,6 +110,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AE0C31002A804C05008F1EAE /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				AE0C30F82A804B65008F1EAE /* OnboardingViewModel.swift */,
+				AE0C30FA2A804B95008F1EAE /* WalletViewModel.swift */,
+				AE0C30FC2A804BC1008F1EAE /* ReceiveViewModel.swift */,
+				AE0C30FE2A804BDE008F1EAE /* SendViewModel.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
 		AE1C341E2A42440A008F807A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +137,7 @@
 				AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */,
 				AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */,
 				AED4CC0F2A1D522100CE1831 /* WalletView.swift */,
+				AE0C30F62A804A2D008F1EAE /* WalletTransactionListView.swift */,
 				AEB130C82A44E4850087785B /* TransactionDetailsView.swift */,
 				AE1C34232A424456008F807A /* ReceiveView.swift */,
 				AE96F6662A4259260055623C /* QRCodeView.swift */,
@@ -172,9 +194,10 @@
 			isa = PBXGroup;
 			children = (
 				AE1C34222A424440008F807A /* App */,
-				AEB905C52A7EECD900CD0337 /* Service */,
 				AE7F670A2A7451B600CED561 /* Model */,
 				AE1C341F2A424415008F807A /* View */,
+				AE0C31002A804C05008F1EAE /* View Model */,
+				AEB905C52A7EECD900CD0337 /* Service */,
 				AE1C341E2A42440A008F807A /* Extensions */,
 				AE1C34202A42441F008F807A /* Utilities */,
 				AE49847F2A1BBBD7009951E2 /* Assets.xcassets */,
@@ -349,6 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE0C30F72A804A2D008F1EAE /* WalletTransactionListView.swift in Sources */,
 				AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */,
 				AE96F6672A4259260055623C /* QRCodeView.swift in Sources */,
 				AE7F670C2A7451D700CED561 /* CurrencyCode.swift in Sources */,
@@ -365,9 +389,13 @@
 				AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */,
 				A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */,
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
+				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
 				AE1C34262A4248A5008F807A /* SendView.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
+				AE0C30FF2A804BDE008F1EAE /* SendViewModel.swift in Sources */,
+				AE0C30F92A804B65008F1EAE /* OnboardingViewModel.swift in Sources */,
 				AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */,
+				AE0C30FD2A804BC1008F1EAE /* ReceiveViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
