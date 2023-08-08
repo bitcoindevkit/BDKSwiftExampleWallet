@@ -102,7 +102,7 @@ struct WalletView: View {
                 }
                 .task {
                     await viewModel.sync()
-                    await viewModel.getPrice()
+                    await viewModel.getPrices()
                 }
             }
             

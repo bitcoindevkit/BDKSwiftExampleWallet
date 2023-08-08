@@ -30,21 +30,15 @@ class WalletViewModel: ObservableObject {
         self.priceService = priceService
     }
     
-    func getPrice() async {
+    func getPrices() async {
         do {
-            let response = try await priceService.hourlyPrice()
-            if let latestPrice = response.prices.first?.usd {
-                DispatchQueue.main.async {
-                    self.price = latestPrice
-                }
-            }
-            if let latestTime = response.prices.first?.time {
-                DispatchQueue.main.async {
-                    self.time = latestTime
-                }
+            let price = try await priceService.prices()
+            DispatchQueue.main.async {
+                self.price = price.usd
+                self.time = price.time
             }
         } catch {
-            print("priceMem error: \(error.localizedDescription)")
+            print("getPrices error: \(error.localizedDescription)")
         }
     }
     
