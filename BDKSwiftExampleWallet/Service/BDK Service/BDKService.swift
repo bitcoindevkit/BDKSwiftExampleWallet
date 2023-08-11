@@ -13,7 +13,7 @@ class BDKService {
     private var blockchainConfig: BlockchainConfig?
     var network: Network = .signet
     private var wallet: Wallet?
-    private let keyService: KeyService // The KeyService instance used by BDKService
+    private let keyService: KeyService
 
     
     class var shared: BDKService {
@@ -79,7 +79,7 @@ class BDKService {
             descriptor: descriptor.asString(),
             changeDescriptor: changeDescriptor.asStringPrivate()
         )
-        try keyService.saveBackupInfo(backupInfo: backupInfo)//KeyService().saveBackupInfo(backupInfo: backupInfo)
+        try keyService.saveBackupInfo(backupInfo: backupInfo)
         let wallet = try Wallet.init(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
@@ -100,10 +100,17 @@ class BDKService {
     }
     
     func loadWalletFromBackup() throws {
-        let backupInfo = try keyService.getBackupInfo()//KeyService().getBackupInfo()
+        let backupInfo = try keyService.getBackupInfo()
         let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
         let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: self.network)
         try self.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
+    }
+    
+    func deleteWallet() throws {
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+        }
+        try self.keyService.deleteBackupInfo()
     }
     
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
