@@ -172,17 +172,6 @@
         }
       }
     },
-    "Restore existing wallet" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restaurer le portefeuille existant"
-          }
-        }
-      }
-    },
     "Restore Wallet from Keychain" : {
       "localizations" : {
         "fr" : {
