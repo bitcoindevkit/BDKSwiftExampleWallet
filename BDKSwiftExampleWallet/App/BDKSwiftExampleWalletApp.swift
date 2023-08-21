@@ -15,6 +15,8 @@ struct BDKSwiftExampleWalletApp: App {
     init() {
         do {
             try BDKService.shared.loadWalletFromBackup()
+            // TODO: remove after testing
+            // try BDKService.shared.deleteWallet()
         } catch {
             print("BDKSwiftExampleWalletApp error: \(error.localizedDescription)")
         }
