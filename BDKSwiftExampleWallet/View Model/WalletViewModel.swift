@@ -7,7 +7,9 @@
 
 import Foundation
 import BitcoinDevKit
+import Observation
 
+@MainActor
 @Observable
 class WalletViewModel {
     var balanceTotal: UInt64 = 0
@@ -26,10 +28,8 @@ class WalletViewModel {
     func getPrices() async {
         do {
             let price = try await priceService.prices()
-            DispatchQueue.main.async {
                 self.price = price.usd
                 self.time = price.time
-            }
         } catch {
             print("getPrices error: \(error.localizedDescription)")
         }
@@ -60,23 +60,17 @@ class WalletViewModel {
     }
     
     func sync() async {
-        DispatchQueue.main.async {
             self.walletSyncState = .syncing
-        }
         Task {
             do {
                 try await BDKService.shared.sync()
-                DispatchQueue.main.async {
                     self.walletSyncState = .synced
                     self.lastSyncTime = Date()
                     self.getBalance()
                     self.getTransactions()
                     self.valueInUSD()
-                }
             } catch {
-                DispatchQueue.main.async {
                     self.walletSyncState = .error(error)
-                }
             }
         }
     }
