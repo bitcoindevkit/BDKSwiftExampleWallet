@@ -48,10 +48,6 @@ struct TabHomeView: View {
     
 }
 
-struct TabHomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        TabHomeView()
-        TabHomeView()
-            .environment(\.colorScheme, .dark)
-    }
+#Preview {
+    TabHomeView()
 }

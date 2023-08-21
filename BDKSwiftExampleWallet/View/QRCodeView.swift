@@ -36,8 +36,6 @@ extension QRCodeView {
     }
 }
 
-struct QRCodeView_Previews: PreviewProvider {
-    static var previews: some View {
-        QRCodeView(address: "tb1qz9hhk2qlsmdanrzgl38uv86hqnqe5vyszrld7s")
-    }
+#Preview {
+    QRCodeView(address: "tb1qz9hhk2qlsmdanrzgl38uv86hqnqe5vyszrld7s")
 }

@@ -91,12 +91,6 @@ struct SendView: View {
     }
 }
 
-struct SendView_Previews: PreviewProvider {
-    static var previews: some View {
-        SendView(viewModel: .init())
-            .previewDisplayName("Light Mode")
-        SendView(viewModel: .init())
-            .environment(\.colorScheme, .dark)
-            .previewDisplayName("Dark Mode")
-    }
+#Preview {
+    SendView(viewModel: .init())
 }
