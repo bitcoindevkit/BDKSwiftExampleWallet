@@ -8,6 +8,7 @@
 import XCTest
 @testable import BDKSwiftExampleWallet
 
+@MainActor
 final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
     
     func testWalletViewModel() async {
