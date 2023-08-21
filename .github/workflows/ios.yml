@@ -49,4 +49,5 @@ jobs:
       - name: Build
         run: xcodebuild -scheme BDKSwiftExampleWallet -sdk iphoneos
       - name: Run tests
-        run: xcodebuild -scheme BDKSwiftExampleWallet test -sdk iphonesimulator -destination 'platform=iOS Simulator, name=iPhone 14'
+        run: xcodebuild -scheme BDKSwiftExampleWallet test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+
