@@ -9,6 +9,9 @@ import Foundation
 import BitcoinDevKit
 import SwiftUI
 
+// Can't make @Observable yet
+// https://developer.apple.com/forums/thread/731187
+// Feature or Bug?
 class OnboardingViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     
