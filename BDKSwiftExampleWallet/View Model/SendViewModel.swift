@@ -7,7 +7,9 @@
 
 import Foundation
 import BitcoinDevKit
+import Observation
 
+@MainActor
 @Observable
 class SendViewModel {
     var balanceTotal: UInt64 = 0
