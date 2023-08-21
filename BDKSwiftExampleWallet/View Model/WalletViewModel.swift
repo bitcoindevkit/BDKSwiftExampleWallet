@@ -8,22 +8,15 @@
 import Foundation
 import BitcoinDevKit
 
-class WalletViewModel: ObservableObject {
-    
-    // Balance
-    @Published var balanceTotal: UInt64 = 0
-    
-    // Sync
-    @Published var lastSyncTime: Date? = nil
-    @Published var walletSyncState: WalletSyncState = .notStarted
-    
-    // Transactions
-    @Published var transactionDetails: [TransactionDetails] = []
-    
-    // Price
-    @Published var price: Double = 0.0
-    @Published var time: Int?
-    @Published var satsPrice: String = "0"
+@Observable
+class WalletViewModel {
+    var balanceTotal: UInt64 = 0
+    var lastSyncTime: Date? = nil
+    var walletSyncState: WalletSyncState = .notStarted
+    var transactionDetails: [TransactionDetails] = []
+    var price: Double = 0.0
+    var time: Int?
+    var satsPrice: String = "0"
     let priceService: PriceService
     
     init(priceService: PriceService) {

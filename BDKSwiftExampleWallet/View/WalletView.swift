@@ -9,7 +9,7 @@ import SwiftUI
 import WalletUI
 
 struct WalletView: View {
-    @ObservedObject var viewModel: WalletViewModel
+    @Bindable var viewModel: WalletViewModel
     @State private var isAnimating: Bool = false
     
     var body: some View {

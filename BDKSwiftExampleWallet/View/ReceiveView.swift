@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ReceiveView: View {
-    @ObservedObject var viewModel: ReceiveViewModel
+    @Bindable var viewModel: ReceiveViewModel
     @State private var isCopied = false
     @State private var showCheckmark = false
 

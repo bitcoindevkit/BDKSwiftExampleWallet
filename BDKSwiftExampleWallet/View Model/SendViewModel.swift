@@ -8,8 +8,9 @@
 import Foundation
 import BitcoinDevKit
 
-class SendViewModel: ObservableObject {
-    @Published var balanceTotal: UInt64 = 0
+@Observable
+class SendViewModel {
+    var balanceTotal: UInt64 = 0
     
     func getBalance() {
         do {

@@ -9,7 +9,7 @@ import SwiftUI
 import WalletUI
 
 struct SendView: View {
-    @ObservedObject var viewModel: SendViewModel
+    @Bindable var viewModel: SendViewModel
     @State private var amount: String = ""
     @State private var address: String = ""
     
