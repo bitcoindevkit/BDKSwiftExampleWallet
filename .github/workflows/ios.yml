@@ -47,7 +47,7 @@ jobs:
       #     file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
       #     xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
       - name: Build
-        run: xcodebuild -scheme BDKSwiftExampleWallet -sdk iphoneos
+        run: xcodebuild build-for-testing -scheme "$scheme" -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
       - name: Run tests
-        run: xcodebuild -scheme BDKSwiftExampleWallet test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+        run: xcodebuild test-without-building -scheme "$scheme" -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
 
