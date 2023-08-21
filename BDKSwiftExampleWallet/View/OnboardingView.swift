@@ -71,12 +71,6 @@ struct OnboardingView: View {
     }    
 }
 
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingView(viewModel: .init())
-            .previewDisplayName("Light Mode")
-        OnboardingView(viewModel: .init())
-            .environment(\.colorScheme, .dark)
-            .previewDisplayName("Dark Mode")
-    }
+#Preview {
+    OnboardingView(viewModel: .init())
 }

@@ -69,12 +69,6 @@ struct ReceiveView: View {
     
 }
 
-struct ReceiveView_Previews: PreviewProvider {
-    static var previews: some View {
-        ReceiveView(viewModel: .init())
-            .previewDisplayName("Light Mode")
-        ReceiveView(viewModel: .init())
-            .environment(\.colorScheme, .dark)
-            .previewDisplayName("Dark Mode")
-    }
+#Preview {
+    ReceiveView(viewModel: .init())
 }

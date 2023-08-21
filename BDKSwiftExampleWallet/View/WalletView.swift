@@ -112,12 +112,6 @@ struct WalletView: View {
     
 }
 
-struct WalletView_Previews: PreviewProvider {
-    static var previews: some View {
-        WalletView(viewModel: .init(priceService: .init()))
-            .previewDisplayName("Light Mode")
-        WalletView(viewModel: .init(priceService: .init()))
-            .environment(\.colorScheme, .dark)
-            .previewDisplayName("Dark Mode")
-    }
+#Preview {
+    WalletView(viewModel: .init(priceService: .init()))
 }

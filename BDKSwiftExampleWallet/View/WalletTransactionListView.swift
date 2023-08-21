@@ -71,8 +71,6 @@ struct WalletTransactionListView: View {
     }
 }
 
-struct WalletTransactionListView_Previews: PreviewProvider {
-    static var previews: some View {
-        WalletTransactionListView(transactionDetails: [])
-    }
+#Preview {
+    WalletTransactionListView(transactionDetails: [])
 }
