@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class ReceiveViewModel: ObservableObject {
+class ReceiveViewModel {
     var address: String = ""
     
     func getAddress() {
