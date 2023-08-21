@@ -73,6 +73,22 @@ struct WalletView: View {
                     
                     VStack {
                         HStack(spacing: 5) {
+                            
+                            switch viewModel.walletSyncState {
+                            case .error(_):
+                                Image(systemName: "x.mark")
+                            case .notStarted:
+                                Image(systemName: "wifi")
+                                    .symbolEffect(.variableColor.iterative.reversing)
+                                    .symbolEffect(.scale.up)
+                            case .synced:
+                                Image(systemName: "checkmark")
+                            case .syncing:
+                                Image("wifi.router")
+                                    .symbolEffect(.variableColor.iterative.reversing)
+                                    .symbolEffect(.scale.up)
+                            }
+                            
                             Text(viewModel.walletSyncState.description)
                             if viewModel.walletSyncState == .syncing {
                                 ProgressView()
