@@ -112,6 +112,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A7FBCE392A72944C007C960E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A733D6CF2A81113000F333B4 /* Localizable.xcstrings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		AE0C31002A804C05008F1EAE /* View Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,14 +129,6 @@
 				AE0C30FE2A804BDE008F1EAE /* SendViewModel.swift */,
 			);
 			path = "View Model";
-			sourceTree = "<group>";
-		};
-		A7FBCE392A72944C007C960E /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				A733D6CF2A81113000F333B4 /* Localizable.xcstrings */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		AE1C341E2A42440A008F807A /* Extensions */ = {
@@ -569,6 +569,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -597,6 +598,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
