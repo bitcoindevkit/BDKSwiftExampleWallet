@@ -28,8 +28,8 @@ class WalletViewModel {
     func getPrices() async {
         do {
             let price = try await priceService.prices()
-                self.price = price.usd
-                self.time = price.time
+            self.price = price.usd
+            self.time = price.time
         } catch {
             print("getPrices error: \(error.localizedDescription)")
         }
@@ -60,18 +60,16 @@ class WalletViewModel {
     }
     
     func sync() async {
-            self.walletSyncState = .syncing
-        Task {
-            do {
-                try await BDKService.shared.sync()
-                    self.walletSyncState = .synced
-                    self.lastSyncTime = Date()
-                    self.getBalance()
-                    self.getTransactions()
-                    self.valueInUSD()
-            } catch {
-                    self.walletSyncState = .error(error)
-            }
+        self.walletSyncState = .syncing
+        do {
+            try await BDKService.shared.sync()
+            self.walletSyncState = .synced
+            self.lastSyncTime = Date()
+            self.getBalance()
+            self.getTransactions()
+            self.valueInUSD()
+        } catch {
+            self.walletSyncState = .error(error)
         }
     }
     
