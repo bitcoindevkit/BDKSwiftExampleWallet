@@ -9,7 +9,15 @@ import Foundation
 import KeychainAccess
 
 struct KeyService {
-    private let keychain = Keychain(service: "com.matthewramsden.bdkswiftexamplewallet.testservice")
+    private let keychain: Keychain
+    
+    init() {
+        let keychain = Keychain(service: "com.matthewramsden.bdkswiftexamplewallet.testservice") // TODO: use `Bundle.main.displayName` or something like com.bdk.swiftwalletexample
+            .label(Bundle.main.displayName)
+            .synchronizable(true)
+            .accessibility(.whenUnlocked)
+        self.keychain = keychain
+    }
 
     enum BackupInfoError: Error {
         case encodingError
