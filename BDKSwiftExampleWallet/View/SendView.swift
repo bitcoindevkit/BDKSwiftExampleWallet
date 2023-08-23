@@ -66,14 +66,31 @@ struct SendView: View {
                         .truncationMode(.middle)
                         .lineLimit(1)
                     }
+                    VStack {
+                        Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
+                            Image(systemName: "gauge.with.dots.needle.0percent")
+                                .tag(0)
+                            Image(systemName: "gauge.with.dots.needle.33percent")
+                                .tag(1)
+                            Image(systemName: "gauge.with.dots.needle.50percent")
+                                .tag(2)
+                            Image(systemName: "gauge.with.dots.needle.67percent")
+                                .tag(3)
+                        }
+                        .pickerStyle(.segmented) // TODO: use `.menu`
+                        
+                        Text(viewModel.selectedFeeDescription)
+                    }
                 }
                 .padding(.vertical, 50.0)
                 Button {
+                    let feeRate: Float? = viewModel.selectedFee.map { Float($0) }
                     viewModel.send(
                         address: address,
                         amount: UInt64(amount) ?? UInt64(0),
-                        feeRate: nil
+                        feeRate: feeRate
                     )
+                    // TODO: only if success clear out these fields?
                     amount = ""
                     address = ""
                 } label: {
@@ -85,6 +102,9 @@ struct SendView: View {
                 .buttonStyle(BitcoinOutlined(tintColor: .bitcoinOrange))
             }
             .padding()
+            .task {
+                await viewModel.getFees()
+            }
             
         }
         
@@ -92,5 +112,5 @@ struct SendView: View {
 }
 
 #Preview {
-    SendView(viewModel: .init())
+    SendView(viewModel: .init(feeService: .init()))
 }

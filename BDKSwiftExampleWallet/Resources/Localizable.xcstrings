@@ -102,6 +102,9 @@
         }
       }
     },
+    "Economy Fee" : {
+
+    },
     "Enter address to send BTC to" : {
       "localizations" : {
         "fr" : {
@@ -122,6 +125,9 @@
         }
       }
     },
+    "Fastest Fee" : {
+
+    },
     "Fee %llu" : {
       "localizations" : {
         "fr" : {
@@ -132,6 +138,12 @@
         }
       }
     },
+    "Half Hour Fee" : {
+
+    },
+    "Hour Fee" : {
+
+    },
     "Last Synced: %@" : {
       "localizations" : {
         "fr" : {
@@ -141,6 +153,9 @@
           }
         }
       }
+    },
+    "Minimum Fee" : {
+
     },
     "No Transactions" : {
       "localizations" : {
@@ -192,6 +207,12 @@
           }
         }
       }
+    },
+    "Select Fee" : {
+
+    },
+    "Selected fee: %lld satoshis" : {
+
     },
     "Send" : {
       "localizations" : {

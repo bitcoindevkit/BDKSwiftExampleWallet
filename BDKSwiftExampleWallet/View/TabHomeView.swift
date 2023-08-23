@@ -32,7 +32,7 @@ struct TabHomeView: View {
                         )
                     }
                 
-                SendView(viewModel: .init())
+                SendView(viewModel: .init(feeService: .init()))
                     .tabItem {
                         Label(
                             "Send",
