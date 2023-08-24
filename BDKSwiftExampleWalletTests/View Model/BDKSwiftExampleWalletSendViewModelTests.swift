@@ -8,23 +8,22 @@
 import XCTest
 @testable import BDKSwiftExampleWallet
 
+@MainActor
 final class BDKSwiftExampleWalletSendViewModelTests: XCTestCase {
     
     func testReceiveViewModel() async {
         // Set up viewModel
-        let viewModel = await SendViewModel(feeService: .init())
+        let viewModel = SendViewModel(feeService: .init())
 
         // Simulate successful getBalance() call
-        await viewModel.getBalance()
-        let total = await viewModel.balanceTotal
-        XCTAssertGreaterThan(total, 0)
+        viewModel.getBalance()
+        XCTAssertGreaterThan(viewModel.balanceTotal, 0)
         
         // Simulate successful getFees() call
         await viewModel.getFees()
-        if let fees = await viewModel.recommendedFees {
+        if let fees = viewModel.recommendedFees {
             XCTAssertGreaterThan(fees.fastestFee, 0)
         }
-        
     }
     
 }
