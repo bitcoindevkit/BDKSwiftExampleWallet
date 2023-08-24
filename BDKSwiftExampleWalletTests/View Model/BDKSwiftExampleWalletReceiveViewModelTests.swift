@@ -8,7 +8,7 @@
 import XCTest
 @testable import BDKSwiftExampleWallet
 
-final class BDKSwiftExampleWalletReceiveTests: XCTestCase {
+final class BDKSwiftExampleWalletReceiveViewModelTests: XCTestCase {
     
     // Segwit: bc1p...
     private func validateSegwitAddress(_ address: String) -> Bool {
@@ -30,14 +30,13 @@ final class BDKSwiftExampleWalletReceiveTests: XCTestCase {
         XCTAssertEqual(viewModel.address, "")
 
         // Simulate successful getAddress() call
-//        viewModel.getAddress()
-//        XCTAssertEqual(viewModel.address, "tb1qzqkzcgqshhx753vay388tqmdnk6yrpfz9ue8cn")
+        viewModel.getAddress()
+        XCTAssertEqual(viewModel.address, "tb1q3z5tudw96eplfewtn0kzchq03aty0g6pknmquf")
         
         // Additional validation
-//        XCTAssertTrue(validateSegwitAddress(viewModel.address), "Invalid Segwit address")
+        XCTAssertTrue(validateSegwitAddress(viewModel.address), "Invalid Segwit address")
         XCTAssertFalse(validateTaprootAddress(viewModel.address), "Invalid Segwit address: Taproot address")
-//        XCTAssertFalse(viewModel.address.isEmpty, "Address should not be empty")
-        
+        XCTAssertFalse(viewModel.address.isEmpty, "Address should not be empty")
     }
 
 }
