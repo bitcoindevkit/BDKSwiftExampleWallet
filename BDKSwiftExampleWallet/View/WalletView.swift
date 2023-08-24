@@ -91,29 +91,6 @@ struct WalletView: View {
                         Spacer()
                     }
                     
-//                    VStack {
-//                        HStack(spacing: 5) {
-//                            Text(viewModel.walletSyncState.description)
-//                            if viewModel.walletSyncState == .syncing {
-//                                ProgressView()
-//                            }
-//                        }
-//                        if let lastSyncTime = viewModel.lastSyncTime {
-//                            Text("Last Synced: \(lastSyncTime.formattedSyncTime())")
-//                                .font(.caption)
-//                        }
-//                    }
-                    
-//                    Button {
-//                        Task {
-//                            await viewModel.sync()
-//                        }
-//                    } label: {
-//                        Text("Sync")
-//                    }
-//                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
-//                    .disabled(viewModel.walletSyncState == .syncing)
-                    
                 }
                 .padding()
                 .onAppear {
