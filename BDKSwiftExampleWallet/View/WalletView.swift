@@ -23,8 +23,9 @@ struct WalletView: View {
                 VStack(spacing: 20) {
                     
                     VStack(spacing: 10) {
-                        Text("Your Balance")
-                            .bold()
+                        Text("Your Balance".uppercased())
+                            .fontWeight(.semibold)
+                            .fontWidth(.expanded)
                             .foregroundColor(.secondary)
                             .scaleEffect(isAnimating ? 1.0 : 0.6)
                             .onAppear {
@@ -43,16 +44,30 @@ struct WalletView: View {
                         .font(.largeTitle)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        HStack {
+                        VStack {
                             Text(viewModel.satsPrice)
                             if let time = viewModel.time?.newDateAgo() {
                                 Text(time)
                             }
+                            VStack {
+                                HStack(spacing: 5) {
+                                    Text(viewModel.walletSyncState.description)
+                                    if viewModel.walletSyncState == .syncing {
+                                        ProgressView()
+                                    }
+                                }
+                                if let lastSyncTime = viewModel.lastSyncTime {
+                                    Text("Last Synced: \(lastSyncTime.formattedSyncTime())")
+                                        .font(.caption)
+                                }
+                            }
+
                         }
                         .foregroundColor(.secondary)
                         .font(.footnote)
                         .padding(.top, 10.0)
                     }
+                    .padding(.top, 40.0)
                     
                     VStack {
                         HStack {
@@ -70,29 +85,6 @@ struct WalletView: View {
                         }
                         Spacer()
                     }
-                    
-                    VStack {
-                        HStack(spacing: 5) {
-                            Text(viewModel.walletSyncState.description)
-                            if viewModel.walletSyncState == .syncing {
-                                ProgressView()
-                            }
-                        }
-                        if let lastSyncTime = viewModel.lastSyncTime {
-                            Text("Last Synced: \(lastSyncTime.formattedSyncTime())")
-                                .font(.caption)
-                        }
-                    }
-                    
-                    Button {
-                        Task {
-                            await viewModel.sync()
-                        }
-                    } label: {
-                        Text("Sync")
-                    }
-                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
-                    .disabled(viewModel.walletSyncState == .syncing)
                     
                 }
                 .padding()

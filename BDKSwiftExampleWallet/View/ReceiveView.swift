@@ -31,9 +31,9 @@ struct ReceiveView: View {
                 HStack {
                     
                     Text(viewModel.address)
-                        .font(.headline)
                         .lineLimit(1)
                         .truncationMode(.middle)
+                        .fontDesign(.monospaced)
                     
                     Button {
                         UIPasteboard.general.string = viewModel.address
@@ -50,7 +50,7 @@ struct ReceiveView: View {
                                     .font(.headline)
                             }
                         }
-                        .bold()
+                        .fontWeight(.semibold)
                         .foregroundColor(.bitcoinOrange)
                     }
                     

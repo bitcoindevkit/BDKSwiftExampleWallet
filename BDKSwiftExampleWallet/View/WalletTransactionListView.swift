@@ -14,7 +14,7 @@ struct WalletTransactionListView: View {
     var body: some View {
         List {
             ForEach(
-                transactionDetails.sorted(//viewModel.transactionDetails.sorted(
+                transactionDetails.sorted(
                     by: {
                         $0.confirmationTime?.timestamp ?? $0.received > $1.confirmationTime?.timestamp ?? $1.received
                     }
@@ -31,7 +31,7 @@ struct WalletTransactionListView: View {
                             transaction.received - transaction.sent
                     )
                 ) {
-                    HStack {
+                    HStack(spacing: 15) {
                         ZStack {
                             Circle()
                                 .fill(Color.gray.opacity(0.2))
@@ -43,10 +43,11 @@ struct WalletTransactionListView: View {
                             )
                             .frame(width: 20, height: 20)
                         }
-                        VStack(alignment: .leading, spacing: 1){
+                        VStack(alignment: .leading, spacing: 5){
                             Text(transaction.txid)
                                 .truncationMode(.middle)
                                 .lineLimit(1)
+                                .fontDesign(.monospaced)
                             Text(
                                 transaction.sent > 0 ?
                                 "Sent" :
@@ -54,7 +55,7 @@ struct WalletTransactionListView: View {
                             )
                             .foregroundColor(.secondary)
                         }
-                        .padding(.trailing, 40.0)
+                        .padding(.trailing, 15.0)
                         Spacer()
                         Text(
                             transaction.sent > 0 ?
@@ -63,6 +64,7 @@ struct WalletTransactionListView: View {
                         )
                         .font(.caption)
                     }
+                    .padding(.vertical, 15.0)
                 }
                 
             }
@@ -72,5 +74,42 @@ struct WalletTransactionListView: View {
 }
 
 #Preview {
-    WalletTransactionListView(transactionDetails: [])
+    WalletTransactionListView(transactionDetails: [
+        .init(
+            transaction: .none,
+            fee: nil,
+            received: UInt64(20),
+            sent: 21,
+            txid: "d652a7cc0138e3277c34f1eab8e63ef445a4b3d02af5f764ed0805b16d33c45b",
+            confirmationTime: .init(
+                height: UInt32(796298),
+                timestamp: UInt64(Date().timeIntervalSince1970
+                                 )
+            )
+        ),
+        .init(
+            transaction: .none,
+            fee: nil,
+            received: UInt64(20),
+            sent: 21,
+            txid: "d652a7cc0138e3277c34f1eab8e63ef445a4b3d02af5f764ed0805b16d33c45b",
+            confirmationTime: .init(
+                height: UInt32(796298),
+                timestamp: UInt64(Date().timeIntervalSince1970
+                                 )
+            )
+        ),
+        .init(
+            transaction: .none,
+            fee: nil,
+            received: UInt64(20),
+            sent: 21,
+            txid: "d652a7cc0138e3277c34f1eab8e63ef445a4b3d02af5f764ed0805b16d33c45b",
+            confirmationTime: .init(
+                height: UInt32(796298),
+                timestamp: UInt64(Date().timeIntervalSince1970
+                                 )
+            )
+        ),
+    ])
 }

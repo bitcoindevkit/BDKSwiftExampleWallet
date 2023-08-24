@@ -29,15 +29,16 @@ struct OnboardingView: View {
                         .foregroundColor(.bitcoinOrange)
                         .frame(width: 100, height: 100, alignment: .center)
                     
-                    Text("Bitcoin wallet")
+                    Text("Bitcoin Wallet")
                         .textStyle(BitcoinTitle1())
                         .multilineTextAlignment(.center)
                         .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
                     
                     Text("A simple bitcoin wallet for your enjoyment.")
                         .textStyle(BitcoinBody1())
-                        .opacity(0.4)
+                        .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
+
                 }
                 
                 VStack(spacing: 25){
@@ -46,7 +47,6 @@ struct OnboardingView: View {
                         viewModel.createWallet()
                     }
                     .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
-                    .minimumScaleFactor(0.9)
 
                     Button("Restore Wallet from Keychain") {
                         viewModel.restoreWallet()
@@ -59,7 +59,10 @@ struct OnboardingView: View {
                 Spacer()
                 
                 VStack {
-                    Text("Your wallet, your coins \n 100% open-source & open-design")
+                    Text("Your wallet, your coins")
+                        .textStyle(BitcoinBody4())
+                        .multilineTextAlignment(.center)
+                    Text("100% open-source & open-design")
                         .textStyle(BitcoinBody4())
                         .multilineTextAlignment(.center)
                 }
