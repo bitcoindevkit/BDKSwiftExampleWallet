@@ -77,7 +77,6 @@ struct TransactionDetailsView: View {
                             Image(systemName: showCheckmark ? "checkmark" : "doc.on.doc")
                         }
                     }
-//                    .bold()
                     .fontWeight(.semibold)
                     .foregroundColor(.bitcoinOrange)
                 }
