@@ -51,11 +51,6 @@ struct WalletView: View {
                             }
                             VStack {
                                 HStack(spacing: 5) {
-                                    
-                                    HStack {
-                                        
-                                    }
-                                    
                                     Text(viewModel.walletSyncState.description)
                                     if viewModel.walletSyncState == .syncing {
                                         ProgressView()
