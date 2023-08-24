@@ -99,7 +99,7 @@ struct SendView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.all, 8)
                 }
-                .buttonStyle(BitcoinCapsuleOutlined(tintColor: .bitcoinOrange))
+                .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
             }
             .padding()
             .task {

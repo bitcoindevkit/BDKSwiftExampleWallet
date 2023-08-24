@@ -45,14 +45,14 @@ struct OnboardingView: View {
                     Button("Create a new wallet") {
                         viewModel.createWallet()
                     }
-                    .buttonStyle(BitcoinCapsuleFilled(tintColor: .bitcoinOrange))
+                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
                     .minimumScaleFactor(0.9)
 
                     Button("Restore Wallet from Keychain") {
                         viewModel.restoreWallet()
                     }
-                    .buttonStyle(BitcoinCapsuleFilled(tintColor: .bitcoinOrange))
-                    
+                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
+
                 }
                 .padding(.top, 30)
                 

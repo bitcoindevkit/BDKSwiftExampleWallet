@@ -91,7 +91,7 @@ struct WalletView: View {
                     } label: {
                         Text("Sync")
                     }
-                    .buttonStyle(BitcoinCapsuleOutlined(tintColor: .bitcoinOrange))
+                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
                     .disabled(viewModel.walletSyncState == .syncing)
                     
                 }
