@@ -46,6 +46,7 @@
 		AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */; };
 		AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0F2A1D522100CE1831 /* WalletView.swift */; };
 		AED4CC122A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC112A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift */; };
+		AED79FBD2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED79FBC2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AED4CC0F2A1D522100CE1831 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		AED4CC112A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletWalletViewModelTests.swift; sourceTree = "<group>"; };
+		AED79FBC2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKSwiftExampleWalletDate+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +242,7 @@
 				AE49848C2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift */,
 				AED4CC112A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift */,
 				AE7E68952A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift */,
+				AED79FBC2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift */,
 				AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveTests.swift */,
 				AE18E9392A9532CB0019D2A4 /* BDKSwiftExampleWalletBundle+Extensions.swift */,
 			);
@@ -434,6 +437,7 @@
 				AE49848D2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift in Sources */,
 				AE7E68962A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift in Sources */,
 				AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveTests.swift in Sources */,
+				AED79FBD2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift in Sources */,
 				AED4CC122A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift in Sources */,
 				AE18E93A2A9532CB0019D2A4 /* BDKSwiftExampleWalletBundle+Extensions.swift in Sources */,
 			);
