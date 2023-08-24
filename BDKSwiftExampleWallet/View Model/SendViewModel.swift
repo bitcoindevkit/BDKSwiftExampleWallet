@@ -68,7 +68,6 @@ class SendViewModel {
         self.feeService = feeService
     }
     
-    
     func getBalance() {
         do {
             let balance = try BDKService.shared.getBalance()
