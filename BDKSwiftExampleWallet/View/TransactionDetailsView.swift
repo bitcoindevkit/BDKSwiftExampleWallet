@@ -29,18 +29,22 @@ struct TransactionDetailsView: View {
                 }
                 .font(.largeTitle)
                 .foregroundColor(.primary)
+                .fontWidth(.compressed)
+                .fontWeight(.semibold)
                 
                 if transaction.confirmationTime == nil {
                     Text("Unconfirmed")
                 } else {
-                    Text("Confirmed")
-                    // Need
-                    if let height = transaction.confirmationTime?.height {
-                        Text("Block \(height.delimiter)")
+                    VStack {
+                        Text("Confirmed".uppercased())
+                        if let height = transaction.confirmationTime?.height {
+                            Text("Block \(height.delimiter)".uppercased())
+                        }
+                        if let timestamp = transaction.confirmationTime?.timestamp {
+                            Text(timestamp.formattedTime.uppercased())
+                        }
                     }
-                    if let timestamp = transaction.confirmationTime?.timestamp {
-                        Text(timestamp.formattedTime)
-                    }
+                    .fontWidth(.expanded)
                 }
                 
                 if let fee = transaction.fee {
@@ -73,10 +77,12 @@ struct TransactionDetailsView: View {
                             Image(systemName: showCheckmark ? "checkmark" : "doc.on.doc")
                         }
                     }
-                    .bold()
+//                    .bold()
+                    .fontWeight(.semibold)
                     .foregroundColor(.bitcoinOrange)
                 }
             }
+            .fontDesign(.monospaced)
             .padding()
             
         }
