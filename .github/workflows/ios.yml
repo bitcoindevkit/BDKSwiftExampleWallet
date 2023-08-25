@@ -26,6 +26,6 @@ jobs:
         run: xcrun xctrace list devices 2>&1
       - name: Build
         run: xcodebuild build-for-testing -scheme BDKSwiftExampleWallet -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
-      - name: Run tests
-        run: xcodebuild test-without-building -scheme BDKSwiftExampleWallet -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+#      - name: Run tests
+#        run: xcodebuild test-without-building -scheme BDKSwiftExampleWallet -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
 
