@@ -11,7 +11,8 @@ import WalletUI
 struct WalletView: View {
     @Bindable var viewModel: WalletViewModel
     @State private var isAnimating: Bool = false
-    
+    @State private var isFirstAppear = true
+
     var body: some View {
         
         NavigationView {
@@ -93,7 +94,10 @@ struct WalletView: View {
                     viewModel.getTransactions()
                 }
                 .task {
-                    await viewModel.sync()
+                    if isFirstAppear {
+                        await viewModel.sync()
+                        isFirstAppear = false
+                    }
                     await viewModel.getPrices()
                 }
             }
