@@ -50,8 +50,9 @@ extension PriceAPIService {
 
 #if DEBUG
 let currentPriceMock = Price(time: 1693079705, usd: 26030, eur: 24508, gbp: 22486, cad: 35314, chf: 23088, aud: 40657, jpy: 3816606)
+let currentPriceMockZero = Price(time: 1693079705, usd: 0, eur: 24508, gbp: 22486, cad: 35314, chf: 23088, aud: 40657, jpy: 3816606)
 extension PriceAPIService {
-    static let mock = Self(fetchPrice: { currentPriceMock })
+    static let mock = Self(fetchPrice: { currentPriceMock } )
+    static let mockZero = Self(fetchPrice: { currentPriceMock } )
 }
-
 #endif

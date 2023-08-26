@@ -248,6 +248,14 @@
 			path = BDKSwiftExampleWalletTests;
 			sourceTree = "<group>";
 		};
+		AE6715FB2A9ABF30005C193F /* Fee Service */ = {
+			isa = PBXGroup;
+			children = (
+				AE2B8C1C2A9678C900815B2F /* FeeService.swift */,
+			);
+			path = "Fee Service";
+			sourceTree = "<group>";
+		};
 		AE7F670A2A7451B600CED561 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,9 +287,9 @@
 			isa = PBXGroup;
 			children = (
 				AEB905C42A7EECAF00CD0337 /* Price Service */,
+				AE6715FB2A9ABF30005C193F /* Fee Service */,
 				AEB905C12A7EEB9200CD0337 /* Key Service */,
 				AE1C34212A424434008F807A /* BDK Service */,
-				AE2B8C1C2A9678C900815B2F /* FeeService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";

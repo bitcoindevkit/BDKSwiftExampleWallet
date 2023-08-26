@@ -131,6 +131,9 @@ struct WalletView: View {
 #Preview("WalletView - en") {
     WalletView(viewModel: .init(priceService: .mock, bdkService: .mock/*.init()*/))
 }
+#Preview("WalletView Zero - en") {
+    WalletView(viewModel: .init(priceService: .mockZero, bdkService: .mockZero/*.init()*/))
+}
 
 #Preview("WalletView - fr") {
     WalletView(viewModel: .init(priceService: .mock, bdkService: .mock/*.init()*/))
