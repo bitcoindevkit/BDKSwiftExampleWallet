@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct PriceResponse: Codable {
-    let prices: [Price]
-    let exchangeRates: ExchangeRates
-}
-
 struct Price: Codable, Equatable {
     let time: Int
     let usd: Double

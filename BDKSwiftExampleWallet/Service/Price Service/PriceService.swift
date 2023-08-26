@@ -8,17 +8,6 @@
 import Foundation
 
 private struct PriceService {
-    func historicalPrice() async throws -> PriceResponse {
-        guard let url = URL(string: "https://mempool.space/api/v1/historical-price") else { throw PriceServiceError.invalidURL }
-        let (data, response) = try await URLSession.shared.data(from: url)
-        guard let httpResponse = response as? HTTPURLResponse,
-              200...299 ~= httpResponse.statusCode
-        else { throw PriceServiceError.invalidServerResponse }
-        let jsonDecoder = JSONDecoder()
-        let jsonObject = try jsonDecoder.decode(PriceResponse.self, from: data)
-        return jsonObject
-    }
-    
     func prices() async throws -> Price {
         guard let url = URL(string: "https://mempool.space/api/v1/prices") else { throw PriceServiceError.invalidURL }
         let (data, response) = try await URLSession.shared.data(from: url)
@@ -29,12 +18,6 @@ private struct PriceService {
         let jsonObject = try jsonDecoder.decode(Price.self, from: data)
         return jsonObject
     }
-}
-
-enum PriceServiceError: Error {
-    case invalidURL
-    case invalidServerResponse
-    case serialization
 }
 
 struct PriceAPIService {

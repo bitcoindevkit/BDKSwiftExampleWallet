@@ -20,12 +20,6 @@ private struct FeeService {
     }
 }
 
-enum FeeServiceError: Error {
-    case invalidURL
-    case invalidServerResponse
-    case serialization
-}
-
 struct FeeAPIService {
     let fetchFees: () async throws -> RecommendedFees
     private init(fetchFees: @escaping () async throws -> RecommendedFees) {
@@ -38,9 +32,8 @@ extension FeeAPIService {
 }
 
 #if DEBUG
-let currentFeesMock = RecommendedFees(fastestFee: 10, halfHourFee: 8, hourFee: 6, economyFee: 4, minimumFee: 2)//Price(time: 1693079705, usd: 26030, eur: 24508, gbp: 22486, cad: 35314, chf: 23088, aud: 40657, jpy: 3816606)
+let currentFeesMock = RecommendedFees(fastestFee: 10, halfHourFee: 8, hourFee: 6, economyFee: 4, minimumFee: 2)
 extension FeeAPIService {
     static let mock = Self(fetchFees: { currentFeesMock })
 }
-
 #endif

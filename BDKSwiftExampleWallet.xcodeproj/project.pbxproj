@@ -30,6 +30,9 @@
 		AE4984A92A1BD425009951E2 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AE4984A82A1BD425009951E2 /* BitcoinDevKit */; };
 		AE4984AC2A1BD651009951E2 /* WalletUI in Frameworks */ = {isa = PBXBuildFile; productRef = AE4984AB2A1BD651009951E2 /* WalletUI */; };
 		AE6715FA2A9A9220005C193F /* BDKSwiftExampleWalletPriceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6715F92A9A9220005C193F /* BDKSwiftExampleWalletPriceServiceTests.swift */; };
+		AE6715FD2A9AC056005C193F /* PriceServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6715FC2A9AC056005C193F /* PriceServiceError.swift */; };
+		AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6715FE2A9AC066005C193F /* FeeServiceError.swift */; };
+		AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6716002A9AC089005C193F /* KeyServiceError.swift */; };
 		AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538D2A2D59F000CCB277 /* Constants.swift */; };
 		AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */; };
 		AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */; };
@@ -84,6 +87,9 @@
 		AE49848C2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletTests.swift; sourceTree = "<group>"; };
 		AE4984A52A1BBCB8009951E2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AE6715F92A9A9220005C193F /* BDKSwiftExampleWalletPriceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletPriceServiceTests.swift; sourceTree = "<group>"; };
+		AE6715FC2A9AC056005C193F /* PriceServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceServiceError.swift; sourceTree = "<group>"; };
+		AE6715FE2A9AC066005C193F /* FeeServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeServiceError.swift; sourceTree = "<group>"; };
+		AE6716002A9AC089005C193F /* KeyServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyServiceError.swift; sourceTree = "<group>"; };
 		AE79538D2A2D59F000CCB277 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletError.swift; sourceTree = "<group>"; };
 		AE7E68952A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKSwiftExampleWalletInt+Extensions.swift"; sourceTree = "<group>"; };
@@ -252,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				AE2B8C1C2A9678C900815B2F /* FeeService.swift */,
+				AE6715FE2A9AC066005C193F /* FeeServiceError.swift */,
 			);
 			path = "Fee Service";
 			sourceTree = "<group>";
@@ -271,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				AE1390C62A7DB0AF0098127A /* KeyService.swift */,
+				AE6716002A9AC089005C193F /* KeyServiceError.swift */,
 			);
 			path = "Key Service";
 			sourceTree = "<group>";
@@ -279,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				AE7F67042A7446B600CED561 /* PriceService.swift */,
+				AE6715FC2A9AC056005C193F /* PriceServiceError.swift */,
 			);
 			path = "Price Service";
 			sourceTree = "<group>";
@@ -439,6 +448,7 @@
 				AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */,
 				AE1C34242A424456008F807A /* ReceiveView.swift in Sources */,
 				AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */,
+				AE6715FD2A9AC056005C193F /* PriceServiceError.swift in Sources */,
 				AE1390C72A7DB0AF0098127A /* KeyService.swift in Sources */,
 				AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */,
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,
@@ -446,9 +456,11 @@
 				AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */,
 				A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */,
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
+				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
 				AE1C34262A4248A5008F807A /* SendView.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
+				AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */,
 				AE0C30FF2A804BDE008F1EAE /* SendViewModel.swift in Sources */,
 				AE0C30F92A804B65008F1EAE /* OnboardingViewModel.swift in Sources */,
 				AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */,
