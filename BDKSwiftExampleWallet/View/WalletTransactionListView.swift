@@ -85,7 +85,7 @@ struct WalletTransactionListView: View {
     }
 }
 
-#Preview {
+#Preview("WalletTransactionListView") {
     WalletTransactionListView(transactionDetails: [
         .init(
             transaction: .none,

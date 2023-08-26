@@ -100,7 +100,7 @@ struct TransactionDetailsView: View {
             fee: nil,
             received: UInt64(20),
             sent: 21,
-            txid: "d652a7cc0138e3277c34f1eab8e63ef445a4b3d02af5f764ed0805b16d33c45b",
+            txid: "mockTxId",
             confirmationTime: .init(
                 height: UInt32(796298),
                 timestamp: UInt64(Date().timeIntervalSince1970

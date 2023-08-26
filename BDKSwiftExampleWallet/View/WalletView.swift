@@ -129,13 +129,13 @@ struct WalletView: View {
 }
 
 #Preview("WalletView - en") {
-    WalletView(viewModel: .init(priceService: .mock, bdkService: .mock/*.init()*/))
+    WalletView(viewModel: .init(priceService: .mock, bdkService: .mock))
 }
 #Preview("WalletView Zero - en") {
-    WalletView(viewModel: .init(priceService: .mockZero, bdkService: .mockZero/*.init()*/))
+    WalletView(viewModel: .init(priceService: .mockZero, bdkService: .mockZero))
 }
 
 #Preview("WalletView - fr") {
-    WalletView(viewModel: .init(priceService: .mock, bdkService: .mock/*.init()*/))
+    WalletView(viewModel: .init(priceService: .mock, bdkService: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

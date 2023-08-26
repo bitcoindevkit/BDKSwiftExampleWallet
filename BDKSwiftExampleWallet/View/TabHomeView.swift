@@ -16,7 +16,7 @@ struct TabHomeView: View {
             
             TabView {
                 
-                WalletView(viewModel: .init(priceService: .mock, bdkService: .mock/*.init()*/))
+                WalletView(viewModel: .init(priceService: .mock, bdkService: .mock))
                     .tabItem {
                         Label(
                             "Wallet",
@@ -32,7 +32,7 @@ struct TabHomeView: View {
                         )
                     }
                 
-                SendView(viewModel: .init(feeService: .mock, bdkService: .mock/*.init()*/))
+                SendView(viewModel: .init(feeService: .mock, bdkService: .mock))
                     .tabItem {
                         Label(
                             "Send",

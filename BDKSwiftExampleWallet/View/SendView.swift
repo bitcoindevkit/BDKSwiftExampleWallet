@@ -20,18 +20,17 @@ struct SendView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 50){
-                
-                VStack(spacing: 20) {
-                    Text("Your Balance")
-                        .bold()
+                HStack(spacing: 15) {
+                    Image(systemName: "bitcoinsign")
                         .foregroundColor(.secondary)
-                    HStack {
-                        Text(viewModel.balanceTotal.delimiter)
-                        Text("sats")
-                    }
-                    .font(.largeTitle)
-                    Spacer()
+                        .font(.title)
+                    Text(viewModel.balanceTotal.formattedSatoshis())
+                    Text("sats")
+                        .foregroundColor(.secondary)
                 }
+                .font(.largeTitle)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
                 .padding()
                 .onAppear {
                     viewModel.getBalance()
@@ -112,10 +111,10 @@ struct SendView: View {
 }
 
 #Preview("SendView - en") {
-    SendView(viewModel: .init(feeService: .mock, bdkService: .mock/*.init()*/))
+    SendView(viewModel: .init(feeService: .mock, bdkService: .mock))
 }
 
 #Preview("SendView - fr") {
-    SendView(viewModel: .init(feeService: .mock, bdkService: .mock/*.init()*/))
+    SendView(viewModel: .init(feeService: .mock, bdkService: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

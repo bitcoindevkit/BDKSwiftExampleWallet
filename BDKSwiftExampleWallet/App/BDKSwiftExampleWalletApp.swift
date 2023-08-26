@@ -13,12 +13,11 @@ struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
     let bdkService: BDKServiceAPI = .mock
 
-   
     init() {
         do {
             try bdkService.loadWallet()//BDKService.shared.loadWalletFromBackup()
             // TODO: remove after testing
-            // try BDKService.shared.deleteWallet()
+            // try bdkService.deleteWallet()// try BDKService.shared.deleteWallet()
         } catch {
             print("BDKSwiftExampleWalletApp error: \(error.localizedDescription)")
         }
