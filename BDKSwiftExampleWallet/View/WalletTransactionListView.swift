@@ -55,7 +55,8 @@ struct WalletTransactionListView: View {
                                 .font(.body)
                                 .foregroundColor(.primary)
                             Text(
-                                transaction.confirmationTime?.timestamp.toDate().formattedSyncTime() ??
+                                transaction.confirmationTime?.timestamp.toDate().formatted(date: .abbreviated, time: Date.FormatStyle.TimeStyle.shortened) 
+                                ??
                                 "Unconfirmed"
                             )
                         }

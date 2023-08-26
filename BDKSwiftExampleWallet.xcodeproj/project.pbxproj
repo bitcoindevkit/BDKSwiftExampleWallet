@@ -31,7 +31,6 @@
 		AE4984AC2A1BD651009951E2 /* WalletUI in Frameworks */ = {isa = PBXBuildFile; productRef = AE4984AB2A1BD651009951E2 /* WalletUI */; };
 		AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538D2A2D59F000CCB277 /* Constants.swift */; };
 		AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */; };
-		AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */; };
 		AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */; };
 		AE7E68962A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7E68952A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift */; };
 		AE7F67052A7446B600CED561 /* PriceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67042A7446B600CED561 /* PriceService.swift */; };
@@ -46,7 +45,6 @@
 		AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */; };
 		AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0F2A1D522100CE1831 /* WalletView.swift */; };
 		AED4CC122A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC112A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift */; };
-		AED79FBD2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED79FBC2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift */; };
 		AED79FC22A97D14100FD3C7D /* BDKSwiftExampleWalletDouble+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED79FC12A97D14100FD3C7D /* BDKSwiftExampleWalletDouble+Extensions.swift */; };
 		AED79FC52A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED79FC42A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift */; };
 /* End PBXBuildFile section */
@@ -86,7 +84,6 @@
 		AE4984A52A1BBCB8009951E2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AE79538D2A2D59F000CCB277 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletError.swift; sourceTree = "<group>"; };
-		AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		AE7E68952A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKSwiftExampleWalletInt+Extensions.swift"; sourceTree = "<group>"; };
 		AE7F67042A7446B600CED561 /* PriceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceService.swift; sourceTree = "<group>"; };
 		AE7F67062A744CE200CED561 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
@@ -100,7 +97,6 @@
 		AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AED4CC0F2A1D522100CE1831 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		AED4CC112A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletWalletViewModelTests.swift; sourceTree = "<group>"; };
-		AED79FBC2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKSwiftExampleWalletDate+Extensions.swift"; sourceTree = "<group>"; };
 		AED79FC12A97D14100FD3C7D /* BDKSwiftExampleWalletDouble+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKSwiftExampleWalletDouble+Extensions.swift"; sourceTree = "<group>"; };
 		AED79FC42A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletSendViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,7 +144,6 @@
 		AE1C341E2A42440A008F807A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				AE7953912A2D5E3100CCB277 /* Date+Extensions.swift */,
 				AE18E9372A9528200019D2A4 /* Bundle+Extensions.swift */,
 				A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */,
 				AE7F67062A744CE200CED561 /* Double+Extensions.swift */,
@@ -291,7 +286,6 @@
 		AED79FBE2A97D0D000FD3C7D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				AED79FBC2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift */,
 				AE18E9392A9532CB0019D2A4 /* BDKSwiftExampleWalletBundle+Extensions.swift */,
 				AE7E68952A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift */,
 				AED79FC12A97D14100FD3C7D /* BDKSwiftExampleWalletDouble+Extensions.swift */,
@@ -435,7 +429,6 @@
 				AE1C34242A424456008F807A /* ReceiveView.swift in Sources */,
 				AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */,
 				AE1390C72A7DB0AF0098127A /* KeyService.swift in Sources */,
-				AE7953922A2D5E3100CCB277 /* Date+Extensions.swift in Sources */,
 				AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */,
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,
 				AE7F67092A7451AA00CED561 /* PriceResponse.swift in Sources */,
@@ -461,7 +454,6 @@
 				AE7E68962A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift in Sources */,
 				AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift in Sources */,
 				AED79FC52A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift in Sources */,
-				AED79FBD2A97D04B00FD3C7D /* BDKSwiftExampleWalletDate+Extensions.swift in Sources */,
 				AED4CC122A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift in Sources */,
 				AE18E93A2A9532CB0019D2A4 /* BDKSwiftExampleWalletBundle+Extensions.swift in Sources */,
 			);

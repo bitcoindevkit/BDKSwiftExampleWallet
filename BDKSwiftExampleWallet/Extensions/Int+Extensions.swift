@@ -60,16 +60,6 @@ extension UInt64 {
     }
 }
 
-extension UInt64 {
-    var formattedTime: String {
-        let date = Date(timeIntervalSince1970: TimeInterval(self))
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        return dateFormatter.string(from: date)
-    }
-}
-
 extension Int {
     func newDateAgo() -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(self))

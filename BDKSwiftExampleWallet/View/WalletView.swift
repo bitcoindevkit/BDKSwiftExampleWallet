@@ -90,7 +90,7 @@ struct WalletView: View {
                                         )
                                 }
                                 if let lastSyncTime = viewModel.lastSyncTime {
-                                    Text(lastSyncTime.formattedSyncTime())
+                                    Text(lastSyncTime, style: .time)
                                         .font(.caption)
                                 }
                             }

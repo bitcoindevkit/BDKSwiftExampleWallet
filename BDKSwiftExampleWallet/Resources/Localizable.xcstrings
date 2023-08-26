@@ -11,6 +11,9 @@
         }
       }
     },
+    "%llu sats fee" : {
+
+    },
     "+ %llu sats" : {
       "localizations" : {
         "fr" : {
@@ -145,6 +148,7 @@
       }
     },
     "Fee %llu" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
