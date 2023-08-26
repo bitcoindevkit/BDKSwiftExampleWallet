@@ -42,7 +42,6 @@
       }
     },
     "Activity" : {
-      "comment" : "Localizable.strings\n  BDKSwiftExampleWallet\n\n  Created by Temiloluwa on 27/07/2023.",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
