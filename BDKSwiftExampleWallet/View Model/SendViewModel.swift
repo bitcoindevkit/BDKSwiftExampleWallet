@@ -63,14 +63,19 @@ class SendViewModel {
         }
         
     }
-    
-    init(feeService: FeeAPIService/*FeeService*/) {
+    let bdkService: BDKServiceAPI
+
+//    init(bdkService: BDKServiceAPI) {
+//        self.bdkService = bdkService
+//    }
+    init(feeService: FeeAPIService/*FeeService*/, bdkService: BDKServiceAPI) {
         self.feeService = feeService
+        self.bdkService = bdkService
     }
     
     func getBalance() {
         do {
-            let balance = try BDKService.shared.getBalance()
+            let balance = try bdkService.getBalance()//BDKService.shared.getBalance()
             self.balanceTotal = balance.total
         } catch let error as WalletError {
             print("getBalance - Wallet Error: \(error.localizedDescription)")
@@ -81,7 +86,7 @@ class SendViewModel {
     
     func send(address: String, amount: UInt64, feeRate: Float?) {
         do {
-            try BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+            try bdkService.send(address, amount, feeRate)//BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
         } catch let error as WalletError {
             print("send - Wallet Error: \(error.localizedDescription)")
         } catch {

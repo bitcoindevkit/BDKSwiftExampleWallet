@@ -23,9 +23,14 @@ class WalletViewModel {
         return usdValue
     }
     let priceService: PriceAPIService//PriceService
-    
-    init(priceService: PriceAPIService) {
+    let bdkService: BDKServiceAPI
+
+//    init(bdkService: BDKServiceAPI) {
+//        self.bdkService = bdkService
+//    }
+    init(priceService: PriceAPIService, bdkService: BDKServiceAPI) {
         self.priceService = priceService
+        self.bdkService = bdkService
     }
     
     func getPrices() async {
@@ -47,7 +52,7 @@ class WalletViewModel {
         print("===")
         print("getBalance() called")
         do {
-            let balance = try BDKService.shared.getBalance()
+            let balance = try bdkService.getBalance()//BDKService.shared.getBalance()
             print("Balance: \(balance)")
             self.balanceTotal = balance.total
             print("Balance Total: \(self.balanceTotal)")
@@ -63,7 +68,7 @@ class WalletViewModel {
         print("===")
         print("getTransactions() called")
         do {
-            let transactionDetails = try BDKService.shared.getTransactions()
+            let transactionDetails = try bdkService.getTransactions()//BDKService.shared.getTransactions()
             self.transactionDetails = transactionDetails
             print("Transaction Details: \(self.transactionDetails)")
         } catch {
@@ -77,7 +82,7 @@ class WalletViewModel {
         print("sync() called")
         self.walletSyncState = .syncing
         do {
-            try await BDKService.shared.sync()
+            try await bdkService.sync()//BDKService.shared.sync()
             self.walletSyncState = .synced
             self.lastSyncTime = Date()
             print("Wallet Sync State: \(self.walletSyncState)")

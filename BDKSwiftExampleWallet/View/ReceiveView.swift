@@ -70,10 +70,10 @@ struct ReceiveView: View {
 }
 
 #Preview("ReceiveView - en") {
-    ReceiveView(viewModel: .init())
+    ReceiveView(viewModel: .init(bdkService: .mock))
 }
 
 #Preview("ReceiveView - fr") {
-    ReceiveView(viewModel: .init())
+    ReceiveView(viewModel: .init(bdkService: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

@@ -11,10 +11,12 @@ import BitcoinDevKit
 @main
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
+    let bdkService: BDKServiceAPI = .mock
 
+   
     init() {
         do {
-            try BDKService.shared.loadWalletFromBackup()
+            try bdkService.loadWallet()//BDKService.shared.loadWalletFromBackup()
             // TODO: remove after testing
             // try BDKService.shared.deleteWallet()
         } catch {
@@ -25,7 +27,7 @@ struct BDKSwiftExampleWalletApp: App {
     var body: some Scene {
         WindowGroup {
             if isOnboarding {
-                OnboardingView(viewModel: .init())
+                OnboardingView(viewModel: .init(bdkService: .mock))
             } else {
                 TabHomeView()
             }

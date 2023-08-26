@@ -75,10 +75,10 @@ struct OnboardingView: View {
 }
 
 #Preview("OnboardingView - en") {
-    OnboardingView(viewModel: .init())
+    OnboardingView(viewModel: .init(bdkService: .mock))
 }
 
 #Preview("OnboardingView - fr") {
-    OnboardingView(viewModel: .init())
+    OnboardingView(viewModel: .init(bdkService: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }
