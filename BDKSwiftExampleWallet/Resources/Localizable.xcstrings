@@ -6,7 +6,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "- %llu s'assit"
+            "value" : "- %llu sats"
           }
         }
       }
@@ -16,13 +16,20 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+ %llu s'assit"
+            "value" : "+ %llu sats"
           }
         }
       }
     },
     "100% open-source & open-design" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100% open-source et open-design"
+          }
+        }
+      }
     },
     "A simple bitcoin wallet for your enjoyment." : {
       "localizations" : {
@@ -35,7 +42,6 @@
       }
     },
     "Activity" : {
-      "comment" : "Localizable.strings\n  BDKSwiftExampleWallet\n\n  Created by Temiloluwa on 27/07/2023.",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -77,7 +83,14 @@
       }
     },
     "Bitcoin Wallet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portefeuille de Bitcoins"
+          }
+        }
+      }
     },
     "Block %@" : {
       "extractionState" : "stale",
@@ -199,13 +212,20 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "s'assit"
+            "value" : "sats"
           }
         }
       }
     },
     "Select Fee" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez les frais"
+          }
+        }
+      }
     },
     "Send" : {
       "localizations" : {
@@ -292,7 +312,14 @@
       }
     },
     "Your wallet, your coins" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre portefeuille, vos pièces"
+          }
+        }
+      }
     },
     "Your wallet, your coins \n 100% open-source & open-design" : {
       "extractionState" : "stale",

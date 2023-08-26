@@ -109,6 +109,11 @@ struct WalletView: View {
     
 }
 
-#Preview {
+#Preview("WalletView - en") {
     WalletView(viewModel: .init(priceService: .init()))
+}
+
+#Preview("WalletView - fr") {
+    WalletView(viewModel: .init(priceService: .init()))
+        .environment(\.locale, .init(identifier: "fr"))
 }

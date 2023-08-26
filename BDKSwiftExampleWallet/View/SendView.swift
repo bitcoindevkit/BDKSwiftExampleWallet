@@ -111,6 +111,11 @@ struct SendView: View {
     }
 }
 
-#Preview {
+#Preview("SendView - en") {
     SendView(viewModel: .init(feeService: .init()))
+}
+
+#Preview("SendView - fr") {
+    SendView(viewModel: .init(feeService: .init()))
+        .environment(\.locale, .init(identifier: "fr"))
 }
