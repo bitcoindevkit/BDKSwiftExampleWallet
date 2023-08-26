@@ -41,14 +41,14 @@ struct TransactionDetailsView: View {
                             Text("Block \(height.delimiter)".uppercased())
                         }
                         if let timestamp = transaction.confirmationTime?.timestamp {
-                            Text(timestamp.formattedTime.uppercased())
+                            Text(timestamp.toDate().formatted(date: .abbreviated, time: Date.FormatStyle.TimeStyle.shortened))
                         }
                     }
                     .fontWidth(.expanded)
                 }
                 
                 if let fee = transaction.fee {
-                    Text("Fee \(fee)")
+                    Text("\(fee) sats fee")
                 }
                 
             }
