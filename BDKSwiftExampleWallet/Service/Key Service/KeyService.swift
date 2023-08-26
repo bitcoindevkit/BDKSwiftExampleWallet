@@ -7,8 +7,9 @@
 
 import Foundation
 import KeychainAccess
+import BitcoinDevKit
 
-struct KeyService {
+private struct KeyService {
     private let keychain: Keychain
     
     init() {
@@ -28,7 +29,7 @@ struct KeyService {
     }
 }
 
-extension KeyService {
+private extension KeyService {
     
     func saveBackupInfo(backupInfo: BackupInfo) throws {
         let encoder = JSONEncoder()
@@ -48,3 +49,60 @@ extension KeyService {
     }
 
 }
+
+struct KeyAPIService {
+    let saveBackupInfo: (BackupInfo) throws -> ()
+    let getBackupInfo: () throws -> BackupInfo
+    let deleteBackupInfo: () throws -> ()
+
+    private init(saveBackupInfo: @escaping (BackupInfo) throws -> (), getBackupInfo: @escaping () throws -> BackupInfo, deleteBackupInfo: @escaping () throws -> ()) {
+        self.saveBackupInfo = saveBackupInfo
+        self.getBackupInfo = getBackupInfo
+        self.deleteBackupInfo = deleteBackupInfo
+    }
+}
+
+extension KeyAPIService {
+    static let live = Self(
+        saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
+        getBackupInfo: { try KeyService().getBackupInfo() },
+        deleteBackupInfo: { try KeyService().deleteBackupInfo() }
+    )
+}
+
+#if DEBUG
+
+private let network = Network.signet
+
+extension KeyAPIService {
+    static let mock = Self(
+        saveBackupInfo: { _ in },
+        getBackupInfo: {
+            let mnemonicWords12 = "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
+            let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
+            let secretKey = DescriptorSecretKey(
+                network: network,
+                mnemonic: mnemonic,
+                password: nil
+            )
+            let descriptor = Descriptor.newBip84(
+                secretKey: secretKey,
+                keychain: .external,
+                network: network
+            )
+            let changeDescriptor = Descriptor.newBip84(
+                secretKey: secretKey,
+                keychain: .internal,
+                network: network
+            )
+            let backupInfo = BackupInfo(
+                mnemonic: mnemonic.asString(),
+                descriptor: descriptor.asString(),
+                changeDescriptor: changeDescriptor.asStringPrivate()
+            )
+            return backupInfo
+        },
+        deleteBackupInfo: { try KeyService().deleteBackupInfo() }
+    )
+}
+#endif

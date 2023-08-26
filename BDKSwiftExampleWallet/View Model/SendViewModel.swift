@@ -12,7 +12,7 @@ import Observation
 @MainActor
 @Observable
 class SendViewModel {
-    let feeService: FeeService
+    let feeService: FeeAPIService//FeeService
     var balanceTotal: UInt64 = 0
     var recommendedFees: RecommendedFees?
     var selectedFeeIndex: Int = 2
@@ -64,7 +64,7 @@ class SendViewModel {
         
     }
     
-    init(feeService: FeeService) {
+    init(feeService: FeeAPIService/*FeeService*/) {
         self.feeService = feeService
     }
     
@@ -91,7 +91,7 @@ class SendViewModel {
     
     func getFees() async {
         do {
-            let recommendedFees = try await feeService.fees()
+            let recommendedFees = try await feeService.fetchFees()//try await feeService.fees()
             self.recommendedFees = recommendedFees
         } catch {
             print("getFees error: \(error.localizedDescription)")

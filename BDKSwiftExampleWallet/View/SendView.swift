@@ -112,10 +112,10 @@ struct SendView: View {
 }
 
 #Preview("SendView - en") {
-    SendView(viewModel: .init(feeService: .init()))
+    SendView(viewModel: .init(feeService: .mock/*.init()*/))
 }
 
 #Preview("SendView - fr") {
-    SendView(viewModel: .init(feeService: .init()))
+    SendView(viewModel: .init(feeService: .mock/*.init()*/))
         .environment(\.locale, .init(identifier: "fr"))
 }

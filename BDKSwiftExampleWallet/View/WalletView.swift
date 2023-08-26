@@ -129,10 +129,10 @@ struct WalletView: View {
 }
 
 #Preview("WalletView - en") {
-    WalletView(viewModel: .init(priceService: .init()))
+    WalletView(viewModel: .init(priceService: .mock/*.init()*/))
 }
 
 #Preview("WalletView - fr") {
-    WalletView(viewModel: .init(priceService: .init()))
+    WalletView(viewModel: .init(priceService: .mock/*.init()*/))
         .environment(\.locale, .init(identifier: "fr"))
 }

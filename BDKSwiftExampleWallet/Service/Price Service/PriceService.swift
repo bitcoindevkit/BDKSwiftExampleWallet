@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PriceService {
+private struct PriceService {
     func historicalPrice() async throws -> PriceResponse {
         guard let url = URL(string: "https://mempool.space/api/v1/historical-price") else { throw PriceServiceError.invalidURL }
         let (data, response) = try await URLSession.shared.data(from: url)
@@ -36,3 +36,22 @@ enum PriceServiceError: Error {
     case invalidServerResponse
     case serialization
 }
+
+struct PriceAPIService {
+    let fetchPrice: () async throws -> Price
+    private init(fetchPrice: @escaping () async throws -> Price) {
+        self.fetchPrice = fetchPrice
+    }
+}
+
+extension PriceAPIService {
+    static let live = Self(fetchPrice: { try await PriceService().prices() } )
+}
+
+#if DEBUG
+let currentPriceMock = Price(time: 1693079705, usd: 26030, eur: 24508, gbp: 22486, cad: 35314, chf: 23088, aud: 40657, jpy: 3816606)
+extension PriceAPIService {
+    static let mock = Self(fetchPrice: { currentPriceMock })
+}
+
+#endif

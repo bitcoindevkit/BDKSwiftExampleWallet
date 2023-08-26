@@ -22,9 +22,9 @@ class WalletViewModel {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
-    let priceService: PriceService
+    let priceService: PriceAPIService//PriceService
     
-    init(priceService: PriceService) {
+    init(priceService: PriceAPIService) {
         self.priceService = priceService
     }
     
@@ -32,7 +32,7 @@ class WalletViewModel {
         print("===")
         print("getPrices() called")
         do {
-            let price = try await priceService.prices()
+            let price = try await priceService.fetchPrice()//priceService.prices()
             self.price = price.usd
             self.time = price.time
             print("Price USD: \(self.price)")
@@ -48,6 +48,7 @@ class WalletViewModel {
         print("getBalance() called")
         do {
             let balance = try BDKService.shared.getBalance()
+            print("Balance: \(balance)")
             self.balanceTotal = balance.total
             print("Balance Total: \(self.balanceTotal)")
         } catch let error as WalletError {

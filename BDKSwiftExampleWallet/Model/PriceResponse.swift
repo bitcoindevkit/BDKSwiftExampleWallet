@@ -12,7 +12,7 @@ struct PriceResponse: Codable {
     let exchangeRates: ExchangeRates
 }
 
-struct Price: Codable {
+struct Price: Codable, Equatable {
     let time: Int
     let usd: Double
     let eur: Double
@@ -31,7 +31,18 @@ struct Price: Codable {
         case chf = "CHF"
         case aud = "AUD"
         case jpy = "JPY"
-     }
+    }
+    
+    static func == (lhs: Price, rhs: Price) -> Bool {
+        return lhs.time == rhs.time &&
+        lhs.usd == rhs.usd &&
+        lhs.eur == rhs.eur &&
+        lhs.gbp == rhs.gbp &&
+        lhs.cad == rhs.cad &&
+        lhs.chf == rhs.chf &&
+        lhs.aud == rhs.aud &&
+        lhs.jpy == rhs.jpy
+    }
 }
 
 struct ExchangeRates : Codable {
