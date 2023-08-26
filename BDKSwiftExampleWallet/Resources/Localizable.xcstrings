@@ -6,7 +6,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "- %llu s'assit"
+            "value" : "- %llu sats"
           }
         }
       }
@@ -16,7 +16,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+ %llu s'assit"
+            "value" : "+ %llu sats"
           }
         }
       }
