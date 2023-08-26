@@ -18,7 +18,10 @@ class WalletViewModel {
     var transactionDetails: [TransactionDetails] = []
     var price: Double = 0.0
     var time: Int?
-    var satsPrice: String = "0"
+    var satsPrice: String {
+        let usdValue = Double(balanceTotal).valueInUSD(price: price)
+        return usdValue
+    }
     let priceService: PriceService
     
     init(priceService: PriceService) {
@@ -26,51 +29,62 @@ class WalletViewModel {
     }
     
     func getPrices() async {
+        print("===")
+        print("getPrices() called")
         do {
             let price = try await priceService.prices()
             self.price = price.usd
             self.time = price.time
+            print("Price USD: \(self.price)")
+            print("Price Time: \(String(describing: self.time))")
         } catch {
             print("getPrices error: \(error.localizedDescription)")
         }
-    }
-    
-    private func valueInUSD() {
-        self.satsPrice = Double(balanceTotal).valueInUSD(price: price)
+        print("===")
     }
     
     func getBalance() {
+        print("===")
+        print("getBalance() called")
         do {
             let balance = try BDKService.shared.getBalance()
             self.balanceTotal = balance.total
+            print("Balance Total: \(self.balanceTotal)")
         } catch let error as WalletError {
             print("getBalance - Wallet Error: \(error.localizedDescription)")
         } catch {
             print("getBalance - Undefined Error: \(error.localizedDescription)")
         }
+        print("===")
     }
     
     func getTransactions() {
+        print("===")
+        print("getTransactions() called")
         do {
             let transactionDetails = try BDKService.shared.getTransactions()
             self.transactionDetails = transactionDetails
+            print("Transaction Details: \(self.transactionDetails)")
         } catch {
             print("getTransactions - none: \(error.localizedDescription)")
         }
+        print("===")
     }
     
     func sync() async {
+        print("===")
+        print("sync() called")
         self.walletSyncState = .syncing
         do {
             try await BDKService.shared.sync()
             self.walletSyncState = .synced
             self.lastSyncTime = Date()
-            self.getBalance()
-            self.getTransactions()
-            self.valueInUSD()
+            print("Wallet Sync State: \(self.walletSyncState)")
+            print("Last Sync Time: \(String(describing: self.lastSyncTime))")
         } catch {
             self.walletSyncState = .error(error)
         }
+        print("===")
     }
     
 }

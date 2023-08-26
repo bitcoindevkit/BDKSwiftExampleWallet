@@ -12,7 +12,7 @@ struct WalletView: View {
     @Bindable var viewModel: WalletViewModel
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
-
+    
     var body: some View {
         
         NavigationView {
@@ -46,11 +46,13 @@ struct WalletView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         VStack {
-                            Text(viewModel.satsPrice)
-                            if let time = viewModel.time?.newDateAgo() {
-                                Text(time)
+                            HStack {
+                                Text(viewModel.satsPrice)
+                                if let time = viewModel.time?.newDateAgo() {
+                                    Text(time)
+                                }
                             }
-                            VStack {
+                            HStack {
                                 HStack(spacing: 5) {
                                     Text(viewModel.walletSyncState.description)
                                     if viewModel.walletSyncState == .syncing {
@@ -58,11 +60,11 @@ struct WalletView: View {
                                     }
                                 }
                                 if let lastSyncTime = viewModel.lastSyncTime {
-                                    Text("Last Synced: \(lastSyncTime.formattedSyncTime())")
+                                    Text(lastSyncTime.formattedSyncTime())
                                         .font(.caption)
                                 }
                             }
-
+                            
                         }
                         .foregroundColor(.secondary)
                         .font(.footnote)
@@ -82,6 +84,7 @@ struct WalletView: View {
                             WalletTransactionListView(transactionDetails: viewModel.transactionDetails)
                                 .refreshable {
                                     await viewModel.sync()
+                                    // TODO: call 3 other functions here too?
                                 }
                         }
                         Spacer()
@@ -89,15 +92,13 @@ struct WalletView: View {
                     
                 }
                 .padding()
-                .onAppear {
-                    viewModel.getBalance()
-                    viewModel.getTransactions()
-                }
                 .task {
                     if isFirstAppear {
                         await viewModel.sync()
                         isFirstAppear = false
                     }
+                    viewModel.getBalance()
+                    viewModel.getTransactions()
                     await viewModel.getPrices()
                 }
             }

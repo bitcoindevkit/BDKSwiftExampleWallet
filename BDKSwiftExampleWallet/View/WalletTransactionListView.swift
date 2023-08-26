@@ -32,29 +32,33 @@ struct WalletTransactionListView: View {
                     )
                 ) {
                     HStack(spacing: 15) {
-                        ZStack {
-                            Circle()
-                                .fill(Color.gray.opacity(0.2))
-                                .frame(width: 40, height: 40)
-                            Image(systemName:
-                                    transaction.sent > 0 ?
-                                  "arrow.up" :
-                                    "arrow.down"
-                            )
-                            .frame(width: 20, height: 20)
-                        }
+                        Image(systemName:
+                                transaction.sent > 0 ?
+                              "arrow.up.circle.fill" :
+                                "arrow.down.circle.fill"
+                        )
+                        .font(.largeTitle)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(
+                            Color(UIColor.systemBackground),
+                            Color.secondary
+                        )
                         VStack(alignment: .leading, spacing: 5){
                             Text(transaction.txid)
                                 .truncationMode(.middle)
                                 .lineLimit(1)
                                 .fontDesign(.monospaced)
+                                .fontWeight(.semibold)
+                                .font(.body)
+                                .foregroundColor(.primary)
                             Text(
-                                transaction.sent > 0 ?
-                                "Sent" :
-                                    "Received"
+                                transaction.confirmationTime?.timestamp.toDate().formattedSyncTime() ??
+                                "Unconfirmed"
                             )
-                            .foregroundColor(.secondary)
+                            
                         }
+                        .foregroundColor(.secondary)
+                        .font(.caption2)
                         .padding(.trailing, 15.0)
                         Spacer()
                         Text(
@@ -63,6 +67,7 @@ struct WalletTransactionListView: View {
                                 "+ \(transaction.received - transaction.sent) sats"
                         )
                         .font(.caption)
+                        .fontWeight(.semibold)
                     }
                     .padding(.vertical, 15.0)
                 }
@@ -110,6 +115,14 @@ struct WalletTransactionListView: View {
                 timestamp: UInt64(Date().timeIntervalSince1970
                                  )
             )
+        ),
+        .init(
+            transaction: .none,
+            fee: nil,
+            received: UInt64(20),
+            sent: 23,
+            txid: "d652a7cc0138e3277c34f1eab8e63ef445a4b3d02af5f764ed0805b16d33c45b",
+            confirmationTime: nil
         ),
     ])
 }
