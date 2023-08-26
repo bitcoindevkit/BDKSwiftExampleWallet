@@ -22,7 +22,14 @@
       }
     },
     "100% open-source & open-design" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100% open-source et open-design"
+          }
+        }
+      }
     },
     "A simple bitcoin wallet for your enjoyment." : {
       "localizations" : {
@@ -77,7 +84,14 @@
       }
     },
     "Bitcoin Wallet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portefeuille de Bitcoins"
+          }
+        }
+      }
     },
     "Block %@" : {
       "extractionState" : "stale",
@@ -205,7 +219,14 @@
       }
     },
     "Select Fee" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez les frais"
+          }
+        }
+      }
     },
     "Send" : {
       "localizations" : {
@@ -292,7 +313,14 @@
       }
     },
     "Your wallet, your coins" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre portefeuille, vos pièces"
+          }
+        }
+      }
     },
     "Your wallet, your coins \n 100% open-source & open-design" : {
       "extractionState" : "stale",
