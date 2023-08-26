@@ -69,6 +69,11 @@ struct ReceiveView: View {
     
 }
 
-#Preview {
+#Preview("ReceiveView - en") {
     ReceiveView(viewModel: .init())
+}
+
+#Preview("ReceiveView - fr") {
+    ReceiveView(viewModel: .init())
+        .environment(\.locale, .init(identifier: "fr"))
 }

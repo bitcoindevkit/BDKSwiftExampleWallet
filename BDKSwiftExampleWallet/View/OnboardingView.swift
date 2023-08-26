@@ -74,6 +74,11 @@ struct OnboardingView: View {
     }    
 }
 
-#Preview {
+#Preview("OnboardingView - en") {
     OnboardingView(viewModel: .init())
+}
+
+#Preview("OnboardingView - fr") {
+    OnboardingView(viewModel: .init())
+        .environment(\.locale, .init(identifier: "fr"))
 }
