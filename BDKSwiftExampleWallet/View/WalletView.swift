@@ -24,7 +24,7 @@ struct WalletView: View {
                 VStack(spacing: 20) {
                     
                     VStack(spacing: 10) {
-                        Text("Your Balance".uppercased())
+                        Text("Bitcoin".uppercased())
                             .fontWeight(.semibold)
                             .fontWidth(.expanded)
                             .foregroundColor(.secondary)
@@ -45,38 +45,57 @@ struct WalletView: View {
                         .font(.largeTitle)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        VStack {
-                            HStack {
-                                Text(viewModel.satsPrice)
-                                if let time = viewModel.time?.newDateAgo() {
-                                    Text(time)
-                                }
+                        HStack {
+                            if viewModel.walletSyncState == .syncing {
+                                Image(systemName: "chart.bar.fill")
+                                    .symbolEffect(
+                                        .variableColor.cumulative
+                                    )
                             }
+                            Text(viewModel.satsPrice)
+                        }
+                        .foregroundColor(.secondary)
+                        .font(.subheadline)
+                    }
+                    .padding(.top, 40.0)
+                    .padding(.bottom, 20.0)
+                    VStack {
+                        HStack {
+                            Text("Activity")
+                                .bold()
+                            Spacer()
                             HStack {
                                 HStack(spacing: 5) {
-                                    Text(viewModel.walletSyncState.description)
                                     if viewModel.walletSyncState == .syncing {
-                                        ProgressView()
+                                        Image(systemName: "slowmo")
+                                            .symbolEffect(
+                                                .variableColor.cumulative
+                                            )
+                                            .contentTransition(.symbolEffect(.replace.offUp))
+                                    } else if viewModel.walletSyncState == .synced {
+                                        Image(systemName: "checkmark.circle")
+                                            .foregroundColor(
+                                                viewModel.walletSyncState == .synced ?
+                                                    .green :
+                                                        .secondary
+                                            )
+                                    } else {
+                                        Image(systemName: "questionmark")
                                     }
+                                    Text(viewModel.walletSyncState.description)
+                                        .foregroundColor(
+                                            viewModel.walletSyncState == .synced ?
+                                                .green :
+                                                    .secondary
+                                        )
                                 }
                                 if let lastSyncTime = viewModel.lastSyncTime {
                                     Text(lastSyncTime.formattedSyncTime())
                                         .font(.caption)
                                 }
                             }
-                            
-                        }
-                        .foregroundColor(.secondary)
-                        .font(.footnote)
-                        .padding(.top, 10.0)
-                    }
-                    .padding(.top, 40.0)
-                    
-                    VStack {
-                        HStack {
-                            Text("Activity")
-                                .bold()
-                            Spacer()
+                            .foregroundColor(.secondary)
+                            .font(.caption)
                         }
                         if viewModel.transactionDetails.isEmpty {
                             Text("No Transactions")

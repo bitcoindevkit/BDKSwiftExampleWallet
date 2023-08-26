@@ -7,6 +7,7 @@
 
 import SwiftUI
 import BitcoinDevKit
+import WalletUI
 
 struct WalletTransactionListView: View {
     let transactionDetails: [TransactionDetails]
@@ -41,7 +42,9 @@ struct WalletTransactionListView: View {
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(
                             Color(UIColor.systemBackground),
-                            Color.secondary
+                            transaction.confirmationTime != nil ?
+                            Color.bitcoinOrange :
+                                Color.secondary
                         )
                         VStack(alignment: .leading, spacing: 5){
                             Text(transaction.txid)
@@ -55,7 +58,6 @@ struct WalletTransactionListView: View {
                                 transaction.confirmationTime?.timestamp.toDate().formattedSyncTime() ??
                                 "Unconfirmed"
                             )
-                            
                         }
                         .foregroundColor(.secondary)
                         .font(.caption2)
@@ -70,9 +72,13 @@ struct WalletTransactionListView: View {
                         .fontWeight(.semibold)
                     }
                     .padding(.vertical, 15.0)
+                    .padding(.vertical, 5.0)
                 }
                 
             }
+            .listRowInsets(EdgeInsets())
+            .listRowSeparator(.hidden)
+
         }
         .listStyle(.plain)
     }
