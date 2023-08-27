@@ -96,12 +96,6 @@ struct WalletView: View {
                                     } else {
                                         Image(systemName: "questionmark")
                                     }
-                                    Text(viewModel.walletSyncState.description)
-                                        .foregroundColor(
-                                            viewModel.walletSyncState == .synced ?
-                                                .green :
-                                                    .secondary
-                                        )
                                 }
                             }
                             .foregroundColor(.secondary)
