@@ -31,7 +31,6 @@ struct SendView: View {
                         Text(balanceTotal.formattedSatoshis())
                             .foregroundColor(.secondary)
                     }
-//                    Text(viewModel.balanceTotal.formattedSatoshis())
                     Text("sats")
                         .foregroundColor(.secondary)
                 }
@@ -43,6 +42,12 @@ struct SendView: View {
                     viewModel.getBalance()
                 }
                 VStack(spacing: 25) {
+                    
+                    Rectangle()
+                        .frame(height: 1)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                    
                     VStack {
                         HStack {
                             Text("Amount")
@@ -57,6 +62,12 @@ struct SendView: View {
                         .padding()
                         .keyboardType(.numberPad)
                     }
+                    
+                    Rectangle()
+                        .frame(height: 1)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                    
                     VStack {
                         HStack {
                             Text("Address")
@@ -72,24 +83,65 @@ struct SendView: View {
                         .truncationMode(.middle)
                         .lineLimit(1)
                     }
+                    
+                    Rectangle()
+                        .frame(height: 1)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                    
                     VStack {
-                        Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
-                            Image(systemName: "gauge.with.dots.needle.0percent")
-                                .tag(0)
-                            Image(systemName: "gauge.with.dots.needle.33percent")
-                                .tag(1)
-                            Image(systemName: "gauge.with.dots.needle.50percent")
-                                .tag(2)
-                            Image(systemName: "gauge.with.dots.needle.67percent")
-                                .tag(3)
-                        }
-                        .pickerStyle(.menu) // TODO: use `.menu`
-                        .tint(.bitcoinOrange)
                         
-                        Text(viewModel.selectedFeeDescription)
+                        HStack {
+                            Text("Fee")
+                                .bold()
+                            Spacer()
+                        }
+                        .padding(.horizontal, 15.0)
+                        HStack {
+                            
+                            if let selectedFee = viewModel.selectedFee {
+                                    Text(String(selectedFee))
+                                .padding(.horizontal, 15.0)
+                            }
+                            
+                            Spacer()
+                            
+                            Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
+                                HStack {
+                                    Image(systemName: "gauge.with.dots.needle.0percent")
+                                    Text("No - \(viewModel.recommendedFees?.minimumFee ?? 0)")
+                                }
+                                .tag(0)
+                                
+                                HStack {
+                                    Image(systemName: "gauge.with.dots.needle.33percent")
+                                    Text("Low - \(viewModel.recommendedFees?.hourFee ?? 0)")
+                                }
+                                .tag(1)
+                                
+                                HStack {
+                                    Image(systemName: "gauge.with.dots.needle.50percent")
+                                    Text("Med - \(viewModel.recommendedFees?.halfHourFee ?? 0)")
+                                }
+                                .tag(2)
+                                
+                                HStack {
+                                    Image(systemName: "gauge.with.dots.needle.67percent")
+                                    Text("High - \(viewModel.recommendedFees?.fastestFee ?? 0)")
+                                }
+                                .tag(3)
+                            }
+                            .pickerStyle(.menu)
+                            .tint(.bitcoinOrange)
+                            
+                        }
                     }
                 }
-                .padding(.vertical, 50.0)
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal)
+
                 Button {
                     let feeRate: Float? = viewModel.selectedFee.map { Float($0) }
                     viewModel.send(

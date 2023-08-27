@@ -37,7 +37,7 @@ class SendViewModel {
         let feeText = text(for: selectedFeeIndex)
         return "Selected \(feeText) Fee: \(selectedFee) sats"
     }
-    private func text(for index: Int) -> String {
+    func text(for index: Int) -> String {
         
         switch index {
             

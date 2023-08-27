@@ -148,6 +148,9 @@
         }
       }
     },
+    "Fee" : {
+
+    },
     "Fee %llu" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -159,6 +162,9 @@
         }
       }
     },
+    "High - %lld" : {
+
+    },
     "Last Synced: %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -169,6 +175,15 @@
           }
         }
       }
+    },
+    "Low - %lld" : {
+
+    },
+    "Med - %lld" : {
+
+    },
+    "No - %lld" : {
+
     },
     "No Transactions" : {
       "localizations" : {
