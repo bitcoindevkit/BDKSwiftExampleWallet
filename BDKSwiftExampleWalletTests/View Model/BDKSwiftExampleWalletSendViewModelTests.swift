@@ -17,13 +17,11 @@ final class BDKSwiftExampleWalletSendViewModelTests: XCTestCase {
 
         // Simulate successful getBalance() call
         viewModel.getBalance()
-        //XCTAssertGreaterThan(viewModel.balanceTotal, 0)
+        XCTAssertGreaterThan(viewModel.balanceTotal!, UInt64(0))
         
         // Simulate successful getFees() call
         await viewModel.getFees()
-        if let _ = viewModel.recommendedFees {
-            //XCTAssertGreaterThan(fees.fastestFee, 0)
-        }
+        XCTAssertEqual(viewModel.recommendedFees?.fastestFee, 10)
     }
     
 }

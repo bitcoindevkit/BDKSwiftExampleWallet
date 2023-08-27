@@ -15,25 +15,25 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
         
         // Set up viewModel
         let viewModel = WalletViewModel(priceClient: .mock, bdkClient: .mock)
-        //XCTAssertEqual(viewModel.walletSyncState, .notStarted)
+        XCTAssertEqual(viewModel.walletSyncState, .notStarted)
         
         // Simulate successful sync() call
         await viewModel.sync()
         //try? await Task.sleep(nanoseconds: 10_000_000_000)  // Wait for for the state to be updated
-        //XCTAssertEqual(viewModel.walletSyncState, .synced)
+        XCTAssertEqual(viewModel.walletSyncState, .synced)
         
         // Simulate successful getBalance() call
         viewModel.getBalance()
-        ////XCTAssertGreaterThan(viewModel.balanceTotal, 0)
+        XCTAssertGreaterThan(viewModel.balanceTotal!, UInt64(0))
         
         // Simulate successful getTransactions() call
         viewModel.getTransactions()
-        //XCTAssertGreaterThan(viewModel.transactionDetails.count, 1)
+        XCTAssertGreaterThan(viewModel.transactionDetails.count, 1)
         
         // Simulate successful getPrices() call
         await viewModel.getPrices()
         //try? await Task.sleep(nanoseconds: 10_000_000_000)  // Wait 10sec for the state to be updated
-        //XCTAssertEqual(viewModel.satsPrice, "$0.00")
+        XCTAssertEqual(viewModel.satsPrice, "$5,575.23")
     }
     
 }

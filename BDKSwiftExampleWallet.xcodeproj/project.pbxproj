@@ -46,6 +46,8 @@
 		AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB130C82A44E4850087785B /* TransactionDetailsView.swift */; };
 		AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */; };
 		AED062712A9BB1D6001DC6BD /* BDKSwiftExampleWalletFeeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED062702A9BB1D6001DC6BD /* BDKSwiftExampleWalletFeeServiceTests.swift */; };
+		AED062732A9BD698001DC6BD /* BDKSwiftExampleWalletKeyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED062722A9BD698001DC6BD /* BDKSwiftExampleWalletKeyServiceTests.swift */; };
+		AED062752A9BD7FA001DC6BD /* BDKSwiftExampleWalletBDKServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED062742A9BD7FA001DC6BD /* BDKSwiftExampleWalletBDKServiceTests.swift */; };
 		AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC092A1D297600CE1831 /* BDKService.swift */; };
 		AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */; };
 		AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC0F2A1D522100CE1831 /* WalletView.swift */; };
@@ -103,6 +105,8 @@
 		AEB130C82A44E4850087785B /* TransactionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsView.swift; sourceTree = "<group>"; };
 		AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupInfo.swift; sourceTree = "<group>"; };
 		AED062702A9BB1D6001DC6BD /* BDKSwiftExampleWalletFeeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletFeeServiceTests.swift; sourceTree = "<group>"; };
+		AED062722A9BD698001DC6BD /* BDKSwiftExampleWalletKeyServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletKeyServiceTests.swift; sourceTree = "<group>"; };
+		AED062742A9BD7FA001DC6BD /* BDKSwiftExampleWalletBDKServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletBDKServiceTests.swift; sourceTree = "<group>"; };
 		AED4CC092A1D297600CE1831 /* BDKService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKService.swift; sourceTree = "<group>"; };
 		AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AED4CC0F2A1D522100CE1831 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -310,6 +314,8 @@
 			children = (
 				AE6715F92A9A9220005C193F /* BDKSwiftExampleWalletPriceServiceTests.swift */,
 				AED062702A9BB1D6001DC6BD /* BDKSwiftExampleWalletFeeServiceTests.swift */,
+				AED062722A9BD698001DC6BD /* BDKSwiftExampleWalletKeyServiceTests.swift */,
+				AED062742A9BD7FA001DC6BD /* BDKSwiftExampleWalletBDKServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -488,6 +494,8 @@
 				AED79FC22A97D14100FD3C7D /* BDKSwiftExampleWalletDouble+Extensions.swift in Sources */,
 				AE7E68962A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift in Sources */,
 				AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift in Sources */,
+				AED062732A9BD698001DC6BD /* BDKSwiftExampleWalletKeyServiceTests.swift in Sources */,
+				AED062752A9BD7FA001DC6BD /* BDKSwiftExampleWalletBDKServiceTests.swift in Sources */,
 				AED79FC52A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift in Sources */,
 				AED4CC122A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift in Sources */,
 				AE18E93A2A9532CB0019D2A4 /* BDKSwiftExampleWalletBundle+Extensions.swift in Sources */,

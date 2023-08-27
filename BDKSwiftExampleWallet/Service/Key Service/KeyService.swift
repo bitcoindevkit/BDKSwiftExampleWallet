@@ -59,7 +59,7 @@ extension KeyClient {
 }
 
 #if DEBUG
-private let network = Network.regtest
+let mockKeyClientNetwork = Network.regtest
 extension KeyClient {
     static let mock = Self(
         saveBackupInfo: { _ in },
@@ -67,19 +67,19 @@ extension KeyClient {
             let mnemonicWords12 = "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
             let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
             let secretKey = DescriptorSecretKey(
-                network: network,
+                network: mockKeyClientNetwork,
                 mnemonic: mnemonic,
                 password: nil
             )
             let descriptor = Descriptor.newBip84(
                 secretKey: secretKey,
                 keychain: .external,
-                network: network
+                network: mockKeyClientNetwork
             )
             let changeDescriptor = Descriptor.newBip84(
                 secretKey: secretKey,
                 keychain: .internal,
-                network: network
+                network: mockKeyClientNetwork
             )
             let backupInfo = BackupInfo(
                 mnemonic: mnemonic.asString(),

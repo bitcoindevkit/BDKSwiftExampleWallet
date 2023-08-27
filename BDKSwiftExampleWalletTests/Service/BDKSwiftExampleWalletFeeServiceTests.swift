@@ -10,10 +10,7 @@ import XCTest
 
 final class BDKSwiftExampleWalletFeeServiceTests: XCTestCase {
 
-    // MARK: API
-
-    /// Test Price API Service mock
-    func testAPIServiceMock() async throws {
+    func testFeeClientMock() async throws {
         let currentFees = try await FeeClient.mock.fetchFees()
 
         XCTAssertEqual(currentFees, currentFeesMock)

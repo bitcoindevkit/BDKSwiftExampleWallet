@@ -190,6 +190,9 @@
         }
       }
     },
+    "Receive Address" : {
+
+    },
     "Received" : {
       "extractionState" : "stale",
       "localizations" : {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BackupInfo: Codable {
+struct BackupInfo: Codable, Equatable {
     var mnemonic: String
     var descriptor: String
     var changeDescriptor: String
@@ -16,5 +16,11 @@ struct BackupInfo: Codable {
         self.mnemonic = mnemonic
         self.descriptor = descriptor
         self.changeDescriptor = changeDescriptor
+    }
+    
+    static func == (lhs: BackupInfo, rhs: BackupInfo) -> Bool {
+        return lhs.mnemonic == rhs.mnemonic &&
+        lhs.descriptor == rhs.descriptor &&
+        lhs.changeDescriptor == rhs.changeDescriptor
     }
 }
