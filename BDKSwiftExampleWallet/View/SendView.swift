@@ -24,7 +24,14 @@ struct SendView: View {
                     Image(systemName: "bitcoinsign")
                         .foregroundColor(.secondary)
                         .font(.title)
-                    Text(viewModel.balanceTotal.formattedSatoshis())
+                    if let balanceTotal = viewModel.balanceTotal {
+                        Text(balanceTotal.formattedSatoshis())
+                    } else {
+                        let balanceTotal: UInt64 = 0
+                        Text(balanceTotal.formattedSatoshis())
+                            .foregroundColor(.secondary)
+                    }
+//                    Text(viewModel.balanceTotal.formattedSatoshis())
                     Text("sats")
                         .foregroundColor(.secondary)
                 }
@@ -76,7 +83,8 @@ struct SendView: View {
                             Image(systemName: "gauge.with.dots.needle.67percent")
                                 .tag(3)
                         }
-                        .pickerStyle(.segmented) // TODO: use `.menu`
+                        .pickerStyle(.menu) // TODO: use `.menu`
+                        .tint(.bitcoinOrange)
                         
                         Text(viewModel.selectedFeeDescription)
                     }

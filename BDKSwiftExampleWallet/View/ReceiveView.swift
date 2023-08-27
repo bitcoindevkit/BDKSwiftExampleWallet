@@ -20,6 +20,18 @@ struct ReceiveView: View {
             
             VStack {
                 
+                VStack {
+                    Image(systemName:"bitcoinsign.circle.fill")
+                        .resizable()
+                        .foregroundColor(.bitcoinOrange)
+                        .frame(width: 50, height: 50, alignment: .center)
+                    Text("Receive Address")
+                }
+                .font(.caption)
+                .fontWeight(.light)
+                
+                Spacer()
+                
                 if viewModel.address != "" {
                     QRCodeView(address: viewModel.address)
                         .animation(.default, value: viewModel.address)
@@ -27,6 +39,8 @@ struct ReceiveView: View {
                     QRCodeView(address: viewModel.address)
                         .blur(radius: 15)
                 }
+                
+                Spacer()
                 
                 HStack {
                     
