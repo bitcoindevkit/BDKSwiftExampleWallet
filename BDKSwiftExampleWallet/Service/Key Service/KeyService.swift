@@ -59,7 +59,7 @@ extension KeyAPIService {
 }
 
 #if DEBUG
-private let network = Network.signet
+private let network = Network.regtest
 extension KeyAPIService {
     static let mock = Self(
         saveBackupInfo: { _ in },

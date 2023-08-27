@@ -11,13 +11,13 @@ import BitcoinDevKit
 @main
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
-    let bdkService: BDKServiceAPI = .mock
+    let bdkService: BDKServiceAPI = .live
 
     init() {
         do {
-            try bdkService.loadWallet()//BDKService.shared.loadWalletFromBackup()
+            try bdkService.loadWallet()
             // TODO: remove after testing
-            // try bdkService.deleteWallet()// try BDKService.shared.deleteWallet()
+            // try bdkService.deleteWallet()
         } catch {
             print("BDKSwiftExampleWalletApp error: \(error.localizedDescription)")
         }
@@ -26,7 +26,7 @@ struct BDKSwiftExampleWalletApp: App {
     var body: some Scene {
         WindowGroup {
             if isOnboarding {
-                OnboardingView(viewModel: .init(bdkService: .mock))
+                OnboardingView(viewModel: .init())
             } else {
                 TabHomeView()
             }

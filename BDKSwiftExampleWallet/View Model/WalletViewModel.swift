@@ -13,7 +13,6 @@ import Observation
 @Observable
 class WalletViewModel {
     var balanceTotal: UInt64 = 0
-    var lastSyncTime: Date? = nil
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
     var price: Double = 0.0
@@ -22,13 +21,10 @@ class WalletViewModel {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
-    let priceService: PriceAPIService//PriceService
+    let priceService: PriceAPIService
     let bdkService: BDKServiceAPI
 
-//    init(bdkService: BDKServiceAPI) {
-//        self.bdkService = bdkService
-//    }
-    init(priceService: PriceAPIService, bdkService: BDKServiceAPI) {
+    init(priceService: PriceAPIService = .live, bdkService: BDKServiceAPI = .live) {
         self.priceService = priceService
         self.bdkService = bdkService
     }
@@ -37,7 +33,7 @@ class WalletViewModel {
         print("===")
         print("getPrices() called")
         do {
-            let price = try await priceService.fetchPrice()//priceService.prices()
+            let price = try await priceService.fetchPrice()
             self.price = price.usd
             self.time = price.time
             print("Price USD: \(self.price)")
@@ -52,7 +48,7 @@ class WalletViewModel {
         print("===")
         print("getBalance() called")
         do {
-            let balance = try bdkService.getBalance()//BDKService.shared.getBalance()
+            let balance = try bdkService.getBalance()
             print("Balance: \(balance)")
             self.balanceTotal = balance.total
             print("Balance Total: \(self.balanceTotal)")
@@ -68,7 +64,7 @@ class WalletViewModel {
         print("===")
         print("getTransactions() called")
         do {
-            let transactionDetails = try bdkService.getTransactions()//BDKService.shared.getTransactions()
+            let transactionDetails = try bdkService.getTransactions()
             self.transactionDetails = transactionDetails
             print("Transaction Details: \(self.transactionDetails)")
         } catch {
@@ -82,11 +78,9 @@ class WalletViewModel {
         print("sync() called")
         self.walletSyncState = .syncing
         do {
-            try await bdkService.sync()//BDKService.shared.sync()
+            try await bdkService.sync()
             self.walletSyncState = .synced
-            self.lastSyncTime = Date()
             print("Wallet Sync State: \(self.walletSyncState)")
-            print("Last Sync Time: \(String(describing: self.lastSyncTime))")
         } catch {
             self.walletSyncState = .error(error)
         }

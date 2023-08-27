@@ -17,12 +17,12 @@ private class BDKService {
 
     class var shared: BDKService {
         struct Singleton {
-            static let instance = BDKService(keyService: .mock)
+            static let instance = BDKService()
         }
         return Singleton.instance
     }
     
-    init(keyService: KeyAPIService/*KeyService*/) {
+    init(keyService: KeyAPIService = .live) {
         let esploraConfig = EsploraConfig(
             baseUrl: Constants.Config.EsploraServerURLNetwork.signet,
             proxy: nil,

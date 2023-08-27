@@ -16,7 +16,7 @@ class OnboardingViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     let bdkService: BDKServiceAPI
 
-    init(bdkService: BDKServiceAPI) {
+    init(bdkService: BDKServiceAPI = .live) {
         self.bdkService = bdkService
     }
     

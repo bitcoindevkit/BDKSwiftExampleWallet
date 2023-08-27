@@ -13,12 +13,12 @@ class ReceiveViewModel {
     var address: String = ""
     let bdkService: BDKServiceAPI
 
-    init(bdkService: BDKServiceAPI) {
+    init(bdkService: BDKServiceAPI = .live) {
         self.bdkService = bdkService
     }
     func getAddress() {
         do {
-            let address = try bdkService.getAddress()//BDKService.shared.getAddress()
+            let address = try bdkService.getAddress()
             self.address = address
         } catch {
             self.address = "Error getting address."

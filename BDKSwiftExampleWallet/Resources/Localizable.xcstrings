@@ -306,6 +306,7 @@
       }
     },
     "Your Balance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

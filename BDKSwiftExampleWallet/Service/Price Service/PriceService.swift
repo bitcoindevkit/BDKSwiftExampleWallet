@@ -36,6 +36,10 @@ let currentPriceMock = Price(time: 1693079705, usd: 26030, eur: 24508, gbp: 2248
 let currentPriceMockZero = Price(time: 1693079705, usd: 0, eur: 24508, gbp: 22486, cad: 35314, chf: 23088, aud: 40657, jpy: 3816606)
 extension PriceAPIService {
     static let mock = Self(fetchPrice: { currentPriceMock } )
-    static let mockZero = Self(fetchPrice: { currentPriceMock } )
+    static let mockPause = Self(fetchPrice: {
+        try await Task.sleep(until: .now + .seconds(2))
+        return currentPriceMock
+    })
+    static let mockZero = Self(fetchPrice: { currentPriceMockZero } )
 }
 #endif

@@ -89,10 +89,6 @@ struct WalletView: View {
                                                     .secondary
                                         )
                                 }
-                                if let lastSyncTime = viewModel.lastSyncTime {
-                                    Text(lastSyncTime, style: .time)
-                                        .font(.caption)
-                                }
                             }
                             .foregroundColor(.secondary)
                             .font(.caption)
@@ -131,8 +127,13 @@ struct WalletView: View {
 #Preview("WalletView - en") {
     WalletView(viewModel: .init(priceService: .mock, bdkService: .mock))
 }
+
 #Preview("WalletView Zero - en") {
     WalletView(viewModel: .init(priceService: .mockZero, bdkService: .mockZero))
+}
+
+#Preview("WalletView Wait - en") {
+    WalletView(viewModel: .init(priceService: .mockPause, bdkService: .mock))
 }
 
 #Preview("WalletView - fr") {
