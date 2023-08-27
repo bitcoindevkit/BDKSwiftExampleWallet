@@ -46,7 +46,6 @@ struct TransactionDetailsView: View {
             Spacer()
             
             VStack {
-                
                 HStack {
                     Text(amount.delimiter)
                     Text("sats")
@@ -55,23 +54,23 @@ struct TransactionDetailsView: View {
                 .foregroundColor(.primary)
                 .fontWidth(.compressed)
                 .fontWeight(.bold)
-                
-                if transaction.confirmationTime == nil {
-                    Text("Unconfirmed")
-                } else {
-                    VStack {
-                        if let timestamp = transaction.confirmationTime?.timestamp {
-                            Text(timestamp.toDate().formatted(date: .abbreviated, time: Date.FormatStyle.TimeStyle.shortened))
+                VStack {
+                    if transaction.confirmationTime == nil {
+                        Text("Unconfirmed")
+                    } else {
+                        VStack {
+                            if let timestamp = transaction.confirmationTime?.timestamp {
+                                Text(timestamp.toDate().formatted(date: .abbreviated, time: Date.FormatStyle.TimeStyle.shortened))
+                            }
                         }
                     }
-                    .fontWidth(.expanded)
+                    if let fee = transaction.fee {
+                        Text("\(fee) sats fee")
+                    }
                 }
-                if let fee = transaction.fee {
-                    Text("\(fee) sats fee")
-                }                
+                .foregroundColor(.secondary)
+                .fontWidth(.expanded)
             }
-            .foregroundColor(.secondary)
-            .padding()
             
             Spacer()
             
