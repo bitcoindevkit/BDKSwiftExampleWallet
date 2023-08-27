@@ -15,13 +15,14 @@ class WalletViewModel {
     let priceClient: PriceClient
     let bdkClient: BDKClient
     
-    var balanceTotal: UInt64 = 0
+    var balanceTotal: UInt64? //= 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
     var price: Double?
     var time: Int?
     var satsPrice: String? {
         guard let price = price else { return nil }
+        guard let balanceTotal = balanceTotal else { return nil }
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
@@ -53,7 +54,7 @@ class WalletViewModel {
             let balance = try bdkClient.getBalance()
             print("Balance: \(balance)")
             self.balanceTotal = balance.total
-            print("Balance Total: \(self.balanceTotal)")
+            print("Balance Total: \(String(describing: self.balanceTotal))")
         } catch let error as WalletError {
             print("getBalance - Wallet Error: \(error.localizedDescription)")
         } catch {

@@ -34,17 +34,25 @@ struct WalletView: View {
                                     isAnimating = true
                                 }
                             }
+                        withAnimation {
                         HStack(spacing: 15) {
                             Image(systemName: "bitcoinsign")
                                 .foregroundColor(.secondary)
                                 .font(.title)
-                            Text(viewModel.balanceTotal.formattedSatoshis())
+                            if let balanceTotal = viewModel.balanceTotal {
+                                Text(balanceTotal.formattedSatoshis())
+                            } else {
+                                let balanceTotal: UInt64 = 0
+                                Text(balanceTotal.formattedSatoshis())
+                                    .foregroundColor(.secondary)
+                            }
                             Text("sats")
                                 .foregroundColor(.secondary)
                         }
                         .font(.largeTitle)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
+                    }
                         HStack {
                             if viewModel.walletSyncState == .syncing {
                                 Image(systemName: "chart.bar.fill")
