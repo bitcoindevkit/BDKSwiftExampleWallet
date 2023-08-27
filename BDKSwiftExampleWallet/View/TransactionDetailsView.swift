@@ -110,20 +110,10 @@ struct TransactionDetailsView: View {
     }
 }
 
+
+private let mockTransactionDetail =
+BitcoinDevKit.TransactionDetails(transaction: nil, fee: Optional(2820), received: 10000000, sent: 0, txid: "cdcc4d287e4780d25c577d4f5726c7d585625170559f0b294da20b55ffa2b009", confirmationTime: Optional(BitcoinDevKit.BlockTime(height: 178497, timestamp: 1687465081)))
+
 #Preview {
-    TransactionDetailsView(
-        transaction: .init(
-            transaction: .none,
-            fee: nil,
-            received: UInt64(20),
-            sent: 21,
-            txid: "mockTxId",
-            confirmationTime: .init(
-                height: UInt32(796298),
-                timestamp: UInt64(Date().timeIntervalSince1970
-                                 )
-            )
-        ),
-        amount: UInt64(2000)
-    )
+    TransactionDetailsView(transaction: mockTransactionDetail, amount: UInt64(10000000))
 }
