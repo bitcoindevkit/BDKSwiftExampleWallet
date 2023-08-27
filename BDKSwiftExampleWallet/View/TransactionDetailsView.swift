@@ -19,6 +19,30 @@ struct TransactionDetailsView: View {
         
         VStack {
             
+            VStack {
+                Image(systemName:"bitcoinsign.circle.fill")
+                    .resizable()
+                    .foregroundColor(.bitcoinOrange)
+                    .frame(width: 50, height: 50, alignment: .center)
+                HStack(spacing: 3) {
+                    Text(
+                        transaction.sent > 0 ?
+                        "Send" :
+                            "Receive"
+                    )
+                    if transaction.confirmationTime == nil {
+                        Text("Unconfirmed")
+                    } else {
+                            Text("Confirmed")
+                    }
+                }
+                        if let height = transaction.confirmationTime?.height {
+                            Text("Block \(height.delimiter)")
+                        }
+            }
+            .font(.caption)
+            .fontWeight(.light)
+
             Spacer()
             
             VStack {
@@ -30,27 +54,21 @@ struct TransactionDetailsView: View {
                 .font(.largeTitle)
                 .foregroundColor(.primary)
                 .fontWidth(.compressed)
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
                 
                 if transaction.confirmationTime == nil {
                     Text("Unconfirmed")
                 } else {
                     VStack {
-                        Text("Confirmed".uppercased())
-                        if let height = transaction.confirmationTime?.height {
-                            Text("Block \(height.delimiter)".uppercased())
-                        }
                         if let timestamp = transaction.confirmationTime?.timestamp {
                             Text(timestamp.toDate().formatted(date: .abbreviated, time: Date.FormatStyle.TimeStyle.shortened))
                         }
                     }
                     .fontWidth(.expanded)
                 }
-                
                 if let fee = transaction.fee {
                     Text("\(fee) sats fee")
-                }
-                
+                }                
             }
             .foregroundColor(.secondary)
             .padding()

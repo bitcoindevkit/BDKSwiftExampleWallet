@@ -52,7 +52,13 @@ struct WalletView: View {
                                         .variableColor.cumulative
                                     )
                             }
-                            Text(viewModel.satsPrice)
+                            withAnimation {
+                                if let satsPrice = viewModel.satsPrice {
+                                    Text(satsPrice)
+                                } else {
+                                    Text("$")
+                                }
+                            }
                         }
                         .foregroundColor(.secondary)
                         .font(.subheadline)

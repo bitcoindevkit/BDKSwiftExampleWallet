@@ -15,9 +15,10 @@ class WalletViewModel {
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
-    var price: Double = 0.0
+    var price: Double?
     var time: Int?
-    var satsPrice: String {
+    var satsPrice: String? {
+        guard let price = price else { return nil }
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
@@ -36,7 +37,7 @@ class WalletViewModel {
             let price = try await priceService.fetchPrice()
             self.price = price.usd
             self.time = price.time
-            print("Price USD: \(self.price)")
+            print("Price USD: \(String(describing: self.price))")
             print("Price Time: \(String(describing: self.time))")
         } catch {
             print("getPrices error: \(error.localizedDescription)")

@@ -24,6 +24,9 @@
         }
       }
     },
+    "$" : {
+
+    },
     "100% open-source & open-design" : {
       "localizations" : {
         "fr" : {
@@ -96,7 +99,6 @@
       }
     },
     "Block %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -107,7 +109,6 @@
       }
     },
     "Confirmed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
