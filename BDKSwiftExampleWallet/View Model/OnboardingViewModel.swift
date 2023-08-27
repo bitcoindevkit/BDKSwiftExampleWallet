@@ -14,15 +14,15 @@ import SwiftUI
 // Feature or Bug?
 class OnboardingViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
-    let bdkService: BDKServiceAPI
+    let bdkClient: BDKClient
 
-    init(bdkService: BDKServiceAPI = .live) {
-        self.bdkService = bdkService
+    init(bdkClient: BDKClient = .live) {
+        self.bdkClient = bdkClient
     }
     
     func createWallet() {
         do {
-            try bdkService.createWallet()//BDKService.shared.createWallet()
+            try bdkClient.createWallet()
             isOnboarding = false
         } catch let error as WalletError {
             print("createWallet - Wallet Error: \(error.localizedDescription)")
@@ -33,7 +33,7 @@ class OnboardingViewModel: ObservableObject {
     
     func restoreWallet() {
         do {
-            try bdkService.loadWallet()//BDKService.shared.loadWalletFromBackup()
+            try bdkClient.loadWallet()
         } catch let error as WalletError {
             print("restoreWallet - Wallet Error: \(error.localizedDescription)")
         } catch {

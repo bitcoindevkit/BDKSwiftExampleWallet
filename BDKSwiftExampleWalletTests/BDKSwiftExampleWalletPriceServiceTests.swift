@@ -23,7 +23,7 @@ final class BDKSwiftExampleWalletPriceServiceTests: XCTestCase {
 
     /// Test Price API Service mock
     func testAPIServiceMock() async throws {
-        let currentPrice = try await PriceAPIService.mock.fetchPrice()
+        let currentPrice = try await PriceClient.mock.fetchPrice()
 
         XCTAssertEqual(currentPrice, currentPriceMock)
     }

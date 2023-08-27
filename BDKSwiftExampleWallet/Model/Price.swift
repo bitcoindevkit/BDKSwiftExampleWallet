@@ -1,5 +1,5 @@
 //
-//  PriceResponse.swift
+//  Price.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 7/28/23.

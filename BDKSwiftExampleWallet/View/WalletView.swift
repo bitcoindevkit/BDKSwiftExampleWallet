@@ -131,18 +131,18 @@ struct WalletView: View {
 }
 
 #Preview("WalletView - en") {
-    WalletView(viewModel: .init(priceService: .mock, bdkService: .mock))
+    WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
 }
 
 #Preview("WalletView Zero - en") {
-    WalletView(viewModel: .init(priceService: .mockZero, bdkService: .mockZero))
+    WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
 }
 
 #Preview("WalletView Wait - en") {
-    WalletView(viewModel: .init(priceService: .mockPause, bdkService: .mock))
+    WalletView(viewModel: .init(priceClient: .mockPause, bdkClient: .mock))
 }
 
 #Preview("WalletView - fr") {
-    WalletView(viewModel: .init(priceService: .mock, bdkService: .mock))
+    WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

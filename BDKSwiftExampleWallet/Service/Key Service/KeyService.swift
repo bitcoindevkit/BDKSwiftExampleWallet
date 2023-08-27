@@ -38,7 +38,7 @@ private struct KeyService {
     }
 }
 
-struct KeyAPIService {
+struct KeyClient {
     let saveBackupInfo: (BackupInfo) throws -> ()
     let getBackupInfo: () throws -> BackupInfo
     let deleteBackupInfo: () throws -> ()
@@ -50,7 +50,7 @@ struct KeyAPIService {
     }
 }
 
-extension KeyAPIService {
+extension KeyClient {
     static let live = Self(
         saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
         getBackupInfo: { try KeyService().getBackupInfo() },
@@ -60,7 +60,7 @@ extension KeyAPIService {
 
 #if DEBUG
 private let network = Network.regtest
-extension KeyAPIService {
+extension KeyClient {
     static let mock = Self(
         saveBackupInfo: { _ in },
         getBackupInfo: {

@@ -13,7 +13,7 @@ final class BDKSwiftExampleWalletSendViewModelTests: XCTestCase {
     
     func testReceiveViewModel() async {
         // Set up viewModel
-        let viewModel = SendViewModel(feeService: .init())
+        let viewModel = SendViewModel(feeClient: .mock, bdkClient: .mock)
 
         // Simulate successful getBalance() call
         viewModel.getBalance()
@@ -21,7 +21,7 @@ final class BDKSwiftExampleWalletSendViewModelTests: XCTestCase {
         
         // Simulate successful getFees() call
         await viewModel.getFees()
-        if let fees = viewModel.recommendedFees {
+        if let _ = viewModel.recommendedFees {
             //XCTAssertGreaterThan(fees.fastestFee, 0)
         }
     }

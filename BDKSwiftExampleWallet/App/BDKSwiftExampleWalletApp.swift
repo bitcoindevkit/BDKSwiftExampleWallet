@@ -11,7 +11,7 @@ import BitcoinDevKit
 @main
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
-    let bdkService: BDKServiceAPI = .live
+    let bdkService: BDKClient = .live
 
     init() {
         do {

@@ -20,20 +20,20 @@ private struct FeeService {
     }
 }
 
-struct FeeAPIService {
+struct FeeClient {
     let fetchFees: () async throws -> RecommendedFees
     private init(fetchFees: @escaping () async throws -> RecommendedFees) {
         self.fetchFees = fetchFees
     }
 }
 
-extension FeeAPIService {
+extension FeeClient {
     static let live = Self(fetchFees: { try await FeeService().fees() } )
 }
 
 #if DEBUG
 let currentFeesMock = RecommendedFees(fastestFee: 10, halfHourFee: 8, hourFee: 6, economyFee: 4, minimumFee: 2)
-extension FeeAPIService {
+extension FeeClient {
     static let mock = Self(fetchFees: { currentFeesMock })
 }
 #endif

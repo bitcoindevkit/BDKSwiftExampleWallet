@@ -12,6 +12,9 @@ import Observation
 @MainActor
 @Observable
 class WalletViewModel {
+    let priceClient: PriceClient
+    let bdkClient: BDKClient
+    
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
@@ -22,19 +25,17 @@ class WalletViewModel {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
-    let priceService: PriceAPIService
-    let bdkService: BDKServiceAPI
 
-    init(priceService: PriceAPIService = .live, bdkService: BDKServiceAPI = .live) {
-        self.priceService = priceService
-        self.bdkService = bdkService
+    init(priceClient: PriceClient = .live, bdkClient: BDKClient = .live) {
+        self.priceClient = priceClient
+        self.bdkClient = bdkClient
     }
     
     func getPrices() async {
         print("===")
         print("getPrices() called")
         do {
-            let price = try await priceService.fetchPrice()
+            let price = try await priceClient.fetchPrice()
             self.price = price.usd
             self.time = price.time
             print("Price USD: \(String(describing: self.price))")
@@ -49,7 +50,7 @@ class WalletViewModel {
         print("===")
         print("getBalance() called")
         do {
-            let balance = try bdkService.getBalance()
+            let balance = try bdkClient.getBalance()
             print("Balance: \(balance)")
             self.balanceTotal = balance.total
             print("Balance Total: \(self.balanceTotal)")
@@ -65,7 +66,7 @@ class WalletViewModel {
         print("===")
         print("getTransactions() called")
         do {
-            let transactionDetails = try bdkService.getTransactions()
+            let transactionDetails = try bdkClient.getTransactions()
             self.transactionDetails = transactionDetails
             print("Transaction Details: \(self.transactionDetails)")
         } catch {
@@ -79,7 +80,7 @@ class WalletViewModel {
         print("sync() called")
         self.walletSyncState = .syncing
         do {
-            try await bdkService.sync()
+            try await bdkClient.sync()
             self.walletSyncState = .synced
             print("Wallet Sync State: \(self.walletSyncState)")
         } catch {
