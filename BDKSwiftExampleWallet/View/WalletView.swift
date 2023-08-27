@@ -107,7 +107,9 @@ struct WalletView: View {
                             WalletTransactionListView(transactionDetails: viewModel.transactionDetails)
                                 .refreshable {
                                     await viewModel.sync()
-                                    // TODO: call 3 other functions here too?
+                                    viewModel.getBalance()
+                                    viewModel.getTransactions()
+                                    await viewModel.getPrices()
                                 }
                         }
                         Spacer()
