@@ -37,7 +37,9 @@ final class BDKSwiftExampleWalletReceiveViewModelTests: XCTestCase {
         // Additional validation
         XCTAssertFalse(validateSegwitAddress(viewModel.address), "Invalid Segwit address")
         XCTAssertFalse(
-            validateTaprootAddress(viewModel.address), "Invalid Segwit address: Taproot address")
+            validateTaprootAddress(viewModel.address),
+            "Invalid Segwit address: Taproot address"
+        )
         XCTAssertFalse(viewModel.address.isEmpty, "Address should not be empty")
     }
 
