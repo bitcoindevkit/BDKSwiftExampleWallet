@@ -100,7 +100,9 @@ struct WalletView: View {
                             .foregroundColor(.secondary)
                             .font(.caption)
                         }
-                        if viewModel.transactionDetails.isEmpty {
+                        if viewModel.transactionDetails.isEmpty && viewModel.walletSyncState == .syncing {
+                            Text("")
+                        } else if viewModel.transactionDetails.isEmpty {
                             Text("No Transactions")
                         } else {
                             WalletTransactionListView(
