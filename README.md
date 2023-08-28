@@ -8,13 +8,13 @@ An example iOS app using [BDK](https://github.com/bitcoindevkit)
 
 ## Functionality
 
-This app is an experimental work in progress. 
+*This app is an experimental work in progress.*
 
 ### Wallet
 
 Supports single key HD segwit/bech32 wallets with BIP84 derivation paths. 
 
-Descriptors created by the app will look like: `wpkh([extended private key]/84'/1'/0'/0/*)`
+`wpkh([extended private key]/84'/1'/0'/0/*)`
 
 ### Implemented
 
