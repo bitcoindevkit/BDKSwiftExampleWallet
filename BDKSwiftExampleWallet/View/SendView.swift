@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WalletUI
+import BitcoinUI
 
 struct SendView: View {
     @Bindable var viewModel: SendViewModel

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WalletUI
+import BitcoinUI
 
 struct WalletView: View {
     @Bindable var viewModel: WalletViewModel

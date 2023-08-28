@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WalletUI
+import BitcoinUI
 
 struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
