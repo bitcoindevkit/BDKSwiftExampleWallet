@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "- %llu sats" : {
       "localizations" : {
         "fr" : {
@@ -23,9 +26,6 @@
           }
         }
       }
-    },
-    "$" : {
-
     },
     "100% open-source & open-design" : {
       "localizations" : {
