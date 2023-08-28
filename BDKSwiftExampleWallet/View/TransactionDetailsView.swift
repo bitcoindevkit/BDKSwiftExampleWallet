@@ -106,9 +106,6 @@ struct TransactionDetailsView: View {
 
         }
         .padding()
-        .onAppear {
-            print("Transaction: \n \(transaction)")
-        }
 
     }
 }
