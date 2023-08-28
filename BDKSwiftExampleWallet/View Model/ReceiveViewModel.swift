@@ -24,5 +24,5 @@ class ReceiveViewModel {
             self.address = "Error getting address."
         }
     }
-    
+
 }

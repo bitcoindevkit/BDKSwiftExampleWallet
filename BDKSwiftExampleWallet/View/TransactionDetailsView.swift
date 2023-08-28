@@ -5,46 +5,44 @@
 //  Created by Matthew Ramsden on 6/22/23.
 //
 
-import SwiftUI
 import BitcoinDevKit
 import BitcoinUI
+import SwiftUI
 
 struct TransactionDetailsView: View {
     let transaction: TransactionDetails
     let amount: UInt64
     @State private var isCopied = false
     @State private var showCheckmark = false
-    
+
     var body: some View {
-        
+
         VStack {
-            
+
             VStack {
-                Image(systemName:"bitcoinsign.circle.fill")
+                Image(systemName: "bitcoinsign.circle.fill")
                     .resizable()
                     .foregroundColor(.bitcoinOrange)
                     .frame(width: 50, height: 50, alignment: .center)
                 HStack(spacing: 3) {
                     Text(
-                        transaction.sent > 0 ?
-                        "Send" :
-                            "Receive"
+                        transaction.sent > 0 ? "Send" : "Receive"
                     )
                     if transaction.confirmationTime == nil {
                         Text("Unconfirmed")
                     } else {
-                            Text("Confirmed")
+                        Text("Confirmed")
                     }
                 }
-                        if let height = transaction.confirmationTime?.height {
-                            Text("Block \(height.delimiter)")
-                        }
+                if let height = transaction.confirmationTime?.height {
+                    Text("Block \(height.delimiter)")
+                }
             }
             .font(.caption)
             .fontWeight(.light)
 
             Spacer()
-            
+
             VStack {
                 HStack {
                     Text(amount.delimiter)
@@ -60,7 +58,12 @@ struct TransactionDetailsView: View {
                     } else {
                         VStack {
                             if let timestamp = transaction.confirmationTime?.timestamp {
-                                Text(timestamp.toDate().formatted(date: .abbreviated, time: Date.FormatStyle.TimeStyle.shortened))
+                                Text(
+                                    timestamp.toDate().formatted(
+                                        date: .abbreviated,
+                                        time: Date.FormatStyle.TimeStyle.shortened
+                                    )
+                                )
                             }
                         }
                     }
@@ -71,9 +74,9 @@ struct TransactionDetailsView: View {
                 .foregroundColor(.secondary)
                 .fontWidth(.expanded)
             }
-            
+
             Spacer()
-            
+
             HStack {
                 Text("Txid".uppercased())
                     .foregroundColor(.secondary)
@@ -100,20 +103,28 @@ struct TransactionDetailsView: View {
             }
             .fontDesign(.monospaced)
             .padding()
-            
+
         }
         .padding()
         .onAppear {
             print("Transaction: \n \(transaction)")
         }
-        
+
     }
 }
 
-
 private let mockTransactionDetail =
-BitcoinDevKit.TransactionDetails(transaction: nil, fee: Optional(2820), received: 10000000, sent: 0, txid: "cdcc4d287e4780d25c577d4f5726c7d585625170559f0b294da20b55ffa2b009", confirmationTime: Optional(BitcoinDevKit.BlockTime(height: 178497, timestamp: 1687465081)))
+    BitcoinDevKit.TransactionDetails(
+        transaction: nil,
+        fee: Optional(2820),
+        received: 10_000_000,
+        sent: 0,
+        txid: "cdcc4d287e4780d25c577d4f5726c7d585625170559f0b294da20b55ffa2b009",
+        confirmationTime: Optional(
+            BitcoinDevKit.BlockTime(height: 178497, timestamp: 1_687_465_081)
+        )
+    )
 
-#Preview {
-    TransactionDetailsView(transaction: mockTransactionDetail, amount: UInt64(10000000))
+#Preview{
+    TransactionDetailsView(transaction: mockTransactionDetail, amount: UInt64(10_000_000))
 }

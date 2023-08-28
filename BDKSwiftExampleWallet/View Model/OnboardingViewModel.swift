@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 8/6/23.
 //
 
-import Foundation
 import BitcoinDevKit
+import Foundation
 import SwiftUI
 
 // Can't make @Observable yet
@@ -19,7 +19,7 @@ class OnboardingViewModel: ObservableObject {
     init(bdkClient: BDKClient = .live) {
         self.bdkClient = bdkClient
     }
-    
+
     func createWallet() {
         do {
             try bdkClient.createWallet()
@@ -30,7 +30,7 @@ class OnboardingViewModel: ObservableObject {
             print("createWallet - Undefined Error: \(error.localizedDescription)")
         }
     }
-    
+
     func restoreWallet() {
         do {
             try bdkClient.loadWallet()
@@ -40,5 +40,5 @@ class OnboardingViewModel: ObservableObject {
             print("restoreWallet - Undefined Error: \(error.localizedDescription)")
         }
     }
-    
+
 }

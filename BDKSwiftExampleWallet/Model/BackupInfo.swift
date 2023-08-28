@@ -11,16 +11,15 @@ struct BackupInfo: Codable, Equatable {
     var mnemonic: String
     var descriptor: String
     var changeDescriptor: String
-    
+
     init(mnemonic: String, descriptor: String, changeDescriptor: String) {
         self.mnemonic = mnemonic
         self.descriptor = descriptor
         self.changeDescriptor = changeDescriptor
     }
-    
+
     static func == (lhs: BackupInfo, rhs: BackupInfo) -> Bool {
-        return lhs.mnemonic == rhs.mnemonic &&
-        lhs.descriptor == rhs.descriptor &&
-        lhs.changeDescriptor == rhs.changeDescriptor
+        return lhs.mnemonic == rhs.mnemonic && lhs.descriptor == rhs.descriptor
+            && lhs.changeDescriptor == rhs.changeDescriptor
     }
 }

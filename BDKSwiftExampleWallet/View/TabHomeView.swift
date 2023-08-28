@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct TabHomeView: View {
-    
+
     var body: some View {
-        
+
         ZStack {
             Color(uiColor: UIColor.systemBackground)
-            
+
             TabView {
-                
+
                 WalletView(viewModel: .init())
                     .tabItem {
                         Label(
@@ -23,7 +23,7 @@ struct TabHomeView: View {
                             systemImage: "bitcoinsign"
                         )
                     }
-                
+
                 ReceiveView(viewModel: .init())
                     .tabItem {
                         Label(
@@ -31,7 +31,7 @@ struct TabHomeView: View {
                             systemImage: "arrow.down"
                         )
                     }
-                
+
                 SendView(viewModel: .init())
                     .tabItem {
                         Label(
@@ -39,15 +39,15 @@ struct TabHomeView: View {
                             systemImage: "arrow.up"
                         )
                     }
-                
+
             }
             .tint(.orange)
         }
-        
+
     }
-    
+
 }
 
-#Preview {
+#Preview{
     TabHomeView()
 }

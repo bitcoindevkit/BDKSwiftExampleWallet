@@ -6,6 +6,7 @@
 //
 
 import XCTest
+
 @testable import BDKSwiftExampleWallet
 
 final class BDKSwiftExampleWalletInt_Extensions: XCTestCase {
@@ -20,13 +21,13 @@ final class BDKSwiftExampleWalletInt_Extensions: XCTestCase {
         let oneHundredThousandOne = UInt64(100001).formattedSatoshis()
         XCTAssertEqual(oneHundredThousandOne, "0.00 100 001")
 
-        let oneMillionOne = UInt64(1000001).formattedSatoshis()
+        let oneMillionOne = UInt64(1_000_001).formattedSatoshis()
         XCTAssertEqual(oneMillionOne, "0.01 000 001")
 
-        let oneHundredMillionOne = UInt64(100000001).formattedSatoshis()
+        let oneHundredMillionOne = UInt64(100_000_001).formattedSatoshis()
         XCTAssertEqual(oneHundredMillionOne, "1.00 000 001")
-        
-        let tenBTC = UInt64(1000000001).formattedSatoshis()
+
+        let tenBTC = UInt64(1_000_000_001).formattedSatoshis()
         XCTAssertEqual(tenBTC, "10.00 000 001")
     }
 

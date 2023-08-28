@@ -6,6 +6,7 @@
 //
 
 import XCTest
+
 @testable import BDKSwiftExampleWallet
 
 final class BDKSwiftExampleWalletPriceServiceTests: XCTestCase {
@@ -15,7 +16,7 @@ final class BDKSwiftExampleWalletPriceServiceTests: XCTestCase {
 
         XCTAssertEqual(currentPrice, currentPriceMock)
     }
-    
+
     func testAPIServiceMockZero() async throws {
         let currentPrice = try await PriceClient.mockZero.fetchPrice()
 

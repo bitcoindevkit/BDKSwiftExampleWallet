@@ -5,9 +5,10 @@
 //  Created by Matthew Ramsden on 8/27/23.
 //
 
-import XCTest
-@testable import BDKSwiftExampleWallet
 import BitcoinDevKit
+import XCTest
+
+@testable import BDKSwiftExampleWallet
 
 final class BDKSwiftExampleWalletBDKServiceTests: XCTestCase {
 
@@ -16,16 +17,16 @@ final class BDKSwiftExampleWalletBDKServiceTests: XCTestCase {
 
         XCTAssertEqual(address, "mockAddress")
     }
-    
+
     func testBDKClientMockGetBalance() throws {
         let balance = try BDKClient.mock.getBalance()
 
         XCTAssertEqual(balance, mockBalance)
     }
-    
+
     func testBDKClientMockGetTransactions() throws {
         let transactionDetails = try BDKClient.mock.getTransactions()
-        
+
         XCTAssertEqual(transactionDetails.first?.txid, mockTransactionDetails.first?.txid)
     }
 

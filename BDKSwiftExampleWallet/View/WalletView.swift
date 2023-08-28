@@ -5,24 +5,24 @@
 //  Created by Matthew Ramsden on 5/23/23.
 //
 
-import SwiftUI
 import BitcoinUI
+import SwiftUI
 
 struct WalletView: View {
     @Bindable var viewModel: WalletViewModel
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
-    
+
     var body: some View {
-        
+
         NavigationView {
-            
+
             ZStack {
                 Color(uiColor: .systemBackground)
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 20) {
-                    
+
                     VStack(spacing: 10) {
                         Text("Bitcoin".uppercased())
                             .fontWeight(.semibold)
@@ -35,24 +35,24 @@ struct WalletView: View {
                                 }
                             }
                         withAnimation {
-                        HStack(spacing: 15) {
-                            Image(systemName: "bitcoinsign")
-                                .foregroundColor(.secondary)
-                                .font(.title)
-                            if let balanceTotal = viewModel.balanceTotal {
-                                Text(balanceTotal.formattedSatoshis())
-                            } else {
-                                let balanceTotal: UInt64 = 0
-                                Text(balanceTotal.formattedSatoshis())
+                            HStack(spacing: 15) {
+                                Image(systemName: "bitcoinsign")
+                                    .foregroundColor(.secondary)
+                                    .font(.title)
+                                if let balanceTotal = viewModel.balanceTotal {
+                                    Text(balanceTotal.formattedSatoshis())
+                                } else {
+                                    let balanceTotal: UInt64 = 0
+                                    Text(balanceTotal.formattedSatoshis())
+                                        .foregroundColor(.secondary)
+                                }
+                                Text("sats")
                                     .foregroundColor(.secondary)
                             }
-                            Text("sats")
-                                .foregroundColor(.secondary)
+                            .font(.largeTitle)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                         }
-                        .font(.largeTitle)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
-                    }
                         HStack {
                             if viewModel.walletSyncState == .syncing {
                                 Image(systemName: "chart.bar.fill")
@@ -89,9 +89,8 @@ struct WalletView: View {
                                     } else if viewModel.walletSyncState == .synced {
                                         Image(systemName: "checkmark.circle")
                                             .foregroundColor(
-                                                viewModel.walletSyncState == .synced ?
-                                                    .green :
-                                                        .secondary
+                                                viewModel.walletSyncState == .synced
+                                                    ? .green : .secondary
                                             )
                                     } else {
                                         Image(systemName: "questionmark")
@@ -104,17 +103,19 @@ struct WalletView: View {
                         if viewModel.transactionDetails.isEmpty {
                             Text("No Transactions")
                         } else {
-                            WalletTransactionListView(transactionDetails: viewModel.transactionDetails)
-                                .refreshable {
-                                    await viewModel.sync()
-                                    viewModel.getBalance()
-                                    viewModel.getTransactions()
-                                    await viewModel.getPrices()
-                                }
+                            WalletTransactionListView(
+                                transactionDetails: viewModel.transactionDetails
+                            )
+                            .refreshable {
+                                await viewModel.sync()
+                                viewModel.getBalance()
+                                viewModel.getTransactions()
+                                await viewModel.getPrices()
+                            }
                         }
                         Spacer()
                     }
-                    
+
                 }
                 .padding()
                 .task {
@@ -127,26 +128,26 @@ struct WalletView: View {
                     await viewModel.getPrices()
                 }
             }
-            
+
         }
-        
+
     }
-    
+
 }
 
-#Preview("WalletView - en") {
+#Preview("WalletView - en"){
     WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
 }
 
-#Preview("WalletView Zero - en") {
+#Preview("WalletView Zero - en"){
     WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
 }
 
-#Preview("WalletView Wait - en") {
+#Preview("WalletView Wait - en"){
     WalletView(viewModel: .init(priceClient: .mockPause, bdkClient: .mock))
 }
 
-#Preview("WalletView - fr") {
+#Preview("WalletView - fr"){
     WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }
