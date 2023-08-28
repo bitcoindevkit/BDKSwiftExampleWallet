@@ -5,16 +5,18 @@
 //  Created by Matthew Ramsden on 8/27/23.
 //
 
-import XCTest
-@testable import BDKSwiftExampleWallet
 import BitcoinDevKit
+import XCTest
+
+@testable import BDKSwiftExampleWallet
 
 final class BDKSwiftExampleWalletKeyServiceTests: XCTestCase {
 
     func testKeyClientMockBackupInfo() throws {
         let backupInfo = try KeyClient.mock.getBackupInfo()
-        
-        let mnemonicWords12 = "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
+
+        let mnemonicWords12 =
+            "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
         let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
         let secretKey = DescriptorSecretKey(
             network: mockKeyClientNetwork,
@@ -36,7 +38,6 @@ final class BDKSwiftExampleWalletKeyServiceTests: XCTestCase {
             descriptor: descriptor.asString(),
             changeDescriptor: changeDescriptor.asStringPrivate()
         )
-        
 
         XCTAssertEqual(backupInfo, backupInfoMock)
     }

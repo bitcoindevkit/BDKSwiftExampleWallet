@@ -5,21 +5,21 @@
 //  Created by Matthew Ramsden on 6/20/23.
 //
 
-import SwiftUI
 import BitcoinUI
+import SwiftUI
 
 struct SendView: View {
     @Bindable var viewModel: SendViewModel
     @State private var amount: String = ""
     @State private var address: String = ""
-    
+
     var body: some View {
-        
+
         ZStack {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
-            
-            VStack(spacing: 50){
+
+            VStack(spacing: 50) {
                 HStack(spacing: 15) {
                     Image(systemName: "bitcoinsign")
                         .foregroundColor(.secondary)
@@ -42,12 +42,12 @@ struct SendView: View {
                     viewModel.getBalance()
                 }
                 VStack(spacing: 25) {
-                    
+
                     Rectangle()
                         .frame(height: 1)
                         .foregroundColor(.secondary)
                         .padding(.horizontal)
-                    
+
                     VStack {
                         HStack {
                             Text("Amount")
@@ -62,12 +62,12 @@ struct SendView: View {
                         .padding()
                         .keyboardType(.numberPad)
                     }
-                    
+
                     Rectangle()
                         .frame(height: 1)
                         .foregroundColor(.secondary)
                         .padding(.horizontal)
-                    
+
                     VStack {
                         HStack {
                             Text("Address")
@@ -83,14 +83,14 @@ struct SendView: View {
                         .truncationMode(.middle)
                         .lineLimit(1)
                     }
-                    
+
                     Rectangle()
                         .frame(height: 1)
                         .foregroundColor(.secondary)
                         .padding(.horizontal)
-                    
+
                     VStack {
-                        
+
                         HStack {
                             Text("Fee")
                                 .bold()
@@ -98,33 +98,33 @@ struct SendView: View {
                         }
                         .padding(.horizontal, 15.0)
                         HStack {
-                            
+
                             if let selectedFee = viewModel.selectedFee {
-                                    Text(String(selectedFee))
-                                .padding(.horizontal, 15.0)
+                                Text(String(selectedFee))
+                                    .padding(.horizontal, 15.0)
                             }
-                            
+
                             Spacer()
-                            
+
                             Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.0percent")
                                     Text("No - \(viewModel.recommendedFees?.minimumFee ?? 0)")
                                 }
                                 .tag(0)
-                                
+
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.33percent")
                                     Text("Low - \(viewModel.recommendedFees?.hourFee ?? 0)")
                                 }
                                 .tag(1)
-                                
+
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.50percent")
                                     Text("Med - \(viewModel.recommendedFees?.halfHourFee ?? 0)")
                                 }
                                 .tag(2)
-                                
+
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.67percent")
                                     Text("High - \(viewModel.recommendedFees?.fastestFee ?? 0)")
@@ -133,7 +133,7 @@ struct SendView: View {
                             }
                             .pickerStyle(.menu)
                             .tint(.bitcoinOrange)
-                            
+
                         }
                     }
                 }
@@ -164,17 +164,17 @@ struct SendView: View {
             .task {
                 await viewModel.getFees()
             }
-            
+
         }
-        
+
     }
 }
 
-#Preview("SendView - en") {
+#Preview("SendView - en"){
     SendView(viewModel: .init(feeClient: .mock, bdkClient: .mock))
 }
 
-#Preview("SendView - fr") {
+#Preview("SendView - fr"){
     SendView(viewModel: .init(feeClient: .mock, bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

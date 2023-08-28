@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 8/6/23.
 //
 
-import Foundation
 import BitcoinDevKit
+import Foundation
 import Observation
 
 @MainActor
@@ -14,8 +14,8 @@ import Observation
 class WalletViewModel {
     let priceClient: PriceClient
     let bdkClient: BDKClient
-    
-    var balanceTotal: UInt64? //= 0
+
+    var balanceTotal: UInt64?  //= 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
     var price: Double?
@@ -31,7 +31,7 @@ class WalletViewModel {
         self.priceClient = priceClient
         self.bdkClient = bdkClient
     }
-    
+
     func getPrices() async {
         print("===")
         print("getPrices() called")
@@ -46,7 +46,7 @@ class WalletViewModel {
         }
         print("===")
     }
-    
+
     func getBalance() {
         print("===")
         print("getBalance() called")
@@ -62,7 +62,7 @@ class WalletViewModel {
         }
         print("===")
     }
-    
+
     func getTransactions() {
         print("===")
         print("getTransactions() called")
@@ -75,7 +75,7 @@ class WalletViewModel {
         }
         print("===")
     }
-    
+
     func sync() async {
         print("===")
         print("sync() called")
@@ -89,7 +89,7 @@ class WalletViewModel {
         }
         print("===")
     }
-    
+
 }
 
 extension WalletViewModel {
@@ -98,7 +98,7 @@ extension WalletViewModel {
         case notStarted
         case synced
         case syncing
-        
+
         var description: String {
             switch self {
             case .error(let error):
@@ -111,8 +111,8 @@ extension WalletViewModel {
                 return "Syncing"
             }
         }
-        
-        static func ==(lhs: WalletSyncState, rhs: WalletSyncState) -> Bool {
+
+        static func == (lhs: WalletSyncState, rhs: WalletSyncState) -> Bool {
             switch (lhs, rhs) {
             case (.error(let error1), .error(let error2)):
                 return error1.localizedDescription == error2.localizedDescription

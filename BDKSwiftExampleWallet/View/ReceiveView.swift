@@ -13,15 +13,15 @@ struct ReceiveView: View {
     @State private var showCheckmark = false
 
     var body: some View {
-        
+
         ZStack {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
-            
+
             VStack {
-                
+
                 VStack {
-                    Image(systemName:"bitcoinsign.circle.fill")
+                    Image(systemName: "bitcoinsign.circle.fill")
                         .resizable()
                         .foregroundColor(.bitcoinOrange)
                         .frame(width: 50, height: 50, alignment: .center)
@@ -29,9 +29,9 @@ struct ReceiveView: View {
                 }
                 .font(.caption)
                 .fontWeight(.light)
-                
+
                 Spacer()
-                
+
                 if viewModel.address != "" {
                     QRCodeView(address: viewModel.address)
                         .animation(.default, value: viewModel.address)
@@ -39,16 +39,16 @@ struct ReceiveView: View {
                     QRCodeView(address: viewModel.address)
                         .blur(radius: 15)
                 }
-                
+
                 Spacer()
-                
+
                 HStack {
-                    
+
                     Text(viewModel.address)
                         .lineLimit(1)
                         .truncationMode(.middle)
                         .fontDesign(.monospaced)
-                    
+
                     Button {
                         UIPasteboard.general.string = viewModel.address
                         isCopied = true
@@ -67,27 +67,27 @@ struct ReceiveView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.bitcoinOrange)
                     }
-                    
+
                 }
                 .padding()
-                
+
             }
             .padding()
             .onAppear {
                 viewModel.getAddress()
             }
-            
+
         }
-        
+
     }
-    
+
 }
 
-#Preview("ReceiveView - en") {
+#Preview("ReceiveView - en"){
     ReceiveView(viewModel: .init(bdkClient: .mock))
 }
 
-#Preview("ReceiveView - fr") {
+#Preview("ReceiveView - fr"){
     ReceiveView(viewModel: .init(bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

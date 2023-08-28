@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 5/22/23.
 //
 
-import SwiftUI
 import BitcoinDevKit
+import SwiftUI
 
 @main
 struct BDKSwiftExampleWalletApp: App {
@@ -22,7 +22,7 @@ struct BDKSwiftExampleWalletApp: App {
             print("BDKSwiftExampleWalletApp error: \(error.localizedDescription)")
         }
     }
-    
+
     var body: some Scene {
         WindowGroup {
             if isOnboarding {
@@ -32,5 +32,5 @@ struct BDKSwiftExampleWalletApp: App {
             }
         }
     }
-    
+
 }

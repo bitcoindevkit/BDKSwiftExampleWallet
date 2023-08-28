@@ -6,6 +6,7 @@
 //
 
 import XCTest
+
 @testable import BDKSwiftExampleWallet
 
 final class BDKSwiftExampleWalletFeeServiceTests: XCTestCase {
