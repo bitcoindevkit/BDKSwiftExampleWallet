@@ -39,13 +39,8 @@ struct WalletView: View {
                                 Image(systemName: "bitcoinsign")
                                     .foregroundColor(.secondary)
                                     .font(.title)
-                                if let balanceTotal = viewModel.balanceTotal {
-                                    Text(balanceTotal.formattedSatoshis())
-                                } else {
-                                    let balanceTotal: UInt64 = 0
-                                    Text(balanceTotal.formattedSatoshis())
-                                        .foregroundColor(.secondary)
-                                }
+                                Text(viewModel.balanceTotal.formattedSatoshis())
+                                    .contentTransition(.numericText())
                                 Text("sats")
                                     .foregroundColor(.secondary)
                             }
@@ -60,13 +55,16 @@ struct WalletView: View {
                                         .variableColor.cumulative
                                     )
                             }
-                            withAnimation {
-                                if let satsPrice = viewModel.satsPrice {
-                                    Text(satsPrice)
-                                } else {
-                                    Text("$")
-                                }
-                            }
+//                            if let satsPrice = viewModel.satsPrice {
+//                                Text(satsPrice)
+//                                    .contentTransition(.numericText())
+//                            } else {
+//                                Text("$0.00")
+//                                    .contentTransition(.numericText())
+//                            }
+                            Text(viewModel.satsPrice)
+                                .contentTransition(.numericText())
+
                         }
                         .foregroundColor(.secondary)
                         .font(.subheadline)

@@ -15,14 +15,12 @@ class WalletViewModel {
     let priceClient: PriceClient
     let bdkClient: BDKClient
 
-    var balanceTotal: UInt64?  //= 0
+    var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
-    var price: Double?
+    var price: Double = 0.00//?
     var time: Int?
-    var satsPrice: String? {
-        guard let price = price else { return nil }
-        guard let balanceTotal = balanceTotal else { return nil }
+    var satsPrice: String {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
