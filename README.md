@@ -8,7 +8,7 @@ An example iOS app using [BDK](https://github.com/bitcoindevkit)
 
 ## Functionality
 
-*This app is an experimental work in progress.*
+*This is an experimental work in progress.*
 
 ### Wallet
 
