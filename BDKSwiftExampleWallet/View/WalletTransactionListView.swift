@@ -7,7 +7,7 @@
 
 import SwiftUI
 import BitcoinDevKit
-import WalletUI
+import BitcoinUI
 
 struct WalletTransactionListView: View {
     let transactionDetails: [TransactionDetails]
