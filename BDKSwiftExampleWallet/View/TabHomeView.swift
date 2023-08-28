@@ -16,7 +16,7 @@ struct TabHomeView: View {
             
             TabView {
                 
-                WalletView(viewModel: .init(priceService: .init()))
+                WalletView(viewModel: .init())
                     .tabItem {
                         Label(
                             "Wallet",
@@ -32,7 +32,7 @@ struct TabHomeView: View {
                         )
                     }
                 
-                SendView(viewModel: .init(feeService: .init()))
+                SendView(viewModel: .init())
                     .tabItem {
                         Label(
                             "Send",

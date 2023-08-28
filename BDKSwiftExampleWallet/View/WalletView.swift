@@ -34,17 +34,25 @@ struct WalletView: View {
                                     isAnimating = true
                                 }
                             }
+                        withAnimation {
                         HStack(spacing: 15) {
                             Image(systemName: "bitcoinsign")
                                 .foregroundColor(.secondary)
                                 .font(.title)
-                            Text(viewModel.balanceTotal.formattedSatoshis())
+                            if let balanceTotal = viewModel.balanceTotal {
+                                Text(balanceTotal.formattedSatoshis())
+                            } else {
+                                let balanceTotal: UInt64 = 0
+                                Text(balanceTotal.formattedSatoshis())
+                                    .foregroundColor(.secondary)
+                            }
                             Text("sats")
                                 .foregroundColor(.secondary)
                         }
                         .font(.largeTitle)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
+                    }
                         HStack {
                             if viewModel.walletSyncState == .syncing {
                                 Image(systemName: "chart.bar.fill")
@@ -52,7 +60,13 @@ struct WalletView: View {
                                         .variableColor.cumulative
                                     )
                             }
-                            Text(viewModel.satsPrice)
+                            withAnimation {
+                                if let satsPrice = viewModel.satsPrice {
+                                    Text(satsPrice)
+                                } else {
+                                    Text("$")
+                                }
+                            }
                         }
                         .foregroundColor(.secondary)
                         .font(.subheadline)
@@ -82,16 +96,6 @@ struct WalletView: View {
                                     } else {
                                         Image(systemName: "questionmark")
                                     }
-                                    Text(viewModel.walletSyncState.description)
-                                        .foregroundColor(
-                                            viewModel.walletSyncState == .synced ?
-                                                .green :
-                                                    .secondary
-                                        )
-                                }
-                                if let lastSyncTime = viewModel.lastSyncTime {
-                                    Text(lastSyncTime, style: .time)
-                                        .font(.caption)
                                 }
                             }
                             .foregroundColor(.secondary)
@@ -103,7 +107,9 @@ struct WalletView: View {
                             WalletTransactionListView(transactionDetails: viewModel.transactionDetails)
                                 .refreshable {
                                     await viewModel.sync()
-                                    // TODO: call 3 other functions here too?
+                                    viewModel.getBalance()
+                                    viewModel.getTransactions()
+                                    await viewModel.getPrices()
                                 }
                         }
                         Spacer()
@@ -129,10 +135,18 @@ struct WalletView: View {
 }
 
 #Preview("WalletView - en") {
-    WalletView(viewModel: .init(priceService: .init()))
+    WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
+}
+
+#Preview("WalletView Zero - en") {
+    WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
+}
+
+#Preview("WalletView Wait - en") {
+    WalletView(viewModel: .init(priceClient: .mockPause, bdkClient: .mock))
 }
 
 #Preview("WalletView - fr") {
-    WalletView(viewModel: .init(priceService: .init()))
+    WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

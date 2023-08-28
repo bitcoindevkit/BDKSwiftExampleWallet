@@ -1,5 +1,5 @@
 //
-//  FeesResponse.swift
+//  RecommendedFees.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 8/23/23.

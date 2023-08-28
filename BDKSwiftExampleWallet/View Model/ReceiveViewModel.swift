@@ -11,10 +11,14 @@ import Observation
 @Observable
 class ReceiveViewModel {
     var address: String = ""
-    
+    let bdkClient: BDKClient
+
+    init(bdkClient: BDKClient = .live) {
+        self.bdkClient = bdkClient
+    }
     func getAddress() {
         do {
-            let address = try BDKService.shared.getAddress()
+            let address = try bdkClient.getAddress()
             self.address = address
         } catch {
             self.address = "Error getting address."

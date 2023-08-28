@@ -24,6 +24,9 @@
         }
       }
     },
+    "$" : {
+
+    },
     "100% open-source & open-design" : {
       "localizations" : {
         "fr" : {
@@ -96,7 +99,6 @@
       }
     },
     "Block %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -107,7 +109,6 @@
       }
     },
     "Confirmed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -147,6 +148,9 @@
         }
       }
     },
+    "Fee" : {
+
+    },
     "Fee %llu" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -158,6 +162,9 @@
         }
       }
     },
+    "High - %lld" : {
+
+    },
     "Last Synced: %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -168,6 +175,15 @@
           }
         }
       }
+    },
+    "Low - %lld" : {
+
+    },
+    "Med - %lld" : {
+
+    },
+    "No - %lld" : {
+
     },
     "No Transactions" : {
       "localizations" : {
@@ -188,6 +204,9 @@
           }
         }
       }
+    },
+    "Receive Address" : {
+
     },
     "Received" : {
       "extractionState" : "stale",
@@ -306,6 +325,7 @@
       }
     },
     "Your Balance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

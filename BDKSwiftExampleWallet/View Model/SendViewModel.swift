@@ -12,8 +12,10 @@ import Observation
 @MainActor
 @Observable
 class SendViewModel {
-    let feeService: FeeService
-    var balanceTotal: UInt64 = 0
+    let feeClient: FeeClient
+    let bdkClient: BDKClient
+
+    var balanceTotal: UInt64? //= 0
     var recommendedFees: RecommendedFees?
     var selectedFeeIndex: Int = 2
     var selectedFee: Int? {
@@ -27,7 +29,6 @@ class SendViewModel {
         default: return fees.fastestFee
         }
     }
-    
     var selectedFeeDescription: String {
         guard let selectedFee = selectedFee else {
             return "Failed to load fees"
@@ -36,8 +37,7 @@ class SendViewModel {
         let feeText = text(for: selectedFeeIndex)
         return "Selected \(feeText) Fee: \(selectedFee) sats"
     }
-    
-    private func text(for index: Int) -> String {
+    func text(for index: Int) -> String {
         
         switch index {
             
@@ -63,14 +63,15 @@ class SendViewModel {
         }
         
     }
-    
-    init(feeService: FeeService) {
-        self.feeService = feeService
+
+    init(feeClient: FeeClient = .live, bdkClient: BDKClient = .live) {
+        self.feeClient = feeClient
+        self.bdkClient = bdkClient
     }
     
     func getBalance() {
         do {
-            let balance = try BDKService.shared.getBalance()
+            let balance = try bdkClient.getBalance()
             self.balanceTotal = balance.total
         } catch let error as WalletError {
             print("getBalance - Wallet Error: \(error.localizedDescription)")
@@ -81,7 +82,7 @@ class SendViewModel {
     
     func send(address: String, amount: UInt64, feeRate: Float?) {
         do {
-            try BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+            try bdkClient.send(address, amount, feeRate)
         } catch let error as WalletError {
             print("send - Wallet Error: \(error.localizedDescription)")
         } catch {
@@ -91,7 +92,7 @@ class SendViewModel {
     
     func getFees() async {
         do {
-            let recommendedFees = try await feeService.fees()
+            let recommendedFees = try await feeClient.fetchFees()
             self.recommendedFees = recommendedFees
         } catch {
             print("getFees error: \(error.localizedDescription)")

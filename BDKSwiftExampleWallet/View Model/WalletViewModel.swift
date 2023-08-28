@@ -12,30 +12,34 @@ import Observation
 @MainActor
 @Observable
 class WalletViewModel {
-    var balanceTotal: UInt64 = 0
-    var lastSyncTime: Date? = nil
+    let priceClient: PriceClient
+    let bdkClient: BDKClient
+    
+    var balanceTotal: UInt64? //= 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
-    var price: Double = 0.0
+    var price: Double?
     var time: Int?
-    var satsPrice: String {
+    var satsPrice: String? {
+        guard let price = price else { return nil }
+        guard let balanceTotal = balanceTotal else { return nil }
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
-    let priceService: PriceService
-    
-    init(priceService: PriceService) {
-        self.priceService = priceService
+
+    init(priceClient: PriceClient = .live, bdkClient: BDKClient = .live) {
+        self.priceClient = priceClient
+        self.bdkClient = bdkClient
     }
     
     func getPrices() async {
         print("===")
         print("getPrices() called")
         do {
-            let price = try await priceService.prices()
+            let price = try await priceClient.fetchPrice()
             self.price = price.usd
             self.time = price.time
-            print("Price USD: \(self.price)")
+            print("Price USD: \(String(describing: self.price))")
             print("Price Time: \(String(describing: self.time))")
         } catch {
             print("getPrices error: \(error.localizedDescription)")
@@ -47,9 +51,10 @@ class WalletViewModel {
         print("===")
         print("getBalance() called")
         do {
-            let balance = try BDKService.shared.getBalance()
+            let balance = try bdkClient.getBalance()
+            print("Balance: \(balance)")
             self.balanceTotal = balance.total
-            print("Balance Total: \(self.balanceTotal)")
+            print("Balance Total: \(String(describing: self.balanceTotal))")
         } catch let error as WalletError {
             print("getBalance - Wallet Error: \(error.localizedDescription)")
         } catch {
@@ -62,7 +67,7 @@ class WalletViewModel {
         print("===")
         print("getTransactions() called")
         do {
-            let transactionDetails = try BDKService.shared.getTransactions()
+            let transactionDetails = try bdkClient.getTransactions()
             self.transactionDetails = transactionDetails
             print("Transaction Details: \(self.transactionDetails)")
         } catch {
@@ -76,11 +81,9 @@ class WalletViewModel {
         print("sync() called")
         self.walletSyncState = .syncing
         do {
-            try await BDKService.shared.sync()
+            try await bdkClient.sync()
             self.walletSyncState = .synced
-            self.lastSyncTime = Date()
             print("Wallet Sync State: \(self.walletSyncState)")
-            print("Last Sync Time: \(String(describing: self.lastSyncTime))")
         } catch {
             self.walletSyncState = .error(error)
         }

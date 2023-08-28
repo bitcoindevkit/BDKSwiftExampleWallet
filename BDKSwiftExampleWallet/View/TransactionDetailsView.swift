@@ -19,10 +19,33 @@ struct TransactionDetailsView: View {
         
         VStack {
             
+            VStack {
+                Image(systemName:"bitcoinsign.circle.fill")
+                    .resizable()
+                    .foregroundColor(.bitcoinOrange)
+                    .frame(width: 50, height: 50, alignment: .center)
+                HStack(spacing: 3) {
+                    Text(
+                        transaction.sent > 0 ?
+                        "Send" :
+                            "Receive"
+                    )
+                    if transaction.confirmationTime == nil {
+                        Text("Unconfirmed")
+                    } else {
+                            Text("Confirmed")
+                    }
+                }
+                        if let height = transaction.confirmationTime?.height {
+                            Text("Block \(height.delimiter)")
+                        }
+            }
+            .font(.caption)
+            .fontWeight(.light)
+
             Spacer()
             
             VStack {
-                
                 HStack {
                     Text(amount.delimiter)
                     Text("sats")
@@ -30,30 +53,24 @@ struct TransactionDetailsView: View {
                 .font(.largeTitle)
                 .foregroundColor(.primary)
                 .fontWidth(.compressed)
-                .fontWeight(.semibold)
-                
-                if transaction.confirmationTime == nil {
-                    Text("Unconfirmed")
-                } else {
-                    VStack {
-                        Text("Confirmed".uppercased())
-                        if let height = transaction.confirmationTime?.height {
-                            Text("Block \(height.delimiter)".uppercased())
-                        }
-                        if let timestamp = transaction.confirmationTime?.timestamp {
-                            Text(timestamp.toDate().formatted(date: .abbreviated, time: Date.FormatStyle.TimeStyle.shortened))
+                .fontWeight(.bold)
+                VStack {
+                    if transaction.confirmationTime == nil {
+                        Text("Unconfirmed")
+                    } else {
+                        VStack {
+                            if let timestamp = transaction.confirmationTime?.timestamp {
+                                Text(timestamp.toDate().formatted(date: .abbreviated, time: Date.FormatStyle.TimeStyle.shortened))
+                            }
                         }
                     }
-                    .fontWidth(.expanded)
+                    if let fee = transaction.fee {
+                        Text("\(fee) sats fee")
+                    }
                 }
-                
-                if let fee = transaction.fee {
-                    Text("\(fee) sats fee")
-                }
-                
+                .foregroundColor(.secondary)
+                .fontWidth(.expanded)
             }
-            .foregroundColor(.secondary)
-            .padding()
             
             Spacer()
             
@@ -93,20 +110,10 @@ struct TransactionDetailsView: View {
     }
 }
 
+
+private let mockTransactionDetail =
+BitcoinDevKit.TransactionDetails(transaction: nil, fee: Optional(2820), received: 10000000, sent: 0, txid: "cdcc4d287e4780d25c577d4f5726c7d585625170559f0b294da20b55ffa2b009", confirmationTime: Optional(BitcoinDevKit.BlockTime(height: 178497, timestamp: 1687465081)))
+
 #Preview {
-    TransactionDetailsView(
-        transaction: .init(
-            transaction: .none,
-            fee: nil,
-            received: UInt64(20),
-            sent: 21,
-            txid: "d652a7cc0138e3277c34f1eab8e63ef445a4b3d02af5f764ed0805b16d33c45b",
-            confirmationTime: .init(
-                height: UInt32(796298),
-                timestamp: UInt64(Date().timeIntervalSince1970
-                                 )
-            )
-        ),
-        amount: UInt64(2000)
-    )
+    TransactionDetailsView(transaction: mockTransactionDetail, amount: UInt64(10000000))
 }
