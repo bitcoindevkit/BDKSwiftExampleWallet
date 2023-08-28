@@ -18,7 +18,7 @@ class WalletViewModel {
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
-    var price: Double = 0.00//?
+    var price: Double = 0.00
     var time: Int?
     var satsPrice: String {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)

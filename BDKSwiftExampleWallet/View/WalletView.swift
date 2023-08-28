@@ -55,13 +55,6 @@ struct WalletView: View {
                                         .variableColor.cumulative
                                     )
                             }
-//                            if let satsPrice = viewModel.satsPrice {
-//                                Text(satsPrice)
-//                                    .contentTransition(.numericText())
-//                            } else {
-//                                Text("$0.00")
-//                                    .contentTransition(.numericText())
-//                            }
                             Text(viewModel.satsPrice)
                                 .contentTransition(.numericText())
 
