@@ -25,7 +25,7 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
 
         // Simulate successful getBalance() call
         viewModel.getBalance()
-        XCTAssertGreaterThan(viewModel.balanceTotal!, UInt64(0))
+        XCTAssertGreaterThan(viewModel.balanceTotal, UInt64(0))
 
         // Simulate successful getTransactions() call
         viewModel.getTransactions()
