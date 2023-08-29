@@ -80,7 +80,7 @@ private class BDKService {
             changeDescriptor: changeDescriptor.asStringPrivate()
         )
         try keyService.saveBackupInfo(backupInfo)
-        let wallet = try Wallet.init(
+        let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
@@ -90,7 +90,7 @@ private class BDKService {
     }
 
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
-        let wallet = try Wallet.init(
+        let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
