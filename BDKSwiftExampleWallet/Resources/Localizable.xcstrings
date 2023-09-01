@@ -162,7 +162,7 @@
         }
       }
     },
-    "High - %lld" : {
+    "High Priority - %lld" : {
 
     },
     "Last Synced: %@" : {
@@ -176,13 +176,13 @@
         }
       }
     },
-    "Low - %lld" : {
+    "Low Priority - %lld" : {
 
     },
-    "Med - %lld" : {
+    "Medium Priority - %lld " : {
 
     },
-    "No - %lld" : {
+    "No Priority - %lld " : {
 
     },
     "No Transactions" : {
@@ -239,6 +239,9 @@
           }
         }
       }
+    },
+    "sats available" : {
+
     },
     "Select Fee" : {
       "localizations" : {
