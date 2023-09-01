@@ -27,7 +27,7 @@ struct WalletView: View {
                         Text("Bitcoin".uppercased())
                             .fontWeight(.semibold)
                             .fontWidth(.expanded)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.orange)
                             .scaleEffect(isAnimating ? 1.0 : 0.6)
                             .onAppear {
                                 withAnimation(.easeOut(duration: 0.5)) {
@@ -39,10 +39,14 @@ struct WalletView: View {
                                 Image(systemName: "bitcoinsign")
                                     .foregroundColor(.secondary)
                                     .font(.title)
+                                    .fontWeight(.thin)
                                 Text(viewModel.balanceTotal.formattedSatoshis())
                                     .contentTransition(.numericText())
+                                    .fontWeight(.semibold)
+                                    .fontDesign(.rounded)
                                 Text("sats")
                                     .foregroundColor(.secondary)
+                                    .fontWeight(.thin)
                             }
                             .font(.largeTitle)
                             .lineLimit(1)
@@ -57,7 +61,7 @@ struct WalletView: View {
                             }
                             Text(viewModel.satsPrice)
                                 .contentTransition(.numericText())
-
+                                .fontDesign(.rounded)
                         }
                         .foregroundColor(.secondary)
                         .font(.subheadline)
@@ -91,7 +95,9 @@ struct WalletView: View {
                             .foregroundColor(.secondary)
                             .font(.caption)
                         }
-                        if viewModel.transactionDetails.isEmpty && viewModel.walletSyncState == .syncing {
+                        if viewModel.transactionDetails.isEmpty
+                            && viewModel.walletSyncState == .syncing
+                        {
                             Text("")
                         } else if viewModel.transactionDetails.isEmpty {
                             Text("No Transactions")

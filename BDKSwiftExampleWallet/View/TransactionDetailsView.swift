@@ -19,10 +19,11 @@ struct TransactionDetailsView: View {
 
         VStack {
 
-            VStack {
+            VStack(spacing: 8) {
                 Image(systemName: "bitcoinsign.circle.fill")
                     .resizable()
                     .foregroundColor(.bitcoinOrange)
+                    .fontWeight(.bold)
                     .frame(width: 50, height: 50, alignment: .center)
                 HStack(spacing: 3) {
                     Text(
@@ -34,25 +35,26 @@ struct TransactionDetailsView: View {
                         Text("Confirmed")
                     }
                 }
+                .fontWeight(.semibold)
                 if let height = transaction.confirmationTime?.height {
                     Text("Block \(height.delimiter)")
+                        .foregroundColor(.secondary)
                 }
             }
             .font(.caption)
-            .fontWeight(.light)
 
             Spacer()
 
-            VStack {
+            VStack(spacing: 8) {
                 HStack {
                     Text(amount.delimiter)
                     Text("sats")
                 }
                 .font(.largeTitle)
                 .foregroundColor(.primary)
-                .fontWidth(.compressed)
                 .fontWeight(.bold)
-                VStack {
+                .fontDesign(.rounded)
+                VStack(spacing: 4) {
                     if transaction.confirmationTime == nil {
                         Text("Unconfirmed")
                     } else {
@@ -72,14 +74,15 @@ struct TransactionDetailsView: View {
                     }
                 }
                 .foregroundColor(.secondary)
-                .fontWidth(.expanded)
+                .font(.callout)
             }
 
             Spacer()
 
             HStack {
-                Text("Txid".uppercased())
+                Text("Transaction".uppercased())
                     .foregroundColor(.secondary)
+                    .fontWeight(.light)
                 Text(transaction.txid)
                     .lineLimit(1)
                     .truncationMode(.middle)
@@ -102,6 +105,7 @@ struct TransactionDetailsView: View {
                 }
             }
             .fontDesign(.monospaced)
+            .font(.caption)
             .padding()
 
         }

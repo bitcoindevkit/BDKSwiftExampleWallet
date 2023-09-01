@@ -20,15 +20,17 @@ struct ReceiveView: View {
 
             VStack {
 
-                VStack {
+                VStack(spacing: 8) {
                     Image(systemName: "bitcoinsign.circle.fill")
                         .resizable()
                         .foregroundColor(.bitcoinOrange)
+                        .fontWeight(.bold)
                         .frame(width: 50, height: 50, alignment: .center)
                     Text("Receive Address")
+                        .fontWeight(.semibold)
                 }
                 .font(.caption)
-                .fontWeight(.light)
+                .padding(.top, 40.0)
 
                 Spacer()
 
@@ -43,6 +45,10 @@ struct ReceiveView: View {
                 Spacer()
 
                 HStack {
+
+                    Text("Address".uppercased())
+                        .foregroundColor(.secondary)
+                        .fontWeight(.light)
 
                     Text(viewModel.address)
                         .lineLimit(1)
@@ -61,7 +67,6 @@ struct ReceiveView: View {
                         HStack {
                             withAnimation {
                                 Image(systemName: showCheckmark ? "checkmark" : "doc.on.doc")
-                                    .font(.headline)
                             }
                         }
                         .fontWeight(.semibold)
@@ -70,6 +75,8 @@ struct ReceiveView: View {
 
                 }
                 .padding()
+                .fontDesign(.monospaced)
+                .font(.caption)
 
             }
             .padding()

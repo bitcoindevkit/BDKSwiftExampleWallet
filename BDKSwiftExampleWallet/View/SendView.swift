@@ -19,34 +19,27 @@ struct SendView: View {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
 
-            VStack(spacing: 50) {
-                HStack(spacing: 15) {
-                    Image(systemName: "bitcoinsign")
-                        .foregroundColor(.secondary)
-                        .font(.title)
-                    if let balanceTotal = viewModel.balanceTotal {
-                        Text(balanceTotal.formattedSatoshis())
-                    } else {
-                        let balanceTotal: UInt64 = 0
-                        Text(balanceTotal.formattedSatoshis())
-                            .foregroundColor(.secondary)
+            VStack {
+                VStack(spacing: 8) {
+                    Image(systemName: "bitcoinsign.circle.fill")
+                        .resizable()
+                        .foregroundColor(.bitcoinOrange)
+                        .fontWeight(.bold)
+                        .frame(width: 50, height: 50, alignment: .center)
+                    if let balance = viewModel.balanceTotal {
+                        HStack(spacing: 2) {
+                            Text(balance.delimiter)
+                            Text("sats available")
+                        }
+                        .fontWeight(.semibold)
                     }
-                    Text("sats")
-                        .foregroundColor(.secondary)
                 }
-                .font(.largeTitle)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-                .padding()
-                .onAppear {
-                    viewModel.getBalance()
-                }
-                VStack(spacing: 25) {
+                .font(.caption)
+                .padding(.top, 40.0)
 
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
+                Spacer()
+
+                VStack(spacing: 25) {
 
                     VStack {
                         HStack {
@@ -61,12 +54,11 @@ struct SendView: View {
                         )
                         .padding()
                         .keyboardType(.numberPad)
+                        Rectangle()
+                            .frame(height: 1)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal)
                     }
-
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
 
                     VStack {
                         HStack {
@@ -82,12 +74,11 @@ struct SendView: View {
                         .padding()
                         .truncationMode(.middle)
                         .lineLimit(1)
+                        Rectangle()
+                            .frame(height: 1)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal)
                     }
-
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
 
                     VStack {
 
@@ -97,11 +88,13 @@ struct SendView: View {
                             Spacer()
                         }
                         .padding(.horizontal, 15.0)
+
                         HStack {
 
                             if let selectedFee = viewModel.selectedFee {
                                 Text(String(selectedFee))
                                     .padding(.horizontal, 15.0)
+                                    .fontDesign(.rounded)
                             }
 
                             Spacer()
@@ -109,25 +102,30 @@ struct SendView: View {
                             Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.0percent")
-                                    Text("No - \(viewModel.recommendedFees?.minimumFee ?? 0)")
+                                    Text(
+                                        "No Priority - \(viewModel.recommendedFees?.minimumFee ?? 1) sat/vB"
+                                    )
                                 }
                                 .tag(0)
-
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.33percent")
-                                    Text("Low - \(viewModel.recommendedFees?.hourFee ?? 0)")
+                                    Text(
+                                        "Low Priority - \(viewModel.recommendedFees?.hourFee ?? 1) sat/vB"
+                                    )
                                 }
                                 .tag(1)
-
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.50percent")
-                                    Text("Med - \(viewModel.recommendedFees?.halfHourFee ?? 0)")
+                                    Text(
+                                        "Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 1) sat/vB"
+                                    )
                                 }
                                 .tag(2)
-
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.67percent")
-                                    Text("High - \(viewModel.recommendedFees?.fastestFee ?? 0)")
+                                    Text(
+                                        "High Priority - \(viewModel.recommendedFees?.fastestFee ?? 1) sat/vB"
+                                    )
                                 }
                                 .tag(3)
                             }
@@ -137,10 +135,7 @@ struct SendView: View {
                         }
                     }
                 }
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal)
+                .padding()
 
                 Button {
                     let feeRate: Float? = viewModel.selectedFee.map { Float($0) }
@@ -159,9 +154,11 @@ struct SendView: View {
                         .padding(.all, 8)
                 }
                 .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
+                .padding()
             }
             .padding()
             .task {
+                viewModel.getBalance()
                 await viewModel.getFees()
             }
 

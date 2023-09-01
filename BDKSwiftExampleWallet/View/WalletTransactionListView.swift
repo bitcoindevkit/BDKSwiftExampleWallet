@@ -52,7 +52,7 @@ struct WalletTransactionListView: View {
                                 .lineLimit(1)
                                 .fontDesign(.monospaced)
                                 .fontWeight(.semibold)
-                                .font(.body)
+                                .font(.callout)
                                 .foregroundColor(.primary)
                             Text(
                                 transaction.confirmationTime?.timestamp.toDate().formatted(
@@ -64,7 +64,7 @@ struct WalletTransactionListView: View {
                         }
                         .foregroundColor(.secondary)
                         .font(.caption2)
-                        .padding(.trailing, 15.0)
+                        .padding(.trailing, 10.0)
                         Spacer()
                         Text(
                             transaction.sent > 0
@@ -73,6 +73,7 @@ struct WalletTransactionListView: View {
                         )
                         .font(.caption)
                         .fontWeight(.semibold)
+                        .fontDesign(.rounded)
                     }
                     .padding(.vertical, 15.0)
                     .padding(.vertical, 5.0)
