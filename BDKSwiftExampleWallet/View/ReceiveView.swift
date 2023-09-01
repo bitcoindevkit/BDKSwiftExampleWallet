@@ -49,7 +49,7 @@ struct ReceiveView: View {
                     Text("Address".uppercased())
                         .foregroundColor(.secondary)
                         .fontWeight(.light)
-                    
+
                     Text(viewModel.address)
                         .lineLimit(1)
                         .truncationMode(.middle)

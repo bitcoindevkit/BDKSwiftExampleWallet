@@ -26,7 +26,7 @@ struct SendView: View {
                         .foregroundColor(.bitcoinOrange)
                         .fontWeight(.bold)
                         .frame(width: 50, height: 50, alignment: .center)
-                    if let balance =  viewModel.balanceTotal {
+                    if let balance = viewModel.balanceTotal {
                         HStack(spacing: 2) {
                             Text(balance.delimiter)
                             Text("sats available")
@@ -36,11 +36,11 @@ struct SendView: View {
                 }
                 .font(.caption)
                 .padding(.top, 40.0)
-                
+
                 Spacer()
-                
+
                 VStack(spacing: 25) {
-                    
+
                     VStack {
                         HStack {
                             Text("Amount")
@@ -88,9 +88,9 @@ struct SendView: View {
                             Spacer()
                         }
                         .padding(.horizontal, 15.0)
-                        
+
                         HStack {
-                            
+
                             if let selectedFee = viewModel.selectedFee {
                                 Text(String(selectedFee))
                                     .padding(.horizontal, 15.0)
@@ -102,22 +102,30 @@ struct SendView: View {
                             Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.0percent")
-                                    Text("No Priority - \(viewModel.recommendedFees?.minimumFee ?? 0) sat/vB")
+                                    Text(
+                                        "No Priority - \(viewModel.recommendedFees?.minimumFee ?? 0) sat/vB"
+                                    )
                                 }
                                 .tag(0)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.33percent")
-                                    Text("Low Priority - \(viewModel.recommendedFees?.hourFee ?? 0) sat/vB")
+                                    Text(
+                                        "Low Priority - \(viewModel.recommendedFees?.hourFee ?? 0) sat/vB"
+                                    )
                                 }
                                 .tag(1)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.50percent")
-                                    Text("Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 0) sat/vB")
+                                    Text(
+                                        "Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 0) sat/vB"
+                                    )
                                 }
                                 .tag(2)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.67percent")
-                                    Text("High Priority - \(viewModel.recommendedFees?.fastestFee ?? 0) sat/vB")
+                                    Text(
+                                        "High Priority - \(viewModel.recommendedFees?.fastestFee ?? 0) sat/vB"
+                                    )
                                 }
                                 .tag(3)
                             }
