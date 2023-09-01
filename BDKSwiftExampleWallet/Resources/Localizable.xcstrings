@@ -162,7 +162,7 @@
         }
       }
     },
-    "High Priority - %lld" : {
+    "High Priority - %lld sat/vB" : {
 
     },
     "Last Synced: %@" : {
@@ -176,13 +176,13 @@
         }
       }
     },
-    "Low Priority - %lld" : {
+    "Low Priority - %lld sat/vB" : {
 
     },
-    "Medium Priority - %lld " : {
+    "Med Priority - %lld sat/vB" : {
 
     },
-    "No Priority - %lld " : {
+    "No Priority - %lld sat/vB" : {
 
     },
     "No Transactions" : {

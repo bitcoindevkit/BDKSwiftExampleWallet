@@ -64,7 +64,7 @@ struct WalletTransactionListView: View {
                         }
                         .foregroundColor(.secondary)
                         .font(.caption2)
-                        .padding(.trailing, 15.0)
+                        .padding(.trailing, 10.0)
                         Spacer()
                         Text(
                             transaction.sent > 0
