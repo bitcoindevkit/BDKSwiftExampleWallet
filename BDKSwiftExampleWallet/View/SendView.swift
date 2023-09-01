@@ -31,7 +31,7 @@ struct SendView: View {
                             Text(balance.delimiter)
                             Text("sats available")
                         }
-                        .foregroundColor(.secondary)
+                        .fontWeight(.semibold)
                     }
                 }
                 .font(.caption)
