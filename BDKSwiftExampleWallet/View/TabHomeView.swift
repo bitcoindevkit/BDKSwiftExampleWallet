@@ -19,7 +19,7 @@ struct TabHomeView: View {
                 WalletView(viewModel: .init())
                     .tabItem {
                         Label(
-                            "Wallet",
+                            "",
                             systemImage: "bitcoinsign"
                         )
                     }
@@ -27,7 +27,7 @@ struct TabHomeView: View {
                 ReceiveView(viewModel: .init())
                     .tabItem {
                         Label(
-                            "Receive",
+                            "",
                             systemImage: "arrow.down"
                         )
                     }
@@ -35,7 +35,7 @@ struct TabHomeView: View {
                 SendView(viewModel: .init())
                     .tabItem {
                         Label(
-                            "Send",
+                            "",
                             systemImage: "arrow.up"
                         )
                     }
