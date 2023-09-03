@@ -43,7 +43,7 @@ struct WalletTransactionListView: View {
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(
                             transaction.confirmationTime != nil
-                            ? Color.bitcoinOrange : Color.secondary,
+                                ? Color.bitcoinOrange : Color.secondary,
                             Color.gray.opacity(0.05)
                         )
                         VStack(alignment: .leading, spacing: 5) {
@@ -55,9 +55,10 @@ struct WalletTransactionListView: View {
                                 .font(.callout)
                                 .foregroundColor(.primary)
                             Text(
-                                transaction.confirmationTime?.timestamp.toDate().formatted(.dateTime.day().month().hour().minute())
-                                 ??
-                                "Unconfirmed"
+                                transaction.confirmationTime?.timestamp.toDate().formatted(
+                                    .dateTime.day().month().hour().minute()
+                                )
+                                    ?? "Unconfirmed"
                             )
                         }
                         .foregroundColor(.secondary)
