@@ -42,6 +42,7 @@ struct TabHomeView: View {
 
             }
             .tint(.primary)
+
         }
 
     }
