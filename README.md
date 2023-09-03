@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](https://github.com/reez/BDKSwiftExampleWallet/blob/main/LICENSE)
 
-An example iOS app using [BDK](https://github.com/bitcoindevkit)
+An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) (BDK)
 
 <img src="Docs/bitcoin-screen.png" alt="Screenshot" width="236" height="511">
 

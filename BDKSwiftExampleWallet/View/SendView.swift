@@ -54,10 +54,6 @@ struct SendView: View {
                         )
                         .padding()
                         .keyboardType(.numberPad)
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal)
                     }
 
                     VStack {
@@ -74,10 +70,6 @@ struct SendView: View {
                         .padding()
                         .truncationMode(.middle)
                         .lineLimit(1)
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal)
                     }
 
                     VStack {
