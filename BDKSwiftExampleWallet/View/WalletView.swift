@@ -66,8 +66,8 @@ struct WalletView: View {
                         .foregroundColor(.secondary)
                         .font(.subheadline)
                     }
-                    .padding(.top, 40.0)
-                    .padding(.bottom, 20.0)
+                    .padding(.top, 80.0)
+                    .padding(.bottom, 40.0)
                     VStack {
                         HStack {
                             Text("Activity")
