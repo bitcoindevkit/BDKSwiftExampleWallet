@@ -15,31 +15,18 @@ struct TabHomeView: View {
             Color(uiColor: UIColor.systemBackground)
 
             TabView {
-
                 WalletView(viewModel: .init())
                     .tabItem {
-                        Label(
-                            "",
-                            systemImage: "bitcoinsign"
-                        )
+                        Image(systemName: "bitcoinsign")
                     }
-
                 ReceiveView(viewModel: .init())
                     .tabItem {
-                        Label(
-                            "",
-                            systemImage: "arrow.down"
-                        )
+                        Image(systemName: "arrow.down")
                     }
-
                 SendView(viewModel: .init())
                     .tabItem {
-                        Label(
-                            "",
-                            systemImage: "arrow.up"
-                        )
+                        Image(systemName: "arrow.up")
                     }
-
             }
             .tint(.primary)
 
