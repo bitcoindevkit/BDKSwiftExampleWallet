@@ -4,7 +4,7 @@
 
 An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) (BDK)
 
-<img src="Docs/bitcoin-screen.png" alt="Screenshot" width="236" height="511">
+<img src="Docs/bitcoin-screen.png" alt="Screenshot" width="210.5" height="420">
 
 ## Functionality
 
