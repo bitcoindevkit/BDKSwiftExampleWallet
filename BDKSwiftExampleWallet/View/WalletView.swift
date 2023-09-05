@@ -5,6 +5,7 @@
 //  Created by Matthew Ramsden on 5/23/23.
 //
 
+import BitcoinDevKit
 import BitcoinUI
 import SwiftUI
 
@@ -27,7 +28,7 @@ struct WalletView: View {
                         Text("Bitcoin".uppercased())
                             .fontWeight(.semibold)
                             .fontWidth(.expanded)
-                            .foregroundColor(.orange)
+                            .foregroundColor(.bitcoinOrange)
                             .scaleEffect(isAnimating ? 1.0 : 0.6)
                             .onAppear {
                                 withAnimation(.easeOut(duration: 0.5)) {
@@ -71,7 +72,6 @@ struct WalletView: View {
                     VStack {
                         HStack {
                             Text("Activity")
-                                .bold()
                             Spacer()
                             HStack {
                                 HStack(spacing: 5) {
@@ -95,10 +95,14 @@ struct WalletView: View {
                             .foregroundColor(.secondary)
                             .font(.caption)
                         }
+                        .fontWeight(.bold)
                         if viewModel.transactionDetails.isEmpty
                             && viewModel.walletSyncState == .syncing
                         {
-                            Text("")
+                            WalletTransactionsListItemView(
+                                transaction: mockTransactionDetail,
+                                isRedacted: true
+                            )
                         } else if viewModel.transactionDetails.isEmpty {
                             Text("No Transactions")
                         } else {
