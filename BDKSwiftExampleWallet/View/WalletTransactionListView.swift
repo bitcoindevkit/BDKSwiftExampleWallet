@@ -57,10 +57,10 @@ struct WalletTransactionsListItemView: View {
         self.transaction = transaction
         self.isRedacted = isRedacted
     }
-    
+
     var body: some View {
         HStack(spacing: 15) {
-            
+
             if isRedacted {
                 Image(
                     systemName:
@@ -75,22 +75,18 @@ struct WalletTransactionsListItemView: View {
                 Image(
                     systemName:
                         transaction.sent > 0
-                    ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
+                        ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
                 )
                 .font(.largeTitle)
                 .symbolRenderingMode(.palette)
                 .foregroundStyle(
                     transaction.confirmationTime != nil
-                    ?
-                    Color.bitcoinOrange :
-                        Color.secondary,
-                    isRedacted ?
-                    Color.gray.opacity(0.5) :
-                        Color.gray.opacity(0.05)
+                        ? Color.bitcoinOrange : Color.secondary,
+                    isRedacted ? Color.gray.opacity(0.5) : Color.gray.opacity(0.05)
                 )
 
             }
-            
+
             VStack(alignment: .leading, spacing: 5) {
                 Text(transaction.txid)
                     .truncationMode(.middle)
@@ -103,19 +99,19 @@ struct WalletTransactionsListItemView: View {
                     transaction.confirmationTime?.timestamp.toDate().formatted(
                         .dateTime.day().month().hour().minute()
                     )
-                    ?? "Unconfirmed"
+                        ?? "Unconfirmed"
                 )
             }
             .foregroundColor(.secondary)
             .font(.caption)
             .padding(.trailing, 30.0)
             .redacted(reason: isRedacted ? .placeholder : [])
-            
+
             Spacer()
             Text(
                 transaction.sent > 0
-                ? "- \(transaction.sent - transaction.received) sats"
-                : "+ \(transaction.received - transaction.sent) sats"
+                    ? "- \(transaction.sent - transaction.received) sats"
+                    : "+ \(transaction.received - transaction.sent) sats"
             )
             .font(.caption)
             .fontWeight(.semibold)

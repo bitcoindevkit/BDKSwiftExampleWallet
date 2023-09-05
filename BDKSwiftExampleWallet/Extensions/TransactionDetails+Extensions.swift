@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 9/4/23.
 //
 
-import Foundation
 import BitcoinDevKit
+import Foundation
 
 // Needed for placeholder view
 let mockTransactionDetail = TransactionDetails(
@@ -19,7 +19,6 @@ let mockTransactionDetail = TransactionDetails(
         BlockTime(height: 178497, timestamp: 1_687_465_081)
     )
 )
-
 
 #if DEBUG
     let mockTransactionDetails =

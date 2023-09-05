@@ -5,9 +5,9 @@
 //  Created by Matthew Ramsden on 5/23/23.
 //
 
+import BitcoinDevKit
 import BitcoinUI
 import SwiftUI
-import BitcoinDevKit
 
 struct WalletView: View {
     @Bindable var viewModel: WalletViewModel
@@ -99,7 +99,10 @@ struct WalletView: View {
                         if viewModel.transactionDetails.isEmpty
                             && viewModel.walletSyncState == .syncing
                         {
-                            WalletTransactionsListItemView(transaction: mockTransactionDetail, isRedacted: true)
+                            WalletTransactionsListItemView(
+                                transaction: mockTransactionDetail,
+                                isRedacted: true
+                            )
                         } else if viewModel.transactionDetails.isEmpty {
                             Text("No Transactions")
                         } else {

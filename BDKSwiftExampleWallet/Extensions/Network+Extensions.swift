@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 9/4/23.
 //
 
-import Foundation
 import BitcoinDevKit
+import Foundation
 
 #if DEBUG
     let mockKeyClientNetwork = Network.regtest
