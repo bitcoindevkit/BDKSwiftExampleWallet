@@ -65,7 +65,6 @@ extension KeyClient {
 }
 
 #if DEBUG
-    let mockKeyClientNetwork = Network.regtest
     extension KeyClient {
         static let mock = Self(
             saveBackupInfo: { _ in },

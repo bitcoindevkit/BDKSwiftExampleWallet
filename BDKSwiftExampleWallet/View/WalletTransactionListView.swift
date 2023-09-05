@@ -33,49 +33,7 @@ struct WalletTransactionListView: View {
                             : transaction.received - transaction.sent
                     )
                 ) {
-                    HStack(spacing: 15) {
-                        Image(
-                            systemName:
-                                transaction.sent > 0
-                                ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
-                        )
-                        .font(.largeTitle)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(
-                            transaction.confirmationTime != nil
-                                ? Color.bitcoinOrange : Color.secondary,
-                            Color.gray.opacity(0.05)
-                        )
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(transaction.txid)
-                                .truncationMode(.middle)
-                                .lineLimit(1)
-                                .fontDesign(.monospaced)
-                                .fontWeight(.semibold)
-                                .font(.callout)
-                                .foregroundColor(.primary)
-                            Text(
-                                transaction.confirmationTime?.timestamp.toDate().formatted(
-                                    .dateTime.day().month().hour().minute()
-                                )
-                                    ?? "Unconfirmed"
-                            )
-                        }
-                        .foregroundColor(.secondary)
-                        .font(.caption)
-                        .padding(.trailing, 30.0)
-                        Spacer()
-                        Text(
-                            transaction.sent > 0
-                                ? "- \(transaction.sent - transaction.received) sats"
-                                : "+ \(transaction.received - transaction.sent) sats"
-                        )
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .fontDesign(.rounded)
-                    }
-                    .padding(.vertical, 15.0)
-                    .padding(.vertical, 5.0)
+                    WalletTransactionsListItemView(transaction: transaction)
                 }
 
             }
@@ -89,4 +47,82 @@ struct WalletTransactionListView: View {
 
 #Preview{
     WalletTransactionListView(transactionDetails: mockTransactionDetails)
+}
+
+struct WalletTransactionsListItemView: View {
+    let transaction: TransactionDetails
+    let isRedacted: Bool
+
+    init(transaction: TransactionDetails, isRedacted: Bool = false) {
+        self.transaction = transaction
+        self.isRedacted = isRedacted
+    }
+    
+    var body: some View {
+        HStack(spacing: 15) {
+            
+            if isRedacted {
+                Image(
+                    systemName:
+                        "circle.fill"
+                )
+                .font(.largeTitle)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(
+                    Color.gray.opacity(0.5)
+                )
+            } else {
+                Image(
+                    systemName:
+                        transaction.sent > 0
+                    ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
+                )
+                .font(.largeTitle)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(
+                    transaction.confirmationTime != nil
+                    ?
+                    Color.bitcoinOrange :
+                        Color.secondary,
+                    isRedacted ?
+                    Color.gray.opacity(0.5) :
+                        Color.gray.opacity(0.05)
+                )
+
+            }
+            
+            VStack(alignment: .leading, spacing: 5) {
+                Text(transaction.txid)
+                    .truncationMode(.middle)
+                    .lineLimit(1)
+                    .fontDesign(.monospaced)
+                    .fontWeight(.semibold)
+                    .font(.callout)
+                    .foregroundColor(.primary)
+                Text(
+                    transaction.confirmationTime?.timestamp.toDate().formatted(
+                        .dateTime.day().month().hour().minute()
+                    )
+                    ?? "Unconfirmed"
+                )
+            }
+            .foregroundColor(.secondary)
+            .font(.caption)
+            .padding(.trailing, 30.0)
+            .redacted(reason: isRedacted ? .placeholder : [])
+            
+            Spacer()
+            Text(
+                transaction.sent > 0
+                ? "- \(transaction.sent - transaction.received) sats"
+                : "+ \(transaction.received - transaction.sent) sats"
+            )
+            .font(.caption)
+            .fontWeight(.semibold)
+            .fontDesign(.rounded)
+            .redacted(reason: isRedacted ? .placeholder : [])
+        }
+        .padding(.vertical, 15.0)
+        .padding(.vertical, 5.0)
+    }
 }

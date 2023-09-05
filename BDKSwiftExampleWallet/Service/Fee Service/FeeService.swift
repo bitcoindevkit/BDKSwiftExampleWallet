@@ -34,13 +34,6 @@ extension FeeClient {
 }
 
 #if DEBUG
-    let currentFeesMock = RecommendedFees(
-        fastestFee: 10,
-        halfHourFee: 8,
-        hourFee: 6,
-        economyFee: 4,
-        minimumFee: 2
-    )
     extension FeeClient {
         static let mock = Self(fetchFees: { currentFeesMock })
     }

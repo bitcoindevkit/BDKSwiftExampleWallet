@@ -14,8 +14,6 @@ An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) (BD
 
 Supports single key HD segwit/bech32 wallets with BIP84 derivation paths. 
 
-`wpkh([extended private key]/84'/1'/0'/0/*)`
-
 ### Implemented
 
 - [x] Create Wallet `Wallet(descriptor: changeDescriptor: network: databaseConfig:)`

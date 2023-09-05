@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     "- %llu sats" : {
       "localizations" : {
         "fr" : {
