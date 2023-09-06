@@ -117,13 +117,15 @@ private class BDKService {
     }
 
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
-        print("BDKService - send \n address: \(address) \n amount \(amount) \n feeRate \(String(describing: feeRate))")
+        print(
+            "BDKService - send \n address: \(address) \n amount \(amount) \n feeRate \(String(describing: feeRate))"
+        )
         let txBuilder = try buildTransaction(address: address, amount: amount, feeRate: feeRate)
         // showFee()
         try signAndBroadcast(txBuilder: txBuilder)
     }
 
-    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws // private 
+    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws  // private
         -> TxBuilderResult
     {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
@@ -141,12 +143,12 @@ private class BDKService {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
         let _ = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
-        
+
         let transaction = txBuilder.psbt.extractTx()
         print("BDKService - signAndBroadcast \n transaction \(txBuilder)")
 
         print("BDKService - signAndBroadcast \n config \(config)")
-        
+
         let blockchain = try Blockchain(config: config)
         print("BDKService - signAndBroadcast \n blockchain \(blockchain)")
 
@@ -191,7 +193,11 @@ extension BDKClient {
             try BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
         },
         buildTransaction: { (address, amount, feeRate) in
-            try BDKService.shared.buildTransaction(address: address, amount: amount, feeRate: feeRate)
+            try BDKService.shared.buildTransaction(
+                address: address,
+                amount: amount,
+                feeRate: feeRate
+            )
         }
     )
 }
@@ -208,7 +214,10 @@ extension BDKClient {
             getAddress: { "mockAddress" },
             send: { _, _, _ in },
             buildTransaction: { _, _, _ in
-                return try! TxBuilderResult(psbt: .init(psbtBase64: "psbtBase64"), transactionDetails: mockTransactionDetail)
+                return try! TxBuilderResult(
+                    psbt: .init(psbtBase64: "psbtBase64"),
+                    transactionDetails: mockTransactionDetail
+                )
             }
         )
         static let mockZero = Self(
@@ -221,7 +230,10 @@ extension BDKClient {
             getAddress: { "mockAddress" },
             send: { _, _, _ in },
             buildTransaction: { _, _, _ in
-                return try! TxBuilderResult(psbt: .init(psbtBase64: "psbtBase64"), transactionDetails: mockTransactionDetail)
+                return try! TxBuilderResult(
+                    psbt: .init(psbtBase64: "psbtBase64"),
+                    transactionDetails: mockTransactionDetail
+                )
             }
         )
     }

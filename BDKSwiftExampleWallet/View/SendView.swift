@@ -68,7 +68,7 @@ struct SendView: View {
                             text: $address
                         )
                         .padding()
-                        .truncationMode(.middle) // TODO: this isn't truncating properly
+                        .truncationMode(.middle)  // TODO: this isn't truncating properly
                         .lineLimit(1)
                     }
 
@@ -113,7 +113,8 @@ struct SendView: View {
                         HStack {
                             Button {
                                 if let amt = UInt64(amount),
-                                    let feeRate = viewModel.selectedFee {
+                                    let feeRate = viewModel.selectedFee
+                                {
                                     viewModel.buildTransaction(
                                         address: address,
                                         amount: amt,
@@ -131,14 +132,15 @@ struct SendView: View {
                             Spacer()
                         }
                         .padding()
-                        
+
                         VStack {
                             HStack {
                                 Text("Send")
                                 Spacer()
                                 if let sent = viewModel.txBuilderResult?.transactionDetails.sent,
-                               let received = viewModel.txBuilderResult?.transactionDetails.received,
-                                let fee = viewModel.txBuilderResult?.transactionDetails.fee
+                                    let received = viewModel.txBuilderResult?.transactionDetails
+                                        .received,
+                                    let fee = viewModel.txBuilderResult?.transactionDetails.fee
                                 {
                                     let send = sent - received - fee
                                     Text(send.delimiter)
@@ -149,8 +151,7 @@ struct SendView: View {
                             HStack {
                                 Text("Fee")
                                 Spacer()
-                                if let fee = viewModel.txBuilderResult?.transactionDetails.fee
-                                {
+                                if let fee = viewModel.txBuilderResult?.transactionDetails.fee {
                                     Text(fee.delimiter)
                                 } else {
                                     Text("...")
@@ -159,12 +160,12 @@ struct SendView: View {
                             HStack {
                                 Text("Total")
                                 Spacer()
-                                if
-                                    let sent = viewModel.txBuilderResult?.transactionDetails.sent,
-                                   let received = viewModel.txBuilderResult?.transactionDetails.received,
+                                if let sent = viewModel.txBuilderResult?.transactionDetails.sent,
+                                    let received = viewModel.txBuilderResult?.transactionDetails
+                                        .received,
                                     let fee = viewModel.txBuilderResult?.transactionDetails.fee
                                 {
-                                    let send = sent - received - fee // TODO: this is probably overkill and should probably just be the same thing as whatever is in the $amount
+                                    let send = sent - received - fee  // TODO: this is probably overkill and should probably just be the same thing as whatever is in the $amount
                                     let total = send + fee
                                     Text(total.delimiter)
                                 } else {
@@ -176,9 +177,9 @@ struct SendView: View {
                         .fontWeight(.light)
                         .foregroundColor(.secondary)
                         .padding()
-                        
+
                     }
-                    
+
                 }
                 .padding()
 
