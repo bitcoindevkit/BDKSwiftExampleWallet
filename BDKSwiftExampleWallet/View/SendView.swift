@@ -79,34 +79,37 @@ struct SendView: View {
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.0percent")
                                     Text(
-                                        "No Priority - \(viewModel.recommendedFees?.minimumFee ?? 1) sat/vB"
+                                        " No Priority - \(viewModel.recommendedFees?.minimumFee ?? 1)"
                                     )
                                 }
                                 .tag(0)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.33percent")
                                     Text(
-                                        "Low Priority - \(viewModel.recommendedFees?.hourFee ?? 1) sat/vB"
+                                        " Low Priority - \(viewModel.recommendedFees?.hourFee ?? 1)"
                                     )
                                 }
                                 .tag(1)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.50percent")
                                     Text(
-                                        "Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 1) sat/vB"
+                                        " Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 1)"
                                     )
                                 }
                                 .tag(2)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.67percent")
                                     Text(
-                                        "High Priority - \(viewModel.recommendedFees?.fastestFee ?? 1) sat/vB"
+                                        " High Priority - \(viewModel.recommendedFees?.fastestFee ?? 1)"
                                     )
                                 }
                                 .tag(3)
                             }
                             .pickerStyle(.menu)
                             .tint(.bitcoinOrange)
+                            Text("sat/vb")
+                                .foregroundColor(.secondary)
+                                .fontWeight(.thin)
                             Spacer()
                         }
 
