@@ -121,7 +121,9 @@ private class BDKService {
         try signAndBroadcast(txBuilder: txBuilder)
     }
 
-    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws -> TxBuilderResult {
+    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws
+        -> TxBuilderResult
+    {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let script = try Address(address: address)
             .scriptPubkey()
