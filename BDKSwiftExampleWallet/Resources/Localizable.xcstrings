@@ -1,6 +1,18 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    " High Priority - %lld" : {
+
+    },
+    " Low Priority - %lld" : {
+
+    },
+    " Med Priority - %lld" : {
+
+    },
+    " No Priority - %lld" : {
+
+    },
     "- %llu sats" : {
       "localizations" : {
         "fr" : {
@@ -165,9 +177,6 @@
         }
       }
     },
-    "High Priority - %lld sat/vB" : {
-
-    },
     "Last Synced: %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -178,15 +187,6 @@
           }
         }
       }
-    },
-    "Low Priority - %lld sat/vB" : {
-
-    },
-    "Med Priority - %lld sat/vB" : {
-
-    },
-    "No Priority - %lld sat/vB" : {
-
     },
     "No Transactions" : {
       "localizations" : {
@@ -231,6 +231,9 @@
           }
         }
       }
+    },
+    "sat/vb" : {
+
     },
     "sats" : {
       "extractionState" : "manual",
