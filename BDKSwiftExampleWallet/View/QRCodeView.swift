@@ -40,7 +40,7 @@ struct FidgetQRCodeView: View {
     @State private var viewState = CGSize.zero
     let screenBounds = UIScreen.main.bounds
     var address: String
-    
+
     var body: some View {
         QRCodeView(address: address)
             .applyFidgetEffect(viewState: $viewState)
