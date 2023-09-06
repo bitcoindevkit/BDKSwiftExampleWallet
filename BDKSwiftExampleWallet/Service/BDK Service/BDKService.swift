@@ -117,12 +117,13 @@ private class BDKService {
     }
 
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
+        print("BDKService - send \n address: \(address) \n amount \(amount) \n feeRate \(String(describing: feeRate))")
         let txBuilder = try buildTransaction(address: address, amount: amount, feeRate: feeRate)
         // showFee()
         try signAndBroadcast(txBuilder: txBuilder)
     }
 
-    private func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws
+    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws // private 
         -> TxBuilderResult
     {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
@@ -132,19 +133,23 @@ private class BDKService {
             .addRecipient(script: script, amount: amount)
             .feeRate(satPerVbyte: feeRate ?? 1.0)
             .finish(wallet: wallet)
+        print("BDKService - buildTransaction - txbuilder: \n \(txBuilder)")
         return txBuilder
-    }
-
-    private func showFee() {
-        // TODO: let result = txBuilder.transactionDetails.fee
     }
 
     private func signAndBroadcast(txBuilder: TxBuilderResult) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
         let _ = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
+        
         let transaction = txBuilder.psbt.extractTx()
+        print("BDKService - signAndBroadcast \n transaction \(txBuilder)")
+
+        print("BDKService - signAndBroadcast \n config \(config)")
+        
         let blockchain = try Blockchain(config: config)
+        print("BDKService - signAndBroadcast \n blockchain \(blockchain)")
+
         try blockchain.broadcast(transaction: transaction)
     }
 
@@ -170,6 +175,7 @@ struct BDKClient {
     let sync: () async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, Float?) throws -> Void
+    let buildTransaction: (String, UInt64, Float?) throws -> TxBuilderResult
 }
 
 extension BDKClient {
@@ -183,6 +189,9 @@ extension BDKClient {
         getAddress: { try BDKService.shared.getAddress() },
         send: { (address, amount, feeRate) in
             try BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+        },
+        buildTransaction: { (address, amount, feeRate) in
+            try BDKService.shared.buildTransaction(address: address, amount: amount, feeRate: feeRate)
         }
     )
 }
@@ -197,7 +206,10 @@ extension BDKClient {
             getTransactions: { mockTransactionDetails },
             sync: {},
             getAddress: { "mockAddress" },
-            send: { _, _, _ in }
+            send: { _, _, _ in },
+            buildTransaction: { _, _, _ in
+                return try! TxBuilderResult(psbt: .init(psbtBase64: "psbtBase64"), transactionDetails: mockTransactionDetail)
+            }
         )
         static let mockZero = Self(
             loadWallet: {},
@@ -207,7 +219,10 @@ extension BDKClient {
             getTransactions: { mockTransactionDetailsZero },
             sync: {},
             getAddress: { "mockAddress" },
-            send: { _, _, _ in }
+            send: { _, _, _ in },
+            buildTransaction: { _, _, _ in
+                return try! TxBuilderResult(psbt: .init(psbtBase64: "psbtBase64"), transactionDetails: mockTransactionDetail)
+            }
         )
     }
 #endif

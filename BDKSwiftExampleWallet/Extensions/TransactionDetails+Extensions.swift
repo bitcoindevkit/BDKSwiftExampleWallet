@@ -12,8 +12,8 @@ import Foundation
 let mockTransactionDetail = TransactionDetails(
     transaction: nil,
     fee: Optional(2820),
-    received: 100_000,
-    sent: 0,
+    received: 9985919,
+    sent: 10100000,
     txid: "cdcc4d287e4780d25c577d4f5726c7d585625170559f0b294da20b55ffa2b009",
     confirmationTime: Optional(
         BlockTime(height: 178497, timestamp: 1_687_465_081)

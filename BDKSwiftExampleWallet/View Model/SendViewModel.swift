@@ -15,6 +15,7 @@ class SendViewModel {
     let feeClient: FeeClient
     let bdkClient: BDKClient
 
+    var txBuilderResult: TxBuilderResult?
     var balanceTotal: UInt64?  //= 0
     var recommendedFees: RecommendedFees?
     var selectedFeeIndex: Int = 2
@@ -69,23 +70,44 @@ class SendViewModel {
         self.bdkClient = bdkClient
     }
 
+    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) {
+        do {
+            let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
+            print("Sendviewmodel - buildTransaction - txBuilderResult: \n \(txBuilderResult)")
+            self.txBuilderResult = txBuilderResult
+        } catch let error as WalletError {
+            print("buildTransaction - Send Error: \(error.localizedDescription)")
+        } catch let error as BdkError {
+            let errorMessage = error.description
+            print("buildTransaction - BDK Error: \(errorMessage)")
+        } catch {
+            print("buildTransaction - Undefined Error: \(error.localizedDescription)")
+        }
+    }
+
     func getBalance() {
         do {
             let balance = try bdkClient.getBalance()
             self.balanceTotal = balance.total
         } catch let error as WalletError {
-            print("getBalance - Wallet Error: \(error.localizedDescription)")
+            print("getBalance - Send Error: \(error.localizedDescription)")
         } catch {
             print("getBalance - Undefined Error: \(error.localizedDescription)")
         }
     }
 
     func send(address: String, amount: UInt64, feeRate: Float?) {
+        print("SendViewModel - send \n address: \(address) \n amount \(amount) \n feeRate \(String(describing: feeRate))")
         do {
             try bdkClient.send(address, amount, feeRate)
         } catch let error as WalletError {
-            print("send - Wallet Error: \(error.localizedDescription)")
-        } catch {
+            print("send - Send Error: \(error.localizedDescription)")
+        } 
+        catch let error as BdkError {
+            let errorMessage = error.description
+            print("send - BDK Error: \(errorMessage)")
+        }
+        catch {
             print("send - Undefined Error: \(error.localizedDescription)")
         }
     }
