@@ -35,7 +35,7 @@ struct ReceiveView: View {
                 Spacer()
 
                 if viewModel.address != "" {
-                    QRCodeView(address: viewModel.address)
+                    FidgetQRCodeView(address: viewModel.address)
                         .animation(.default, value: viewModel.address)
                 } else {
                     QRCodeView(address: viewModel.address)
