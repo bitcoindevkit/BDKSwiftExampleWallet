@@ -67,9 +67,9 @@ struct SendView: View {
                             "Enter address to send BTC to",
                             text: $address
                         )
-                        .padding()
-                        .truncationMode(.middle)  // TODO: this isn't truncating properly
+                        .truncationMode(.middle)
                         .lineLimit(1)
+                        .padding()
                     }
 
                     VStack {
@@ -121,7 +121,7 @@ struct SendView: View {
                                         feeRate: Float(feeRate)
                                     )
                                 } else {
-                                    print("something went wrong building transaction") // TODO: fix
+                                    print("SendView - Build Transaction Button - amount/fee fail")
                                 }
                             } label: {
                                 Text("Build Transaction")

@@ -16,7 +16,7 @@ class SendViewModel {
     let bdkClient: BDKClient
 
     var txBuilderResult: TxBuilderResult?
-    var balanceTotal: UInt64?  //= 0
+    var balanceTotal: UInt64?
     var recommendedFees: RecommendedFees?
     var selectedFeeIndex: Int = 2
     var selectedFee: Int? {
