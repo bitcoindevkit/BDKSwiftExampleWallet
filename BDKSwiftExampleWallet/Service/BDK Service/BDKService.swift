@@ -117,17 +117,11 @@ private class BDKService {
     }
 
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
-        print(
-            "BDKService - send \n address: \(address) \n amount \(amount) \n feeRate \(String(describing: feeRate))"
-        )
         let txBuilder = try buildTransaction(address: address, amount: amount, feeRate: feeRate)
-        // showFee()
         try signAndBroadcast(txBuilder: txBuilder)
     }
 
-    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws  // private
-        -> TxBuilderResult
-    {
+    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws -> TxBuilderResult {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let script = try Address(address: address)
             .scriptPubkey()
@@ -135,7 +129,6 @@ private class BDKService {
             .addRecipient(script: script, amount: amount)
             .feeRate(satPerVbyte: feeRate ?? 1.0)
             .finish(wallet: wallet)
-        print("BDKService - buildTransaction - txbuilder: \n \(txBuilder)")
         return txBuilder
     }
 
@@ -143,15 +136,8 @@ private class BDKService {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
         let _ = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
-
         let transaction = txBuilder.psbt.extractTx()
-        print("BDKService - signAndBroadcast \n transaction \(txBuilder)")
-
-        print("BDKService - signAndBroadcast \n config \(config)")
-
         let blockchain = try Blockchain(config: config)
-        print("BDKService - signAndBroadcast \n blockchain \(blockchain)")
-
         try blockchain.broadcast(transaction: transaction)
     }
 

@@ -121,7 +121,7 @@ struct SendView: View {
                                         feeRate: Float(feeRate)
                                     )
                                 } else {
-                                    print("something went wrong building transaction")
+                                    print("something went wrong building transaction") // TODO: fix
                                 }
                             } label: {
                                 Text("Build Transaction")

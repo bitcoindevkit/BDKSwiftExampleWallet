@@ -73,13 +73,11 @@ class SendViewModel {
     func buildTransaction(address: String, amount: UInt64, feeRate: Float?) {
         do {
             let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
-            print("Sendviewmodel - buildTransaction - txBuilderResult: \n \(txBuilderResult)")
             self.txBuilderResult = txBuilderResult
         } catch let error as WalletError {
             print("buildTransaction - Send Error: \(error.localizedDescription)")
         } catch let error as BdkError {
-            let errorMessage = error.description
-            print("buildTransaction - BDK Error: \(errorMessage)")
+            print("buildTransaction - BDK Error: \(error.description)")
         } catch {
             print("buildTransaction - Undefined Error: \(error.localizedDescription)")
         }
@@ -97,16 +95,12 @@ class SendViewModel {
     }
 
     func send(address: String, amount: UInt64, feeRate: Float?) {
-        print(
-            "SendViewModel - send \n address: \(address) \n amount \(amount) \n feeRate \(String(describing: feeRate))"
-        )
         do {
             try bdkClient.send(address, amount, feeRate)
         } catch let error as WalletError {
             print("send - Send Error: \(error.localizedDescription)")
         } catch let error as BdkError {
-            let errorMessage = error.description
-            print("send - BDK Error: \(errorMessage)")
+            print("send - BDK Error: \(error.description)")
         } catch {
             print("send - Undefined Error: \(error.localizedDescription)")
         }
