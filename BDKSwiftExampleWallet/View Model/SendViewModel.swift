@@ -15,7 +15,8 @@ class SendViewModel {
     let feeClient: FeeClient
     let bdkClient: BDKClient
 
-    var balanceTotal: UInt64?  //= 0
+    var txBuilderResult: TxBuilderResult?
+    var balanceTotal: UInt64?
     var recommendedFees: RecommendedFees?
     var selectedFeeIndex: Int = 2
     var selectedFee: Int? {
@@ -69,12 +70,25 @@ class SendViewModel {
         self.bdkClient = bdkClient
     }
 
+    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) {
+        do {
+            let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
+            self.txBuilderResult = txBuilderResult
+        } catch let error as WalletError {
+            print("buildTransaction - Send Error: \(error.localizedDescription)")
+        } catch let error as BdkError {
+            print("buildTransaction - BDK Error: \(error.description)")
+        } catch {
+            print("buildTransaction - Undefined Error: \(error.localizedDescription)")
+        }
+    }
+
     func getBalance() {
         do {
             let balance = try bdkClient.getBalance()
             self.balanceTotal = balance.total
         } catch let error as WalletError {
-            print("getBalance - Wallet Error: \(error.localizedDescription)")
+            print("getBalance - Send Error: \(error.localizedDescription)")
         } catch {
             print("getBalance - Undefined Error: \(error.localizedDescription)")
         }
@@ -84,7 +98,9 @@ class SendViewModel {
         do {
             try bdkClient.send(address, amount, feeRate)
         } catch let error as WalletError {
-            print("send - Wallet Error: \(error.localizedDescription)")
+            print("send - Send Error: \(error.localizedDescription)")
+        } catch let error as BdkError {
+            print("send - BDK Error: \(error.description)")
         } catch {
             print("send - Undefined Error: \(error.localizedDescription)")
         }

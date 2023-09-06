@@ -118,11 +118,10 @@ private class BDKService {
 
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
         let txBuilder = try buildTransaction(address: address, amount: amount, feeRate: feeRate)
-        // showFee()
         try signAndBroadcast(txBuilder: txBuilder)
     }
 
-    private func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws
+    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws
         -> TxBuilderResult
     {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
@@ -133,10 +132,6 @@ private class BDKService {
             .feeRate(satPerVbyte: feeRate ?? 1.0)
             .finish(wallet: wallet)
         return txBuilder
-    }
-
-    private func showFee() {
-        // TODO: let result = txBuilder.transactionDetails.fee
     }
 
     private func signAndBroadcast(txBuilder: TxBuilderResult) throws {
@@ -170,6 +165,7 @@ struct BDKClient {
     let sync: () async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, Float?) throws -> Void
+    let buildTransaction: (String, UInt64, Float?) throws -> TxBuilderResult
 }
 
 extension BDKClient {
@@ -183,6 +179,13 @@ extension BDKClient {
         getAddress: { try BDKService.shared.getAddress() },
         send: { (address, amount, feeRate) in
             try BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+        },
+        buildTransaction: { (address, amount, feeRate) in
+            try BDKService.shared.buildTransaction(
+                address: address,
+                amount: amount,
+                feeRate: feeRate
+            )
         }
     )
 }
@@ -197,7 +200,13 @@ extension BDKClient {
             getTransactions: { mockTransactionDetails },
             sync: {},
             getAddress: { "mockAddress" },
-            send: { _, _, _ in }
+            send: { _, _, _ in },
+            buildTransaction: { _, _, _ in
+                return try! TxBuilderResult(
+                    psbt: .init(psbtBase64: "psbtBase64"),
+                    transactionDetails: mockTransactionDetail
+                )
+            }
         )
         static let mockZero = Self(
             loadWallet: {},
@@ -207,7 +216,13 @@ extension BDKClient {
             getTransactions: { mockTransactionDetailsZero },
             sync: {},
             getAddress: { "mockAddress" },
-            send: { _, _, _ in }
+            send: { _, _, _ in },
+            buildTransaction: { _, _, _ in
+                return try! TxBuilderResult(
+                    psbt: .init(psbtBase64: "psbtBase64"),
+                    transactionDetails: mockTransactionDetail
+                )
+            }
         )
     }
 #endif

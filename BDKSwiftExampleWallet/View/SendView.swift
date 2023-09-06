@@ -67,65 +67,122 @@ struct SendView: View {
                             "Enter address to send BTC to",
                             text: $address
                         )
-                        .padding()
                         .truncationMode(.middle)
                         .lineLimit(1)
+                        .padding()
                     }
 
                     VStack {
 
                         HStack {
-                            Text("Fee")
-                                .bold()
-                            Spacer()
-                        }
-                        .padding(.horizontal, 15.0)
-
-                        HStack {
-
-                            if let selectedFee = viewModel.selectedFee {
-                                Text(String(selectedFee))
-                                    .padding(.horizontal, 15.0)
-                                    .fontDesign(.rounded)
-                            }
-
-                            Spacer()
-
                             Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.0percent")
                                     Text(
-                                        "No Priority - \(viewModel.recommendedFees?.minimumFee ?? 1) sat/vB"
+                                        " No Priority - \(viewModel.recommendedFees?.minimumFee ?? 1)"
                                     )
                                 }
                                 .tag(0)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.33percent")
                                     Text(
-                                        "Low Priority - \(viewModel.recommendedFees?.hourFee ?? 1) sat/vB"
+                                        " Low Priority - \(viewModel.recommendedFees?.hourFee ?? 1)"
                                     )
                                 }
                                 .tag(1)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.50percent")
                                     Text(
-                                        "Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 1) sat/vB"
+                                        " Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 1)"
                                     )
                                 }
                                 .tag(2)
                                 HStack {
                                     Image(systemName: "gauge.with.dots.needle.67percent")
                                     Text(
-                                        "High Priority - \(viewModel.recommendedFees?.fastestFee ?? 1) sat/vB"
+                                        " High Priority - \(viewModel.recommendedFees?.fastestFee ?? 1)"
                                     )
                                 }
                                 .tag(3)
                             }
                             .pickerStyle(.menu)
                             .tint(.bitcoinOrange)
-
+                            Text("sat/vb")
+                                .foregroundColor(.secondary)
+                                .fontWeight(.thin)
+                            Spacer()
                         }
+
+                        HStack {
+                            Button {
+                                if let amt = UInt64(amount),
+                                    let feeRate = viewModel.selectedFee
+                                {
+                                    viewModel.buildTransaction(
+                                        address: address,
+                                        amount: amt,
+                                        feeRate: Float(feeRate)
+                                    )
+                                } else {
+                                    print("SendView - Build Transaction Button - amount/fee fail")
+                                }
+                            } label: {
+                                Text("Build Transaction")
+                            }
+                            .buttonStyle(.bordered)
+                            .buttonBorderShape(.capsule)
+                            .tint(.bitcoinOrange)
+                            Spacer()
+                        }
+                        .padding()
+
+                        VStack {
+                            HStack {
+                                Text("Send")
+                                Spacer()
+                                if let sent = viewModel.txBuilderResult?.transactionDetails.sent,
+                                    let received = viewModel.txBuilderResult?.transactionDetails
+                                        .received,
+                                    let fee = viewModel.txBuilderResult?.transactionDetails.fee
+                                {
+                                    let send = sent - received - fee
+                                    Text(send.delimiter)
+                                } else {
+                                    Text("...")
+                                }
+                            }
+                            HStack {
+                                Text("Fee")
+                                Spacer()
+                                if let fee = viewModel.txBuilderResult?.transactionDetails.fee {
+                                    Text(fee.delimiter)
+                                } else {
+                                    Text("...")
+                                }
+                            }
+                            HStack {
+                                Text("Total")
+                                Spacer()
+                                if let sent = viewModel.txBuilderResult?.transactionDetails.sent,
+                                    let received = viewModel.txBuilderResult?.transactionDetails
+                                        .received,
+                                    let fee = viewModel.txBuilderResult?.transactionDetails.fee
+                                {
+                                    let send = sent - received - fee  // TODO: this is probably overkill and should probably just be the same thing as whatever is in the $amount
+                                    let total = send + fee
+                                    Text(total.delimiter)
+                                } else {
+                                    Text("...")
+                                }
+                            }
+                        }
+                        .font(.caption)
+                        .fontWeight(.light)
+                        .foregroundColor(.secondary)
+                        .padding()
+
                     }
+
                 }
                 .padding()
 
@@ -137,8 +194,8 @@ struct SendView: View {
                         feeRate: feeRate
                     )
                     // TODO: only if success clear out these fields?
-                    amount = ""
-                    address = ""
+                    // amount = ""
+                    // address = ""
                 } label: {
                     Text("Send")
                         .bold()

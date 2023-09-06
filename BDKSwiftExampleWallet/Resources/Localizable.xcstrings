@@ -11,6 +11,9 @@
         }
       }
     },
+    "..." : {
+
+    },
     "%llu sats fee" : {
 
     },
@@ -104,6 +107,9 @@
           }
         }
       }
+    },
+    "Build Transaction" : {
+
     },
     "Confirmed" : {
       "localizations" : {
@@ -292,6 +298,9 @@
           }
         }
       }
+    },
+    "Total" : {
+
     },
     "Transactions" : {
       "extractionState" : "manual",
