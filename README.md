@@ -33,3 +33,5 @@ Supports single key HD segwit/bech32 wallets with BIP84 derivation paths.
 - [bdk-swift](https://github.com/bitcoindevkit/bdk-swift)
 
 - [BitcoinUI](https://github.com/reez/BitcoinUI)
+
+- [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess)
