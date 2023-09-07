@@ -97,6 +97,10 @@ class SendViewModel {
     func send(address: String, amount: UInt64, feeRate: Float?) {
         do {
             try bdkClient.send(address, amount, feeRate)
+            NotificationCenter.default.post(
+                name: Notification.Name("TransactionSent"),
+                object: nil
+            )
         } catch let error as WalletError {
             print("send - Send Error: \(error.localizedDescription)")
         } catch let error as BdkError {

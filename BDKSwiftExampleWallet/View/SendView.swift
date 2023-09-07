@@ -196,10 +196,6 @@ struct SendView: View {
                     // TODO: only if success clear out these fields?
                     // amount = ""
                     // address = ""
-                    NotificationCenter.default.post(
-                        name: Notification.Name("TransactionSent"),
-                        object: nil
-                    )
                 } label: {
                     Text("Send")
                         .bold()
