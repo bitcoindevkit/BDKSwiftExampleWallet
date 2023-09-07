@@ -13,6 +13,7 @@ struct WalletView: View {
     @Bindable var viewModel: WalletViewModel
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
+    @State private var newTransactionSent = false
 
     var body: some View {
 
@@ -121,15 +122,23 @@ struct WalletView: View {
 
                 }
                 .padding()
+                .onReceive(
+                    NotificationCenter.default.publisher(for: Notification.Name("TransactionSent")),
+                    perform: { _ in
+                        newTransactionSent = true
+                    }
+                )
                 .task {
-                    if isFirstAppear {
+                    if isFirstAppear || newTransactionSent {
                         await viewModel.sync()
                         isFirstAppear = false
+                        newTransactionSent = false
                     }
                     viewModel.getBalance()
                     viewModel.getTransactions()
                     await viewModel.getPrices()
                 }
+
             }
 
         }
