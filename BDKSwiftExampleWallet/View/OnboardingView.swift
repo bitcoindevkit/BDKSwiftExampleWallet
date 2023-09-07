@@ -48,11 +48,6 @@ struct OnboardingView: View {
                     }
                     .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
 
-                    Button("Restore Wallet from Keychain") {
-                        viewModel.restoreWallet()
-                    }
-                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
-
                 }
                 .padding(.top, 30)
 
@@ -68,6 +63,9 @@ struct OnboardingView: View {
                 }
                 .padding(EdgeInsets(top: 32, leading: 32, bottom: 8, trailing: 32))
 
+            }
+            .task {
+                viewModel.restoreWallet()
             }
         }
 
