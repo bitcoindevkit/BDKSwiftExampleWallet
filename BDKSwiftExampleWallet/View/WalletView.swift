@@ -14,17 +14,17 @@ struct WalletView: View {
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
-    
+
     var body: some View {
-        
+
         NavigationView {
-            
+
             ZStack {
                 Color(uiColor: .systemBackground)
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 20) {
-                    
+
                     VStack(spacing: 10) {
                         Text("Bitcoin".uppercased())
                             .fontWeight(.semibold)
@@ -86,7 +86,7 @@ struct WalletView: View {
                                         Image(systemName: "checkmark.circle")
                                             .foregroundColor(
                                                 viewModel.walletSyncState == .synced
-                                                ? .green : .secondary
+                                                    ? .green : .secondary
                                             )
                                     } else {
                                         Image(systemName: "questionmark")
@@ -119,12 +119,15 @@ struct WalletView: View {
                         }
                         Spacer()
                     }
-                    
+
                 }
                 .padding()
-                .onReceive(NotificationCenter.default.publisher(for: Notification.Name("TransactionSent")), perform: { _ in
-                    newTransactionSent = true
-                })
+                .onReceive(
+                    NotificationCenter.default.publisher(for: Notification.Name("TransactionSent")),
+                    perform: { _ in
+                        newTransactionSent = true
+                    }
+                )
                 .task {
                     if isFirstAppear || newTransactionSent {
                         await viewModel.sync()
@@ -135,13 +138,13 @@ struct WalletView: View {
                     viewModel.getTransactions()
                     await viewModel.getPrices()
                 }
-                
+
             }
-            
+
         }
-        
+
     }
-    
+
 }
 
 #Preview("WalletView - en"){
