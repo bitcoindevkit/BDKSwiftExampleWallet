@@ -34,6 +34,7 @@ class OnboardingViewModel: ObservableObject {
     func restoreWallet() {
         do {
             try bdkClient.loadWallet()
+            isOnboarding = false
         } catch let error as WalletError {
             print("restoreWallet - Wallet Error: \(error.localizedDescription)")
         } catch {

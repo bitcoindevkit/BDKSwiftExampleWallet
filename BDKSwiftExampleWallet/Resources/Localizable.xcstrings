@@ -223,6 +223,7 @@
       }
     },
     "Restore Wallet from Keychain" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
