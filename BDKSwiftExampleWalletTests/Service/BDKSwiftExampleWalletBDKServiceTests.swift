@@ -15,7 +15,7 @@ final class BDKSwiftExampleWalletBDKServiceTests: XCTestCase {
     func testBDKClientMockGetAddress() throws {
         let address = try BDKClient.mock.getAddress()
 
-        XCTAssertEqual(address, "mockAddress")
+        XCTAssertEqual(address, "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt")
     }
 
     func testBDKClientMockGetBalance() throws {
