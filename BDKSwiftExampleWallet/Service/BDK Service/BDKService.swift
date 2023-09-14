@@ -199,7 +199,7 @@ extension BDKClient {
             getBalance: { mockBalance },
             getTransactions: { mockTransactionDetails },
             sync: {},
-            getAddress: { "mockAddress" },
+            getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
             buildTransaction: { _, _, _ in
                 return try! TxBuilderResult(
@@ -215,7 +215,7 @@ extension BDKClient {
             getBalance: { mockBalanceZero },
             getTransactions: { mockTransactionDetailsZero },
             sync: {},
-            getAddress: { "mockAddress" },
+            getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
             buildTransaction: { _, _, _ in
                 return try! TxBuilderResult(
