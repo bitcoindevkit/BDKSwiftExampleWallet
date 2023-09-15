@@ -26,6 +26,9 @@
     "..." : {
 
     },
+    "%@ sats" : {
+
+    },
     "%llu sats fee" : {
 
     },
@@ -188,6 +191,9 @@
         }
       }
     },
+    "Next" : {
+
+    },
     "No Transactions" : {
       "localizations" : {
         "fr" : {
@@ -302,6 +308,9 @@
           }
         }
       }
+    },
+    "To" : {
+
     },
     "Total" : {
 
