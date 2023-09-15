@@ -180,6 +180,9 @@
         }
       }
     },
+    "Fees" : {
+
+    },
     "Last Synced: %@" : {
       "extractionState" : "stale",
       "localizations" : {

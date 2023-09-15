@@ -38,18 +38,15 @@ struct AmountView: View {
     @State var numpadAmount = "0"
 
     var body: some View {
-
         NavigationView {
-
             ZStack {
                 Color(uiColor: .systemBackground)
 
                 VStack(spacing: 50) {
-
                     Spacer()
 
                     VStack(spacing: 4) {
-                        Text("\(numpadAmount) sats")
+                        Text("\(numpadAmount.formattedWithSeparator) sats")
                             .textStyle(BitcoinTitle1())
                         if let balance = viewModel.balanceTotal {
                             HStack(spacing: 2) {
@@ -60,28 +57,19 @@ struct AmountView: View {
                             .font(.caption)
                         }
                     }
-                    VStack(spacing: 50) {
-                        HStack(spacing: 100) {
-                            NumpadButton(numpadAmount: $numpadAmount, character: "1")
-                            NumpadButton(numpadAmount: $numpadAmount, character: "2")
-                            NumpadButton(numpadAmount: $numpadAmount, character: "3")
+
+                    GeometryReader { geometry in
+                        let buttonSize = geometry.size.width / 4
+
+                        VStack(spacing: buttonSize / 10) {
+                            numpadRow(["1", "2", "3"], buttonSize: buttonSize)
+                            numpadRow(["4", "5", "6"], buttonSize: buttonSize)
+                            numpadRow(["7", "8", "9"], buttonSize: buttonSize)
+                            numpadRow([" ", "0", "<"], buttonSize: buttonSize)
                         }
-                        HStack(spacing: 100) {
-                            NumpadButton(numpadAmount: $numpadAmount, character: "4")
-                            NumpadButton(numpadAmount: $numpadAmount, character: "5")
-                            NumpadButton(numpadAmount: $numpadAmount, character: "6")
-                        }
-                        HStack(spacing: 100) {
-                            NumpadButton(numpadAmount: $numpadAmount, character: "7")
-                            NumpadButton(numpadAmount: $numpadAmount, character: "8")
-                            NumpadButton(numpadAmount: $numpadAmount, character: "9")
-                        }
-                        HStack(spacing: 100) {
-                            NumpadButton(numpadAmount: $numpadAmount, character: " ")
-                            NumpadButton(numpadAmount: $numpadAmount, character: "0")
-                            NumpadButton(numpadAmount: $numpadAmount, character: "<")
-                        }
+                        .frame(maxWidth: .infinity)
                     }
+                    .frame(height: 300)  // Adjust this height as needed
 
                     Spacer()
 
@@ -95,17 +83,89 @@ struct AmountView: View {
                         .labelStyle(.iconOnly)
                     }
                     .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
-
                 }
                 .padding()
                 .task {
                     viewModel.getBalance()
                 }
+            }
+        }
+    }
 
+    func numpadRow(_ characters: [String], buttonSize: CGFloat) -> some View {
+        HStack(spacing: buttonSize / 2) {
+            ForEach(characters, id: \.self) { character in
+                NumpadButton(numpadAmount: $numpadAmount, character: character)
+                    .frame(width: buttonSize, height: buttonSize)
             }
         }
     }
 }
+
+//struct AmountView: View {
+//    @Bindable var viewModel: AmountViewModel
+//    @State var numpadAmount = "0"
+//
+//    var body: some View {
+//        NavigationView {
+//            ZStack {
+//                Color(uiColor: .systemBackground)
+//
+//                VStack(spacing: 50) {
+//                    Spacer()
+//
+//                    VStack(spacing: 4) {
+//                        Text("\(numpadAmount) sats")
+//                            .textStyle(BitcoinTitle1())
+//                        if let balance = viewModel.balanceTotal {
+//                            HStack(spacing: 2) {
+//                                Text(balance.delimiter)
+//                                Text("sats available")
+//                            }
+//                            .fontWeight(.semibold)
+//                            .font(.caption)
+//                        }
+//                    }
+//
+//                    VStack(spacing: 100) {
+//                        createNumpadRow(["1", "2", "3"])
+//                        createNumpadRow(["4", "5", "6"])
+//                        createNumpadRow(["7", "8", "9"])
+//                        createNumpadRow([" ", "0", "<"])
+//                    }
+//                    .frame(maxWidth: .infinity)
+//
+//                    Spacer()
+//
+//                    NavigationLink(
+//                        destination: AddressView(amount: numpadAmount)
+//                    ) {
+//                        Label(
+//                            title: { Text("Next") },
+//                            icon: { Image(systemName: "arrow.right") }
+//                        )
+//                        .labelStyle(.iconOnly)
+//                    }
+//                    .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+//                }
+//                .padding()
+//                .task {
+//                    viewModel.getBalance()
+//                }
+//            }
+//        }
+//    }
+//
+//    func createNumpadRow(_ characters: [String]) -> some View {
+//        HStack {
+//            Spacer()
+//            ForEach(characters, id: \.self) { char in
+//                NumpadButton(numpadAmount: $numpadAmount, character: char)
+//                Spacer()
+//            }
+//        }
+//    }
+//}
 
 struct NumpadButton: View {
     @Binding var numpadAmount: String
