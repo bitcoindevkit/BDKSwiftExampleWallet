@@ -23,7 +23,7 @@ struct TabHomeView: View {
                     .tabItem {
                         Image(systemName: "arrow.down")
                     }
-                SendView(viewModel: .init())
+                AmountView(viewModel: .init())  //SendView(viewModel: .init())
                     .tabItem {
                         Image(systemName: "arrow.up")
                     }

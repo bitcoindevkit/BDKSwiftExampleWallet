@@ -26,6 +26,9 @@
     "..." : {
 
     },
+    "%@ sats" : {
+
+    },
     "%llu sats fee" : {
 
     },
@@ -177,6 +180,9 @@
         }
       }
     },
+    "Fees" : {
+
+    },
     "Last Synced: %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -187,6 +193,9 @@
           }
         }
       }
+    },
+    "Next" : {
+
     },
     "No Transactions" : {
       "localizations" : {
@@ -302,6 +311,9 @@
           }
         }
       }
+    },
+    "To" : {
+
     },
     "Total" : {
 

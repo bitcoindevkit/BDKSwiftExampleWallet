@@ -36,6 +36,11 @@
 		AE6F34D62AA6BF450087E700 /* TransactionDetails+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F34D52AA6BF450087E700 /* TransactionDetails+Extensions.swift */; };
 		AE6F34D82AA6C1800087E700 /* Network+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */; };
 		AE6F34DA2AA6C1E00087E700 /* Balance+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F34D92AA6C1E00087E700 /* Balance+Extensions.swift */; };
+		AE7839FD2AB4E18D005F0CBA /* AmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7839FC2AB4E18D005F0CBA /* AmountView.swift */; };
+		AE783A012AB4E5E1005F0CBA /* BuildTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE783A002AB4E5E1005F0CBA /* BuildTransactionView.swift */; };
+		AE783A032AB4ECC2005F0CBA /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE783A022AB4ECC2005F0CBA /* AddressView.swift */; };
+		AE783A052AB4F51F005F0CBA /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE783A042AB4F51F005F0CBA /* String+Extensions.swift */; };
+		AE783A072AB4F7C7005F0CBA /* FeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE783A062AB4F7C7005F0CBA /* FeeView.swift */; };
 		AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538D2A2D59F000CCB277 /* Constants.swift */; };
 		AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */; };
 		AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */; };
@@ -101,6 +106,11 @@
 		AE6F34D52AA6BF450087E700 /* TransactionDetails+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionDetails+Extensions.swift"; sourceTree = "<group>"; };
 		AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Extensions.swift"; sourceTree = "<group>"; };
 		AE6F34D92AA6C1E00087E700 /* Balance+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Balance+Extensions.swift"; sourceTree = "<group>"; };
+		AE7839FC2AB4E18D005F0CBA /* AmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountView.swift; sourceTree = "<group>"; };
+		AE783A002AB4E5E1005F0CBA /* BuildTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildTransactionView.swift; sourceTree = "<group>"; };
+		AE783A022AB4ECC2005F0CBA /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
+		AE783A042AB4F51F005F0CBA /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		AE783A062AB4F7C7005F0CBA /* FeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeView.swift; sourceTree = "<group>"; };
 		AE79538D2A2D59F000CCB277 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletError.swift; sourceTree = "<group>"; };
 		AE7E68952A59A37300368D82 /* BDKSwiftExampleWalletInt+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKSwiftExampleWalletInt+Extensions.swift"; sourceTree = "<group>"; };
@@ -170,6 +180,7 @@
 			children = (
 				AE18E9372A9528200019D2A4 /* Bundle+Extensions.swift */,
 				A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */,
+				AE783A042AB4F51F005F0CBA /* String+Extensions.swift */,
 				AE7F67062A744CE200CED561 /* Double+Extensions.swift */,
 				AE6F34D52AA6BF450087E700 /* TransactionDetails+Extensions.swift */,
 				AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */,
@@ -191,6 +202,10 @@
 				AE1C34232A424456008F807A /* ReceiveView.swift */,
 				AE96F6662A4259260055623C /* QRCodeView.swift */,
 				AE1C34252A4248A5008F807A /* SendView.swift */,
+				AE7839FC2AB4E18D005F0CBA /* AmountView.swift */,
+				AE783A022AB4ECC2005F0CBA /* AddressView.swift */,
+				AE783A062AB4F7C7005F0CBA /* FeeView.swift */,
+				AE783A002AB4E5E1005F0CBA /* BuildTransactionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -478,10 +493,12 @@
 			files = (
 				AE0C30F72A804A2D008F1EAE /* WalletTransactionListView.swift in Sources */,
 				AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */,
+				AE783A072AB4F7C7005F0CBA /* FeeView.swift in Sources */,
 				AE2B8C1D2A9678C900815B2F /* FeeService.swift in Sources */,
 				AE2B8C1F2A96797300815B2F /* RecommendedFees.swift in Sources */,
 				AE96F6672A4259260055623C /* QRCodeView.swift in Sources */,
 				AE7F670C2A7451D700CED561 /* CurrencyCode.swift in Sources */,
+				AE783A032AB4ECC2005F0CBA /* AddressView.swift in Sources */,
 				AE7F67052A7446B600CED561 /* PriceService.swift in Sources */,
 				AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */,
 				AEA9BEB32AA8081800C523CA /* BDKError+Extensions.swift in Sources */,
@@ -497,6 +514,8 @@
 				AE7F67092A7451AA00CED561 /* Price.swift in Sources */,
 				AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */,
 				A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */,
+				AE7839FD2AB4E18D005F0CBA /* AmountView.swift in Sources */,
+				AE783A012AB4E5E1005F0CBA /* BuildTransactionView.swift in Sources */,
 				AE6F34DA2AA6C1E00087E700 /* Balance+Extensions.swift in Sources */,
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
@@ -505,6 +524,7 @@
 				AE1C34262A4248A5008F807A /* SendView.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
 				AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */,
+				AE783A052AB4F51F005F0CBA /* String+Extensions.swift in Sources */,
 				AE0C30FF2A804BDE008F1EAE /* SendViewModel.swift in Sources */,
 				AE0C30F92A804B65008F1EAE /* OnboardingViewModel.swift in Sources */,
 				AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */,
