@@ -249,7 +249,6 @@
 		AE49846F2A1BBBD6009951E2 = {
 			isa = PBXGroup;
 			children = (
-				AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */,
 				AE4984A52A1BBCB8009951E2 /* README.md */,
 				AE49847A2A1BBBD6009951E2 /* BDKSwiftExampleWallet */,
 				AE49848B2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests */,
@@ -386,6 +385,7 @@
 		AEE6C74D2ABCB48600442ADD /* BDK+Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */,
 				AEE6C7492ABCB3C300442ADD /* TxOut+Extensions.swift */,
 				AE7F67062A744CE200CED561 /* Double+Extensions.swift */,
 				AEE6C7472ABCB3AE00442ADD /* TxIn+Extensions.swift */,
