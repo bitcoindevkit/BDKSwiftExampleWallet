@@ -13,16 +13,16 @@ struct AddressView: View {
     @State private var address: String = ""
 
     var body: some View {
-        
+
         NavigationView {
 
             ZStack {
                 Color(uiColor: .systemBackground)
-                
+
                 VStack {
-                    
+
                     Spacer()
-                    
+
                     VStack {
                         HStack {
                             Text("Address")
@@ -38,10 +38,9 @@ struct AddressView: View {
                         .lineLimit(1)
                         .padding()
                     }
-                    
+
                     Spacer()
-                    
-                    
+
                     NavigationLink(
                         destination:
                             FeeView(amount: amount, address: address, viewModel: .init())
@@ -53,7 +52,7 @@ struct AddressView: View {
                         .labelStyle(.iconOnly)
                     }
                     .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
-                    
+
                 }
                 .padding()
                 .navigationTitle("Address")

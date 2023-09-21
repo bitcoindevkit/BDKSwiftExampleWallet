@@ -150,7 +150,7 @@ struct BuildTransactionView: View {
                     }
                     .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
                     .padding()
-                    
+
                 } else {
                     Image(systemName: "checkmark")
                         .foregroundColor(.green)

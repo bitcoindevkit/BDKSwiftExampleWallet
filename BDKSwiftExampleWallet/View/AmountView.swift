@@ -39,64 +39,64 @@ struct AmountView: View {
     @State private var isSendPresented = false
 
     var body: some View {
-        
-            ZStack {
-                Color(uiColor: .systemBackground)
 
-                VStack(spacing: 50) {
-                    Spacer()
+        ZStack {
+            Color(uiColor: .systemBackground)
 
-                    VStack(spacing: 4) {
-                        Text("\(numpadAmount.formattedWithSeparator) sats")
-                            .textStyle(BitcoinTitle1())
-                        if let balance = viewModel.balanceTotal {
-                            HStack(spacing: 2) {
-                                Text(balance.delimiter)
-                                Text("sats available")
-                            }
-                            .fontWeight(.semibold)
-                            .font(.caption)
+            VStack(spacing: 50) {
+                Spacer()
+
+                VStack(spacing: 4) {
+                    Text("\(numpadAmount.formattedWithSeparator) sats")
+                        .textStyle(BitcoinTitle1())
+                    if let balance = viewModel.balanceTotal {
+                        HStack(spacing: 2) {
+                            Text(balance.delimiter)
+                            Text("sats available")
                         }
+                        .fontWeight(.semibold)
+                        .font(.caption)
                     }
+                }
 
-                    GeometryReader { geometry in
-                        let buttonSize = geometry.size.width / 4
+                GeometryReader { geometry in
+                    let buttonSize = geometry.size.width / 4
 
-                        VStack(spacing: buttonSize / 10) {
-                            numpadRow(["1", "2", "3"], buttonSize: buttonSize)
-                            numpadRow(["4", "5", "6"], buttonSize: buttonSize)
-                            numpadRow(["7", "8", "9"], buttonSize: buttonSize)
-                            numpadRow([" ", "0", "<"], buttonSize: buttonSize)
-                        }
-                        .frame(maxWidth: .infinity)
+                    VStack(spacing: buttonSize / 10) {
+                        numpadRow(["1", "2", "3"], buttonSize: buttonSize)
+                        numpadRow(["4", "5", "6"], buttonSize: buttonSize)
+                        numpadRow(["7", "8", "9"], buttonSize: buttonSize)
+                        numpadRow([" ", "0", "<"], buttonSize: buttonSize)
                     }
-                    .frame(height: 300)
+                    .frame(maxWidth: .infinity)
+                }
+                .frame(height: 300)
 
-                    Spacer()
-                    
-                    Button {
-                        isSendPresented = true
-                    } label: {
-                        Label(
-                            title: { Text("Next") },
-                            icon: { Image(systemName: "arrow.right") }
-                        )
-                        .labelStyle(.iconOnly)
-                    }
-                    .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+                Spacer()
 
+                Button {
+                    isSendPresented = true
+                } label: {
+                    Label(
+                        title: { Text("Next") },
+                        icon: { Image(systemName: "arrow.right") }
+                    )
+                    .labelStyle(.iconOnly)
                 }
-                .padding()
-                .task {
-                    viewModel.getBalance()
-                }
-                .sheet(
-                    isPresented: $isSendPresented
-                ) {
-                        AddressView(amount: numpadAmount)
-                }
+                .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
 
             }
+            .padding()
+            .task {
+                viewModel.getBalance()
+            }
+            .sheet(
+                isPresented: $isSendPresented
+            ) {
+                AddressView(amount: numpadAmount)
+            }
+
+        }
     }
 
     func numpadRow(_ characters: [String], buttonSize: CGFloat) -> some View {
