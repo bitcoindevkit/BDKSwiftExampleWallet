@@ -97,7 +97,7 @@ struct WalletView: View {
                             .font(.caption)
                         }
                         .fontWeight(.bold)
-                        WalletTransactionListView(transactionDetails: viewModel.transactionDetails)
+                        WalletTransactionListView(transactionDetails: viewModel.transactionDetails, walletSyncState: viewModel.walletSyncState)
                             .refreshable {
                                 await viewModel.sync()
                                 viewModel.getBalance()

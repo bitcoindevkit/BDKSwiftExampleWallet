@@ -11,16 +11,24 @@ import SwiftUI
 
 struct WalletTransactionListView: View {
     let transactionDetails: [TransactionDetails]
+    let walletSyncState: WalletSyncState
 
     var body: some View {
 
         List {
 
-            if transactionDetails.isEmpty {
-                Text("No Transactions")
+            if transactionDetails.isEmpty && walletSyncState == .syncing {
+                WalletTransactionsListItemView(transaction: mockTransactionDetail, isRedacted: true)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
-            } else {
+            }
+            else if transactionDetails.isEmpty {
+                Text("No Transactions")
+                    .font(.caption)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+            }
+            else {
                 ForEach(
                     transactionDetails.sorted(
                         by: {
@@ -56,7 +64,7 @@ struct WalletTransactionListView: View {
 }
 
 #Preview{
-    WalletTransactionListView(transactionDetails: mockTransactionDetails)
+    WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
 }
 
 struct WalletTransactionsListItemView: View {
