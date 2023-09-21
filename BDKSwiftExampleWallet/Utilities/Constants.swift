@@ -14,8 +14,6 @@ struct Constants {
                 static let mutiny = "https://mutinynet.com/api"
                 static let bdk = "http://signet.bitcoindevkit.net:3003/"
             }
-            //            static let signetMutiny = "https://mutinynet.com/api"
-            //            static let signetBDK = "http://signet.bitcoindevkit.net:3003/"
             static let testnet = "http://blockstream.info/testnet/api/"
         }
     }
