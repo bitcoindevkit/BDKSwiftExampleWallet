@@ -13,9 +13,9 @@ struct WalletTransactionListView: View {
     let transactionDetails: [TransactionDetails]
 
     var body: some View {
-        
+
         List {
-            
+
             if transactionDetails.isEmpty {
                 Text("No Transactions")
                     .listRowInsets(EdgeInsets())
@@ -40,7 +40,7 @@ struct WalletTransactionListView: View {
                                 : transaction.received - transaction.sent
                         )
                     ) {
-                        
+
                         WalletTransactionsListItemView(transaction: transaction)
                     }
 
@@ -51,10 +51,9 @@ struct WalletTransactionListView: View {
 
         }
         .listStyle(.plain)
-        
+
     }
 }
-
 
 #Preview{
     WalletTransactionListView(transactionDetails: mockTransactionDetails)

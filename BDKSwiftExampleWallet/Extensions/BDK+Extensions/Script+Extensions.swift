@@ -11,7 +11,7 @@ extension Script: Equatable {
     public static func == (lhs: Script, rhs: Script) -> Bool {
         let lhsBytes = lhs.toBytes()
         let rhsBytes = rhs.toBytes()
-        
+
         return lhsBytes == rhsBytes
     }
 }

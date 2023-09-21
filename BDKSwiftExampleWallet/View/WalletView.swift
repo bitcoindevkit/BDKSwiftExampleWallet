@@ -14,17 +14,17 @@ struct WalletView: View {
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
-    
+
     var body: some View {
-        
+
         NavigationView {
-            
+
             ZStack {
                 Color(uiColor: .systemBackground)
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 20) {
-                    
+
                     VStack(spacing: 10) {
                         Text("Bitcoin".uppercased())
                             .fontWeight(.semibold)
@@ -86,7 +86,7 @@ struct WalletView: View {
                                         Image(systemName: "checkmark.circle")
                                             .foregroundColor(
                                                 viewModel.walletSyncState == .synced
-                                                ? .green : .secondary
+                                                    ? .green : .secondary
                                             )
                                     } else {
                                         Image(systemName: "questionmark")
@@ -127,13 +127,13 @@ struct WalletView: View {
                 .onAppear {
                     print("viewModel.transactionDetails: \(viewModel.transactionDetails)")
                 }
-                
+
             }
-            
+
         }
-        
+
     }
-    
+
 }
 
 #Preview("WalletView - en"){

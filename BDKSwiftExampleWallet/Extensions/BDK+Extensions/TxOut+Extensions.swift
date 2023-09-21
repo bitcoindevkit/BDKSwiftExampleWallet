@@ -9,7 +9,6 @@ import BitcoinDevKit
 
 extension TxOut: Equatable {
     public static func == (lhs: TxOut, rhs: TxOut) -> Bool {
-        return lhs.value == rhs.value &&
-               lhs.scriptPubkey == rhs.scriptPubkey
+        return lhs.value == rhs.value && lhs.scriptPubkey == rhs.scriptPubkey
     }
 }
