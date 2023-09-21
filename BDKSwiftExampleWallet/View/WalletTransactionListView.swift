@@ -16,19 +16,16 @@ struct WalletTransactionListView: View {
     var body: some View {
 
         List {
-
             if transactionDetails.isEmpty && walletSyncState == .syncing {
                 WalletTransactionsListItemView(transaction: mockTransactionDetail, isRedacted: true)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
-            }
-            else if transactionDetails.isEmpty {
+            } else if transactionDetails.isEmpty {
                 Text("No Transactions")
                     .font(.caption)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
-            }
-            else {
+            } else {
                 ForEach(
                     transactionDetails.sorted(
                         by: {
@@ -51,7 +48,6 @@ struct WalletTransactionListView: View {
 
                         WalletTransactionsListItemView(transaction: transaction)
                     }
-
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
