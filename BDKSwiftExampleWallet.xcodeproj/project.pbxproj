@@ -64,6 +64,10 @@
 		AED4CC122A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4CC112A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift */; };
 		AED79FC22A97D14100FD3C7D /* BDKSwiftExampleWalletDouble+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED79FC12A97D14100FD3C7D /* BDKSwiftExampleWalletDouble+Extensions.swift */; };
 		AED79FC52A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED79FC42A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift */; };
+		AEE6C7462ABCB38F00442ADD /* Script+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C7452ABCB38F00442ADD /* Script+Extensions.swift */; };
+		AEE6C7482ABCB3AE00442ADD /* TxIn+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C7472ABCB3AE00442ADD /* TxIn+Extensions.swift */; };
+		AEE6C74A2ABCB3C300442ADD /* TxOut+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C7492ABCB3C300442ADD /* TxOut+Extensions.swift */; };
+		AEE6C74C2ABCB3E200442ADD /* Transaction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +137,10 @@
 		AED4CC112A1D640800CE1831 /* BDKSwiftExampleWalletWalletViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletWalletViewModelTests.swift; sourceTree = "<group>"; };
 		AED79FC12A97D14100FD3C7D /* BDKSwiftExampleWalletDouble+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKSwiftExampleWalletDouble+Extensions.swift"; sourceTree = "<group>"; };
 		AED79FC42A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletSendViewModelTests.swift; sourceTree = "<group>"; };
+		AEE6C7452ABCB38F00442ADD /* Script+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Script+Extensions.swift"; sourceTree = "<group>"; };
+		AEE6C7472ABCB3AE00442ADD /* TxIn+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TxIn+Extensions.swift"; sourceTree = "<group>"; };
+		AEE6C7492ABCB3C300442ADD /* TxOut+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TxOut+Extensions.swift"; sourceTree = "<group>"; };
+		AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,12 +189,8 @@
 				AE18E9372A9528200019D2A4 /* Bundle+Extensions.swift */,
 				A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */,
 				AE783A042AB4F51F005F0CBA /* String+Extensions.swift */,
-				AE7F67062A744CE200CED561 /* Double+Extensions.swift */,
-				AE6F34D52AA6BF450087E700 /* TransactionDetails+Extensions.swift */,
-				AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */,
-				AE6F34D92AA6C1E00087E700 /* Balance+Extensions.swift */,
-				AEA9BEB22AA8081800C523CA /* BDKError+Extensions.swift */,
 				AEBDDA522AA9124100DCEA77 /* View+Extensions.swift */,
+				AEE6C74D2ABCB48600442ADD /* BDK+Extensions */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -245,6 +249,7 @@
 		AE49846F2A1BBBD6009951E2 = {
 			isa = PBXGroup;
 			children = (
+				AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */,
 				AE4984A52A1BBCB8009951E2 /* README.md */,
 				AE49847A2A1BBBD6009951E2 /* BDKSwiftExampleWallet */,
 				AE49848B2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests */,
@@ -378,6 +383,21 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
+		AEE6C74D2ABCB48600442ADD /* BDK+Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AEE6C7492ABCB3C300442ADD /* TxOut+Extensions.swift */,
+				AE7F67062A744CE200CED561 /* Double+Extensions.swift */,
+				AEE6C7472ABCB3AE00442ADD /* TxIn+Extensions.swift */,
+				AE6F34D52AA6BF450087E700 /* TransactionDetails+Extensions.swift */,
+				AEE6C7452ABCB38F00442ADD /* Script+Extensions.swift */,
+				AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */,
+				AE6F34D92AA6C1E00087E700 /* Balance+Extensions.swift */,
+				AEA9BEB22AA8081800C523CA /* BDKError+Extensions.swift */,
+			);
+			path = "BDK+Extensions";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -491,6 +511,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEE6C7482ABCB3AE00442ADD /* TxIn+Extensions.swift in Sources */,
+				AEE6C74C2ABCB3E200442ADD /* Transaction+Extensions.swift in Sources */,
 				AE0C30F72A804A2D008F1EAE /* WalletTransactionListView.swift in Sources */,
 				AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */,
 				AE783A072AB4F7C7005F0CBA /* FeeView.swift in Sources */,
@@ -517,8 +539,10 @@
 				AE7839FD2AB4E18D005F0CBA /* AmountView.swift in Sources */,
 				AE783A012AB4E5E1005F0CBA /* BuildTransactionView.swift in Sources */,
 				AE6F34DA2AA6C1E00087E700 /* Balance+Extensions.swift in Sources */,
+				AEE6C7462ABCB38F00442ADD /* Script+Extensions.swift in Sources */,
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
+				AEE6C74A2ABCB3C300442ADD /* TxOut+Extensions.swift in Sources */,
 				AEBDDA532AA9124100DCEA77 /* View+Extensions.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
 				AE1C34262A4248A5008F807A /* SendView.swift in Sources */,

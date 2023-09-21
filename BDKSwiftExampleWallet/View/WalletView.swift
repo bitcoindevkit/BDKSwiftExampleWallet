@@ -14,17 +14,17 @@ struct WalletView: View {
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
-
+    
     var body: some View {
-
+        
         NavigationView {
-
+            
             ZStack {
                 Color(uiColor: .systemBackground)
                     .ignoresSafeArea()
-
+                
                 VStack(spacing: 20) {
-
+                    
                     VStack(spacing: 10) {
                         Text("Bitcoin".uppercased())
                             .fontWeight(.semibold)
@@ -86,7 +86,7 @@ struct WalletView: View {
                                         Image(systemName: "checkmark.circle")
                                             .foregroundColor(
                                                 viewModel.walletSyncState == .synced
-                                                    ? .green : .secondary
+                                                ? .green : .secondary
                                             )
                                     } else {
                                         Image(systemName: "questionmark")
@@ -97,29 +97,15 @@ struct WalletView: View {
                             .font(.caption)
                         }
                         .fontWeight(.bold)
-                        if viewModel.transactionDetails.isEmpty
-                            && viewModel.walletSyncState == .syncing
-                        {
-                            WalletTransactionsListItemView(
-                                transaction: mockTransactionDetail,
-                                isRedacted: true
-                            )
-                        } else if viewModel.transactionDetails.isEmpty {
-                            Text("No Transactions")
-                        } else {
-                            WalletTransactionListView(
-                                transactionDetails: viewModel.transactionDetails
-                            )
+                        WalletTransactionListView(transactionDetails: viewModel.transactionDetails)
                             .refreshable {
                                 await viewModel.sync()
                                 viewModel.getBalance()
                                 viewModel.getTransactions()
                                 await viewModel.getPrices()
                             }
-                        }
                         Spacer()
                     }
-
                 }
                 .padding()
                 .onReceive(
@@ -138,13 +124,16 @@ struct WalletView: View {
                     viewModel.getTransactions()
                     await viewModel.getPrices()
                 }
-
+                .onAppear {
+                    print("viewModel.transactionDetails: \(viewModel.transactionDetails)")
+                }
+                
             }
-
+            
         }
-
+        
     }
-
+    
 }
 
 #Preview("WalletView - en"){

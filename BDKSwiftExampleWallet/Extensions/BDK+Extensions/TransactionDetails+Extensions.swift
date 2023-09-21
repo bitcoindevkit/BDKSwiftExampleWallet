@@ -8,6 +8,18 @@
 import BitcoinDevKit
 import Foundation
 
+extension TransactionDetails: Equatable {
+    public static func == (lhs: TransactionDetails, rhs: TransactionDetails) -> Bool {
+        // Compare each property for equality
+        return lhs.transaction == rhs.transaction &&
+               lhs.fee == rhs.fee &&
+               lhs.received == rhs.received &&
+               lhs.sent == rhs.sent &&
+               lhs.txid == rhs.txid &&
+               lhs.confirmationTime == rhs.confirmationTime
+    }
+}
+
 // Needed for placeholder view
 let mockTransactionDetail = TransactionDetails(
     transaction: nil,
