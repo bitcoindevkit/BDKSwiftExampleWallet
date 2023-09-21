@@ -14,47 +14,50 @@ struct AddressView: View {
 
     var body: some View {
 
-        ZStack {
-            Color(uiColor: .systemBackground)
+        NavigationView {
 
-            VStack {
-
-                Spacer()
+            ZStack {
+                Color(uiColor: .systemBackground)
 
                 VStack {
-                    HStack {
-                        Text("Address")
-                            .bold()
-                        Spacer()
+
+                    Spacer()
+
+                    VStack {
+                        HStack {
+                            Text("Address")
+                                .bold()
+                            Spacer()
+                        }
+                        .padding(.horizontal, 15.0)
+                        TextField(
+                            "Enter address to send BTC to",
+                            text: $address
+                        )
+                        .truncationMode(.middle)
+                        .lineLimit(1)
+                        .padding()
                     }
-                    .padding(.horizontal, 15.0)
-                    TextField(
-                        "Enter address to send BTC to",
-                        text: $address
-                    )
-                    .truncationMode(.middle)
-                    .lineLimit(1)
-                    .padding()
-                }
 
-                Spacer()
+                    Spacer()
 
-                NavigationLink(
-                    destination:
-                        FeeView(amount: amount, address: address, viewModel: .init())
-                ) {
-                    Label(
-                        title: { Text("Next") },
-                        icon: { Image(systemName: "arrow.right") }
-                    )
-                    .labelStyle(.iconOnly)
+                    NavigationLink(
+                        destination:
+                            FeeView(amount: amount, address: address, viewModel: .init())
+                    ) {
+                        Label(
+                            title: { Text("Next") },
+                            icon: { Image(systemName: "arrow.right") }
+                        )
+                        .labelStyle(.iconOnly)
+                    }
+                    .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+
                 }
-                .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+                .padding()
+                .navigationTitle("Address")
 
             }
-            .padding()
-
-            .navigationTitle("Address")
 
         }
 

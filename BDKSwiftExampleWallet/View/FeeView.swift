@@ -154,11 +154,10 @@ struct FeeView: View {
                 .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
 
             }
+            .navigationTitle("Fees")
             .task {
                 await viewModel.getFees()
             }
-
-            .navigationTitle("Fees")
 
         }
 
