@@ -97,29 +97,18 @@ struct WalletView: View {
                             .font(.caption)
                         }
                         .fontWeight(.bold)
-                        if viewModel.transactionDetails.isEmpty
-                            && viewModel.walletSyncState == .syncing
-                        {
-                            WalletTransactionsListItemView(
-                                transaction: mockTransactionDetail,
-                                isRedacted: true
-                            )
-                        } else if viewModel.transactionDetails.isEmpty {
-                            Text("No Transactions")
-                        } else {
-                            WalletTransactionListView(
-                                transactionDetails: viewModel.transactionDetails
-                            )
-                            .refreshable {
-                                await viewModel.sync()
-                                viewModel.getBalance()
-                                viewModel.getTransactions()
-                                await viewModel.getPrices()
-                            }
+                        WalletTransactionListView(
+                            transactionDetails: viewModel.transactionDetails,
+                            walletSyncState: viewModel.walletSyncState
+                        )
+                        .refreshable {
+                            await viewModel.sync()
+                            viewModel.getBalance()
+                            viewModel.getTransactions()
+                            await viewModel.getPrices()
                         }
                         Spacer()
                     }
-
                 }
                 .padding()
                 .onReceive(
@@ -137,6 +126,9 @@ struct WalletView: View {
                     viewModel.getBalance()
                     viewModel.getTransactions()
                     await viewModel.getPrices()
+                }
+                .onAppear {
+                    print("viewModel.transactionDetails: \(viewModel.transactionDetails)")
                 }
 
             }

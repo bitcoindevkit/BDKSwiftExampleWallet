@@ -24,7 +24,7 @@ private class BDKService {
 
     init(keyService: KeyClient = .live) {
         let esploraConfig = EsploraConfig(
-            baseUrl: Constants.Config.EsploraServerURLNetwork.signet,
+            baseUrl: Constants.Config.EsploraServerURLNetwork.Signet.mutiny,
             proxy: nil,
             concurrency: nil,
             stopGap: UInt64(20),

@@ -11,42 +11,56 @@ import SwiftUI
 
 struct WalletTransactionListView: View {
     let transactionDetails: [TransactionDetails]
+    let walletSyncState: WalletSyncState
 
     var body: some View {
+
         List {
-            ForEach(
-                transactionDetails.sorted(
-                    by: {
-                        $0.confirmationTime?.timestamp ?? $0.received > $1.confirmationTime?
-                            .timestamp ?? $1.received
+            if transactionDetails.isEmpty && walletSyncState == .syncing {
+                WalletTransactionsListItemView(transaction: mockTransactionDetail, isRedacted: true)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+            } else if transactionDetails.isEmpty {
+                Text("No Transactions")
+                    .font(.caption)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+            } else {
+                ForEach(
+                    transactionDetails.sorted(
+                        by: {
+                            $0.confirmationTime?.timestamp ?? $0.received > $1.confirmationTime?
+                                .timestamp ?? $1.received
+                        }
+                    ),
+                    id: \.txid
+                ) { transaction in
+
+                    NavigationLink(
+                        destination: TransactionDetailsView(
+                            transaction: transaction,
+                            amount:
+                                transaction.sent > 0
+                                ? transaction.sent - transaction.received
+                                : transaction.received - transaction.sent
+                        )
+                    ) {
+
+                        WalletTransactionsListItemView(transaction: transaction)
                     }
-                ),
-                id: \.txid
-            ) { transaction in
-
-                NavigationLink(
-                    destination: TransactionDetailsView(
-                        transaction: transaction,
-                        amount:
-                            transaction.sent > 0
-                            ? transaction.sent - transaction.received
-                            : transaction.received - transaction.sent
-                    )
-                ) {
-                    WalletTransactionsListItemView(transaction: transaction)
                 }
-
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
             }
-            .listRowInsets(EdgeInsets())
-            .listRowSeparator(.hidden)
 
         }
         .listStyle(.plain)
+
     }
 }
 
 #Preview{
-    WalletTransactionListView(transactionDetails: mockTransactionDetails)
+    WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
 }
 
 struct WalletTransactionsListItemView: View {

@@ -10,8 +10,14 @@ import Foundation
 struct Constants {
     struct Config {
         struct EsploraServerURLNetwork {
-            static let signet = "https://mutinynet.com/api"
-            static let testnet = "http://blockstream.info/testnet/api/"
+            struct Signet {
+                static let bdk = "http://signet.bitcoindevkit.net:3003/"
+                static let mutiny = "https://mutinynet.com/api"
+            }
+            struct Testnet {
+                static let blockstream = "http://blockstream.info/testnet/api/"
+                static let mempool = "https://mempool.space/testnet/api/"
+            }
         }
     }
 }
