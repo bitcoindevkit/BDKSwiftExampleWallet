@@ -36,9 +36,10 @@ class AmountViewModel {
 struct AmountView: View {
     @Bindable var viewModel: AmountViewModel
     @State var numpadAmount = "0"
+    @State private var isSendPresented = false
 
     var body: some View {
-        NavigationView {
+        
             ZStack {
                 Color(uiColor: .systemBackground)
 
@@ -69,13 +70,13 @@ struct AmountView: View {
                         }
                         .frame(maxWidth: .infinity)
                     }
-                    .frame(height: 300)  // Adjust this height as needed
+                    .frame(height: 300)
 
                     Spacer()
-
-                    NavigationLink(
-                        destination: AddressView(amount: numpadAmount)
-                    ) {
+                    
+                    Button {
+                        isSendPresented = true
+                    } label: {
                         Label(
                             title: { Text("Next") },
                             icon: { Image(systemName: "arrow.right") }
@@ -83,13 +84,19 @@ struct AmountView: View {
                         .labelStyle(.iconOnly)
                     }
                     .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+
                 }
                 .padding()
                 .task {
                     viewModel.getBalance()
                 }
+                .sheet(
+                    isPresented: $isSendPresented
+                ) {
+                        AddressView(amount: numpadAmount)
+                }
+
             }
-        }
     }
 
     func numpadRow(_ characters: [String], buttonSize: CGFloat) -> some View {
@@ -101,71 +108,6 @@ struct AmountView: View {
         }
     }
 }
-
-//struct AmountView: View {
-//    @Bindable var viewModel: AmountViewModel
-//    @State var numpadAmount = "0"
-//
-//    var body: some View {
-//        NavigationView {
-//            ZStack {
-//                Color(uiColor: .systemBackground)
-//
-//                VStack(spacing: 50) {
-//                    Spacer()
-//
-//                    VStack(spacing: 4) {
-//                        Text("\(numpadAmount) sats")
-//                            .textStyle(BitcoinTitle1())
-//                        if let balance = viewModel.balanceTotal {
-//                            HStack(spacing: 2) {
-//                                Text(balance.delimiter)
-//                                Text("sats available")
-//                            }
-//                            .fontWeight(.semibold)
-//                            .font(.caption)
-//                        }
-//                    }
-//
-//                    VStack(spacing: 100) {
-//                        createNumpadRow(["1", "2", "3"])
-//                        createNumpadRow(["4", "5", "6"])
-//                        createNumpadRow(["7", "8", "9"])
-//                        createNumpadRow([" ", "0", "<"])
-//                    }
-//                    .frame(maxWidth: .infinity)
-//
-//                    Spacer()
-//
-//                    NavigationLink(
-//                        destination: AddressView(amount: numpadAmount)
-//                    ) {
-//                        Label(
-//                            title: { Text("Next") },
-//                            icon: { Image(systemName: "arrow.right") }
-//                        )
-//                        .labelStyle(.iconOnly)
-//                    }
-//                    .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
-//                }
-//                .padding()
-//                .task {
-//                    viewModel.getBalance()
-//                }
-//            }
-//        }
-//    }
-//
-//    func createNumpadRow(_ characters: [String]) -> some View {
-//        HStack {
-//            Spacer()
-//            ForEach(characters, id: \.self) { char in
-//                NumpadButton(numpadAmount: $numpadAmount, character: char)
-//                Spacer()
-//            }
-//        }
-//    }
-//}
 
 struct NumpadButton: View {
     @Binding var numpadAmount: String

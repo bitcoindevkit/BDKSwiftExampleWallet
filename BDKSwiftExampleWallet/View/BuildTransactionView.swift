@@ -13,64 +13,12 @@ import SwiftUI
 @MainActor
 @Observable
 class BuildTransactionViewModel {
-    //    let feeClient: FeeClient
     let bdkClient: BDKClient
-
     var txBuilderResult: TxBuilderResult?
-    //    var balanceTotal: UInt64?
-    //    var recommendedFees: RecommendedFees?
-    //    var selectedFeeIndex: Int = 2
-    //    var selectedFee: Int? {
-    //        guard let fees = recommendedFees else {
-    //            return nil
-    //        }
-    //        switch selectedFeeIndex {
-    //        case 0: return fees.minimumFee
-    //        case 1: return fees.hourFee
-    //        case 2: return fees.halfHourFee
-    //        default: return fees.fastestFee
-    //        }
-    //    }
-    //    var selectedFeeDescription: String {
-    //        guard let selectedFee = selectedFee else {
-    //            return "Failed to load fees"
-    //        }
-    //
-    //        let feeText = text(for: selectedFeeIndex)
-    //        return "Selected \(feeText) Fee: \(selectedFee) sats"
-    //    }
-    //    func text(for index: Int) -> String {
-    //
-    //        switch index {
-    //
-    //        //"Minimum Fee"
-    //        case 0:
-    //            return "No Priority"
-    //
-    //        //"Hour Fee"
-    //        case 1:
-    //            return "Low Priority"
-    //
-    //        //"Half Hour Fee"
-    //        case 2:
-    //            return "Medium Priority"
-    //
-    //        //"Fastest Fee"
-    //        case 3:
-    //            return "High Priority"
-    //
-    //        default:
-    //            return ""
-    //
-    //        }
-    //
-    //    }
 
     init(
-        //        feeClient: FeeClient = .live,
         bdkClient: BDKClient = .live
     ) {
-        //        self.feeClient = feeClient
         self.bdkClient = bdkClient
     }
 
@@ -103,15 +51,6 @@ class BuildTransactionViewModel {
         }
     }
 
-    //    func getFees() async {
-    //        do {
-    //            let recommendedFees = try await feeClient.fetchFees()
-    //            self.recommendedFees = recommendedFees
-    //        } catch {
-    //            print("getFees error: \(error.localizedDescription)")
-    //        }
-    //    }
-
 }
 
 struct BuildTransactionView: View {
@@ -119,6 +58,7 @@ struct BuildTransactionView: View {
     let address: String
     let fee: Int
     @Bindable var viewModel: BuildTransactionViewModel
+    @State var isSent: Bool = false
 
     var body: some View {
 
@@ -184,45 +124,53 @@ struct BuildTransactionView: View {
 
                 Spacer()
 
-                Button {
-                    let feeRate: Float? = Float(fee)  //viewModel.selectedFee.map { Float($0) }
-                    if let rate = feeRate {
-                        if let amt = UInt64(amount) {
-                            viewModel.send(
-                                address: address,
-                                amount: amt,
-                                feeRate: rate
-                            )
-                            // TODO: dismiss after this success
+                if !isSent {
+                    Button {
+                        let feeRate: Float? = Float(fee)
+                        if let rate = feeRate {
+                            if let amt = UInt64(amount) {
+                                viewModel.send(
+                                    address: address,
+                                    amount: amt,
+                                    feeRate: rate
+                                )
+                                // TODO: dismiss after this success
+                                self.isSent = true
+                            } else {
+                                print("no amount conversion")
+                            }
                         } else {
-                            print("no amount conversion")
+                            print("no fee rate")
                         }
-                    } else {
-                        print("no fee rate")
+                    } label: {
+                        Text("Send")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding(.all, 8)
                     }
-                } label: {
-                    Text("Send")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding(.all, 8)
+                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
+                    .padding()
+                    
+                } else {
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.green)
                 }
-                .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
-                .padding()
 
             }
 
         }
         .padding()
+        .navigationTitle("Fees")
         .task {
             print("Address: \(address)")
             print("Amount: \(amount)")
-            let feeRate: Float? = Float(fee)  //viewModel.selectedFee.map { Float($0) }
+            let feeRate: Float? = Float(fee)
             if let rate = feeRate {
                 print("Fee Rate: \(String(describing: rate))")
                 viewModel.buildTransaction(
                     address: address,
                     amount: UInt64(amount) ?? 0,
-                    feeRate: rate  //Float(feeRate ?? 1)
+                    feeRate: rate
                 )
             } else {
                 print("error no fee rate")

@@ -13,48 +13,52 @@ struct AddressView: View {
     @State private var address: String = ""
 
     var body: some View {
+        
+        NavigationView {
 
-        ZStack {
-            Color(uiColor: .systemBackground)
-
-            VStack {
-
-                Spacer()
-
+            ZStack {
+                Color(uiColor: .systemBackground)
+                
                 VStack {
-                    HStack {
-                        Text("Address")
-                            .bold()
-                        Spacer()
+                    
+                    Spacer()
+                    
+                    VStack {
+                        HStack {
+                            Text("Address")
+                                .bold()
+                            Spacer()
+                        }
+                        .padding(.horizontal, 15.0)
+                        TextField(
+                            "Enter address to send BTC to",
+                            text: $address
+                        )
+                        .truncationMode(.middle)
+                        .lineLimit(1)
+                        .padding()
                     }
-                    .padding(.horizontal, 15.0)
-                    TextField(
-                        "Enter address to send BTC to",
-                        text: $address
-                    )
-                    .truncationMode(.middle)
-                    .lineLimit(1)
-                    .padding()
+                    
+                    Spacer()
+                    
+                    
+                    NavigationLink(
+                        destination:
+                            FeeView(amount: amount, address: address, viewModel: .init())
+                    ) {
+                        Label(
+                            title: { Text("Next") },
+                            icon: { Image(systemName: "arrow.right") }
+                        )
+                        .labelStyle(.iconOnly)
+                    }
+                    .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+                    
                 }
-
-                Spacer()
-
-                NavigationLink(
-                    destination:
-                        FeeView(amount: amount, address: address, viewModel: .init())
-                ) {
-                    Label(
-                        title: { Text("Next") },
-                        icon: { Image(systemName: "arrow.right") }
-                    )
-                    .labelStyle(.iconOnly)
-                }
-                .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+                .padding()
+                .navigationTitle("Address")
 
             }
-            .padding()
-
-            .navigationTitle("Address")
 
         }
 
