@@ -137,7 +137,7 @@ private class BDKService {
     private func signAndBroadcast(txBuilder: TxBuilderResult) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
-        let isSigned = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
+        let _ = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
         let transaction = txBuilder.psbt.extractTx()
         let blockchain = try Blockchain(config: config)
         try blockchain.broadcast(transaction: transaction)
@@ -202,8 +202,11 @@ extension BDKClient {
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
             buildTransaction: { _, _, _ in
+                let pb64 = """
+                    cHNidP8BAIkBAAAAAeaWcxp4/+xSRJ2rhkpUJ+jQclqocoyuJ/ulSZEgEkaoAQAAAAD+////Ak/cDgAAAAAAIlEgqxShDO8ifAouGyRHTFxWnTjpY69Cssr3IoNQvMYOKG/OVgAAAAAAACJRIGnlvMwBz4Ylb6xLTe5g4ZeZCxmVH/XWG+CDlcPzzaoT8qoGAAABAStAQg8AAAAAACJRIFGGvSoLWt3hRAIwYa8KEyawiFTXoOCVWFxYtSofZuAsIRZ2b8YiEpzexWYGt8B5EqLM8BE4qxJY3pkiGw/8zOZGYxkAvh7sj1YAAIABAACAAAAAgAAAAAAEAAAAARcgdm/GIhKc3sVmBrfAeRKizPAROKsSWN6ZIhsP/MzmRmMAAQUge7cvJMsJmR56NzObGOGkm8vNqaAIJdnBXLZD2PvrinIhB3u3LyTLCZkeejczmxjhpJvLzamgCCXZwVy2Q9j764pyGQC+HuyPVgAAgAEAAIAAAACAAQAAAAYAAAAAAQUgtIFPrI2EW/+PJiAmYdmux88p0KgeAxDFLMoeQoS66hIhB7SBT6yNhFv/jyYgJmHZrsfPKdCoHgMQxSzKHkKEuuoSGQC+HuyPVgAAgAEAAIAAAACAAAAAAAIAAAAA
+                    """
                 return try! TxBuilderResult(
-                    psbt: .init(psbtBase64: "psbtBase64"),
+                    psbt: .init(psbtBase64: pb64),
                     transactionDetails: mockTransactionDetail
                 )
             }

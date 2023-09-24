@@ -83,6 +83,7 @@
       }
     },
     "Amount" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -123,9 +124,6 @@
         }
       }
     },
-    "Build Transaction" : {
-
-    },
     "Confirmed" : {
       "localizations" : {
         "fr" : {
@@ -157,6 +155,7 @@
       }
     },
     "Enter amount to send" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -316,6 +315,9 @@
 
     },
     "Total" : {
+
+    },
+    "Transaction" : {
 
     },
     "Transactions" : {

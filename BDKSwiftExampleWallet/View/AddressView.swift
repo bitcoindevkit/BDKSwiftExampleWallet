@@ -51,7 +51,7 @@ struct AddressView: View {
                         )
                         .labelStyle(.iconOnly)
                     }
-                    .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+                    .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
                 }
                 .padding()

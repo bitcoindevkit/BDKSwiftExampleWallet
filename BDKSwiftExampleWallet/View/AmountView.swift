@@ -6,32 +6,7 @@
 //
 
 import BitcoinUI
-import Observation
 import SwiftUI
-
-@MainActor
-@Observable
-class AmountViewModel {
-    let bdkClient: BDKClient
-
-    var balanceTotal: UInt64?
-
-    init(bdkClient: BDKClient = .live) {
-        self.bdkClient = bdkClient
-    }
-
-    func getBalance() {
-        do {
-            let balance = try bdkClient.getBalance()
-            self.balanceTotal = balance.total
-        } catch let error as WalletError {
-            print("getBalance - Send Error: \(error.localizedDescription)")
-        } catch {
-            print("getBalance - Undefined Error: \(error.localizedDescription)")
-        }
-    }
-
-}
 
 struct AmountView: View {
     @Bindable var viewModel: AmountViewModel
@@ -45,7 +20,6 @@ struct AmountView: View {
 
             VStack(spacing: 50) {
                 Spacer()
-
                 VStack(spacing: 4) {
                     Text("\(numpadAmount.formattedWithSeparator) sats")
                         .textStyle(BitcoinTitle1())
@@ -61,7 +35,6 @@ struct AmountView: View {
 
                 GeometryReader { geometry in
                     let buttonSize = geometry.size.width / 4
-
                     VStack(spacing: buttonSize / 10) {
                         numpadRow(["1", "2", "3"], buttonSize: buttonSize)
                         numpadRow(["4", "5", "6"], buttonSize: buttonSize)
@@ -83,7 +56,7 @@ struct AmountView: View {
                     )
                     .labelStyle(.iconOnly)
                 }
-                .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
+                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
             }
             .padding()
@@ -97,8 +70,17 @@ struct AmountView: View {
             }
 
         }
+        .onChange(of: isSendPresented) {
+            if !isSendPresented {
+                numpadAmount = "0"
+            }
+        }
+
     }
 
+}
+
+extension AmountView {
     func numpadRow(_ characters: [String], buttonSize: CGFloat) -> some View {
         HStack(spacing: buttonSize / 2) {
             ForEach(characters, id: \.self) { character in
