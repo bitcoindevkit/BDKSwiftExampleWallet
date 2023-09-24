@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 9/22/23.
 //
 
-import Foundation
 import BitcoinDevKit
+import Foundation
 
 @MainActor
 @Observable
@@ -49,7 +49,7 @@ class FeeViewModel {
             print("getFees error: \(error.localizedDescription)")
         }
     }
-    
+
     private func text(for index: Int) -> String {
         switch index {
         case 0:
