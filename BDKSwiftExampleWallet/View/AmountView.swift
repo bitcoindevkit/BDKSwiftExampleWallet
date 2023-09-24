@@ -70,8 +70,17 @@ struct AmountView: View {
             }
 
         }
+        .onChange(of: isSendPresented) {
+              if !isSendPresented {
+                  numpadAmount = "0"
+              }
+          }
+        
     }
 
+}
+
+extension AmountView {
     func numpadRow(_ characters: [String], buttonSize: CGFloat) -> some View {
         HStack(spacing: buttonSize / 2) {
             ForEach(characters, id: \.self) { character in
