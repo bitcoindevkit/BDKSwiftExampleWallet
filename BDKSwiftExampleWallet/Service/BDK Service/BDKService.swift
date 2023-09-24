@@ -137,7 +137,7 @@ private class BDKService {
     private func signAndBroadcast(txBuilder: TxBuilderResult) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
-        let isSigned = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
+        let _ = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
         let transaction = txBuilder.psbt.extractTx()
         let blockchain = try Blockchain(config: config)
         try blockchain.broadcast(transaction: transaction)

@@ -45,16 +45,13 @@ struct ReceiveView: View {
                 Spacer()
 
                 HStack {
-
                     Text("Address".uppercased())
                         .foregroundColor(.secondary)
                         .fontWeight(.light)
-
                     Text(viewModel.address)
                         .lineLimit(1)
                         .truncationMode(.middle)
                         .fontDesign(.monospaced)
-
                     Button {
                         UIPasteboard.general.string = viewModel.address
                         isCopied = true
@@ -72,7 +69,6 @@ struct ReceiveView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.bitcoinOrange)
                     }
-
                 }
                 .padding()
                 .fontDesign(.monospaced)

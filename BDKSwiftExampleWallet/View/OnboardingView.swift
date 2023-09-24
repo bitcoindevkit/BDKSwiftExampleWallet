@@ -23,31 +23,25 @@ struct OnboardingView: View {
                 Spacer()
 
                 VStack(spacing: 25) {
-
                     Image(systemName: "bitcoinsign.circle.fill")
                         .resizable()
                         .foregroundColor(.bitcoinOrange)
                         .frame(width: 100, height: 100, alignment: .center)
-
                     Text("Bitcoin Wallet")
                         .textStyle(BitcoinTitle1())
                         .multilineTextAlignment(.center)
                         .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-
                     Text("A simple bitcoin wallet for your enjoyment.")
                         .textStyle(BitcoinBody1())
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
-
                 }
 
                 VStack(spacing: 25) {
-
                     Button("Create a new wallet") {
                         viewModel.createWallet()
                     }
                     .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
-
                 }
                 .padding(.top, 30)
 

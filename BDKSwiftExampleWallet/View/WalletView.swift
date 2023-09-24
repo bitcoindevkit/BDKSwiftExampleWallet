@@ -127,9 +127,6 @@ struct WalletView: View {
                     viewModel.getTransactions()
                     await viewModel.getPrices()
                 }
-                .onAppear {
-                    print("viewModel.transactionDetails: \(viewModel.transactionDetails)")
-                }
 
             }
 

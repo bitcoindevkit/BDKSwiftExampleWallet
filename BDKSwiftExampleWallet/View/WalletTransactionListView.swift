@@ -59,10 +59,6 @@ struct WalletTransactionListView: View {
     }
 }
 
-#Preview{
-    WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
-}
-
 struct WalletTransactionsListItemView: View {
     let transaction: TransactionDetails
     let isRedacted: Bool
@@ -98,7 +94,6 @@ struct WalletTransactionsListItemView: View {
                         ? Color.bitcoinOrange : Color.secondary,
                     isRedacted ? Color.gray.opacity(0.5) : Color.gray.opacity(0.05)
                 )
-
             }
 
             VStack(alignment: .leading, spacing: 5) {
@@ -135,4 +130,8 @@ struct WalletTransactionsListItemView: View {
         .padding(.vertical, 15.0)
         .padding(.vertical, 5.0)
     }
+}
+
+#Preview{
+    WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
 }

@@ -160,7 +160,7 @@ struct BuildTransactionView: View {
 
         }
         .padding()
-        .navigationTitle("Fees")
+        .navigationTitle("Transaction")
         .task {
             print("Address: \(address)")
             print("Amount: \(amount)")
