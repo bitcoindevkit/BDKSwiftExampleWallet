@@ -7,51 +7,7 @@
 
 import BitcoinDevKit
 import BitcoinUI
-import Observation
 import SwiftUI
-
-@MainActor
-@Observable
-class BuildTransactionViewModel {
-    let bdkClient: BDKClient
-    var txBuilderResult: TxBuilderResult?
-
-    init(
-        bdkClient: BDKClient = .live
-    ) {
-        self.bdkClient = bdkClient
-    }
-
-    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) {
-        do {
-            let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
-            self.txBuilderResult = txBuilderResult
-        } catch let error as WalletError {
-            print("buildTransaction - Send Error: \(error.localizedDescription)")
-        } catch let error as BdkError {
-            print("buildTransaction - BDK Error: \(error.description)")
-        } catch {
-            print("buildTransaction - Undefined Error: \(error.localizedDescription)")
-        }
-    }
-
-    func send(address: String, amount: UInt64, feeRate: Float?) {
-        do {
-            try bdkClient.send(address, amount, feeRate)
-            NotificationCenter.default.post(
-                name: Notification.Name("TransactionSent"),
-                object: nil
-            )
-        } catch let error as WalletError {
-            print("send - Send Error: \(error.localizedDescription)")
-        } catch let error as BdkError {
-            print("send - BDK Error: \(error.description)")
-        } catch {
-            print("send - Undefined Error: \(error.localizedDescription)")
-        }
-    }
-
-}
 
 struct BuildTransactionView: View {
     let amount: String
@@ -161,21 +117,15 @@ struct BuildTransactionView: View {
         }
         .padding()
         .navigationTitle("Transaction")
-        .task {
-            print("Address: \(address)")
-            print("Amount: \(amount)")
+        .onAppear {
             let feeRate: Float? = Float(fee)
             if let rate = feeRate {
-                print("Fee Rate: \(String(describing: rate))")
                 viewModel.buildTransaction(
                     address: address,
                     amount: UInt64(amount) ?? 0,
                     feeRate: rate
                 )
-            } else {
-                print("error no fee rate")
             }
-
         }
 
     }
