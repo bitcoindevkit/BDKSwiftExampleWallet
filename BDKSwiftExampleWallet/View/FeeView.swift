@@ -82,6 +82,7 @@ struct FeeView: View {
                 .buttonStyle(BitcoinFilled(width: 100, isCapsule: true))
 
             }
+            .padding()
             .navigationTitle("Fees")
             .task {
                 await viewModel.getFees()
