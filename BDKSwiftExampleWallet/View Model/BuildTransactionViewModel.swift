@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 9/23/23.
 //
 
-import Foundation
 import BitcoinDevKit
+import Foundation
 
 @MainActor
 @Observable

@@ -71,11 +71,11 @@ struct AmountView: View {
 
         }
         .onChange(of: isSendPresented) {
-              if !isSendPresented {
-                  numpadAmount = "0"
-              }
-          }
-        
+            if !isSendPresented {
+                numpadAmount = "0"
+            }
+        }
+
     }
 
 }
