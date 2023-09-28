@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BitcoinUI
 
 struct ReceiveView: View {
     @Bindable var viewModel: ReceiveViewModel
@@ -35,10 +36,10 @@ struct ReceiveView: View {
                 Spacer()
 
                 if viewModel.address != "" {
-                    FidgetQRCodeView(address: viewModel.address)
+                    QRCodeView(qrCodeType: .bitcoin(viewModel.address))
                         .animation(.default, value: viewModel.address)
                 } else {
-                    QRCodeView(address: viewModel.address)
+                    QRCodeView(qrCodeType: .bitcoin(viewModel.address))
                         .blur(radius: 15)
                 }
 
