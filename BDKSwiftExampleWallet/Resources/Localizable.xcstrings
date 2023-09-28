@@ -124,6 +124,9 @@
         }
       }
     },
+    "confirmed" : {
+
+    },
     "Confirmed" : {
       "localizations" : {
         "fr" : {
@@ -255,12 +258,6 @@
         }
       }
     },
-    "sats confirmed" : {
-
-    },
-    "sats total" : {
-
-    },
     "Select Fee" : {
       "localizations" : {
         "fr" : {
@@ -315,6 +312,9 @@
       }
     },
     "To" : {
+
+    },
+    "total" : {
 
     },
     "Total" : {
