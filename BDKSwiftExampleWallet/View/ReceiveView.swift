@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 6/20/23.
 //
 
-import SwiftUI
 import BitcoinUI
+import SwiftUI
 
 struct ReceiveView: View {
     @Bindable var viewModel: ReceiveViewModel
