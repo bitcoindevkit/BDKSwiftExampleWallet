@@ -48,13 +48,11 @@
 		AE7F67092A7451AA00CED561 /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67082A7451AA00CED561 /* Price.swift */; };
 		AE7F670C2A7451D700CED561 /* CurrencyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F670B2A7451D700CED561 /* CurrencyCode.swift */; };
 		AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift */; };
-		AE96F6672A4259260055623C /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6662A4259260055623C /* QRCodeView.swift */; };
 		AEA9BEB32AA8081800C523CA /* BDKError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA9BEB22AA8081800C523CA /* BDKError+Extensions.swift */; };
 		AEAB03112ABDDB86000C9528 /* FeeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB03102ABDDB86000C9528 /* FeeViewModel.swift */; };
 		AEAB03132ABDDBF4000C9528 /* AmountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB03122ABDDBF4000C9528 /* AmountViewModel.swift */; };
 		AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB130C82A44E4850087785B /* TransactionDetailsView.swift */; };
 		AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */; };
-		AEBDDA532AA9124100DCEA77 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBDDA522AA9124100DCEA77 /* View+Extensions.swift */; };
 		AEC2CF5A2ABFBA19008065E4 /* BuildTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2CF592ABFBA19008065E4 /* BuildTransactionViewModel.swift */; };
 		AED062712A9BB1D6001DC6BD /* BDKSwiftExampleWalletFeeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED062702A9BB1D6001DC6BD /* BDKSwiftExampleWalletFeeServiceTests.swift */; };
 		AED062732A9BD698001DC6BD /* BDKSwiftExampleWalletKeyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED062722A9BD698001DC6BD /* BDKSwiftExampleWalletKeyServiceTests.swift */; };
@@ -123,13 +121,11 @@
 		AE7F67082A7451AA00CED561 /* Price.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
 		AE7F670B2A7451D700CED561 /* CurrencyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCode.swift; sourceTree = "<group>"; };
 		AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletReceiveViewModelTests.swift; sourceTree = "<group>"; };
-		AE96F6662A4259260055623C /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		AEA9BEB22AA8081800C523CA /* BDKError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKError+Extensions.swift"; sourceTree = "<group>"; };
 		AEAB03102ABDDB86000C9528 /* FeeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeViewModel.swift; sourceTree = "<group>"; };
 		AEAB03122ABDDBF4000C9528 /* AmountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountViewModel.swift; sourceTree = "<group>"; };
 		AEB130C82A44E4850087785B /* TransactionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsView.swift; sourceTree = "<group>"; };
 		AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupInfo.swift; sourceTree = "<group>"; };
-		AEBDDA522AA9124100DCEA77 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		AEC2CF592ABFBA19008065E4 /* BuildTransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildTransactionViewModel.swift; sourceTree = "<group>"; };
 		AED062702A9BB1D6001DC6BD /* BDKSwiftExampleWalletFeeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletFeeServiceTests.swift; sourceTree = "<group>"; };
 		AED062722A9BD698001DC6BD /* BDKSwiftExampleWalletKeyServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletKeyServiceTests.swift; sourceTree = "<group>"; };
@@ -195,7 +191,6 @@
 				AE18E9372A9528200019D2A4 /* Bundle+Extensions.swift */,
 				A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */,
 				AE783A042AB4F51F005F0CBA /* String+Extensions.swift */,
-				AEBDDA522AA9124100DCEA77 /* View+Extensions.swift */,
 				AEE6C74D2ABCB48600442ADD /* BDK+Extensions */,
 			);
 			path = Extensions;
@@ -210,7 +205,6 @@
 				AE0C30F62A804A2D008F1EAE /* WalletTransactionListView.swift */,
 				AEB130C82A44E4850087785B /* TransactionDetailsView.swift */,
 				AE1C34232A424456008F807A /* ReceiveView.swift */,
-				AE96F6662A4259260055623C /* QRCodeView.swift */,
 				AE7839FC2AB4E18D005F0CBA /* AmountView.swift */,
 				AE783A022AB4ECC2005F0CBA /* AddressView.swift */,
 				AE783A062AB4F7C7005F0CBA /* FeeView.swift */,
@@ -526,7 +520,6 @@
 				AE2B8C1D2A9678C900815B2F /* FeeService.swift in Sources */,
 				AEC2CF5A2ABFBA19008065E4 /* BuildTransactionViewModel.swift in Sources */,
 				AE2B8C1F2A96797300815B2F /* RecommendedFees.swift in Sources */,
-				AE96F6672A4259260055623C /* QRCodeView.swift in Sources */,
 				AE7F670C2A7451D700CED561 /* CurrencyCode.swift in Sources */,
 				AE783A032AB4ECC2005F0CBA /* AddressView.swift in Sources */,
 				AE7F67052A7446B600CED561 /* PriceService.swift in Sources */,
@@ -553,7 +546,6 @@
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
 				AEE6C74A2ABCB3C300442ADD /* TxOut+Extensions.swift in Sources */,
-				AEBDDA532AA9124100DCEA77 /* View+Extensions.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
 				AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */,
@@ -859,8 +851,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/reez/WalletUI.git";
 			requirement = {
-				kind = exactVersion;
-				version = 1.0.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
