@@ -15,6 +15,8 @@ struct BuildTransactionView: View {
     let fee: Int
     @Bindable var viewModel: BuildTransactionViewModel
     @State var isSent: Bool = false
+    @State var isError: Bool = false
+    @Binding var shouldPopToRootView : Bool
 
     var body: some View {
 
@@ -90,21 +92,37 @@ struct BuildTransactionView: View {
                                     amount: amt,
                                     feeRate: rate
                                 )
-                                // TODO: dismiss after this success
                                 self.isSent = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                        self.shouldPopToRootView = false
+                                   }
                             } else {
                                 print("no amount conversion")
+                                self.isError = true
                             }
                         } else {
                             print("no fee rate")
+                            self.isError = true
                         }
                     } label: {
+                        isError ?
+                        Text("Error")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding(.all, 8)
+                        :
                         Text("Send")
                             .bold()
                             .frame(maxWidth: .infinity)
                             .padding(.all, 8)
                     }
-                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
+                    .buttonStyle(
+                        isSent ?
+                            BitcoinFilled(tintColor: .bitcoinRed, isCapsule: true)
+                            :
+                            BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true)
+
+                    )
                     .padding()
 
                 } else {
@@ -139,6 +157,7 @@ struct BuildTransactionView: View {
         fee: 17,
         viewModel: .init(
             bdkClient: .mock
-        )
+        ), 
+        shouldPopToRootView: .constant(false)
     )
 }

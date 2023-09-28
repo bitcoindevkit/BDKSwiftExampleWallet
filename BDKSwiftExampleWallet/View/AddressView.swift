@@ -11,11 +11,10 @@ import SwiftUI
 struct AddressView: View {
     let amount: String
     @State private var address: String = ""
+    @Binding var rootIsActive : Bool
 
     var body: some View {
-
-        NavigationStack {
-
+        
             ZStack {
                 Color(uiColor: .systemBackground)
 
@@ -43,7 +42,7 @@ struct AddressView: View {
 
                     NavigationLink(
                         destination:
-                            FeeView(amount: amount, address: address, viewModel: .init())
+                            FeeView(amount: amount, address: address, viewModel: .init(), rootIsActive: self.$rootIsActive)
                     ) {
                         Label(
                             title: { Text("Next") },
@@ -51,6 +50,7 @@ struct AddressView: View {
                         )
                         .labelStyle(.iconOnly)
                     }
+                    .isDetailLink(false)
                     .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
                 }
@@ -59,12 +59,10 @@ struct AddressView: View {
 
             }
 
-        }
-
     }
 
 }
 
 #Preview{
-    AddressView(amount: "200")
+    AddressView(amount: "200", rootIsActive: .constant(false))
 }

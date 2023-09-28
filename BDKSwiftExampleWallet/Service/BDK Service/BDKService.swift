@@ -11,7 +11,7 @@ import Foundation
 private class BDKService {
     private var balance: Balance?
     private var blockchainConfig: BlockchainConfig?
-    var network: Network = .testnet
+    var network: Network = .signet
     private var wallet: Wallet?
     private let keyService: KeyClient
 
@@ -24,7 +24,7 @@ private class BDKService {
 
     init(keyService: KeyClient = .live) {
         let esploraConfig = EsploraConfig(
-            baseUrl: Constants.Config.EsploraServerURLNetwork.Testnet.mempool,
+            baseUrl: Constants.Config.EsploraServerURLNetwork.Signet.mutiny,
             proxy: nil,
             concurrency: nil,
             stopGap: UInt64(20),
