@@ -26,10 +26,20 @@ struct AmountView: View {
                     if let balance = viewModel.balanceTotal {
                         HStack(spacing: 2) {
                             Text(balance.delimiter)
-                            Text("sats available")
+                            Text("total")
                         }
                         .fontWeight(.semibold)
                         .font(.caption)
+                        .foregroundColor(.secondary)
+                    }
+                    if let balance = viewModel.balanceConfirmed {
+                        HStack(spacing: 2) {
+                            Text(balance.delimiter)
+                            Text("confirmed")
+                        }
+                        .fontWeight(.semibold)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                     }
                 }
 
