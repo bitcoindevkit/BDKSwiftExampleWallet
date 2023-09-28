@@ -255,7 +255,10 @@
         }
       }
     },
-    "sats available" : {
+    "sats confirmed" : {
+
+    },
+    "sats total" : {
 
     },
     "Select Fee" : {

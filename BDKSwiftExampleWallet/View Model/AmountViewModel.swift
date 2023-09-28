@@ -12,6 +12,7 @@ import Foundation
 class AmountViewModel {
     let bdkClient: BDKClient
     var balanceTotal: UInt64?
+    var balanceConfirmed: UInt64?
 
     init(bdkClient: BDKClient = .live) {
         self.bdkClient = bdkClient
@@ -21,6 +22,7 @@ class AmountViewModel {
         do {
             let balance = try bdkClient.getBalance()
             self.balanceTotal = balance.total
+            self.balanceConfirmed = balance.confirmed
         } catch let error as WalletError {
             print("getBalance - Send Error: \(error.localizedDescription)")
         } catch {
