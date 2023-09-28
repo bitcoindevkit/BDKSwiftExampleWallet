@@ -16,7 +16,7 @@ struct BuildTransactionView: View {
     @Bindable var viewModel: BuildTransactionViewModel
     @State var isSent: Bool = false
     @State var isError: Bool = false
-    @Binding var shouldPopToRootView : Bool
+    @Binding var shouldPopToRootView: Bool
 
     var body: some View {
 
@@ -94,8 +94,8 @@ struct BuildTransactionView: View {
                                 )
                                 self.isSent = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                        self.shouldPopToRootView = false
-                                   }
+                                    self.shouldPopToRootView = false
+                                }
                             } else {
                                 print("no amount conversion")
                                 self.isError = true
@@ -105,22 +105,20 @@ struct BuildTransactionView: View {
                             self.isError = true
                         }
                     } label: {
-                        isError ?
-                        Text("Error")
-                            .bold()
-                            .frame(maxWidth: .infinity)
-                            .padding(.all, 8)
-                        :
-                        Text("Send")
-                            .bold()
-                            .frame(maxWidth: .infinity)
-                            .padding(.all, 8)
+                        isError
+                            ? Text("Error")
+                                .bold()
+                                .frame(maxWidth: .infinity)
+                                .padding(.all, 8)
+                            : Text("Send")
+                                .bold()
+                                .frame(maxWidth: .infinity)
+                                .padding(.all, 8)
                     }
                     .buttonStyle(
-                        isSent ?
-                            BitcoinFilled(tintColor: .bitcoinRed, isCapsule: true)
-                            :
-                            BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true)
+                        isSent
+                            ? BitcoinFilled(tintColor: .bitcoinRed, isCapsule: true)
+                            : BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true)
 
                     )
                     .padding()
@@ -157,7 +155,7 @@ struct BuildTransactionView: View {
         fee: 17,
         viewModel: .init(
             bdkClient: .mock
-        ), 
+        ),
         shouldPopToRootView: .constant(false)
     )
 }

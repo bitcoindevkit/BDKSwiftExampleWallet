@@ -11,53 +11,58 @@ import SwiftUI
 struct AddressView: View {
     let amount: String
     @State private var address: String = ""
-    @Binding var rootIsActive : Bool
+    @Binding var rootIsActive: Bool
 
     var body: some View {
-        
-            ZStack {
-                Color(uiColor: .systemBackground)
+
+        ZStack {
+            Color(uiColor: .systemBackground)
+
+            VStack {
+
+                Spacer()
 
                 VStack {
-
-                    Spacer()
-
-                    VStack {
-                        HStack {
-                            Text("Address")
-                                .bold()
-                            Spacer()
-                        }
-                        .padding(.horizontal, 15.0)
-                        TextField(
-                            "Enter address to send BTC to",
-                            text: $address
-                        )
-                        .truncationMode(.middle)
-                        .lineLimit(1)
-                        .padding()
+                    HStack {
+                        Text("Address")
+                            .bold()
+                        Spacer()
                     }
-
-                    Spacer()
-
-                    NavigationLink(
-                        destination:
-                            FeeView(amount: amount, address: address, viewModel: .init(), rootIsActive: self.$rootIsActive)
-                    ) {
-                        Label(
-                            title: { Text("Next") },
-                            icon: { Image(systemName: "arrow.right") }
-                        )
-                        .labelStyle(.iconOnly)
-                    }
-                    .isDetailLink(false)
-                    .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
-
+                    .padding(.horizontal, 15.0)
+                    TextField(
+                        "Enter address to send BTC to",
+                        text: $address
+                    )
+                    .truncationMode(.middle)
+                    .lineLimit(1)
+                    .padding()
                 }
-                .padding()
-                .navigationTitle("Address")
+
+                Spacer()
+
+                NavigationLink(
+                    destination:
+                        FeeView(
+                            amount: amount,
+                            address: address,
+                            viewModel: .init(),
+                            rootIsActive: self.$rootIsActive
+                        )
+                ) {
+                    Label(
+                        title: { Text("Next") },
+                        icon: { Image(systemName: "arrow.right") }
+                    )
+                    .labelStyle(.iconOnly)
+                }
+                .isDetailLink(false)
+                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
             }
+            .padding()
+            .navigationTitle("Address")
+
+        }
 
     }
 

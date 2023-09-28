@@ -11,15 +11,15 @@ import SwiftUI
 struct AmountView: View {
     @Bindable var viewModel: AmountViewModel
     @State var numpadAmount = "0"
-    @State var isActive : Bool = false
+    @State var isActive: Bool = false
 
     var body: some View {
-        
+
         NavigationView {
-            
+
             ZStack {
                 Color(uiColor: .systemBackground)
-                
+
                 VStack(spacing: 50) {
                     Spacer()
                     VStack(spacing: 4) {
@@ -44,7 +44,7 @@ struct AmountView: View {
                             .foregroundColor(.secondary)
                         }
                     }
-                    
+
                     GeometryReader { geometry in
                         let buttonSize = geometry.size.width / 4
                         VStack(spacing: buttonSize / 10) {
@@ -56,9 +56,9 @@ struct AmountView: View {
                         .frame(maxWidth: .infinity)
                     }
                     .frame(height: 300)
-                    
+
                     Spacer()
-                    
+
                     NavigationLink(
                         destination:
                             AddressView(amount: numpadAmount, rootIsActive: $isActive),
@@ -72,18 +72,18 @@ struct AmountView: View {
                     }
                     .isDetailLink(false)
                     .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
-                    
+
                 }
                 .padding()
                 .task {
                     viewModel.getBalance()
                 }
             }
-                        .onChange(of: isActive) {
-                            if !isActive {
-                                numpadAmount = "0"
-                            }
-                        }
+            .onChange(of: isActive) {
+                if !isActive {
+                    numpadAmount = "0"
+                }
+            }
         }
 
     }

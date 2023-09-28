@@ -13,7 +13,7 @@ struct FeeView: View {
     let amount: String
     let address: String
     @Bindable var viewModel: FeeViewModel
-    @Binding var rootIsActive : Bool
+    @Binding var rootIsActive: Bool
 
     var body: some View {
 
@@ -71,9 +71,9 @@ struct FeeView: View {
                         amount: amount,
                         address: address,
                         fee: viewModel.selectedFee ?? 1,
-                        viewModel: .init(), 
+                        viewModel: .init(),
                         shouldPopToRootView: self.$rootIsActive
-                        
+
                     )
                 ) {
                     Label(
@@ -102,7 +102,7 @@ struct FeeView: View {
     FeeView(
         amount: "50",
         address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
-        viewModel: .init(feeClient: .mock, bdkClient: .mock), 
+        viewModel: .init(feeClient: .mock, bdkClient: .mock),
         rootIsActive: .constant(false)
     )
 }
