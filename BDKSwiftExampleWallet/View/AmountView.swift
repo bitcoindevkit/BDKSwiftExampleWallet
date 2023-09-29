@@ -11,78 +11,78 @@ import SwiftUI
 struct AmountView: View {
     @Bindable var viewModel: AmountViewModel
     @State var numpadAmount = "0"
-    @State private var isSendPresented = false
+    @State var isActive: Bool = false
 
     var body: some View {
 
-        ZStack {
-            Color(uiColor: .systemBackground)
+        NavigationView {
 
-            VStack(spacing: 50) {
-                Spacer()
-                VStack(spacing: 4) {
-                    Text("\(numpadAmount.formattedWithSeparator) sats")
-                        .textStyle(BitcoinTitle1())
-                    if let balance = viewModel.balanceTotal {
-                        HStack(spacing: 2) {
-                            Text(balance.delimiter)
-                            Text("total")
+            ZStack {
+                Color(uiColor: .systemBackground)
+
+                VStack(spacing: 50) {
+                    Spacer()
+                    VStack(spacing: 4) {
+                        Text("\(numpadAmount.formattedWithSeparator) sats")
+                            .textStyle(BitcoinTitle1())
+                        if let balance = viewModel.balanceTotal {
+                            HStack(spacing: 2) {
+                                Text(balance.delimiter)
+                                Text("total")
+                            }
+                            .fontWeight(.semibold)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                         }
-                        .fontWeight(.semibold)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    }
-                    if let balance = viewModel.balanceConfirmed {
-                        HStack(spacing: 2) {
-                            Text(balance.delimiter)
-                            Text("confirmed")
+                        if let balance = viewModel.balanceConfirmed {
+                            HStack(spacing: 2) {
+                                Text(balance.delimiter)
+                                Text("confirmed")
+                            }
+                            .fontWeight(.semibold)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                         }
-                        .fontWeight(.semibold)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
                     }
-                }
 
-                GeometryReader { geometry in
-                    let buttonSize = geometry.size.width / 4
-                    VStack(spacing: buttonSize / 10) {
-                        numpadRow(["1", "2", "3"], buttonSize: buttonSize)
-                        numpadRow(["4", "5", "6"], buttonSize: buttonSize)
-                        numpadRow(["7", "8", "9"], buttonSize: buttonSize)
-                        numpadRow([" ", "0", "<"], buttonSize: buttonSize)
+                    GeometryReader { geometry in
+                        let buttonSize = geometry.size.width / 4
+                        VStack(spacing: buttonSize / 10) {
+                            numpadRow(["1", "2", "3"], buttonSize: buttonSize)
+                            numpadRow(["4", "5", "6"], buttonSize: buttonSize)
+                            numpadRow(["7", "8", "9"], buttonSize: buttonSize)
+                            numpadRow([" ", "0", "<"], buttonSize: buttonSize)
+                        }
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
+                    .frame(height: 300)
+
+                    Spacer()
+
+                    NavigationLink(
+                        destination:
+                            AddressView(amount: numpadAmount, rootIsActive: $isActive),
+                        isActive: self.$isActive
+                    ) {
+                        Label(
+                            title: { Text("Next") },
+                            icon: { Image(systemName: "arrow.right") }
+                        )
+                        .labelStyle(.iconOnly)
+                    }
+                    .isDetailLink(false)
+                    .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
+
                 }
-                .frame(height: 300)
-
-                Spacer()
-
-                Button {
-                    isSendPresented = true
-                } label: {
-                    Label(
-                        title: { Text("Next") },
-                        icon: { Image(systemName: "arrow.right") }
-                    )
-                    .labelStyle(.iconOnly)
+                .padding()
+                .task {
+                    viewModel.getBalance()
                 }
-                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
-
             }
-            .padding()
-            .task {
-                viewModel.getBalance()
-            }
-            .sheet(
-                isPresented: $isSendPresented
-            ) {
-                AddressView(amount: numpadAmount)
-            }
-
-        }
-        .onChange(of: isSendPresented) {
-            if !isSendPresented {
-                numpadAmount = "0"
+            .onChange(of: isActive) {
+                if !isActive {
+                    numpadAmount = "0"
+                }
             }
         }
 
