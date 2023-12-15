@@ -128,6 +128,6 @@ struct NumpadButton: View {
     }
 }
 
-#Preview{
+#Preview {
     AmountView(viewModel: .init(bdkClient: .mock))
 }

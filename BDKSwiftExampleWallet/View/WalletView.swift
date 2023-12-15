@@ -136,19 +136,19 @@ struct WalletView: View {
 
 }
 
-#Preview("WalletView - en"){
+#Preview("WalletView - en") {
     WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
 }
 
-#Preview("WalletView Zero - en"){
+#Preview("WalletView Zero - en") {
     WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
 }
 
-#Preview("WalletView Wait - en"){
+#Preview("WalletView Wait - en") {
     WalletView(viewModel: .init(priceClient: .mockPause, bdkClient: .mock))
 }
 
-#Preview("WalletView - fr"){
+#Preview("WalletView - fr") {
     WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

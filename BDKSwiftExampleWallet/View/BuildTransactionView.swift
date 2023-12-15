@@ -148,7 +148,7 @@ struct BuildTransactionView: View {
 
 }
 
-#Preview{
+#Preview {
     BuildTransactionView(
         amount: "100000",
         address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",

@@ -87,11 +87,11 @@ struct ReceiveView: View {
 
 }
 
-#Preview("ReceiveView - en"){
+#Preview("ReceiveView - en") {
     ReceiveView(viewModel: .init(bdkClient: .mock))
 }
 
-#Preview("ReceiveView - fr"){
+#Preview("ReceiveView - fr") {
     ReceiveView(viewModel: .init(bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

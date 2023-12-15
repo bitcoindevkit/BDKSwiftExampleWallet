@@ -66,11 +66,11 @@ struct OnboardingView: View {
     }
 }
 
-#Preview("OnboardingView - en"){
+#Preview("OnboardingView - en") {
     OnboardingView(viewModel: .init(bdkClient: .mock))
 }
 
-#Preview("OnboardingView - fr"){
+#Preview("OnboardingView - fr") {
     OnboardingView(viewModel: .init(bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }

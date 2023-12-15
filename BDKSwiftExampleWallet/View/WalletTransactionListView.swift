@@ -132,6 +132,6 @@ struct WalletTransactionsListItemView: View {
     }
 }
 
-#Preview{
+#Preview {
     WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
 }

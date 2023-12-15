@@ -68,6 +68,6 @@ struct AddressView: View {
 
 }
 
-#Preview{
+#Preview {
     AddressView(amount: "200", rootIsActive: .constant(false))
 }
