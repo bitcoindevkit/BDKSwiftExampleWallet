@@ -36,6 +36,6 @@ struct TabHomeView: View {
 
 }
 
-#Preview{
+#Preview {
     TabHomeView()
 }
