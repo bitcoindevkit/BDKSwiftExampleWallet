@@ -2,16 +2,44 @@
   "sourceLanguage" : "en",
   "strings" : {
     " High Priority - %lld" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\nhaute priorité - %lld"
+          }
+        }
+      }
     },
     " Low Priority - %lld" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Priorité basse  - %lld"
+          }
+        }
+      }
     },
     " Med Priority - %lld" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Priorité moyenne - %lld"
+          }
+        }
+      }
     },
     " No Priority - %lld" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune priorité - %lld"
+          }
+        }
+      }
     },
     "- %llu sats" : {
       "localizations" : {
@@ -24,13 +52,34 @@
       }
     },
     "..." : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "..."
+          }
+        }
+      }
     },
     "%@ sats" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sats"
+          }
+        }
+      }
     },
     "%llu sats fee" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lluFrais de sat "
+          }
+        }
+      }
     },
     "+ %llu sats" : {
       "localizations" : {
@@ -82,28 +131,6 @@
         }
       }
     },
-    "Amount" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Montant"
-          }
-        }
-      }
-    },
-    "Bitcoin wallet" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portefeuille de Bitcoins"
-          }
-        }
-      }
-    },
     "Bitcoin Wallet" : {
       "localizations" : {
         "fr" : {
@@ -125,7 +152,14 @@
       }
     },
     "confirmed" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "confirmé"
+          }
+        }
+      }
     },
     "Confirmed" : {
       "localizations" : {
@@ -157,50 +191,45 @@
         }
       }
     },
-    "Enter amount to send" : {
-      "extractionState" : "stale",
+    "Error" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entrez le montant à envoyer"
+            "value" : "\nErreur"
           }
         }
       }
     },
-    "Error" : {
-
-    },
     "Fee" : {
-
-    },
-    "Fee %llu" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frais %llu"
+            "value" : "\nFrais"
           }
         }
       }
     },
     "Fees" : {
-
-    },
-    "Last Synced: %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dernière synchronisation : %@"
+            "value" : "\nFrais"
           }
         }
       }
     },
     "Next" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "à côté"
+          }
+        }
+      }
     },
     "No Transactions" : {
       "localizations" : {
@@ -223,32 +252,24 @@
       }
     },
     "Receive Address" : {
-
-    },
-    "Received" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reçu"
-          }
-        }
-      }
-    },
-    "Restore Wallet from Keychain" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restaurer le portefeuille à partir du trousseau"
+            "value" : "Adresse de réception"
           }
         }
       }
     },
     "sat/vb" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sat/vb"
+          }
+        }
+      }
     },
     "sats" : {
       "extractionState" : "manual",
@@ -281,28 +302,6 @@
         }
       }
     },
-    "Sent" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Expédié"
-          }
-        }
-      }
-    },
-    "Sync" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Synchroniser"
-          }
-        }
-      }
-    },
     "Syncing" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -315,16 +314,44 @@
       }
     },
     "To" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\nÀ"
+          }
+        }
+      }
     },
     "total" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "total"
+          }
+        }
+      }
     },
     "Total" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total"
+          }
+        }
+      }
     },
     "Transaction" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transaction"
+          }
+        }
+      }
     },
     "Transactions" : {
       "extractionState" : "manual",
@@ -347,45 +374,12 @@
         }
       }
     },
-    "Wallet" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "besace"
-          }
-        }
-      }
-    },
-    "Your Balance" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre solde"
-          }
-        }
-      }
-    },
     "Your wallet, your coins" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Votre portefeuille, vos pièces"
-          }
-        }
-      }
-    },
-    "Your wallet, your coins \n 100% open-source & open-design" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre portefeuille, vos pièces 100% open-source et open-design"
           }
         }
       }
