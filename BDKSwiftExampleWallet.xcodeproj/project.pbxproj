@@ -860,7 +860,7 @@
 			repositoryURL = "https://github.com/reez/BitcoinUI.git";
 			requirement = {
 				kind = exactVersion;
-				version = 1.0.2;
+				version = 1.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
