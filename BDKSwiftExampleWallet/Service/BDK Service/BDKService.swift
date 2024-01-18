@@ -125,7 +125,7 @@ private class BDKService {
         -> TxBuilderResult
     {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let script = try Address(address: address)
+        let script = try Address(address: address, network: network)
             .scriptPubkey()
         let txBuilder = try TxBuilder()
             .addRecipient(script: script, amount: amount)
