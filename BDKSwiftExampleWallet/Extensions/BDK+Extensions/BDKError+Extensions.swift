@@ -52,6 +52,7 @@ extension BdkError {
             .Esplora(let message),
             .Sled(let message),
             .Rusqlite(let message),
+            .HardenedIndex(let message),
             .Rpc(let message):
             return message
         }
