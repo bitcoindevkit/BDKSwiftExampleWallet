@@ -55,10 +55,15 @@ private class BDKService {
         return transactionDetails
     }
 
-    func createWallet() throws {
-        let mnemonicWords12 =
-            "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
-        let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
+    func createWallet(words: String?) throws {
+        var words12: String
+        if let words = words, !words.isEmpty {
+            words12 = words
+        } else {
+            words12 =
+                "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
+        }
+        let mnemonic = try Mnemonic.fromString(mnemonic: words12)
         let secretKey = DescriptorSecretKey(
             network: network,
             mnemonic: mnemonic,
@@ -159,7 +164,7 @@ private class BDKService {
 struct BDKClient {
     let loadWallet: () throws -> Void
     let deleteWallet: () throws -> Void
-    let createWallet: () throws -> Void
+    let createWallet: (String?) throws -> Void
     let getBalance: () throws -> Balance
     let getTransactions: () throws -> [TransactionDetails]
     let sync: () async throws -> Void
@@ -172,7 +177,7 @@ extension BDKClient {
     static let live = Self(
         loadWallet: { try BDKService.shared.loadWalletFromBackup() },
         deleteWallet: { try BDKService.shared.deleteWallet() },
-        createWallet: { try BDKService.shared.createWallet() },
+        createWallet: { words in try BDKService.shared.createWallet(words: words) },
         getBalance: { try BDKService.shared.getBalance() },
         getTransactions: { try BDKService.shared.getTransactions() },
         sync: { try await BDKService.shared.sync() },
@@ -195,7 +200,7 @@ extension BDKClient {
         static let mock = Self(
             loadWallet: {},
             deleteWallet: {},
-            createWallet: {},
+            createWallet: { _ in },
             getBalance: { mockBalance },
             getTransactions: { mockTransactionDetails },
             sync: {},
@@ -214,7 +219,7 @@ extension BDKClient {
         static let mockZero = Self(
             loadWallet: {},
             deleteWallet: {},
-            createWallet: {},
+            createWallet: { _ in },
             getBalance: { mockBalanceZero },
             getTransactions: { mockTransactionDetailsZero },
             sync: {},

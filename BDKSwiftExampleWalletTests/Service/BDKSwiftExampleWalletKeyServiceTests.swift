@@ -15,9 +15,9 @@ final class BDKSwiftExampleWalletKeyServiceTests: XCTestCase {
     func testKeyClientMockBackupInfo() throws {
         let backupInfo = try KeyClient.mock.getBackupInfo()
 
-        let mnemonicWords12 =
+        let words12 =
             "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
-        let mnemonic = try Mnemonic.fromString(mnemonic: mnemonicWords12)
+        let mnemonic = try Mnemonic.fromString(mnemonic: words12)
         let secretKey = DescriptorSecretKey(
             network: mockKeyClientNetwork,
             mnemonic: mnemonic,
