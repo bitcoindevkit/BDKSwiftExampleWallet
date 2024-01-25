@@ -15,6 +15,7 @@ import SwiftUI
 class OnboardingViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     let bdkClient: BDKClient
+    @Published var words: String = ""
 
     init(bdkClient: BDKClient = .live) {
         self.bdkClient = bdkClient
@@ -22,23 +23,12 @@ class OnboardingViewModel: ObservableObject {
 
     func createWallet() {
         do {
-            try bdkClient.createWallet()
+            try bdkClient.createWallet(words)
             isOnboarding = false
         } catch let error as WalletError {
             print("createWallet - Wallet Error: \(error.localizedDescription)")
         } catch {
             print("createWallet - Undefined Error: \(error.localizedDescription)")
-        }
-    }
-
-    func restoreWallet() {
-        do {
-            try bdkClient.loadWallet()
-            isOnboarding = false
-        } catch let error as WalletError {
-            print("restoreWallet - Wallet Error: \(error.localizedDescription)")
-        } catch {
-            print("restoreWallet - Undefined Error: \(error.localizedDescription)")
         }
     }
 

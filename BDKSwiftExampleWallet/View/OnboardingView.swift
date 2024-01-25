@@ -38,7 +38,10 @@ struct OnboardingView: View {
                 }
 
                 VStack(spacing: 25) {
-                    Button("Create a new wallet") {
+                    TextField("12 Word Seed Phrase (Optional)", text: $viewModel.words)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal, 40)
+                    Button("Create Wallet") {
                         viewModel.createWallet()
                     }
                     .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
@@ -58,9 +61,7 @@ struct OnboardingView: View {
                 .padding(EdgeInsets(top: 32, leading: 32, bottom: 8, trailing: 32))
 
             }
-            .task {
-                viewModel.restoreWallet()
-            }
+
         }
 
     }

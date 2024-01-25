@@ -91,6 +91,9 @@
         }
       }
     },
+    "12 Word Seed Phrase (Optional)" : {
+
+    },
     "100% open-source & open-design" : {
       "localizations" : {
         "fr" : {
@@ -130,6 +133,9 @@
           }
         }
       }
+    },
+    "Are you sure you want to delete the seed?" : {
+
     },
     "Bitcoin Wallet" : {
       "localizations" : {
@@ -172,6 +178,7 @@
       }
     },
     "Create a new wallet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -180,6 +187,15 @@
           }
         }
       }
+    },
+    "Create Wallet" : {
+
+    },
+    "Danger Zone" : {
+
+    },
+    "Delete Seed" : {
+
     },
     "Enter address to send BTC to" : {
       "localizations" : {
@@ -230,6 +246,9 @@
           }
         }
       }
+    },
+    "No" : {
+
     },
     "No Transactions" : {
       "localizations" : {
@@ -373,6 +392,9 @@
           }
         }
       }
+    },
+    "Yes" : {
+
     },
     "Your wallet, your coins" : {
       "localizations" : {

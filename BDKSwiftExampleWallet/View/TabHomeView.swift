@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabHomeView: View {
+    @ObservedObject var viewModel: TabHomeViewModel
 
     var body: some View {
 
@@ -27,8 +28,15 @@ struct TabHomeView: View {
                     .tabItem {
                         Image(systemName: "arrow.up")
                     }
+                SettingsView(viewModel: .init())
+                    .tabItem {
+                        Image(systemName: "gear")
+                    }
             }
             .tint(.primary)
+            .onAppear {
+                viewModel.loadWallet()
+            }
 
         }
 
@@ -37,5 +45,5 @@ struct TabHomeView: View {
 }
 
 #Preview {
-    TabHomeView()
+    TabHomeView(viewModel: .init())
 }
