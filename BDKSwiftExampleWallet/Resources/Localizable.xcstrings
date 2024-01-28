@@ -137,6 +137,9 @@
     "Are you sure you want to delete the seed?" : {
 
     },
+    "Bitcoin" : {
+
+    },
     "Bitcoin Wallet" : {
       "localizations" : {
         "fr" : {
@@ -156,6 +159,9 @@
           }
         }
       }
+    },
+    "Choose your Network." : {
+
     },
     "confirmed" : {
       "localizations" : {
@@ -217,6 +223,9 @@
         }
       }
     },
+    "Esplora Server" : {
+
+    },
     "Fee" : {
       "localizations" : {
         "fr" : {
@@ -236,6 +245,9 @@
           }
         }
       }
+    },
+    "Network" : {
+
     },
     "Next" : {
       "localizations" : {
@@ -280,6 +292,9 @@
         }
       }
     },
+    "Regtest" : {
+
+    },
     "sat/vb" : {
       "localizations" : {
         "fr" : {
@@ -321,6 +336,9 @@
         }
       }
     },
+    "Signet" : {
+
+    },
     "Syncing" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -331,6 +349,9 @@
           }
         }
       }
+    },
+    "Testnet" : {
+
     },
     "To" : {
       "localizations" : {

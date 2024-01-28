@@ -9,22 +9,26 @@ import BitcoinDevKit
 import Foundation
 
 private class BDKService {
+    static var shared: BDKService = BDKService()
     private var balance: Balance?
     private var blockchainConfig: BlockchainConfig?
-    var network: Network = .signet
+    var network: Network
     private var wallet: Wallet?
     private let keyService: KeyClient
 
-    class var shared: BDKService {
-        struct Singleton {
-            static let instance = BDKService()
-        }
-        return Singleton.instance
-    }
+    init(
+        keyService: KeyClient = .live
+    ) {
+        let storedNetworkString = try! keyService.getNetwork() ?? Network.testnet.description
+        let storedEsploraURL =
+            try! keyService.getEsploraURL()
+            ?? Constants.Config.EsploraServerURLNetwork.Testnet.mempoolspace
 
-    init(keyService: KeyClient = .live) {
+        self.network = Network(stringValue: storedNetworkString) ?? .testnet
+        self.keyService = keyService
+
         let esploraConfig = EsploraConfig(
-            baseUrl: Constants.Config.EsploraServerURLNetwork.Signet.mutiny,
+            baseUrl: storedEsploraURL,
             proxy: nil,
             concurrency: nil,
             stopGap: UInt64(20),
@@ -32,7 +36,6 @@ private class BDKService {
         )
         let blockchainConfig = BlockchainConfig.esplora(config: esploraConfig)
         self.blockchainConfig = blockchainConfig
-        self.keyService = keyService
     }
 
     func getAddress() throws -> String {
@@ -56,6 +59,20 @@ private class BDKService {
     }
 
     func createWallet(words: String?) throws {
+
+        let baseUrl =
+            try! keyService.getEsploraURL()
+            ?? Constants.Config.EsploraServerURLNetwork.Testnet.mempoolspace
+        let esploraConfig = EsploraConfig(
+            baseUrl: baseUrl,
+            proxy: nil,
+            concurrency: nil,
+            stopGap: UInt64(20),
+            timeout: nil
+        )
+        let blockchainConfig = BlockchainConfig.esplora(config: esploraConfig)
+        self.blockchainConfig = blockchainConfig
+
         var words12: String
         if let words = words, !words.isEmpty {
             words12 = words
@@ -85,6 +102,8 @@ private class BDKService {
             changeDescriptor: changeDescriptor.asStringPrivate()
         )
         try keyService.saveBackupInfo(backupInfo)
+        try keyService.saveNetwork(self.network.description)
+        try keyService.saveEsploraURL(baseUrl)
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
@@ -119,6 +138,8 @@ private class BDKService {
             UserDefaults.standard.removePersistentDomain(forName: bundleID)
         }
         try self.keyService.deleteBackupInfo()
+        try self.keyService.deleteEsplora()
+        try self.keyService.deleteNetwork()
     }
 
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
