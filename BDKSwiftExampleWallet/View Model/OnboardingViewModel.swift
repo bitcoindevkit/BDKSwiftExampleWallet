@@ -13,10 +13,12 @@ import SwiftUI
 // https://developer.apple.com/forums/thread/731187
 // Feature or Bug?
 class OnboardingViewModel: ObservableObject {
+    let bdkClient: BDKClient
+
     @AppStorage("isOnboarding") var isOnboarding: Bool?
+
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: BdkError?
-    let bdkClient: BDKClient
     @Published var words: String = ""
     @Published var selectedNetwork: Network = .testnet {
         didSet {
@@ -44,26 +46,6 @@ class OnboardingViewModel: ObservableObject {
         }
     }
 
-    init(bdkClient: BDKClient = .live) {
-        self.bdkClient = bdkClient
-        do {
-            if let networkString = try KeyClient.live.getNetwork() {
-                self.selectedNetwork = Network(stringValue: networkString) ?? .testnet
-            } else {
-                self.selectedNetwork = .testnet
-            }
-            if let esploraURL = try KeyClient.live.getEsploraURL() {
-                self.selectedURL = esploraURL
-            } else {
-                self.selectedURL = availableURLs.first ?? ""
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.onboardingViewError = .Esplora(message: "Error Selecting Esplora")
-            }
-        }
-    }
-
     var availableURLs: [String] {
         switch selectedNetwork {
         case .bitcoin:
@@ -87,6 +69,26 @@ class OnboardingViewModel: ObservableObject {
             return Constants.BitcoinNetworkColor.signet.color
         case .regtest:
             return Constants.BitcoinNetworkColor.regtest.color
+        }
+    }
+
+    init(bdkClient: BDKClient = .live) {
+        self.bdkClient = bdkClient
+        do {
+            if let networkString = try KeyClient.live.getNetwork() {
+                self.selectedNetwork = Network(stringValue: networkString) ?? .testnet
+            } else {
+                self.selectedNetwork = .testnet
+            }
+            if let esploraURL = try KeyClient.live.getEsploraURL() {
+                self.selectedURL = esploraURL
+            } else {
+                self.selectedURL = availableURLs.first ?? ""
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.onboardingViewError = .Esplora(message: "Error Selecting Esplora")
+            }
         }
     }
 

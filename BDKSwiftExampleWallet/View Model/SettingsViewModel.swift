@@ -12,7 +12,9 @@ import SwiftUI
 class SettingsViewModel: ObservableObject {
     let bdkClient: BDKClient
     let keyClient: KeyClient
+
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
+
     @Published var settingsError: BdkError?
     @Published var network: String?
     @Published var esploraURL: String?

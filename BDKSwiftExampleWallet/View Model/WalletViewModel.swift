@@ -14,6 +14,7 @@ import Observation
 class WalletViewModel {
     let priceClient: PriceClient
     let bdkClient: BDKClient
+
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
@@ -25,7 +26,10 @@ class WalletViewModel {
     }
     var walletViewError: BdkError?
 
-    init(priceClient: PriceClient = .live, bdkClient: BDKClient = .live) {
+    init(
+        priceClient: PriceClient = .live,
+        bdkClient: BDKClient = .live
+    ) {
         self.priceClient = priceClient
         self.bdkClient = bdkClient
     }
@@ -36,9 +40,7 @@ class WalletViewModel {
             self.price = price.usd
             self.time = price.time
         } catch {
-            DispatchQueue.main.async {
-                self.walletViewError = .Generic(message: "Error Getting Prices")
-            }
+            self.walletViewError = .Generic(message: "Error Getting Prices")
         }
     }
 
@@ -47,13 +49,9 @@ class WalletViewModel {
             let balance = try bdkClient.getBalance()
             self.balanceTotal = balance.total
         } catch let error as WalletError {
-            DispatchQueue.main.async {
-                self.walletViewError = .Generic(message: error.localizedDescription)
-            }
+            self.walletViewError = .Generic(message: error.localizedDescription)
         } catch {
-            DispatchQueue.main.async {
-                self.walletViewError = .Generic(message: "Error Getting Balance")
-            }
+            self.walletViewError = .Generic(message: "Error Getting Balance")
         }
     }
 
@@ -62,9 +60,7 @@ class WalletViewModel {
             let transactionDetails = try bdkClient.getTransactions()
             self.transactionDetails = transactionDetails
         } catch {
-            DispatchQueue.main.async {
-                self.walletViewError = .Generic(message: "Error Getting Transactions")
-            }
+            self.walletViewError = .Generic(message: "Error Getting Transactions")
         }
     }
 

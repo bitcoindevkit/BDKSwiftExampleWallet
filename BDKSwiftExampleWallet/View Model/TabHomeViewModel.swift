@@ -8,9 +8,11 @@
 import BitcoinDevKit
 import Foundation
 
+@MainActor
+@Observable
 class TabHomeViewModel: ObservableObject {
     let bdkClient: BDKClient
-    @Published var tabViewError: BdkError?
+    var tabViewError: BdkError?
 
     init(bdkClient: BDKClient = .live) {
         self.bdkClient = bdkClient
@@ -20,9 +22,7 @@ class TabHomeViewModel: ObservableObject {
         do {
             try bdkClient.loadWallet()
         } catch {
-            DispatchQueue.main.async {
-                self.tabViewError = .InvalidNetwork(message: "Wallet Loading Error")
-            }
+            self.tabViewError = .InvalidNetwork(message: "Wallet Loading Error")
         }
     }
 

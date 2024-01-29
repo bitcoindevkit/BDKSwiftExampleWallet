@@ -12,6 +12,7 @@ import Foundation
 @Observable
 class AmountViewModel {
     let bdkClient: BDKClient
+
     var balanceTotal: UInt64?
     var balanceConfirmed: UInt64?
     var amountViewError: BdkError?
@@ -26,13 +27,9 @@ class AmountViewModel {
             self.balanceTotal = balance.total
             self.balanceConfirmed = balance.confirmed
         } catch let error as WalletError {
-            DispatchQueue.main.async {
-                self.amountViewError = .Generic(message: error.localizedDescription)
-            }
+            self.amountViewError = .Generic(message: error.localizedDescription)
         } catch {
-            DispatchQueue.main.async {
-                self.amountViewError = .Generic(message: "Error Getting Balance")
-            }
+            self.amountViewError = .Generic(message: "Error Getting Balance")
         }
     }
 

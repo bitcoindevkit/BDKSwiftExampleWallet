@@ -13,6 +13,7 @@ import Foundation
 class BuildTransactionViewModel {
     let bdkClient: BDKClient
     var txBuilderResult: TxBuilderResult?
+
     var buildTransactionViewError: BdkError?
 
     init(
@@ -26,17 +27,11 @@ class BuildTransactionViewModel {
             let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
             self.txBuilderResult = txBuilderResult
         } catch let error as WalletError {
-            DispatchQueue.main.async {
-                self.buildTransactionViewError = .Generic(message: error.localizedDescription)
-            }
+            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
         } catch let error as BdkError {
-            DispatchQueue.main.async {
-                self.buildTransactionViewError = .Generic(message: error.localizedDescription)
-            }
+            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
         } catch {
-            DispatchQueue.main.async {
-                self.buildTransactionViewError = .Generic(message: "Error Building Transaction")
-            }
+            self.buildTransactionViewError = .Generic(message: "Error Building Transaction")
         }
     }
 
@@ -48,17 +43,11 @@ class BuildTransactionViewModel {
                 object: nil
             )
         } catch let error as WalletError {
-            DispatchQueue.main.async {
-                self.buildTransactionViewError = .Generic(message: error.localizedDescription)
-            }
+            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
         } catch let error as BdkError {
-            DispatchQueue.main.async {
-                self.buildTransactionViewError = .Generic(message: error.localizedDescription)
-            }
+            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
         } catch {
-            DispatchQueue.main.async {
-                self.buildTransactionViewError = .Generic(message: "Error Sending")
-            }
+            self.buildTransactionViewError = .Generic(message: "Error Sending")
         }
     }
 
