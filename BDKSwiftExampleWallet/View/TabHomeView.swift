@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TabHomeView: View {
-    @ObservedObject var viewModel: TabHomeViewModel
+    @Bindable var viewModel: TabHomeViewModel
     @State private var showingTabViewErrorAlert = false
 
     var body: some View {

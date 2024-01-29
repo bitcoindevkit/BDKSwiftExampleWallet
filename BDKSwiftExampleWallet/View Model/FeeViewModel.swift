@@ -13,8 +13,10 @@ import Foundation
 class FeeViewModel {
     let feeClient: FeeClient
     let bdkClient: BDKClient
+
     var txBuilderResult: TxBuilderResult?
     var recommendedFees: RecommendedFees?
+    var feeViewError: BdkError?
     var selectedFeeIndex: Int = 2
     var selectedFee: Int? {
         guard let fees = recommendedFees else {
@@ -35,7 +37,6 @@ class FeeViewModel {
         let feeText = text(for: selectedFeeIndex)
         return "Selected \(feeText) Fee: \(selectedFee) sats"
     }
-    var feeViewError: BdkError?
 
     init(feeClient: FeeClient = .live, bdkClient: BDKClient = .live) {
         self.feeClient = feeClient
@@ -47,9 +48,7 @@ class FeeViewModel {
             let recommendedFees = try await feeClient.fetchFees()
             self.recommendedFees = recommendedFees
         } catch {
-            DispatchQueue.main.async {
-                self.feeViewError = .Generic(message: "Error Getting Fees")
-            }
+            self.feeViewError = .Generic(message: "Error Getting Fees")
         }
     }
 

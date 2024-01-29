@@ -59,11 +59,9 @@ struct AmountView: View {
                     .frame(height: 300)
 
                     Spacer()
-
+                    
                     NavigationLink(
-                        destination:
-                            AddressView(amount: numpadAmount, rootIsActive: $isActive),
-                        isActive: self.$isActive
+                        destination: AddressView(amount: numpadAmount, rootIsActive: $isActive)
                     ) {
                         Label(
                             title: { Text("Next") },
