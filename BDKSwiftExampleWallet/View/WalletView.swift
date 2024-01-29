@@ -14,6 +14,7 @@ struct WalletView: View {
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
+    @State private var showingWalletViewErrorAlert = false
 
     var body: some View {
 
@@ -130,6 +131,15 @@ struct WalletView: View {
 
             }
 
+        }
+        .alert(isPresented: $showingWalletViewErrorAlert) {
+            Alert(
+                title: Text("Wallet Error"),
+                message: Text(viewModel.walletViewError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.walletViewError = nil
+                }
+            )
         }
 
     }

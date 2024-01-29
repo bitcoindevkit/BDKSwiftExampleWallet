@@ -11,6 +11,7 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
     @State private var showingDeleteSeedConfirmation = false
+    @State private var showingSettingsViewErrorAlert = false
 
     var body: some View {
 
@@ -71,6 +72,15 @@ struct SettingsView: View {
                 viewModel.getEsploraUrl()
             }
 
+        }
+        .alert(isPresented: $showingSettingsViewErrorAlert) {
+            Alert(
+                title: Text("Settings Error"),
+                message: Text(viewModel.settingsError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.settingsError = nil
+                }
+            )
         }
 
     }

@@ -13,6 +13,7 @@ import Foundation
 class BuildTransactionViewModel {
     let bdkClient: BDKClient
     var txBuilderResult: TxBuilderResult?
+    var buildTransactionViewError: BdkError?
 
     init(
         bdkClient: BDKClient = .live
@@ -25,11 +26,17 @@ class BuildTransactionViewModel {
             let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
             self.txBuilderResult = txBuilderResult
         } catch let error as WalletError {
-            print("buildTransaction - Send Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+            }
         } catch let error as BdkError {
-            print("buildTransaction - BDK Error: \(error.description)")
+            DispatchQueue.main.async {
+                self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+            }
         } catch {
-            print("buildTransaction - Undefined Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.buildTransactionViewError = .Generic(message: "Error Building Transaction")
+            }
         }
     }
 
@@ -41,11 +48,17 @@ class BuildTransactionViewModel {
                 object: nil
             )
         } catch let error as WalletError {
-            print("send - Send Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+            }
         } catch let error as BdkError {
-            print("send - BDK Error: \(error.description)")
+            DispatchQueue.main.async {
+                self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+            }
         } catch {
-            print("send - Undefined Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.buildTransactionViewError = .Generic(message: "Error Sending")
+            }
         }
     }
 
