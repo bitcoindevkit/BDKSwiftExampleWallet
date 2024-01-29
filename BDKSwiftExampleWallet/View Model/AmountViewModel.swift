@@ -5,6 +5,7 @@
 //  Created by Matthew Ramsden on 9/22/23.
 //
 
+import BitcoinDevKit
 import Foundation
 
 @MainActor
@@ -13,6 +14,7 @@ class AmountViewModel {
     let bdkClient: BDKClient
     var balanceTotal: UInt64?
     var balanceConfirmed: UInt64?
+    var amountViewError: BdkError?
 
     init(bdkClient: BDKClient = .live) {
         self.bdkClient = bdkClient
@@ -24,9 +26,13 @@ class AmountViewModel {
             self.balanceTotal = balance.total
             self.balanceConfirmed = balance.confirmed
         } catch let error as WalletError {
-            print("getBalance - Send Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.amountViewError = .Generic(message: error.localizedDescription)
+            }
         } catch {
-            print("getBalance - Undefined Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.amountViewError = .Generic(message: "Error Getting Balance")
+            }
         }
     }
 

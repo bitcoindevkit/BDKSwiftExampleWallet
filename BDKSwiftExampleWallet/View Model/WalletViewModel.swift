@@ -14,7 +14,6 @@ import Observation
 class WalletViewModel {
     let priceClient: PriceClient
     let bdkClient: BDKClient
-
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactionDetails: [TransactionDetails] = []
@@ -24,6 +23,7 @@ class WalletViewModel {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
+    var walletViewError: BdkError?
 
     init(priceClient: PriceClient = .live, bdkClient: BDKClient = .live) {
         self.priceClient = priceClient
@@ -36,7 +36,9 @@ class WalletViewModel {
             self.price = price.usd
             self.time = price.time
         } catch {
-            print("getPrices error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.walletViewError = .Generic(message: "Error Getting Prices")
+            }
         }
     }
 
@@ -45,9 +47,13 @@ class WalletViewModel {
             let balance = try bdkClient.getBalance()
             self.balanceTotal = balance.total
         } catch let error as WalletError {
-            print("getBalance - Wallet Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.walletViewError = .Generic(message: error.localizedDescription)
+            }
         } catch {
-            print("getBalance - Undefined Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.walletViewError = .Generic(message: "Error Getting Balance")
+            }
         }
     }
 
@@ -56,7 +62,9 @@ class WalletViewModel {
             let transactionDetails = try bdkClient.getTransactions()
             self.transactionDetails = transactionDetails
         } catch {
-            print("getTransactions - none: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.walletViewError = .Generic(message: "Error Getting Transactions")
+            }
         }
     }
 

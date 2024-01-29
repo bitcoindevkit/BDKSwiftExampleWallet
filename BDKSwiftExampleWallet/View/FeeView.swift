@@ -14,6 +14,7 @@ struct FeeView: View {
     let address: String
     @Bindable var viewModel: FeeViewModel
     @Binding var rootIsActive: Bool
+    @State private var showingFeeViewErrorAlert = false
 
     var body: some View {
 
@@ -92,6 +93,15 @@ struct FeeView: View {
                 await viewModel.getFees()
             }
 
+        }
+        .alert(isPresented: $showingFeeViewErrorAlert) {
+            Alert(
+                title: Text("Fee Error"),
+                message: Text(viewModel.feeViewError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.feeViewError = nil
+                }
+            )
         }
 
     }

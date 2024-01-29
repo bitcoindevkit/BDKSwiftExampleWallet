@@ -17,6 +17,7 @@ struct BuildTransactionView: View {
     @State var isSent: Bool = false
     @State var isError: Bool = false
     @Binding var shouldPopToRootView: Bool
+    @State private var showingBuildTransactionViewErrorAlert = false
 
     var body: some View {
 
@@ -142,6 +143,15 @@ struct BuildTransactionView: View {
                     feeRate: rate
                 )
             }
+        }
+        .alert(isPresented: $showingBuildTransactionViewErrorAlert) {
+            Alert(
+                title: Text("Build Transaction Error"),
+                message: Text(viewModel.buildTransactionViewError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.buildTransactionViewError = nil
+                }
+            )
         }
 
     }

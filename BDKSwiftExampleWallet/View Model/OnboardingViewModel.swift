@@ -94,10 +94,10 @@ class OnboardingViewModel: ObservableObject {
         do {
             try bdkClient.createWallet(words)
             isOnboarding = false
-        } catch let error as WalletError {
-            print("createWallet - Wallet Error: \(error.localizedDescription)")
         } catch {
-            print("createWallet - Undefined Error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.onboardingViewError = .Generic(message: "Error Creating Wallet")
+            }
         }
     }
 

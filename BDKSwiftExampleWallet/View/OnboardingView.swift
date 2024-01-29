@@ -12,6 +12,7 @@ import SwiftUI
 struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
     @AppStorage("isOnboarding") var isOnboarding: Bool?
+    @State private var showingOnboardingViewErrorAlert = false
 
     var body: some View {
 
@@ -107,6 +108,15 @@ struct OnboardingView: View {
 
             }
 
+        }
+        .alert(isPresented: $showingOnboardingViewErrorAlert) {
+            Alert(
+                title: Text("Onboarding Error"),
+                message: Text(viewModel.onboardingViewError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.onboardingViewError = nil
+                }
+            )
         }
 
     }

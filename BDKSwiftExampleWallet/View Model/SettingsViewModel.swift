@@ -16,43 +16,6 @@ class SettingsViewModel: ObservableObject {
     @Published var settingsError: BdkError?
     @Published var network: String?
     @Published var esploraURL: String?
-    //    @Published var selectedNetwork: Network = .testnet {
-    //        didSet {
-    //            do {
-    //                let networkString = selectedNetwork.description
-    //                try KeyClient.live.saveNetwork(networkString)
-    //            } catch {
-    //                DispatchQueue.main.async {
-    //                    self.settingsError = .InvalidNetwork(message: "Error Selecting Network")
-    //                }
-    //            }
-    //        }
-    //    }
-    //    @Published var selectedNetwork: Network = .testnet {
-    //        didSet {
-    //            do {
-    //                let networkString = selectedNetwork.description
-    //                try KeyClient.live.saveNetwork(networkString)
-    //                selectedURL = availableURLs.first ?? ""
-    //                //try KeyClient.live.saveEsploraURL(selectedURL)
-    //            } catch {
-    //                DispatchQueue.main.async {
-    //                    self.settingsError = .InvalidNetwork(message: "Error Selecting Network")
-    //                }
-    //            }
-    //        }
-    //    }
-    //    @Published var selectedURL: String = "" {
-    //        didSet {
-    //            do {
-    //                //try KeyClient.live.saveEsploraURL(selectedURL)
-    //            } catch {
-    //                DispatchQueue.main.async {
-    //                    self.settingsError = .Esplora(message: "Error Selecting Esplora")
-    //                }
-    //            }
-    //        }
-    //    }
 
     init(
         bdkClient: BDKClient = .live,
@@ -60,37 +23,7 @@ class SettingsViewModel: ObservableObject {
     ) {
         self.bdkClient = bdkClient
         self.keyClient = keyClient
-        //        do {
-        //            if let networkString = try KeyClient.live.getNetwork() {
-        //                self.selectedNetwork = Network(stringValue: networkString) ?? .testnet
-        //            } else {
-        //                self.selectedNetwork = .testnet
-        //            }
-        //            if let esploraURL = try KeyClient.live.getEsploraURL() {
-        //                self.selectedURL = esploraURL
-        //            } else {
-        //                self.selectedURL = availableURLs.first ?? ""
-        //            }
-        //        } catch {
-        //            DispatchQueue.main.async {
-        //                self.settingsError = .Esplora(message: "Error Selecting Esplora")
-        //            }
-        //        }
-
     }
-
-    //    var availableURLs: [String] {
-    //        switch selectedNetwork {
-    //        case .bitcoin:
-    //            return Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues
-    //        case .testnet:
-    //            return Constants.Config.EsploraServerURLNetwork.Testnet.allValues
-    //        case .regtest:
-    //            return Constants.Config.EsploraServerURLNetwork.Regtest.allValues
-    //        case .signet:
-    //            return Constants.Config.EsploraServerURLNetwork.Signet.allValues
-    //        }
-    //    }
 
     func delete() {
         do {

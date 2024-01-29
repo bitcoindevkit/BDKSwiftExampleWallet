@@ -35,6 +35,7 @@ class FeeViewModel {
         let feeText = text(for: selectedFeeIndex)
         return "Selected \(feeText) Fee: \(selectedFee) sats"
     }
+    var feeViewError: BdkError?
 
     init(feeClient: FeeClient = .live, bdkClient: BDKClient = .live) {
         self.feeClient = feeClient
@@ -46,7 +47,9 @@ class FeeViewModel {
             let recommendedFees = try await feeClient.fetchFees()
             self.recommendedFees = recommendedFees
         } catch {
-            print("getFees error: \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.feeViewError = .Generic(message: "Error Getting Fees")
+            }
         }
     }
 

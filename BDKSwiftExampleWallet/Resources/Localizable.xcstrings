@@ -134,6 +134,9 @@
         }
       }
     },
+    "Amount Error" : {
+
+    },
     "Are you sure you want to delete the seed?" : {
 
     },
@@ -159,6 +162,9 @@
           }
         }
       }
+    },
+    "Build Transaction Error" : {
+
     },
     "Choose your Network." : {
 
@@ -236,6 +242,9 @@
         }
       }
     },
+    "Fee Error" : {
+
+    },
     "Fees" : {
       "localizations" : {
         "fr" : {
@@ -271,6 +280,12 @@
           }
         }
       }
+    },
+    "OK" : {
+
+    },
+    "Onboarding Error" : {
+
     },
     "Receive" : {
       "localizations" : {
@@ -336,6 +351,9 @@
         }
       }
     },
+    "Settings Error" : {
+
+    },
     "Signet" : {
 
     },
@@ -349,6 +367,9 @@
           }
         }
       }
+    },
+    "TabView Error" : {
+
     },
     "Testnet" : {
 
@@ -413,6 +434,9 @@
           }
         }
       }
+    },
+    "Wallet Error" : {
+
     },
     "Yes" : {
 
