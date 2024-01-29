@@ -98,11 +98,9 @@ struct BuildTransactionView: View {
                                     self.shouldPopToRootView = false
                                 }
                             } else {
-                                print("no amount conversion")
                                 self.isError = true
                             }
                         } else {
-                            print("no fee rate")
                             self.isError = true
                         }
                     } label: {

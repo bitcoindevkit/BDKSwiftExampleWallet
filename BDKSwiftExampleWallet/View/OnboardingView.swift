@@ -33,7 +33,7 @@ struct OnboardingView: View {
                         .textStyle(BitcoinTitle1())
                         .multilineTextAlignment(.center)
                         .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-                    Text("A simple bitcoin wallet for your enjoyment.")
+                    Text("A simple bitcoin wallet.")
                         .textStyle(BitcoinBody1())
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
