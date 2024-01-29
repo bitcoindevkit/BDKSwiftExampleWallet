@@ -59,7 +59,7 @@ struct AmountView: View {
                     .frame(height: 300)
 
                     Spacer()
-                    
+
                     NavigationLink(
                         destination: AddressView(amount: numpadAmount, rootIsActive: $isActive)
                     ) {
