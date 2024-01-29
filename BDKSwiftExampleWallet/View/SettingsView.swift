@@ -5,6 +5,7 @@
 //  Created by Matthew Ramsden on 1/24/24.
 //
 
+import BitcoinUI
 import SwiftUI
 
 struct SettingsView: View {
@@ -18,6 +19,23 @@ struct SettingsView: View {
             Color(uiColor: UIColor.systemBackground)
 
             VStack(spacing: 20.0) {
+
+                VStack {
+                    if let network = viewModel.network, let url = viewModel.esploraURL {
+                        Text("Network: \(network)".uppercased()).bold()
+                        Text(
+                            url.replacingOccurrences(
+                                of: "https://",
+                                with: ""
+                            ).replacingOccurrences(
+                                of: "http://",
+                                with: ""
+                            )
+                        )
+                    }
+
+                }
+                .foregroundColor(.bitcoinOrange)
 
                 Text("Danger Zone")
                     .bold()
@@ -47,6 +65,10 @@ struct SettingsView: View {
                     Button("No", role: .cancel) {}
                 }
 
+            }
+            .onAppear {
+                viewModel.getNetwork()
+                viewModel.getEsploraUrl()
             }
 
         }

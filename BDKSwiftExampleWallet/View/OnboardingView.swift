@@ -5,6 +5,7 @@
 //  Created by Matthew Ramsden on 5/23/23.
 //
 
+import BitcoinDevKit
 import BitcoinUI
 import SwiftUI
 
@@ -36,6 +37,50 @@ struct OnboardingView: View {
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
+
+                VStack {
+
+                    Text("Choose your Network.")
+                        .textStyle(BitcoinBody4())
+                        .multilineTextAlignment(.center)
+
+                    VStack {
+                        Picker(
+                            "Network",
+                            selection: $viewModel.selectedNetwork
+                        ) {
+                            Text("Bitcoin").tag(Network.bitcoin)
+                            Text("Testnet").tag(Network.testnet)
+                            Text("Signet").tag(Network.signet)
+                            Text("Regtest").tag(Network.regtest)
+                        }
+                        .pickerStyle(.automatic)
+                        .tint(viewModel.buttonColor)
+
+                        Picker(
+                            "Esplora Server",
+                            selection: $viewModel.selectedURL
+                        ) {
+                            ForEach(viewModel.availableURLs, id: \.self) { url in
+                                Text(
+                                    url.replacingOccurrences(
+                                        of: "https://",
+                                        with: ""
+                                    ).replacingOccurrences(
+                                        of: "http://",
+                                        with: ""
+                                    )
+                                )
+                                .tag(url)
+                            }
+                        }
+                        .pickerStyle(.automatic)
+                        .tint(viewModel.buttonColor)
+
+                    }
+
+                }
+                .padding()
 
                 VStack(spacing: 25) {
                     TextField("12 Word Seed Phrase (Optional)", text: $viewModel.words)
