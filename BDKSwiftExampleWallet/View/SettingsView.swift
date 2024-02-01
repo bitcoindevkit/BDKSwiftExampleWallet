@@ -11,6 +11,8 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
     @State private var showingDeleteSeedConfirmation = false
+    @State private var showingShowSeedConfirmation = false
+    @State private var isSeedPresented = false
     @State private var showingSettingsViewErrorAlert = false
 
     var body: some View {
@@ -44,6 +46,29 @@ struct SettingsView: View {
                     .padding()
 
                 Button {
+                    showingShowSeedConfirmation = true
+                } label: {
+                    HStack {
+                        Image(systemName: "list.number")
+                        Text("Show Seed")
+                    }
+                    .foregroundColor(Color(uiColor: UIColor.systemBackground))
+                    .bold()
+                }
+                .buttonBorderShape(.capsule)
+                .buttonStyle(.borderedProminent)
+                .tint(.red)
+                .alert(
+                    "Are you sure you want to view the seed?",
+                    isPresented: $showingShowSeedConfirmation
+                ) {
+                    Button("Yes", role: .destructive) {
+                        isSeedPresented = true
+                    }
+                    Button("No", role: .cancel) {}
+                }
+
+                Button {
                     showingDeleteSeedConfirmation = true
                 } label: {
                     HStack {
@@ -70,6 +95,13 @@ struct SettingsView: View {
             .onAppear {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
+            }
+            .sheet(
+                isPresented: $isSeedPresented
+            ) {
+                SeedView(viewModel: .init())
+                    .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.visible)
             }
 
         }
