@@ -77,8 +77,8 @@ private class BDKService {
         if let words = words, !words.isEmpty {
             words12 = words
         } else {
-            words12 =
-                "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
+            let mnemonic = Mnemonic(wordCount: WordCount.words12)
+            words12 = mnemonic.asString()
         }
         let mnemonic = try Mnemonic.fromString(mnemonic: words12)
         let secretKey = DescriptorSecretKey(
@@ -142,6 +142,11 @@ private class BDKService {
         try self.keyService.deleteNetwork()
     }
 
+    func getBackupInfo() throws -> BackupInfo {
+        let backupInfo = try keyService.getBackupInfo()
+        return backupInfo
+    }
+
     func send(address: String, amount: UInt64, feeRate: Float?) throws {
         let txBuilder = try buildTransaction(address: address, amount: amount, feeRate: feeRate)
         try signAndBroadcast(txBuilder: txBuilder)
@@ -192,6 +197,7 @@ struct BDKClient {
     let getAddress: () throws -> String
     let send: (String, UInt64, Float?) throws -> Void
     let buildTransaction: (String, UInt64, Float?) throws -> TxBuilderResult
+    let getBackupInfo: () throws -> BackupInfo
 }
 
 extension BDKClient {
@@ -212,7 +218,8 @@ extension BDKClient {
                 amount: amount,
                 feeRate: feeRate
             )
-        }
+        },
+        getBackupInfo: { try BDKService.shared.getBackupInfo() }
     )
 }
 
@@ -235,6 +242,13 @@ extension BDKClient {
                     psbt: .init(psbtBase64: pb64),
                     transactionDetails: mockTransactionDetail
                 )
+            },
+            getBackupInfo: {
+                BackupInfo(
+                    mnemonic: "mnemonic",
+                    descriptor: "descriptor",
+                    changeDescriptor: "changeDescriptor"
+                )
             }
         )
         static let mockZero = Self(
@@ -250,6 +264,13 @@ extension BDKClient {
                 return try! TxBuilderResult(
                     psbt: .init(psbtBase64: "psbtBase64"),
                     transactionDetails: mockTransactionDetail
+                )
+            },
+            getBackupInfo: {
+                BackupInfo(
+                    mnemonic: "mnemonic",
+                    descriptor: "descriptor",
+                    changeDescriptor: "changeDescriptor"
                 )
             }
         )

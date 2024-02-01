@@ -71,6 +71,16 @@
         }
       }
     },
+    "%lld. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld. %2$@"
+          }
+        }
+      }
+    },
     "%llu sats fee" : {
       "localizations" : {
         "fr" : {
@@ -144,7 +154,7 @@
     "Are you sure you want to delete the seed?" : {
 
     },
-    "Are you sure you want to send?" : {
+    "Are you sure you want to view the seed?" : {
 
     },
     "Bitcoin" : {
@@ -195,6 +205,9 @@
           }
         }
       }
+    },
+    "Copy" : {
+
     },
     "Create a new wallet" : {
       "extractionState" : "stale",
@@ -359,6 +372,12 @@
       }
     },
     "Settings Error" : {
+
+    },
+    "Show Seed" : {
+
+    },
+    "Showing Seed Error" : {
 
     },
     "Signet" : {
