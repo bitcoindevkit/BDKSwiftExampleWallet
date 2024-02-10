@@ -150,6 +150,11 @@ struct WalletView: View {
     WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
 }
 
+#Preview("WalletView - en - Large") {
+    WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
+        .environment(\.sizeCategory, .accessibilityLarge)
+}
+
 #Preview("WalletView Zero - en") {
     WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
 }

@@ -81,3 +81,8 @@ struct SeedView: View {
 #Preview {
     SeedView(viewModel: .init())
 }
+
+#Preview {
+    SeedView(viewModel: .init())
+        .environment(\.sizeCategory, .accessibilityLarge)
+}
