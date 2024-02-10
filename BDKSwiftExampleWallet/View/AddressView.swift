@@ -34,6 +34,7 @@ struct AddressView: View {
                         text: $address
                     )
                     .truncationMode(.middle)
+                    .submitLabel(.done)
                     .lineLimit(1)
                     .padding()
                 }
