@@ -12,7 +12,11 @@ import Observation
 class ReceiveViewModel {
     let bdkClient: BDKClient
 
-    var address: String = ""
+    var address: String = "" {
+          didSet {
+              address = address.trimmingCharacters(in: .whitespacesAndNewlines)
+          }
+      }
 
     init(bdkClient: BDKClient = .live) {
         self.bdkClient = bdkClient
