@@ -22,7 +22,7 @@ struct WalletTransactionListView: View {
                     .listRowSeparator(.hidden)
             } else if transactionDetails.isEmpty {
                 Text("No Transactions")
-                    .font(.caption)
+                    .font(.subheadline)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
             } else {
@@ -62,6 +62,7 @@ struct WalletTransactionListView: View {
 struct WalletTransactionsListItemView: View {
     let transaction: TransactionDetails
     let isRedacted: Bool
+    @Environment(\.sizeCategory) var sizeCategory
 
     init(transaction: TransactionDetails, isRedacted: Bool = false) {
         self.transaction = transaction
@@ -102,7 +103,7 @@ struct WalletTransactionsListItemView: View {
                     .lineLimit(1)
                     .fontDesign(.monospaced)
                     .fontWeight(.semibold)
-                    .font(.callout)
+                    .font(.title)
                     .foregroundColor(.primary)
                 Text(
                     transaction.confirmationTime?.timestamp.toDate().formatted(
@@ -110,9 +111,12 @@ struct WalletTransactionsListItemView: View {
                     )
                         ?? "Unconfirmed"
                 )
+                .lineLimit(
+                    sizeCategory > .accessibilityMedium ? 2 : 1
+                )
             }
             .foregroundColor(.secondary)
-            .font(.caption)
+            .font(.subheadline)
             .padding(.trailing, 30.0)
             .redacted(reason: isRedacted ? .placeholder : [])
 
@@ -122,13 +126,16 @@ struct WalletTransactionsListItemView: View {
                     ? "- \(transaction.sent - transaction.received) sats"
                     : "+ \(transaction.received - transaction.sent) sats"
             )
-            .font(.caption)
+            .font(.subheadline)
             .fontWeight(.semibold)
             .fontDesign(.rounded)
+            .lineLimit(1)
             .redacted(reason: isRedacted ? .placeholder : [])
         }
         .padding(.vertical, 15.0)
         .padding(.vertical, 5.0)
+        .minimumScaleFactor(0.5)
+
     }
 }
 
