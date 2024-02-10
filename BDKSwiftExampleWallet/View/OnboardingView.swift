@@ -85,6 +85,7 @@ struct OnboardingView: View {
 
                 VStack(spacing: 25) {
                     TextField("12 Word Seed Phrase (Optional)", text: $viewModel.words)
+                        .submitLabel(.done)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal, 40)
                     Button("Create Wallet") {
