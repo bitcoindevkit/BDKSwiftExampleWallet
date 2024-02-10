@@ -50,6 +50,8 @@ struct TransactionDetailsView: View {
                     Text(amount.delimiter)
                     Text("sats")
                 }
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
                 .font(.largeTitle)
                 .foregroundColor(.primary)
                 .fontWeight(.bold)
@@ -80,12 +82,10 @@ struct TransactionDetailsView: View {
             Spacer()
 
             HStack {
-                Text("Transaction".uppercased())
-                    .foregroundColor(.secondary)
-                    .fontWeight(.light)
                 Text(transaction.txid)
                     .lineLimit(1)
                     .truncationMode(.middle)
+                Spacer()
                 Button {
                     UIPasteboard.general.string = transaction.txid
                     isCopied = true

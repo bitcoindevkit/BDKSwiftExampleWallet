@@ -46,9 +46,6 @@ struct ReceiveView: View {
                 Spacer()
 
                 HStack {
-                    Text("Address".uppercased())
-                        .foregroundColor(.secondary)
-                        .fontWeight(.light)
                     Text(viewModel.address)
                         .lineLimit(1)
                         .truncationMode(.middle)
