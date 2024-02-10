@@ -122,3 +122,8 @@ struct SettingsView: View {
 #Preview {
     SettingsView(viewModel: .init())
 }
+
+#Preview {
+    SettingsView(viewModel: .init())
+        .environment(\.sizeCategory, .accessibilityLarge)
+}

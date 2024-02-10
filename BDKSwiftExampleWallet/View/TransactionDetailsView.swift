@@ -117,3 +117,8 @@ struct TransactionDetailsView: View {
 #Preview {
     TransactionDetailsView(transaction: mockTransactionDetail, amount: UInt64(10_000_000))
 }
+
+#Preview {
+    TransactionDetailsView(transaction: mockTransactionDetail, amount: UInt64(10_000_000))
+        .environment(\.sizeCategory, .accessibilityLarge)
+}

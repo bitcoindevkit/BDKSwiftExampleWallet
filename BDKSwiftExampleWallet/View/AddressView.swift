@@ -71,3 +71,8 @@ struct AddressView: View {
 #Preview {
     AddressView(amount: "200", rootIsActive: .constant(false))
 }
+
+#Preview {
+    AddressView(amount: "200", rootIsActive: .constant(false))
+        .environment(\.sizeCategory, .accessibilityLarge)
+}
