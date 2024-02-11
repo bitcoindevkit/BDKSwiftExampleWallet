@@ -157,28 +157,28 @@ struct BuildTransactionView: View {
 }
 
 #if DEBUG
-#Preview {
-    BuildTransactionView(
-        amount: "100000",
-        address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
-        fee: 17,
-        viewModel: .init(
-            bdkClient: BDKClient.mock
-        ),
-        shouldPopToRootView: .constant(false)
-    )
-}
+    #Preview {
+        BuildTransactionView(
+            amount: "100000",
+            address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
+            fee: 17,
+            viewModel: .init(
+                bdkClient: BDKClient.mock
+            ),
+            shouldPopToRootView: .constant(false)
+        )
+    }
 
-#Preview {
-    BuildTransactionView(
-        amount: "100000",
-        address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
-        fee: 17,
-        viewModel: .init(
-            bdkClient: .mock
-        ),
-        shouldPopToRootView: .constant(false)
-    )
-    .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview {
+        BuildTransactionView(
+            amount: "100000",
+            address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
+            fee: 17,
+            viewModel: .init(
+                bdkClient: .mock
+            ),
+            shouldPopToRootView: .constant(false)
+        )
+        .environment(\.sizeCategory, .accessibilityLarge)
+    }
 #endif

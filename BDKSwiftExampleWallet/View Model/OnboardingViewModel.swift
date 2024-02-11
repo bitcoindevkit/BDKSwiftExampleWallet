@@ -48,8 +48,10 @@ class OnboardingViewModel: ObservableObject {
 
     var availableURLs: [String] {
         switch selectedNetwork {
-        case .bitcoin:
-            return Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues
+        #if DEBUG
+            case .bitcoin:
+                return Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues
+        #endif
         case .testnet:
             return Constants.Config.EsploraServerURLNetwork.Testnet.allValues
         case .regtest:
@@ -61,8 +63,10 @@ class OnboardingViewModel: ObservableObject {
 
     var buttonColor: Color {
         switch selectedNetwork {
-        case .bitcoin:
-            return Constants.BitcoinNetworkColor.bitcoin.color
+        #if DEBUG
+            case .bitcoin:
+                return Constants.BitcoinNetworkColor.bitcoin.color
+        #endif
         case .testnet:
             return Constants.BitcoinNetworkColor.testnet.color
         case .signet:
