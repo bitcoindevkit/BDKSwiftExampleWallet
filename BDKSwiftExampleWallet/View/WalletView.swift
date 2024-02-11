@@ -146,24 +146,26 @@ struct WalletView: View {
 
 }
 
-#Preview("WalletView - en") {
-    WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
-}
+#if DEBUG
+    #Preview("WalletView - en") {
+        WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
+    }
 
-#Preview("WalletView - en - Large") {
-    WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
-        .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview("WalletView - en - Large") {
+        WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
+            .environment(\.sizeCategory, .accessibilityLarge)
+    }
 
-#Preview("WalletView Zero - en") {
-    WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
-}
+    #Preview("WalletView Zero - en") {
+        WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
+    }
 
-#Preview("WalletView Wait - en") {
-    WalletView(viewModel: .init(priceClient: .mockPause, bdkClient: .mock))
-}
+    #Preview("WalletView Wait - en") {
+        WalletView(viewModel: .init(priceClient: .mockPause, bdkClient: .mock))
+    }
 
-#Preview("WalletView - fr") {
-    WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
-        .environment(\.locale, .init(identifier: "fr"))
-}
+    #Preview("WalletView - fr") {
+        WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
+            .environment(\.locale, .init(identifier: "fr"))
+    }
+#endif

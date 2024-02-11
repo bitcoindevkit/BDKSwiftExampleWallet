@@ -123,16 +123,18 @@ struct OnboardingView: View {
     }
 }
 
-#Preview("OnboardingView - en") {
-    OnboardingView(viewModel: .init(bdkClient: .mock))
-}
+#if DEBUG
+    #Preview("OnboardingView - en") {
+        OnboardingView(viewModel: .init(bdkClient: .mock))
+    }
 
-#Preview("OnboardingView - en - Large") {
-    OnboardingView(viewModel: .init(bdkClient: .mock))
-        .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview("OnboardingView - en - Large") {
+        OnboardingView(viewModel: .init(bdkClient: .mock))
+            .environment(\.sizeCategory, .accessibilityLarge)
+    }
 
-#Preview("OnboardingView - fr") {
-    OnboardingView(viewModel: .init(bdkClient: .mock))
-        .environment(\.locale, .init(identifier: "fr"))
-}
+    #Preview("OnboardingView - fr") {
+        OnboardingView(viewModel: .init(bdkClient: .mock))
+            .environment(\.locale, .init(identifier: "fr"))
+    }
+#endif

@@ -139,11 +139,19 @@ struct WalletTransactionsListItemView: View {
     }
 }
 
-#Preview {
-    WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
-}
+#if DEBUG
+    #Preview {
+        WalletTransactionListView(
+            transactionDetails: mockTransactionDetails,
+            walletSyncState: .synced
+        )
+    }
 
-#Preview {
-    WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
+    #Preview {
+        WalletTransactionListView(
+            transactionDetails: mockTransactionDetails,
+            walletSyncState: .synced
+        )
         .environment(\.sizeCategory, .accessibilityLarge)
-}
+    }
+#endif

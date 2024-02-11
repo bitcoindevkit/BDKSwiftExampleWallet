@@ -84,16 +84,18 @@ struct ReceiveView: View {
 
 }
 
-#Preview("ReceiveView - en") {
-    ReceiveView(viewModel: .init(bdkClient: .mock))
-}
+#if DEBUG
+    #Preview("ReceiveView - en") {
+        ReceiveView(viewModel: .init(bdkClient: .mock))
+    }
 
-#Preview("ReceiveView - en - Large") {
-    ReceiveView(viewModel: .init(bdkClient: .mock))
-        .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview("ReceiveView - en - Large") {
+        ReceiveView(viewModel: .init(bdkClient: .mock))
+            .environment(\.sizeCategory, .accessibilityLarge)
+    }
 
-#Preview("ReceiveView - fr") {
-    ReceiveView(viewModel: .init(bdkClient: .mock))
-        .environment(\.locale, .init(identifier: "fr"))
-}
+    #Preview("ReceiveView - fr") {
+        ReceiveView(viewModel: .init(bdkClient: .mock))
+            .environment(\.locale, .init(identifier: "fr"))
+    }
+#endif
