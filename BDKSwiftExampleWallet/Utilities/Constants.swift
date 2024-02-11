@@ -11,16 +11,14 @@ import SwiftUI
 struct Constants {
     struct Config {
         struct EsploraServerURLNetwork {
-            #if DEBUG
-                struct Bitcoin {
-                    private static let blockstream = "https://blockstream.info/api"
-                    private static let mempoolspace = "https://mempool.space/api"
-                    static let allValues = [
-                        blockstream,
-                        mempoolspace,
-                    ]
-                }
-            #endif
+            //                struct Bitcoin {
+            //                    private static let blockstream = "https://blockstream.info/api"
+            //                    private static let mempoolspace = "https://mempool.space/api"
+            //                    static let allValues = [
+            //                        blockstream,
+            //                        mempoolspace,
+            //                    ]
+            //                }
             struct Regtest {
                 private static let local = "http://127.0.0.1:3002"
                 static let allValues = [
