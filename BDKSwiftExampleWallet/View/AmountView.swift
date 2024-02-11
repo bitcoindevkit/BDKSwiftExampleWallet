@@ -136,6 +136,7 @@ struct NumpadButton: View {
     }
 }
 
+#if DEBUG
 #Preview {
     AmountView(viewModel: .init(bdkClient: .mock))
 }
@@ -144,3 +145,4 @@ struct NumpadButton: View {
     AmountView(viewModel: .init(bdkClient: .mock))
         .environment(\.sizeCategory, .accessibilityLarge)
 }
+#endif

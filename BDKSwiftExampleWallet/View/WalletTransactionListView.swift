@@ -139,6 +139,7 @@ struct WalletTransactionsListItemView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
 }
@@ -147,3 +148,4 @@ struct WalletTransactionsListItemView: View {
     WalletTransactionListView(transactionDetails: mockTransactionDetails, walletSyncState: .synced)
         .environment(\.sizeCategory, .accessibilityLarge)
 }
+#endif

@@ -146,6 +146,7 @@ struct WalletView: View {
 
 }
 
+#if DEBUG
 #Preview("WalletView - en") {
     WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
 }
@@ -167,3 +168,4 @@ struct WalletView: View {
     WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }
+#endif

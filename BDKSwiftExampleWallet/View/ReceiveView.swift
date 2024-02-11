@@ -84,6 +84,7 @@ struct ReceiveView: View {
 
 }
 
+#if DEBUG
 #Preview("ReceiveView - en") {
     ReceiveView(viewModel: .init(bdkClient: .mock))
 }
@@ -97,3 +98,4 @@ struct ReceiveView: View {
     ReceiveView(viewModel: .init(bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }
+#endif

@@ -108,6 +108,7 @@ struct FeeView: View {
 
 }
 
+#if DEBUG
 #Preview {
     FeeView(
         amount: "50",
@@ -126,3 +127,4 @@ struct FeeView: View {
     )
     .environment(\.sizeCategory, .accessibilityLarge)
 }
+#endif

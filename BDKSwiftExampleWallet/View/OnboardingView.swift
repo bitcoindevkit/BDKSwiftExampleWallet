@@ -123,6 +123,7 @@ struct OnboardingView: View {
     }
 }
 
+#if DEBUG
 #Preview("OnboardingView - en") {
     OnboardingView(viewModel: .init(bdkClient: .mock))
 }
@@ -136,3 +137,4 @@ struct OnboardingView: View {
     OnboardingView(viewModel: .init(bdkClient: .mock))
         .environment(\.locale, .init(identifier: "fr"))
 }
+#endif
