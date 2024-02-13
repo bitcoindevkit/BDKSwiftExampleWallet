@@ -40,16 +40,7 @@ struct BuildTransactionView: View {
                     HStack {
                         Text("Send")
                         Spacer()
-                        if let sent = viewModel.txBuilderResult?.transactionDetails.sent,
-                            let received = viewModel.txBuilderResult?.transactionDetails
-                                .received,
-                            let fee = viewModel.txBuilderResult?.transactionDetails.fee
-                        {
-                            let send = sent - received - fee
-                            Text(send.delimiter)
-                        } else {
-                            Text("...")
-                        }
+                        Text(amount.formattedWithSeparator)
                     }
                     HStack {
                         Text("Fee")
