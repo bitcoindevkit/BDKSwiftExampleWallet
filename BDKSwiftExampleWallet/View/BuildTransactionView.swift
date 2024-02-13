@@ -18,6 +18,8 @@ struct BuildTransactionView: View {
     @State var isError: Bool = false
     @Binding var shouldPopToRootView: Bool
     @State private var showingBuildTransactionViewErrorAlert = false
+    @State private var isCopied = false
+    @State private var showCheckmark = false
 
     var body: some View {
 
@@ -114,8 +116,42 @@ struct BuildTransactionView: View {
                     .padding()
 
                 } else {
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.green)
+                    VStack {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.green)
+                        if let transaction = viewModel.txBuilderResult?.transactionDetails {
+                            HStack {
+                                Text(transaction.txid)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                                Spacer()
+                                Button {
+                                    UIPasteboard.general.string = transaction.txid
+                                    isCopied = true
+                                    showCheckmark = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        isCopied = false
+                                        showCheckmark = false
+                                    }
+                                } label: {
+                                    HStack {
+                                        withAnimation {
+                                            Image(
+                                                systemName: showCheckmark
+                                                    ? "checkmark" : "doc.on.doc"
+                                            )
+                                        }
+                                    }
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.bitcoinOrange)
+                                }
+                            }
+                            .fontDesign(.monospaced)
+                            .font(.caption)
+                            .padding()
+                        }
+
+                    }
                 }
 
             }
