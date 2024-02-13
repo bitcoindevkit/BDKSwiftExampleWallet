@@ -56,13 +56,10 @@ struct BuildTransactionView: View {
                     HStack {
                         Text("Total")
                         Spacer()
-                        if let sent = viewModel.txBuilderResult?.transactionDetails.sent,
-                            let received = viewModel.txBuilderResult?.transactionDetails
-                                .received,
-                            let fee = viewModel.txBuilderResult?.transactionDetails.fee
+                        if let sentAmount = UInt64(amount),
+                            let feeAmount = viewModel.txBuilderResult?.transactionDetails.fee
                         {
-                            let send = sent - received - fee  // TODO: this is probably overkill and should probably just be the same thing as whatever is in the $amount
-                            let total = send + fee
+                            let total = sentAmount + feeAmount
                             Text(total.delimiter)
                         } else {
                             Text("...")
