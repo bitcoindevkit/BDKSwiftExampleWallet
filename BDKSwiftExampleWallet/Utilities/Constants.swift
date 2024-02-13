@@ -26,7 +26,7 @@ struct Constants {
                 ]
             }
             struct Signet {
-                static let bdk = "http://signet.bitcoindevkit.net:3003/"
+                static let bdk = "http://signet.bitcoindevkit.net"
                 static let mutiny = "https://mutinynet.com/api"
                 static let allValues = [
                     bdk,
