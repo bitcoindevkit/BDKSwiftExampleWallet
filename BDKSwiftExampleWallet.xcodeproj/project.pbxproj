@@ -55,6 +55,7 @@
 		AEA9BEB32AA8081800C523CA /* BDKError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA9BEB22AA8081800C523CA /* BDKError+Extensions.swift */; };
 		AEAB03112ABDDB86000C9528 /* FeeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB03102ABDDB86000C9528 /* FeeViewModel.swift */; };
 		AEAB03132ABDDBF4000C9528 /* AmountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB03122ABDDBF4000C9528 /* AmountViewModel.swift */; };
+		AEAF83B62B7BD4D10019B23B /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = AEAF83B52B7BD4D10019B23B /* CodeScanner */; };
 		AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB130C82A44E4850087785B /* TransactionDetailsView.swift */; };
 		AEB735D32B2CC4B900F99DBB /* BitcoinUI in Frameworks */ = {isa = PBXBuildFile; productRef = AEB735D22B2CC4B900F99DBB /* BitcoinUI */; };
 		AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */; };
@@ -159,6 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEAF83B62B7BD4D10019B23B /* CodeScanner in Frameworks */,
 				AE4984A92A1BD425009951E2 /* BitcoinDevKit in Frameworks */,
 				AEB735D32B2CC4B900F99DBB /* BitcoinUI in Frameworks */,
 				AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */,
@@ -435,6 +437,7 @@
 				AE4984A82A1BD425009951E2 /* BitcoinDevKit */,
 				AE7D5A0D2A7EE62200EAC8CE /* KeychainAccess */,
 				AEB735D22B2CC4B900F99DBB /* BitcoinUI */,
+				AEAF83B52B7BD4D10019B23B /* CodeScanner */,
 			);
 			productName = BDKSwiftExampleWallet;
 			productReference = AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */;
@@ -491,6 +494,7 @@
 				AE4984A72A1BD425009951E2 /* XCRemoteSwiftPackageReference "bdk-swift" */,
 				AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				AEB735D12B2CC4B900F99DBB /* XCRemoteSwiftPackageReference "BitcoinUI" */,
+				AEAF83B42B7BD4D10019B23B /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = AE4984792A1BBBD6009951E2 /* Products */;
 			projectDirPath = "";
@@ -745,6 +749,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BDKSwiftExampleWallet/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BDK Wallet";
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"To scan QR codes.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -777,6 +782,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BDKSwiftExampleWallet/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BDK Wallet";
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"To scan QR codes.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -885,6 +891,14 @@
 				version = 4.2.2;
 			};
 		};
+		AEAF83B42B7BD4D10019B23B /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.0.0;
+			};
+		};
 		AEB735D12B2CC4B900F99DBB /* XCRemoteSwiftPackageReference "BitcoinUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/reez/BitcoinUI.git";
@@ -905,6 +919,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		AEAF83B52B7BD4D10019B23B /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AEAF83B42B7BD4D10019B23B /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
 		};
 		AEB735D22B2CC4B900F99DBB /* BitcoinUI */ = {
 			isa = XCSwiftPackageProductDependency;

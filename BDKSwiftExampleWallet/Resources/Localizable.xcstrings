@@ -307,6 +307,9 @@
     "Onboarding Error" : {
 
     },
+    "Paste" : {
+
+    },
     "Receive" : {
       "localizations" : {
         "fr" : {
@@ -350,6 +353,9 @@
           }
         }
       }
+    },
+    "Scan" : {
+
     },
     "Select Fee" : {
       "localizations" : {
