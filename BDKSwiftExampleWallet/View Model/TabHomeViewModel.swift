@@ -12,7 +12,7 @@ import Foundation
 @Observable
 class TabHomeViewModel: ObservableObject {
     let bdkClient: BDKClient
-    
+
     var tabViewError: BdkError?
     var showingTabViewErrorAlert = false
 

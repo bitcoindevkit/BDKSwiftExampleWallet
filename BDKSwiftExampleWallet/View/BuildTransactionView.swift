@@ -17,7 +17,6 @@ struct BuildTransactionView: View {
     @State var isSent: Bool = false
     @State var isError: Bool = false
     @Binding var shouldPopToRootView: Bool
-    //    @State private var showingBuildTransactionViewErrorAlert = false
     @State private var isCopied = false
     @State private var showCheckmark = false
 
@@ -78,14 +77,22 @@ struct BuildTransactionView: View {
                         let feeRate: Float? = Float(fee)
                         if let rate = feeRate {
                             if let amt = UInt64(amount) {
+                                viewModel.buildTransactionViewError = nil
                                 viewModel.send(
                                     address: address,
                                     amount: amt,
                                     feeRate: rate
                                 )
-                                self.isSent = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                    self.shouldPopToRootView = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    if self.viewModel.buildTransactionViewError == nil {
+                                        self.isSent = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                            self.shouldPopToRootView = false
+                                        }
+                                    } else {
+                                        self.isSent = false
+                                        self.isError = true
+                                    }
                                 }
                             } else {
                                 self.isError = true
@@ -94,15 +101,10 @@ struct BuildTransactionView: View {
                             self.isError = true
                         }
                     } label: {
-                        isError
-                            ? Text("Error")
-                                .bold()
-                                .frame(maxWidth: .infinity)
-                                .padding(.all, 8)
-                            : Text("Send")
-                                .bold()
-                                .frame(maxWidth: .infinity)
-                                .padding(.all, 8)
+                        Text("Send")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding(.all, 8)
                     }
                     .buttonStyle(
                         isSent
@@ -112,7 +114,7 @@ struct BuildTransactionView: View {
                     )
                     .padding()
 
-                } else {
+                } else if isSent && viewModel.buildTransactionViewError == nil {
                     VStack {
                         Image(systemName: "checkmark")
                             .foregroundColor(.green)
@@ -149,6 +151,7 @@ struct BuildTransactionView: View {
                         }
 
                     }
+                } else {
                 }
 
             }

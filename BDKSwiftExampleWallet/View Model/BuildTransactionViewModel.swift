@@ -12,7 +12,7 @@ import Foundation
 @Observable
 class BuildTransactionViewModel {
     let bdkClient: BDKClient
-    
+
     var txBuilderResult: TxBuilderResult?
     var buildTransactionViewError: BdkError?
     var showingBuildTransactionViewErrorAlert = false
