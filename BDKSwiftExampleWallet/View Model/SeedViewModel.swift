@@ -14,6 +14,7 @@ import SwiftUI
 class SeedViewModel {
     var seed: BackupInfo = .init(mnemonic: "", descriptor: "", changeDescriptor: "")
     var seedViewError: BdkError?
+    var showingSeedViewErrorAlert = false
 
     func getSeed() {
         do {
@@ -21,8 +22,10 @@ class SeedViewModel {
             self.seed = seed
         } catch _ as BdkError {
             self.seedViewError = BdkError.Generic(message: "Could not show seed")
+            self.showingSeedViewErrorAlert = true
         } catch {
             self.seedViewError = BdkError.Generic(message: "Could not show seed")
+            self.showingSeedViewErrorAlert = true
         }
     }
 

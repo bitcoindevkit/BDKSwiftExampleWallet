@@ -25,6 +25,7 @@ class WalletViewModel {
         return usdValue
     }
     var walletViewError: BdkError?
+    var showingWalletViewErrorAlert = false
 
     init(
         priceClient: PriceClient = .live,
@@ -41,6 +42,7 @@ class WalletViewModel {
             self.time = price.time
         } catch {
             self.walletViewError = .Generic(message: "Error Getting Prices")
+            self.showingWalletViewErrorAlert = true
         }
     }
 
@@ -50,8 +52,13 @@ class WalletViewModel {
             self.balanceTotal = balance.total
         } catch let error as WalletError {
             self.walletViewError = .Generic(message: error.localizedDescription)
+            self.showingWalletViewErrorAlert = true
+        } catch let error as BdkError {
+            self.walletViewError = .Generic(message: error.description)
+            self.showingWalletViewErrorAlert = true
         } catch {
             self.walletViewError = .Generic(message: "Error Getting Balance")
+            self.showingWalletViewErrorAlert = true
         }
     }
 
@@ -59,8 +66,15 @@ class WalletViewModel {
         do {
             let transactionDetails = try bdkClient.getTransactions()
             self.transactionDetails = transactionDetails
+        } catch let error as WalletError {
+            self.walletViewError = .Generic(message: error.localizedDescription)
+            self.showingWalletViewErrorAlert = true
+        } catch let error as BdkError {
+            self.walletViewError = .Generic(message: error.description)
+            self.showingWalletViewErrorAlert = true
         } catch {
             self.walletViewError = .Generic(message: "Error Getting Transactions")
+            self.showingWalletViewErrorAlert = true
         }
     }
 
@@ -71,6 +85,7 @@ class WalletViewModel {
             self.walletSyncState = .synced
         } catch {
             self.walletSyncState = .error(error)
+            self.showingWalletViewErrorAlert = true
         }
     }
 

@@ -11,7 +11,6 @@ struct SeedView: View {
     @Bindable var viewModel: SeedViewModel
     @State private var isCopied = false
     @State private var showCheckmark = false
-    @State private var showingSeedViewErrorAlert = false
 
     var body: some View {
 
@@ -65,7 +64,7 @@ struct SeedView: View {
                 viewModel.getSeed()
             }
         }
-        .alert(isPresented: $showingSeedViewErrorAlert) {
+        .alert(isPresented: $viewModel.showingSeedViewErrorAlert) {
             Alert(
                 title: Text("Showing Seed Error"),
                 message: Text(viewModel.seedViewError?.description ?? ""),

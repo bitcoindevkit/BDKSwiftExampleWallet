@@ -130,7 +130,7 @@ extension AddressView {
             } else {
                 // TODO: handle error
             }
-        case .failure(let error):
+        case .failure(_):
             print("TODO: handle error")
         }
     }

@@ -16,6 +16,7 @@ class SettingsViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
 
     @Published var settingsError: BdkError?
+    @Published var showingSettingsViewErrorAlert = false
     @Published var network: String?
     @Published var esploraURL: String?
 
@@ -34,10 +35,12 @@ class SettingsViewModel: ObservableObject {
         } catch _ as BdkError {
             DispatchQueue.main.async {
                 self.settingsError = BdkError.Generic(message: "Could not delete seed")
+                self.showingSettingsViewErrorAlert = true
             }
         } catch {
             DispatchQueue.main.async {
                 self.settingsError = BdkError.Generic(message: "Could not delete seed")
+                self.showingSettingsViewErrorAlert = true
             }
         }
     }
@@ -48,10 +51,12 @@ class SettingsViewModel: ObservableObject {
         } catch _ as BdkError {
             DispatchQueue.main.async {
                 self.settingsError = BdkError.Generic(message: "Could not get network")
+                self.showingSettingsViewErrorAlert = true
             }
         } catch {
             DispatchQueue.main.async {
                 self.settingsError = BdkError.Generic(message: "Could not get network")
+                self.showingSettingsViewErrorAlert = true
             }
         }
     }

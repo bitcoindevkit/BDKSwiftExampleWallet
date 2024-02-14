@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TabHomeView: View {
     @Bindable var viewModel: TabHomeViewModel
-    @State private var showingTabViewErrorAlert = false
 
     var body: some View {
 
@@ -40,7 +39,7 @@ struct TabHomeView: View {
             }
 
         }
-        .alert(isPresented: $showingTabViewErrorAlert) {
+        .alert(isPresented: $viewModel.showingTabViewErrorAlert) {
             Alert(
                 title: Text("TabView Error"),
                 message: Text(viewModel.tabViewError?.description ?? "Unknown"),

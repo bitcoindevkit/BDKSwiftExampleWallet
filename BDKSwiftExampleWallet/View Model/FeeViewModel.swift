@@ -17,6 +17,7 @@ class FeeViewModel {
     var txBuilderResult: TxBuilderResult?
     var recommendedFees: RecommendedFees?
     var feeViewError: BdkError?
+    var showingFeeViewErrorAlert = false
     var selectedFeeIndex: Int = 2
     var selectedFee: Int? {
         guard let fees = recommendedFees else {
@@ -33,7 +34,6 @@ class FeeViewModel {
         guard let selectedFee = selectedFee else {
             return "Failed to load fees"
         }
-
         let feeText = text(for: selectedFeeIndex)
         return "Selected \(feeText) Fee: \(selectedFee) sats"
     }
@@ -49,6 +49,7 @@ class FeeViewModel {
             self.recommendedFees = recommendedFees
         } catch {
             self.feeViewError = .Generic(message: "Error Getting Fees")
+            self.showingFeeViewErrorAlert = true
         }
     }
 

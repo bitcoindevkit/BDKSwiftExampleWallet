@@ -79,6 +79,15 @@ struct ReceiveView: View {
             }
 
         }
+        .alert(isPresented: $viewModel.showingReceiveViewErrorAlert) {
+            Alert(
+                title: Text("Receive Error"),
+                message: Text(viewModel.receiveViewError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.receiveViewError = nil
+                }
+            )
+        }
 
     }
 

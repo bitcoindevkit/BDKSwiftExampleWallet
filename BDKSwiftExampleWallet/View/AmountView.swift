@@ -12,7 +12,6 @@ struct AmountView: View {
     @Bindable var viewModel: AmountViewModel
     @State var numpadAmount = "0"
     @State var isActive: Bool = false
-    @State private var showingAmountViewErrorAlert = false
 
     var body: some View {
 
@@ -84,7 +83,7 @@ struct AmountView: View {
                 }
             }
         }
-        .alert(isPresented: $showingAmountViewErrorAlert) {
+        .alert(isPresented: $viewModel.showingAmountViewErrorAlert) {
             Alert(
                 title: Text("Amount Error"),
                 message: Text(viewModel.amountViewError?.description ?? "Unknown"),
