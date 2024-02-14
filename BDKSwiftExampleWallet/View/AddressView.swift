@@ -23,9 +23,18 @@ struct AddressView: View {
 
             VStack {
 
-                Spacer()
-
                 HStack {
+
+                    Button {
+                        isShowingScanner = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "qrcode.viewfinder")
+                                .minimumScaleFactor(0.5)
+                        }
+                    }
+
+                    Spacer()
 
                     Button {
                         if pasteboard.hasStrings {
@@ -42,36 +51,13 @@ struct AddressView: View {
                         HStack {
                             Image(systemName: "doc.on.doc")
                                 .minimumScaleFactor(0.5)
-                            Text("Paste")
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.5)
                         }
-                        .frame(width: 100, height: 25)
                     }
-                    .padding()
-
-                    Spacer()
-
-                    Button {
-                        isShowingScanner = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "qrcode.viewfinder")
-                                .minimumScaleFactor(0.5)
-                            Text("Scan")
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.5)
-                        }
-                        .frame(width: 100, height: 25)
-                    }
-                    .padding()
 
                 }
-                .buttonBorderShape(.capsule)
-                .buttonStyle(.bordered)
-                .tint(.bitcoinOrange)
-                .padding(.bottom)
-                .padding(.horizontal)
+                .font(.largeTitle)
+                .foregroundColor(Color(UIColor.label))
+                .padding(.top)
                 .sheet(isPresented: $isShowingScanner) {
                     CodeScannerView(
                         codeTypes: [.qr],
@@ -79,6 +65,8 @@ struct AddressView: View {
                         completion: handleScan
                     )
                 }
+
+                Spacer()
 
                 VStack {
                     HStack {
