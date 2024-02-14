@@ -16,6 +16,7 @@ class AmountViewModel {
     var balanceTotal: UInt64?
     var balanceConfirmed: UInt64?
     var amountViewError: BdkError?
+    var showingAmountViewErrorAlert = false
 
     init(bdkClient: BDKClient = .live) {
         self.bdkClient = bdkClient
@@ -28,8 +29,13 @@ class AmountViewModel {
             self.balanceConfirmed = balance.confirmed
         } catch let error as WalletError {
             self.amountViewError = .Generic(message: error.localizedDescription)
+            self.showingAmountViewErrorAlert = true
+        } catch let error as BdkError {
+            self.amountViewError = .Generic(message: error.description)
+            self.showingAmountViewErrorAlert = true
         } catch {
             self.amountViewError = .Generic(message: "Error Getting Balance")
+            self.showingAmountViewErrorAlert = true
         }
     }
 

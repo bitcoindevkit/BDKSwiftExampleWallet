@@ -13,7 +13,6 @@ struct SettingsView: View {
     @State private var showingDeleteSeedConfirmation = false
     @State private var showingShowSeedConfirmation = false
     @State private var isSeedPresented = false
-    @State private var showingSettingsViewErrorAlert = false
 
     var body: some View {
 
@@ -105,7 +104,7 @@ struct SettingsView: View {
             }
 
         }
-        .alert(isPresented: $showingSettingsViewErrorAlert) {
+        .alert(isPresented: $viewModel.showingSettingsViewErrorAlert) {
             Alert(
                 title: Text("Settings Error"),
                 message: Text(viewModel.settingsError?.description ?? "Unknown"),

@@ -12,9 +12,10 @@ import Foundation
 @Observable
 class BuildTransactionViewModel {
     let bdkClient: BDKClient
+    
     var txBuilderResult: TxBuilderResult?
-
     var buildTransactionViewError: BdkError?
+    var showingBuildTransactionViewErrorAlert = false
 
     init(
         bdkClient: BDKClient = .live
@@ -28,10 +29,13 @@ class BuildTransactionViewModel {
             self.txBuilderResult = txBuilderResult
         } catch let error as WalletError {
             self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+            self.showingBuildTransactionViewErrorAlert = true
         } catch let error as BdkError {
-            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+            self.buildTransactionViewError = .Generic(message: error.description)
+            self.showingBuildTransactionViewErrorAlert = true
         } catch {
             self.buildTransactionViewError = .Generic(message: "Error Building Transaction")
+            self.showingBuildTransactionViewErrorAlert = true
         }
     }
 
@@ -44,10 +48,13 @@ class BuildTransactionViewModel {
             )
         } catch let error as WalletError {
             self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+            self.showingBuildTransactionViewErrorAlert = true
         } catch let error as BdkError {
-            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+            self.buildTransactionViewError = .Generic(message: error.description)
+            self.showingBuildTransactionViewErrorAlert = true
         } catch {
             self.buildTransactionViewError = .Generic(message: "Error Sending")
+            self.showingBuildTransactionViewErrorAlert = true
         }
     }
 
