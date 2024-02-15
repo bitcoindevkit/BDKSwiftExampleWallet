@@ -57,6 +57,7 @@
 		AEAB03132ABDDBF4000C9528 /* AmountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB03122ABDDBF4000C9528 /* AmountViewModel.swift */; };
 		AEAF83B62B7BD4D10019B23B /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = AEAF83B52B7BD4D10019B23B /* CodeScanner */; };
 		AEB130C92A44E4850087785B /* TransactionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB130C82A44E4850087785B /* TransactionDetailsView.swift */; };
+		AEB6C9D12B7E8529003AD704 /* TransactionDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB6C9D02B7E8529003AD704 /* TransactionDetailsViewModel.swift */; };
 		AEB735D32B2CC4B900F99DBB /* BitcoinUI in Frameworks */ = {isa = PBXBuildFile; productRef = AEB735D22B2CC4B900F99DBB /* BitcoinUI */; };
 		AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */; };
 		AEC2CF5A2ABFBA19008065E4 /* BuildTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2CF592ABFBA19008065E4 /* BuildTransactionViewModel.swift */; };
@@ -137,6 +138,7 @@
 		AEAB03102ABDDB86000C9528 /* FeeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeViewModel.swift; sourceTree = "<group>"; };
 		AEAB03122ABDDBF4000C9528 /* AmountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountViewModel.swift; sourceTree = "<group>"; };
 		AEB130C82A44E4850087785B /* TransactionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsView.swift; sourceTree = "<group>"; };
+		AEB6C9D02B7E8529003AD704 /* TransactionDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsViewModel.swift; sourceTree = "<group>"; };
 		AEB905C22A7EEBF000CD0337 /* BackupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupInfo.swift; sourceTree = "<group>"; };
 		AEC2CF592ABFBA19008065E4 /* BuildTransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildTransactionViewModel.swift; sourceTree = "<group>"; };
 		AED062702A9BB1D6001DC6BD /* BDKSwiftExampleWalletFeeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletFeeServiceTests.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				AE0C30F82A804B65008F1EAE /* OnboardingViewModel.swift */,
 				AE2ADD752B61EFEB00C2A823 /* TabHomeViewModel.swift */,
 				AE0C30FA2A804B95008F1EAE /* WalletViewModel.swift */,
+				AEB6C9D02B7E8529003AD704 /* TransactionDetailsViewModel.swift */,
 				AE0C30FC2A804BC1008F1EAE /* ReceiveViewModel.swift */,
 				AEAB03122ABDDBF4000C9528 /* AmountViewModel.swift */,
 				AEAB03102ABDDB86000C9528 /* FeeViewModel.swift */,
@@ -549,6 +552,7 @@
 				AEAB03132ABDDBF4000C9528 /* AmountViewModel.swift in Sources */,
 				AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */,
 				AEA9BEB32AA8081800C523CA /* BDKError+Extensions.swift in Sources */,
+				AEB6C9D12B7E8529003AD704 /* TransactionDetailsViewModel.swift in Sources */,
 				AE18E9382A9528200019D2A4 /* Bundle+Extensions.swift in Sources */,
 				AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */,
 				AEE6C74F2ABCBA4600442ADD /* WalletSyncState.swift in Sources */,

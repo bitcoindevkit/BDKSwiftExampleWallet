@@ -10,6 +10,8 @@ import BitcoinUI
 import SwiftUI
 
 struct TransactionDetailsView: View {
+    @ObservedObject var viewModel: TransactionDetailsViewModel
+
     let transaction: TransactionDetails
     let amount: UInt64
     @State private var isCopied = false
@@ -82,6 +84,22 @@ struct TransactionDetailsView: View {
             Spacer()
 
             HStack {
+                if viewModel.network != Network.regtest.description {
+                    Button {
+                        if let esploraURL = viewModel.esploraURL {
+                            let urlString = "\(esploraURL)/tx/\(transaction.txid)"
+                                .replacingOccurrences(of: "/api", with: "")
+                            if let url = URL(string: urlString) {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "safari")
+                            .fontWeight(.semibold)
+                            .foregroundColor(.bitcoinOrange)
+                    }
+                    Spacer()
+                }
                 Text(transaction.txid)
                     .lineLimit(1)
                     .truncationMode(.middle)
@@ -107,6 +125,10 @@ struct TransactionDetailsView: View {
             .fontDesign(.monospaced)
             .font(.caption)
             .padding()
+            .onAppear {
+                viewModel.getNetwork()
+                viewModel.getEsploraUrl()
+            }
 
         }
         .padding()
@@ -115,10 +137,18 @@ struct TransactionDetailsView: View {
 }
 
 #Preview {
-    TransactionDetailsView(transaction: mockTransactionDetail, amount: UInt64(10_000_000))
+    TransactionDetailsView(
+        viewModel: .init(),
+        transaction: mockTransactionDetail,
+        amount: UInt64(10_000_000)
+    )
 }
 
 #Preview {
-    TransactionDetailsView(transaction: mockTransactionDetail, amount: UInt64(10_000_000))
-        .environment(\.sizeCategory, .accessibilityLarge)
+    TransactionDetailsView(
+        viewModel: .init(),
+        transaction: mockTransactionDetail,
+        amount: UInt64(10_000_000)
+    )
+    .environment(\.sizeCategory, .accessibilityLarge)
 }

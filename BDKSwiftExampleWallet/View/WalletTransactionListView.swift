@@ -38,6 +38,7 @@ struct WalletTransactionListView: View {
 
                     NavigationLink(
                         destination: TransactionDetailsView(
+                            viewModel: .init(),
                             transaction: transaction,
                             amount:
                                 transaction.sent > 0
