@@ -111,6 +111,12 @@ struct WalletView: View {
                     }
                 }
                 .padding()
+                .onReceive(
+                    NotificationCenter.default.publisher(for: Notification.Name("TransactionSent")),
+                    perform: { _ in
+                        newTransactionSent = true
+                    }
+                )
                 .task {
                     if isFirstAppear || newTransactionSent {
                         await viewModel.sync()

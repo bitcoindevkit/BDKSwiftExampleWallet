@@ -42,6 +42,10 @@ class BuildTransactionViewModel {
     func send(address: String, amount: UInt64, feeRate: Float?) {
         do {
             try bdkClient.send(address, amount, feeRate)
+            NotificationCenter.default.post(
+                name: Notification.Name("TransactionSent"),
+                object: nil
+            )
         } catch let error as WalletError {
             self.buildTransactionViewError = .Generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
