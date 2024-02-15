@@ -59,17 +59,25 @@ struct AmountView: View {
 
                     Spacer()
 
-                    NavigationLink(
-                        destination: AddressView(amount: numpadAmount, rootIsActive: $isActive)
-                    ) {
-                        Label(
-                            title: { Text("Next") },
-                            icon: { Image(systemName: "arrow.right") }
-                        )
-                        .labelStyle(.iconOnly)
+                    VStack {
+                        Button {
+                            isActive = true
+                        } label: {
+                            Label(
+                                title: { Text("Next") },
+                                icon: { Image(systemName: "arrow.right") }
+                            )
+                            .labelStyle(.iconOnly)
+                        }
+                        .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
+                        NavigationLink(
+                            destination: AddressView(amount: numpadAmount, rootIsActive: $isActive),
+                            isActive: $isActive
+                        ) {
+                            EmptyView()
+                        }
+                        .hidden()
                     }
-                    .isDetailLink(false)
-                    .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
                 }
                 .padding()
