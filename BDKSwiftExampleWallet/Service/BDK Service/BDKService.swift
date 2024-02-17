@@ -98,7 +98,7 @@ private class BDKService {
         )
         let backupInfo = BackupInfo(
             mnemonic: mnemonic.asString(),
-            descriptor: descriptor.asString(),
+            descriptor: descriptor.asStringPrivate(),
             changeDescriptor: changeDescriptor.asStringPrivate()
         )
         try keyService.saveBackupInfo(backupInfo)
