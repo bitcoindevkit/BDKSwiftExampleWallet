@@ -98,15 +98,15 @@ struct WalletView: View {
                         }
                         .fontWeight(.bold)
                         WalletTransactionListView(
-                            transactionDetails: viewModel.transactionDetails,
+                            transactionDetails: viewModel.transactions,
                             walletSyncState: viewModel.walletSyncState
                         )
-                        .refreshable {
-                            await viewModel.sync()
-                            viewModel.getBalance()
-                            viewModel.getTransactions()
-                            await viewModel.getPrices()
-                        }
+                            .refreshable {
+                                await viewModel.sync()
+                                viewModel.getBalance()
+                                viewModel.getTransactions()
+                                await viewModel.getPrices()
+                            }
                         Spacer()
                     }
                 }
@@ -155,9 +155,9 @@ struct WalletView: View {
             .environment(\.sizeCategory, .accessibilityLarge)
     }
 
-    #Preview("WalletView Zero - en") {
-        WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
-    }
+//    #Preview("WalletView Zero - en") {
+//        WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
+//    }
 
     #Preview("WalletView Wait - en") {
         WalletView(viewModel: .init(priceClient: .mockPause, bdkClient: .mock))

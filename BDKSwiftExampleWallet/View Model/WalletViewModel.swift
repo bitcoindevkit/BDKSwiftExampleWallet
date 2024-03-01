@@ -17,14 +17,15 @@ class WalletViewModel {
 
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
-    var transactionDetails: [TransactionDetails] = []
+    var transactions: [Transaction] = []
+//var transactionDetails: [TransactionDetails] = []
     var price: Double = 0.00
     var time: Int?
     var satsPrice: String {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
-    var walletViewError: BdkError?
+    var walletViewError: Alpha3Error?//BdkError?
     var showingWalletViewErrorAlert = false
 
     init(
@@ -53,7 +54,7 @@ class WalletViewModel {
         } catch let error as WalletError {
             self.walletViewError = .Generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
-        } catch let error as BdkError {
+        } catch let error as Alpha3Error {
             self.walletViewError = .Generic(message: error.description)
             self.showingWalletViewErrorAlert = true
         } catch {
@@ -64,12 +65,12 @@ class WalletViewModel {
 
     func getTransactions() {
         do {
-            let transactionDetails = try bdkClient.getTransactions()
-            self.transactionDetails = transactionDetails
+            let transactionDetails = try bdkClient.transactions()//bdkClient.getTransactions()
+            self.transactions = transactionDetails//self.transactionDetails = transactionDetails
         } catch let error as WalletError {
             self.walletViewError = .Generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
-        } catch let error as BdkError {
+        } catch let error as Alpha3Error {
             self.walletViewError = .Generic(message: error.description)
             self.showingWalletViewErrorAlert = true
         } catch {
@@ -88,5 +89,16 @@ class WalletViewModel {
             self.showingWalletViewErrorAlert = true
         }
     }
+    
+//    func sync() async {
+//        self.walletSyncState = .syncing
+//        do {
+//            try await bdkClient.sync()
+//            self.walletSyncState = .synced
+//        } catch {
+//            self.walletSyncState = .error(error)
+//            self.showingWalletViewErrorAlert = true
+//        }
+//    }
 
 }

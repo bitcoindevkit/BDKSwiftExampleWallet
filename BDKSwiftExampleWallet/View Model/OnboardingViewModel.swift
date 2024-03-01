@@ -18,7 +18,7 @@ class OnboardingViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
 
     @Published var networkColor = Color.gray
-    @Published var onboardingViewError: BdkError?
+    @Published var onboardingViewError: Alpha3Error?//BdkError?
     @Published var words: String = ""
     @Published var selectedNetwork: Network = .testnet {
         didSet {
@@ -29,7 +29,7 @@ class OnboardingViewModel: ObservableObject {
                 try KeyClient.live.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
-                    self.onboardingViewError = .InvalidNetwork(message: "Error Selecting Network")
+                    self.onboardingViewError = .Generic(message: "Error Selecting Network")//.InvalidNetwork(message: "Error Selecting Network")
                 }
             }
         }
@@ -40,7 +40,7 @@ class OnboardingViewModel: ObservableObject {
                 try KeyClient.live.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
-                    self.onboardingViewError = .Esplora(message: "Error Selecting Esplora")
+                    self.onboardingViewError = .Generic(message: "Error Selecting Network")//.Esplora(message: "Error Selecting Esplora")
                 }
             }
         }
@@ -87,7 +87,7 @@ class OnboardingViewModel: ObservableObject {
             }
         } catch {
             DispatchQueue.main.async {
-                self.onboardingViewError = .Esplora(message: "Error Selecting Esplora")
+                self.onboardingViewError = .Generic(message: "Error Selecting Esplora")//.Esplora(message: "Error Selecting Esplora")
             }
         }
     }

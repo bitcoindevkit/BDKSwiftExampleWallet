@@ -87,23 +87,23 @@ struct AddressView: View {
 
                 Spacer()
 
-                NavigationLink(
-                    destination:
-                        FeeView(
-                            amount: amount,
-                            address: address,
-                            viewModel: .init(),
-                            rootIsActive: self.$rootIsActive
-                        )
-                ) {
-                    Label(
-                        title: { Text("Next") },
-                        icon: { Image(systemName: "arrow.right") }
-                    )
-                    .labelStyle(.iconOnly)
-                }
-                .isDetailLink(false)
-                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
+//                NavigationLink(
+//                    destination:
+//                        FeeView(
+//                            amount: amount,
+//                            address: address,
+//                            viewModel: .init(),
+//                            rootIsActive: self.$rootIsActive
+//                        )
+//                ) {
+//                    Label(
+//                        title: { Text("Next") },
+//                        icon: { Image(systemName: "arrow.right") }
+//                    )
+//                    .labelStyle(.iconOnly)
+//                }
+//                .isDetailLink(false)
+//                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
             }
             .padding()
