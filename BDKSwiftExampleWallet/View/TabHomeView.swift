@@ -53,11 +53,13 @@ struct TabHomeView: View {
 
 }
 
-#Preview {
-    TabHomeView(viewModel: .init())
-}
+#if DEBUG
+    #Preview {
+        TabHomeView(viewModel: .init())
+    }
 
-#Preview {
-    TabHomeView(viewModel: .init())
-        .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview {
+        TabHomeView(viewModel: .init())
+            .environment(\.sizeCategory, .accessibilityLarge)
+    }
+#endif

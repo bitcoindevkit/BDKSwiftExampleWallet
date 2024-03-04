@@ -15,7 +15,7 @@ class SettingsViewModel: ObservableObject {
 
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
 
-    @Published var settingsError: Alpha3Error?//BdkError?
+    @Published var settingsError: Alpha3Error?
     @Published var showingSettingsViewErrorAlert = false
     @Published var network: String?
     @Published var esploraURL: String?

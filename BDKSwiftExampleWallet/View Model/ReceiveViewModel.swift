@@ -14,7 +14,7 @@ class ReceiveViewModel {
     let bdkClient: BDKClient
 
     var address: String = ""
-    var receiveViewError: Alpha3Error?//BdkError?
+    var receiveViewError: Alpha3Error?
     var showingReceiveViewErrorAlert = false
 
     init(bdkClient: BDKClient = .live) {

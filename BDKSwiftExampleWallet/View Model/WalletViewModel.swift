@@ -18,14 +18,13 @@ class WalletViewModel {
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
     var transactions: [Transaction] = []
-//var transactionDetails: [TransactionDetails] = []
     var price: Double = 0.00
     var time: Int?
     var satsPrice: String {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
-    var walletViewError: Alpha3Error?//BdkError?
+    var walletViewError: Alpha3Error?
     var showingWalletViewErrorAlert = false
 
     init(
@@ -65,8 +64,8 @@ class WalletViewModel {
 
     func getTransactions() {
         do {
-            let transactionDetails = try bdkClient.transactions()//bdkClient.getTransactions()
-            self.transactions = transactionDetails//self.transactionDetails = transactionDetails
+            let transactionDetails = try bdkClient.transactions()
+            self.transactions = transactionDetails
         } catch let error as WalletError {
             self.walletViewError = .Generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
@@ -89,16 +88,5 @@ class WalletViewModel {
             self.showingWalletViewErrorAlert = true
         }
     }
-    
-//    func sync() async {
-//        self.walletSyncState = .syncing
-//        do {
-//            try await bdkClient.sync()
-//            self.walletSyncState = .synced
-//        } catch {
-//            self.walletSyncState = .error(error)
-//            self.showingWalletViewErrorAlert = true
-//        }
-//    }
 
 }

@@ -87,23 +87,23 @@ struct AddressView: View {
 
                 Spacer()
 
-//                NavigationLink(
-//                    destination:
-//                        FeeView(
-//                            amount: amount,
-//                            address: address,
-//                            viewModel: .init(),
-//                            rootIsActive: self.$rootIsActive
-//                        )
-//                ) {
-//                    Label(
-//                        title: { Text("Next") },
-//                        icon: { Image(systemName: "arrow.right") }
-//                    )
-//                    .labelStyle(.iconOnly)
-//                }
-//                .isDetailLink(false)
-//                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
+                NavigationLink(
+                    destination:
+                        FeeView(
+                            amount: amount,
+                            address: address,
+                            viewModel: .init(),
+                            rootIsActive: self.$rootIsActive
+                        )
+                ) {
+                    Label(
+                        title: { Text("Next") },
+                        icon: { Image(systemName: "arrow.right") }
+                    )
+                    .labelStyle(.iconOnly)
+                }
+                .isDetailLink(false)
+                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
             }
             .padding()
@@ -131,16 +131,18 @@ extension AddressView {
                 // TODO: handle error
             }
         case .failure(_):
-            print("TODO: handle error")
+            break  // TODO: handle error
         }
     }
 }
 
-#Preview {
-    AddressView(amount: "200", rootIsActive: .constant(false))
-}
+#if DEBUG
+    #Preview {
+        AddressView(amount: "200", rootIsActive: .constant(false))
+    }
 
-#Preview {
-    AddressView(amount: "200", rootIsActive: .constant(false))
-        .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview {
+        AddressView(amount: "200", rootIsActive: .constant(false))
+            .environment(\.sizeCategory, .accessibilityLarge)
+    }
+#endif

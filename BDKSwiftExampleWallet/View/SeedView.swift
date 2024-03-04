@@ -77,11 +77,13 @@ struct SeedView: View {
     }
 }
 
-#Preview {
-    SeedView(viewModel: .init())
-}
+#if DEBUG
+    #Preview {
+        SeedView(viewModel: .init())
+    }
 
-#Preview {
-    SeedView(viewModel: .init())
-        .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview {
+        SeedView(viewModel: .init())
+            .environment(\.sizeCategory, .accessibilityLarge)
+    }
+#endif

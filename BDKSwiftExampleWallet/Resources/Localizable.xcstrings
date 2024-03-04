@@ -2,7 +2,6 @@
   "sourceLanguage" : "en",
   "strings" : {
     " High Priority - %lld" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -13,7 +12,6 @@
       }
     },
     " Low Priority - %lld" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -24,7 +22,6 @@
       }
     },
     " Med Priority - %lld" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -35,7 +32,6 @@
       }
     },
     " No Priority - %lld" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -46,7 +42,6 @@
       }
     },
     "- %llu sats" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -56,8 +51,10 @@
         }
       }
     },
+    "?" : {
+
+    },
     "..." : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -66,6 +63,9 @@
           }
         }
       }
+    },
+    "{Confirmation Status / Timestamp}" : {
+
     },
     "%@ sats" : {
       "localizations" : {
@@ -76,6 +76,12 @@
           }
         }
       }
+    },
+    "%@ sats fee" : {
+
+    },
+    "%lld Transactions" : {
+
     },
     "%lld. %@" : {
       "localizations" : {
@@ -99,7 +105,6 @@
       }
     },
     "+ %llu sats" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -175,6 +180,9 @@
         }
       }
     },
+    "Block {Height}" : {
+
+    },
     "Block %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -185,6 +193,9 @@
           }
         }
       }
+    },
+    "Build Transaction Error" : {
+
     },
     "Choose your Network." : {
 
@@ -233,9 +244,6 @@
     "Delete Seed" : {
 
     },
-    "Empty & Syncing" : {
-
-    },
     "Enter address to send BTC to" : {
       "localizations" : {
         "fr" : {
@@ -261,7 +269,6 @@
 
     },
     "Fee" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -271,8 +278,10 @@
         }
       }
     },
+    "Fee Error" : {
+
+    },
     "Fees" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -315,7 +324,6 @@
 
     },
     "Receive" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -338,14 +346,10 @@
     "Receive Error" : {
 
     },
-    "Received %llu sats" : {
-
-    },
     "Regtest" : {
 
     },
     "sat/vb" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -367,7 +371,6 @@
       }
     },
     "Select Fee" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -378,7 +381,6 @@
       }
     },
     "Send" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -387,9 +389,6 @@
           }
         }
       }
-    },
-    "Sent %llu sats" : {
-
     },
     "Settings Error" : {
 
@@ -421,7 +420,6 @@
 
     },
     "To" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -442,7 +440,6 @@
       }
     },
     "Total" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -453,7 +450,6 @@
       }
     },
     "Transaction" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -462,9 +458,6 @@
           }
         }
       }
-    },
-    "Transaction details not available" : {
-
     },
     "Transactions" : {
       "extractionState" : "manual",

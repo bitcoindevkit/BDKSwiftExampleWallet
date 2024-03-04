@@ -15,7 +15,7 @@ class AmountViewModel {
 
     var balanceTotal: UInt64?
     var balanceConfirmed: UInt64?
-    var amountViewError: Alpha3Error?//BdkError?
+    var amountViewError: Alpha3Error?
     var showingAmountViewErrorAlert = false
 
     init(bdkClient: BDKClient = .live) {

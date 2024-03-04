@@ -18,7 +18,8 @@ class OnboardingViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
 
     @Published var networkColor = Color.gray
-    @Published var onboardingViewError: Alpha3Error?//BdkError?
+    @Published var onboardingViewError: Alpha3Error?
+    @Published var walletCreationError: WalletCreationError?
     @Published var words: String = ""
     @Published var selectedNetwork: Network = .testnet {
         didSet {
@@ -29,7 +30,7 @@ class OnboardingViewModel: ObservableObject {
                 try KeyClient.live.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
-                    self.onboardingViewError = .Generic(message: "Error Selecting Network")//.InvalidNetwork(message: "Error Selecting Network")
+                    self.onboardingViewError = .Generic(message: "Error Selecting Network")
                 }
             }
         }
@@ -40,7 +41,7 @@ class OnboardingViewModel: ObservableObject {
                 try KeyClient.live.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
-                    self.onboardingViewError = .Generic(message: "Error Selecting Network")//.Esplora(message: "Error Selecting Esplora")
+                    self.onboardingViewError = .Generic(message: "Error Selecting Network")
                 }
             }
         }
@@ -87,7 +88,7 @@ class OnboardingViewModel: ObservableObject {
             }
         } catch {
             DispatchQueue.main.async {
-                self.onboardingViewError = .Generic(message: "Error Selecting Esplora")//.Esplora(message: "Error Selecting Esplora")
+                self.onboardingViewError = .Generic(message: "Error Selecting Esplora")
             }
         }
     }
@@ -96,11 +97,12 @@ class OnboardingViewModel: ObservableObject {
         do {
             try bdkClient.createWallet(words)
             isOnboarding = false
-        } catch {
+        } catch let error as WalletCreationError {
             DispatchQueue.main.async {
-                self.onboardingViewError = .Generic(message: "Error Creating Wallet")
+                self.walletCreationError = error
             }
-        }
+        } catch {}
+
     }
 
 }

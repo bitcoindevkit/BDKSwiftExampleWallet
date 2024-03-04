@@ -11,59 +11,71 @@ import Foundation
 extension Alpha3Error {
     var description: String {
         switch self {
-        case .Generic(message: let message):
+        case .Generic(let message):
             return message
         }
     }
 }
 
-//extension BdkError {
-//    var description: String {
-//        switch self {
-//        case .InvalidU32Bytes(let message),
-//            .Generic(let message),
-//            .MissingCachedScripts(let message),
-//            .ScriptDoesntHaveAddressForm(let message),
-//            .NoRecipients(let message),
-//            .NoUtxosSelected(let message),
-//            .OutputBelowDustLimit(let message),
-//            .InsufficientFunds(let message),
-//            .BnBTotalTriesExceeded(let message),
-//            .BnBNoExactMatch(let message),
-//            .UnknownUtxo(let message),
-//            .TransactionNotFound(let message),
-//            .TransactionConfirmed(let message),
-//            .IrreplaceableTransaction(let message),
-//            .FeeRateTooLow(let message),
-//            .FeeTooLow(let message),
-//            .FeeRateUnavailable(let message),
-//            .MissingKeyOrigin(let message),
-//            .Key(let message),
-//            .ChecksumMismatch(let message),
-//            .SpendingPolicyRequired(let message),
-//            .InvalidPolicyPathError(let message),
-//            .Signer(let message),
-//            .InvalidNetwork(let message),
-//            .InvalidProgressValue(let message),
-//            .ProgressUpdateError(let message),
-//            .InvalidOutpoint(let message),
-//            .Descriptor(let message),
-//            .Encode(let message),
-//            .Miniscript(let message),
-//            .MiniscriptPsbt(let message),
-//            .Bip32(let message),
-//            .Secp256k1(let message),
-//            .Json(let message),
-//            .Hex(let message),
-//            .Psbt(let message),
-//            .PsbtParse(let message),
-//            .Electrum(let message),
-//            .Esplora(let message),
-//            .Sled(let message),
-//            .Rusqlite(let message),
-//            .HardenedIndex(let message),
-//            .Rpc(let message):
-//            return message
-//        }
-//    }
-//}
+extension CalculateFeeError {
+    var description: String {
+        switch self {
+        case .MissingTxOut(let outPoints):
+            return outPoints.description
+        case .NegativeFee(let fee):
+            return fee.description
+        }
+    }
+}
+
+extension EsploraError {
+    var description: String {
+        switch self {
+        case .Ureq(let errorMessage),
+            .UreqTransport(let errorMessage),
+            .Io(let errorMessage),
+            .Parsing(let errorMessage),
+            .BitcoinEncoding(let errorMessage),
+            .Hex(let errorMessage):
+            return errorMessage
+
+        case .Http(let statusCode):
+            return statusCode.description
+
+        case .HeaderHeightNotFound(let height):
+            return height.description
+
+        case .NoHeader:
+            return "No header found."
+
+        case .TransactionNotFound:
+            return "Transaction not found."
+
+        case .HeaderHashNotFound:
+            return "Header hash not found."
+        }
+    }
+}
+
+extension WalletCreationError {
+    var description: String {
+        switch self {
+        case .Io(let e):
+            return e.description
+        case .InvalidMagicBytes(let got, let expected):
+            return "got: \(got), expected \(expected) "
+        case .Descriptor:
+            return "descriptor"
+        case .Write:
+            return "write"
+        case .Load:
+            return "load"
+        case .NotInitialized:
+            return "not initialized"
+        case .LoadedGenesisDoesNotMatch:
+            return "loaded genesis does not match"
+        case .LoadedNetworkDoesNotMatch(let expected, let got):
+            return "got: \(String(describing: got)), expected \(expected)"
+        }
+    }
+}

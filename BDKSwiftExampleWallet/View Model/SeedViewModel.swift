@@ -13,7 +13,7 @@ import SwiftUI
 @MainActor
 class SeedViewModel {
     var seed: BackupInfo = .init(mnemonic: "", descriptor: "", changeDescriptor: "")
-    var seedViewError: Alpha3Error?//BdkError?
+    var seedViewError: Alpha3Error?
     var showingSeedViewErrorAlert = false
 
     func getSeed() {

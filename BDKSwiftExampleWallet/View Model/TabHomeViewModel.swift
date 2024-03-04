@@ -13,7 +13,7 @@ import Foundation
 class TabHomeViewModel: ObservableObject {
     let bdkClient: BDKClient
 
-    var tabViewError: Alpha3Error?//BdkError?
+    var tabViewError: Alpha3Error?
     var showingTabViewErrorAlert = false
 
     init(bdkClient: BDKClient = .live) {

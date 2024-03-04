@@ -10,57 +10,65 @@ import BitcoinUI
 import SwiftUI
 
 struct WalletTransactionListView: View {
-    let transactionDetails: [BitcoinDevKit.Transaction]//[TransactionDetails]
+    let transactions: [BitcoinDevKit.Transaction]
     let walletSyncState: WalletSyncState
+    @Bindable var viewModel: WalletTransactionsListViewModel
 
     var body: some View {
 
         List {
-            if transactionDetails.isEmpty && walletSyncState == .syncing {
-//                WalletTransactionsListItemView(transaction: mockTransactionDetail, isRedacted: true)
-//                    .listRowInsets(EdgeInsets())
-//                    .listRowSeparator(.hidden)
-                Text("Empty & Syncing")
-            } else if transactionDetails.isEmpty {
+            if transactions.isEmpty && walletSyncState == .syncing {
+                WalletTransactionsListItemView(
+                    sentAndReceivedValues: .init(
+                        sent: UInt64(0),
+                        received: UInt64(0)
+                    ),
+                    transaction:
+                        mockTransaction1!,
+                    isRedacted: true
+                )
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+            } else if transactions.isEmpty {
                 Text("No Transactions")
                     .font(.subheadline)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
             } else {
                 ForEach(
-//                    transactionDetails.sorted(
-//                        by: {
-//                            $0.confirmationTime?.timestamp ?? $0.received > $1.confirmationTime?
-//                                .timestamp ?? $1.received
-//                        }
-//                    ),
-//                    id: \.txid
-                    transactionDetails,
+                    transactions.sorted(
+                        by: { $0.vsize() > $1.vsize() }
+                    ),
                     id: \.transactionID
                 ) { transaction in
 
-                    
-                    WalletTransactionsListItemView(transaction: transaction)
-                    
-//                    NavigationLink(
-//                        destination: TransactionDetailsView(
-//                            viewModel: .init(),
-//                            transaction: transaction,
-//                            amount:
-//                                transaction.sent > 0
-//                                ? transaction.sent - transaction.received
-//                                : transaction.received - transaction.sent
-//                        )
-//                    ) {
-//
-//                        WalletTransactionsListItemView(transaction: transaction)
-//                    }
-                    
-                    
-                    
+                    let sentAndReceivedValues = viewModel.getSentAndReceived(tx: transaction)
+                    if let sentAndReceivedValue = sentAndReceivedValues {
+                        NavigationLink(
+                            destination:
+                                TransactionDetailsView(
+                                    viewModel: .init(),
+                                    transaction: transaction,
+                                    amount: sentAndReceivedValue.sent == 0
+                                        && sentAndReceivedValue.received > 0
+                                        ? sentAndReceivedValue.received : sentAndReceivedValue.sent
+                                )
+                        ) {
+                            WalletTransactionsListItemView(
+                                sentAndReceivedValues: sentAndReceivedValue,
+                                transaction: transaction,
+                                isRedacted: false
+                            )
+                        }
+
+                    } else {
+                        Image(systemName: "questionmark")
+                    }
+
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
+
             }
 
         }
@@ -69,106 +77,38 @@ struct WalletTransactionListView: View {
     }
 }
 
-struct WalletTransactionsListItemView: View {
-    let transaction: BitcoinDevKit.Transaction//TransactionDetails
-    let isRedacted: Bool
-    @Environment(\.sizeCategory) var sizeCategory
-
-    init(transaction: BitcoinDevKit.Transaction, isRedacted: Bool = false) {
-        self.transaction = transaction
-        self.isRedacted = isRedacted
+#if DEBUG
+    #Preview {
+        WalletTransactionListView(
+            transactions: [
+                mockTransaction1!,
+                mockTransaction2!,
+            ],
+            walletSyncState: .synced,
+            viewModel: .init()
+        )
+        .environment(\.colorScheme, .dark)
     }
-
-    var body: some View {
-        HStack(spacing: 15) {
-//
-//            if isRedacted {
-//                Image(
-//                    systemName:
-//                        "circle.fill"
-//                )
-//                .font(.largeTitle)
-//                .symbolRenderingMode(.palette)
-//                .foregroundStyle(
-//                    Color.gray.opacity(0.5)
-//                )
-//            } else {
-//                Image(
-//                    systemName:
-//                        transaction.sent > 0
-//                        ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
-//                )
-//                .font(.largeTitle)
-//                .symbolRenderingMode(.palette)
-//                .foregroundStyle(
-//                    transaction.confirmationTime != nil
-//                        ? Color.bitcoinOrange : Color.secondary,
-//                    isRedacted ? Color.gray.opacity(0.5) : Color.gray.opacity(0.05)
-//                )
-//            }
-//
-            VStack(alignment: .leading, spacing: 5) {
-                Text(transaction.transactionID)//Text(transaction.txid)
-                    .truncationMode(.middle)
-                    .lineLimit(1)
-                    .fontDesign(.monospaced)
-                    .fontWeight(.semibold)
-                    .font(.title)
-                    .foregroundColor(.primary)
-//                Text(
-//                    transaction.confirmationTime?.timestamp.toDate().formatted(
-//                        .dateTime.day().month().hour().minute()
-//                    )
-//                        ?? "Unconfirmed"
-//                )
-//                .lineLimit(
-//                    sizeCategory > .accessibilityMedium ? 2 : 1
-//                )
-            }
-            .foregroundColor(.secondary)
-            .font(.subheadline)
-            .padding(.trailing, 30.0)
-            .redacted(reason: isRedacted ? .placeholder : [])
-
-            Spacer()
-            
-            // use sentAndReceived
-            
-//            Text(
-//                transaction.sent > 0
-//                    ? "- \(transaction.sent - transaction.received) sats"
-//                    : "+ \(transaction.received - transaction.sent) sats"
-//            )
-//            .font(.subheadline)
-//            .fontWeight(.semibold)
-//            .fontDesign(.rounded)
-//            .lineLimit(1)
-//            .redacted(reason: isRedacted ? .placeholder : [])
-            
-            
-            
-            
-        }
-        .padding(.vertical, 15.0)
-        .padding(.vertical, 5.0)
-        .minimumScaleFactor(0.5)
-
+    #Preview {
+        WalletTransactionListView(
+            transactions: [
+                mockTransaction1!,
+                mockTransaction2!,
+            ],
+            walletSyncState: .synced,
+            viewModel: .init()
+        )
+        .environment(\.colorScheme, .dark)
     }
-}
-//
-//#if DEBUG
-//    #Preview {
-//        WalletTransactionListView(
-//            transactionDetails: mockTransactionDetails,
-//            walletSyncState: .synced
-//        )
-//    }
-//
-//    #Preview {
-//        WalletTransactionListView(
-//            transactionDetails: mockTransactionDetails,
-//            walletSyncState: .synced
-//        )
-//        .environment(\.sizeCategory, .accessibilityLarge)
-//    }
-//#endif
+    #Preview {
+        WalletTransactionListView(
+            transactions: [
+                mockTransaction1!,
+                mockTransaction2!,
+            ],
+            walletSyncState: .synced,
+            viewModel: .init()
+        )
+        .environment(\.sizeCategory, .accessibilityLarge)
+    }
+#endif
