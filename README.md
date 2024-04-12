@@ -14,7 +14,9 @@ An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) (BD
 
 Supports single key HD wallets with BIP86 derivation paths. 
 
-### Implemented
+### Implementation
+
+The example `BDKClient` singleton may be found in `Service/BDKService/BDKService.swfit`.
 
 - [x] Create Wallet `Wallet(descriptor: changeDescriptor: network: databaseConfig:)`
 
@@ -35,3 +37,11 @@ Supports single key HD wallets with BIP86 derivation paths.
 - [BitcoinUI](https://github.com/reez/BitcoinUI)
 
 - [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess)
+
+## System Requirements
+
+- [Xcode](https://developer.apple.com/xcode/) version 15.0 or higher.
+
+- iOS Simulators running iOS version 17.0 or higher.
+
+- MacOS Sonoma version 14.0 or higher.
