@@ -15,13 +15,9 @@ struct SettingsView: View {
     @State private var isSeedPresented = false
 
     var body: some View {
-
-        ZStack {
-
-            Color(uiColor: UIColor.systemBackground)
-
-            VStack(spacing: 20.0) {
-
+        
+        Form {
+            Section(header: Text("Network Connection")) {
                 VStack {
                     if let network = viewModel.network, let url = viewModel.esploraURL {
                         Text("Network: \(network)".uppercased()).bold()
@@ -34,29 +30,21 @@ struct SettingsView: View {
                                 with: ""
                             )
                         )
+                    } else {
+                        HStack {
+                            Text("Disconnected")
+                        }
                     }
-
                 }
                 .foregroundColor(.bitcoinOrange)
-
-                Text("Danger Zone")
-                    .bold()
-                    .foregroundColor(.red)
-                    .padding()
-
+            }
+            Section(header: Text("Danger Zone")) {
                 Button {
                     showingShowSeedConfirmation = true
                 } label: {
-                    HStack {
-                        Image(systemName: "list.number")
-                        Text("Show Seed")
-                    }
-                    .foregroundColor(Color(uiColor: UIColor.systemBackground))
-                    .bold()
+                    Text(String(localized: "Show Seed"))
+                        .foregroundStyle(.red)
                 }
-                .buttonBorderShape(.capsule)
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
                 .alert(
                     "Are you sure you want to view the seed?",
                     isPresented: $showingShowSeedConfirmation
@@ -66,20 +54,15 @@ struct SettingsView: View {
                     }
                     Button("No", role: .cancel) {}
                 }
-
+                
                 Button {
                     showingDeleteSeedConfirmation = true
                 } label: {
                     HStack {
-                        Image(systemName: "minus")
-                        Text("Delete Seed")
+                        Text(String(localized: "Delete Seed"))
+                            .foregroundStyle(.red)
                     }
-                    .foregroundColor(Color(uiColor: UIColor.systemBackground))
-                    .bold()
                 }
-                .buttonBorderShape(.capsule)
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
                 .alert(
                     "Are you sure you want to delete the seed?",
                     isPresented: $showingDeleteSeedConfirmation
@@ -89,20 +72,19 @@ struct SettingsView: View {
                     }
                     Button("No", role: .cancel) {}
                 }
-
             }
-            .onAppear {
-                viewModel.getNetwork()
-                viewModel.getEsploraUrl()
-            }
-            .sheet(
-                isPresented: $isSeedPresented
-            ) {
-                SeedView(viewModel: .init())
-                    .presentationDetents([.medium, .large])
-                    .presentationDragIndicator(.visible)
-            }
-
+        }
+        .navigationTitle(String("Settings"))
+        .onAppear {
+            viewModel.getNetwork()
+            viewModel.getEsploraUrl()
+        }
+        .sheet(
+            isPresented: $isSeedPresented
+        ) {
+            SeedView(viewModel: .init())
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
         }
         .alert(isPresented: $viewModel.showingSettingsViewErrorAlert) {
             Alert(
@@ -113,7 +95,6 @@ struct SettingsView: View {
                 }
             )
         }
-
     }
 
 }
