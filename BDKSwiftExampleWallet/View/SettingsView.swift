@@ -15,7 +15,6 @@ struct SettingsView: View {
     @State private var isSeedPresented = false
 
     var body: some View {
-        
         Form {
             Section(header: Text("Network Connection")) {
                 VStack {
@@ -54,7 +53,6 @@ struct SettingsView: View {
                     }
                     Button("No", role: .cancel) {}
                 }
-                
                 Button {
                     showingDeleteSeedConfirmation = true
                 } label: {
