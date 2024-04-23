@@ -16,26 +16,26 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Network Connection")) {
-                VStack {
-                    if let network = viewModel.network, let url = viewModel.esploraURL {
-                        Text("Network: \(network)".uppercased()).bold()
-                        Text(
-                            url.replacingOccurrences(
-                                of: "https://",
-                                with: ""
-                            ).replacingOccurrences(
-                                of: "http://",
-                                with: ""
-                            )
+            Section(header: Text("Network")) {
+                if let network = viewModel.network, let url = viewModel.esploraURL {
+                    Text("\(network)".uppercased())
+                        .foregroundColor(.bitcoinOrange)
+                    Text(
+                        url.replacingOccurrences(
+                            of: "https://",
+                            with: ""
+                        ).replacingOccurrences(
+                            of: "http://",
+                            with: ""
                         )
-                    } else {
-                        HStack {
-                            Text("Disconnected")
-                        }
+                    )
+                    .foregroundColor(.bitcoinOrange)
+                } else {
+                    HStack {
+                        Text("No Network")
                     }
                 }
-                .foregroundColor(.bitcoinOrange)
+
             }
             Section(header: Text("Danger Zone")) {
                 Button {

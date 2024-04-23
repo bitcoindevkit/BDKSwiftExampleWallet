@@ -226,9 +226,6 @@
     "Delete Seed" : {
 
     },
-    "Disconnected" : {
-
-    },
     "Enter address to send BTC to" : {
       "localizations" : {
         "fr" : {
@@ -279,9 +276,6 @@
     "Network" : {
 
     },
-    "Network Connection" : {
-
-    },
     "Next" : {
       "localizations" : {
         "fr" : {
@@ -293,6 +287,9 @@
       }
     },
     "No" : {
+
+    },
+    "No Network" : {
 
     },
     "No Transactions" : {

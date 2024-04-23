@@ -68,7 +68,7 @@ struct WalletView: View {
                         .foregroundColor(.secondary)
                         .font(.subheadline)
                     }
-                    .padding(.top, 20.0)
+                    .padding(.top, 40.0)
                     .padding(.bottom, 20.0)
                     VStack {
                         HStack {
@@ -128,14 +128,6 @@ struct WalletView: View {
                     await viewModel.getPrices()
                 }
 
-            }
-            .toolbar {
-                ToolbarItem {
-                    NavigationLink(destination: SettingsView(viewModel: .init())) {
-                        Image(systemName: "gear")
-                            .foregroundStyle(.gray)
-                    }
-                }
             }
 
         }

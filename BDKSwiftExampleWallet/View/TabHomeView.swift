@@ -28,6 +28,10 @@ struct TabHomeView: View {
                     .tabItem {
                         Image(systemName: "arrow.up")
                     }
+                SettingsView(viewModel: .init())
+                    .tabItem {
+                        Image(systemName: "gear")
+                    }
             }
             .tint(.primary)
             .onAppear {
