@@ -14,7 +14,7 @@ class ReceiveViewModel {
     let bdkClient: BDKClient
 
     var address: String = ""
-    var receiveViewError: Alpha3Error?
+    var receiveViewError: AppError?
     var showingReceiveViewErrorAlert = false
 
     init(bdkClient: BDKClient = .live) {
@@ -26,13 +26,10 @@ class ReceiveViewModel {
             let address = try bdkClient.getAddress()
             self.address = address
         } catch let error as WalletError {
-            self.receiveViewError = .Generic(message: error.localizedDescription)
-            self.showingReceiveViewErrorAlert = true
-        } catch let error as Alpha3Error {
-            self.receiveViewError = .Generic(message: error.description)
+            self.receiveViewError = .generic(message: error.localizedDescription)
             self.showingReceiveViewErrorAlert = true
         } catch {
-            self.receiveViewError = .Generic(message: "Error Getting Address")
+            self.receiveViewError = .generic(message: error.localizedDescription)
             self.showingReceiveViewErrorAlert = true
         }
     }

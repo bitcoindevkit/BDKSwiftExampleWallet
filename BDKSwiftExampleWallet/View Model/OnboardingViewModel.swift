@@ -18,7 +18,7 @@ class OnboardingViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
 
     @Published var networkColor = Color.gray
-    @Published var onboardingViewError: Alpha3Error?
+    @Published var onboardingViewError: AppError?
     @Published var walletCreationError: WalletCreationError?
     @Published var words: String = ""
     @Published var selectedNetwork: Network = .testnet {
@@ -30,7 +30,7 @@ class OnboardingViewModel: ObservableObject {
                 try KeyClient.live.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
-                    self.onboardingViewError = .Generic(message: "Error Selecting Network")
+                    self.onboardingViewError = .generic(message: error.localizedDescription)
                 }
             }
         }
@@ -41,7 +41,7 @@ class OnboardingViewModel: ObservableObject {
                 try KeyClient.live.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
-                    self.onboardingViewError = .Generic(message: "Error Selecting Network")
+                    self.onboardingViewError = .generic(message: error.localizedDescription)
                 }
             }
         }
@@ -88,7 +88,7 @@ class OnboardingViewModel: ObservableObject {
             }
         } catch {
             DispatchQueue.main.async {
-                self.onboardingViewError = .Generic(message: "Error Selecting Esplora")
+                self.onboardingViewError = .generic(message: error.localizedDescription)
             }
         }
     }
@@ -101,7 +101,11 @@ class OnboardingViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.walletCreationError = error
             }
-        } catch {}
+        } catch {
+            DispatchQueue.main.async {
+                self.onboardingViewError = .generic(message: error.localizedDescription)
+            }
+        }
 
     }
 

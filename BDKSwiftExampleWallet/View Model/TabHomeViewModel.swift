@@ -13,7 +13,7 @@ import Foundation
 class TabHomeViewModel: ObservableObject {
     let bdkClient: BDKClient
 
-    var tabViewError: Alpha3Error?
+    var tabViewError: AppError?
     var showingTabViewErrorAlert = false
 
     init(bdkClient: BDKClient = .live) {
@@ -24,13 +24,10 @@ class TabHomeViewModel: ObservableObject {
         do {
             try bdkClient.loadWallet()
         } catch let error as WalletError {
-            self.tabViewError = .Generic(message: error.localizedDescription)
-            self.showingTabViewErrorAlert = true
-        } catch let error as Alpha3Error {
-            self.tabViewError = .Generic(message: error.description)
+            self.tabViewError = .generic(message: error.localizedDescription)
             self.showingTabViewErrorAlert = true
         } catch {
-            self.tabViewError = .Generic(message: "Error Getting Balance")
+            self.tabViewError = .generic(message: error.localizedDescription)
             self.showingTabViewErrorAlert = true
         }
     }

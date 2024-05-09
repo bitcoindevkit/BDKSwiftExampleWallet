@@ -53,6 +53,14 @@ let mockTransaction2: Transaction? = {
         return nil
     }
 }()
+let mockCanonicalTx1 = CanonicalTx(
+    transaction: mockTransaction1!,
+    chainPosition: .confirmed(height: UInt32(210000), timestamp: UInt64(21000))
+)
+let mockCanonicalTx2 = CanonicalTx(
+    transaction: mockTransaction2!,
+    chainPosition: .unconfirmed(timestamp: UInt64(21000))
+)
 
 extension BitcoinDevKit.Transaction {
     var transactionID: String {

@@ -14,25 +14,26 @@ private class BDKService {
     var network: Network
     private var wallet: Wallet?
     private let keyService: KeyClient
+    private let esploraClient: EsploraClient  // TODO: this is new, and it's use can be refactored in this file
 
     init(
         keyService: KeyClient = .live
     ) {
         let storedNetworkString = try! keyService.getNetwork() ?? Network.testnet.description
-        // TODO: this isn't used anymore?
-        let _ =
+        let storedEsploraURL =
             try! keyService.getEsploraURL()
             ?? Constants.Config.EsploraServerURLNetwork.Testnet.mempoolspace
 
         self.network = Network(stringValue: storedNetworkString) ?? .testnet
         self.keyService = keyService
+        self.esploraClient = EsploraClient(url: storedEsploraURL)
     }
 
     func getAddress() throws -> String {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        let addressInfo = wallet.getAddress(addressIndex: .new)
+        let addressInfo = try wallet.revealNextAddress(keychain: .external)
         return addressInfo.address.asString()
     }
 
@@ -42,7 +43,7 @@ private class BDKService {
         return balance
     }
 
-    func transactions() throws -> [Transaction] {
+    func transactions() throws -> [CanonicalTx] {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
@@ -137,7 +138,7 @@ private class BDKService {
         return backupInfo
     }
 
-    func send(address: String, amount: UInt64, feeRate: Float?) throws {
+    func send(address: String, amount: UInt64, feeRate: UInt64) throws {
         let txBuilder = try buildTransaction(address: address, amount: amount, feeRate: feeRate)
         try signAndBroadcast(psbt: txBuilder)
     }
@@ -145,7 +146,7 @@ private class BDKService {
     func send(
         address: String,
         amount: UInt64,
-        feeRate: Float?
+        feeRate: UInt64
     ) async throws {
         let psbt = try buildTransaction(
             address: address,
@@ -155,33 +156,33 @@ private class BDKService {
         try signAndBroadcast(psbt: psbt)
     }
 
-    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws
-        -> PartiallySignedTransaction
+    func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws
+        -> Psbt
     {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let script = try Address(address: address, network: self.network)
             .scriptPubkey()
         let txBuilder = try TxBuilder()
             .addRecipient(script: script, amount: amount)
-            .feeRate(feeRate: FeeRate.fromSatPerVb(satPerVb: feeRate ?? 1.0))
+            .feeRate(feeRate: FeeRate.fromSatPerVb(satPerVb: feeRate))
             .finish(wallet: wallet)
         return txBuilder
     }
 
-    private func signAndBroadcast(psbt: PartiallySignedTransaction) throws {
+    private func signAndBroadcast(psbt: Psbt) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let _ = try wallet.sign(psbt: psbt)
-        let transaction = psbt.extractTx()
-        let client = EsploraClient(url: "https://mutinynet.com/api")
+        let transaction = try psbt.extractTx()
+        let client = self.esploraClient
         try client.broadcast(transaction: transaction)
     }
 
     func sync() async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let esploraClient = EsploraClient(url: "https://mutinynet.com/api")
-        let syncRequest = wallet.syncRevealedSpksRequest()
+        let esploraClient = self.esploraClient
+        let syncRequest = wallet.startSyncWithRevealedSpks()
         let update = try esploraClient.sync(
-            request: syncRequest,
+            syncRequest: syncRequest,
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
@@ -193,10 +194,10 @@ private class BDKService {
 
     func fullScan() async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let esploraClient = EsploraClient(url: "https://mutinynet.com/api")
-        let fullScanRequest = wallet.fullScanRequest()
+        let esploraClient = esploraClient
+        let fullScanRequest = wallet.startFullScan()
         let update = try esploraClient.fullScan(
-            request: fullScanRequest,
+            fullScanRequest: fullScanRequest,
             stopGap: UInt64(150),  // should we default value this for folks?
             parallelRequests: UInt64(5)  // should we default value this for folks?
         )
@@ -215,12 +216,12 @@ private class BDKService {
         return fee
     }
 
-    func calculateFeeRate(tx: Transaction) throws -> Float {
+    func calculateFeeRate(tx: Transaction) throws -> UInt64 {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
         let feeRate = try wallet.calculateFeeRate(tx: tx)
-        return feeRate.asSatPerVb()
+        return feeRate.toSatPerVbCeil()  // TODO: is this the right method to use on feerate?
     }
 
     func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
@@ -238,15 +239,15 @@ struct BDKClient {
     let deleteWallet: () throws -> Void
     let createWallet: (String?) throws -> Void
     let getBalance: () throws -> Balance
-    let transactions: () throws -> [Transaction]
+    let transactions: () throws -> [CanonicalTx]
     let sync: () async throws -> Void
     let fullScan: () async throws -> Void
     let getAddress: () throws -> String
-    let send: (String, UInt64, Float?) throws -> Void
+    let send: (String, UInt64, UInt64) throws -> Void
     let calculateFee: (Transaction) throws -> UInt64
-    let calculateFeeRate: (Transaction) throws -> Float
+    let calculateFeeRate: (Transaction) throws -> UInt64
     let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
-    let buildTransaction: (String, UInt64, Float?) throws -> PartiallySignedTransaction
+    let buildTransaction: (String, UInt64, UInt64) throws -> Psbt
     let getBackupInfo: () throws -> BackupInfo
 }
 
@@ -289,14 +290,18 @@ extension BDKClient {
             transactions: {
                 let mockData: [UInt8] = [0x01, 0x02, 0x03]
                 let mockTransaction = try Transaction(transactionBytes: mockData)
-                return [mockTransaction]
+                let mockCanonicalTx = CanonicalTx(
+                    transaction: mockTransaction,
+                    chainPosition: .confirmed(height: UInt32(210000), timestamp: UInt64(21000))
+                )
+                return [mockCanonicalTx]
             },
             sync: {},
             fullScan: {},
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
             calculateFee: { _ in return UInt64(615) },
-            calculateFeeRate: { _ in return Float(6.15) },
+            calculateFeeRate: { _ in return UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(sent: UInt64(615), received: UInt64(21))
             },
@@ -304,7 +309,7 @@ extension BDKClient {
                 let pb64 = """
                     cHNidP8BAIkBAAAAAeaWcxp4/+xSRJ2rhkpUJ+jQclqocoyuJ/ulSZEgEkaoAQAAAAD+////Ak/cDgAAAAAAIlEgqxShDO8ifAouGyRHTFxWnTjpY69Cssr3IoNQvMYOKG/OVgAAAAAAACJRIGnlvMwBz4Ylb6xLTe5g4ZeZCxmVH/XWG+CDlcPzzaoT8qoGAAABAStAQg8AAAAAACJRIFGGvSoLWt3hRAIwYa8KEyawiFTXoOCVWFxYtSofZuAsIRZ2b8YiEpzexWYGt8B5EqLM8BE4qxJY3pkiGw/8zOZGYxkAvh7sj1YAAIABAACAAAAAgAAAAAAEAAAAARcgdm/GIhKc3sVmBrfAeRKizPAROKsSWN6ZIhsP/MzmRmMAAQUge7cvJMsJmR56NzObGOGkm8vNqaAIJdnBXLZD2PvrinIhB3u3LyTLCZkeejczmxjhpJvLzamgCCXZwVy2Q9j764pyGQC+HuyPVgAAgAEAAIAAAACAAQAAAAYAAAAAAQUgtIFPrI2EW/+PJiAmYdmux88p0KgeAxDFLMoeQoS66hIhB7SBT6yNhFv/jyYgJmHZrsfPKdCoHgMQxSzKHkKEuuoSGQC+HuyPVgAAgAEAAIAAAACAAAAAAAIAAAAA
                     """
-                return try! PartiallySignedTransaction(psbtBase64: pb64)
+                return try! Psbt(psbtBase64: pb64)
             },
             getBackupInfo: {
                 BackupInfo(

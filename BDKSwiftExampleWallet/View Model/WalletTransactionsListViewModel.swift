@@ -12,7 +12,7 @@ import Foundation
 @Observable
 class WalletTransactionsListViewModel {
     let bdkClient: BDKClient
-    var walletTransactionsViewError: Alpha3Error?
+    var walletTransactionsViewError: AppError?
     var showingWalletTransactionsViewErrorAlert = false
 
     init(
@@ -25,12 +25,8 @@ class WalletTransactionsListViewModel {
         do {
             let sentAndReceived = try bdkClient.sentAndReceived(tx)
             return sentAndReceived
-        } catch let error as Alpha3Error {
-            self.walletTransactionsViewError = error
-            self.showingWalletTransactionsViewErrorAlert = true
-            return nil
         } catch {
-            self.walletTransactionsViewError = Alpha3Error.Generic(
+            self.walletTransactionsViewError = .generic(
                 message: error.localizedDescription
             )
             self.showingWalletTransactionsViewErrorAlert = true

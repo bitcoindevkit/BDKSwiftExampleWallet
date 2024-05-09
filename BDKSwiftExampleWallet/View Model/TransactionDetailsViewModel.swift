@@ -17,7 +17,7 @@ class TransactionDetailsViewModel: ObservableObject {
 
     @Published var esploraError: EsploraError?
     @Published var calculateFeeError: CalculateFeeError?
-    @Published var transactionDetailsError: Alpha3Error?
+    @Published var transactionDetailsError: AppError?
 
     @Published var showingTransactionDetailsViewErrorAlert = false
     @Published var calculateFee: String?
@@ -33,11 +33,11 @@ class TransactionDetailsViewModel: ObservableObject {
     func getNetwork() {
         do {
             self.network = try keyClient.getNetwork()
-        } catch let error as Alpha3Error {
+        } catch {
             DispatchQueue.main.async {
-                self.transactionDetailsError = .Generic(message: error.localizedDescription)
+                self.transactionDetailsError = .generic(message: error.localizedDescription)
             }
-        } catch {}
+        }
     }
 
     func getEsploraUrl() {
@@ -59,12 +59,12 @@ class TransactionDetailsViewModel: ObservableObject {
         do {
             let sentAndReceived = try bdkClient.sentAndReceived(tx)
             return sentAndReceived
-        } catch let error as Alpha3Error {
+        } catch {
             DispatchQueue.main.async {
-                self.transactionDetailsError = .Generic(message: error.localizedDescription)
+                self.transactionDetailsError = .generic(message: error.localizedDescription)
             }
             return nil
-        } catch { return nil }
+        }
     }
 
     func getCalulateFee(tx: BitcoinDevKit.Transaction) {

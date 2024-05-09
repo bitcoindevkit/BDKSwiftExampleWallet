@@ -17,14 +17,14 @@ class WalletViewModel {
 
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
-    var transactions: [Transaction] = []
+    var transactions: [CanonicalTx] = []
     var price: Double = 0.00
     var time: Int?
     var satsPrice: String {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
-    var walletViewError: Alpha3Error?
+    var walletViewError: AppError?
     var showingWalletViewErrorAlert = false
 
     init(
@@ -41,7 +41,7 @@ class WalletViewModel {
             self.price = price.usd
             self.time = price.time
         } catch {
-            self.walletViewError = .Generic(message: "Error Getting Prices")
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         }
     }
@@ -51,13 +51,10 @@ class WalletViewModel {
             let balance = try bdkClient.getBalance()
             self.balanceTotal = balance.total
         } catch let error as WalletError {
-            self.walletViewError = .Generic(message: error.localizedDescription)
-            self.showingWalletViewErrorAlert = true
-        } catch let error as Alpha3Error {
-            self.walletViewError = .Generic(message: error.description)
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch {
-            self.walletViewError = .Generic(message: "Error Getting Balance")
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         }
     }
@@ -67,13 +64,10 @@ class WalletViewModel {
             let transactionDetails = try bdkClient.transactions()
             self.transactions = transactionDetails
         } catch let error as WalletError {
-            self.walletViewError = .Generic(message: error.localizedDescription)
-            self.showingWalletViewErrorAlert = true
-        } catch let error as Alpha3Error {
-            self.walletViewError = .Generic(message: error.description)
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch {
-            self.walletViewError = .Generic(message: "Error Getting Transactions")
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         }
     }

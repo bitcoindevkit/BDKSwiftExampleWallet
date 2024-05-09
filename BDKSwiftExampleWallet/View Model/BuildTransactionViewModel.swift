@@ -13,8 +13,8 @@ import Foundation
 class BuildTransactionViewModel {
     let bdkClient: BDKClient
 
-    var psbt: PartiallySignedTransaction?
-    var buildTransactionViewError: Alpha3Error?
+    var psbt: Psbt?
+    var buildTransactionViewError: AppError?
     var showingBuildTransactionViewErrorAlert = false
     var calculateFee: String?
 
@@ -24,23 +24,20 @@ class BuildTransactionViewModel {
         self.bdkClient = bdkClient
     }
 
-    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) {
+    func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) {
         do {
             let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
             self.psbt = txBuilderResult
         } catch let error as WalletError {
-            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
-            self.showingBuildTransactionViewErrorAlert = true
-        } catch let error as Alpha3Error {
-            self.buildTransactionViewError = .Generic(message: error.description)
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
         } catch {
-            self.buildTransactionViewError = .Generic(message: "Error Building Transaction")
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
         }
     }
 
-    func send(address: String, amount: UInt64, feeRate: Float?) {
+    func send(address: String, amount: UInt64, feeRate: UInt64) {
         do {
             try bdkClient.send(address, amount, feeRate)
             NotificationCenter.default.post(
@@ -48,13 +45,10 @@ class BuildTransactionViewModel {
                 object: nil
             )
         } catch let error as WalletError {
-            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
-            self.showingBuildTransactionViewErrorAlert = true
-        } catch let error as Alpha3Error {
-            self.buildTransactionViewError = .Generic(message: error.description)
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
         } catch {
-            self.buildTransactionViewError = .Generic(message: "Error Sending")
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
         }
     }
@@ -64,16 +58,10 @@ class BuildTransactionViewModel {
             let calculateFee = try bdkClient.calculateFee(tx)
             let feeString = String(calculateFee)
             self.calculateFee = feeString
-        } catch _ as Alpha3Error {
-            DispatchQueue.main.async {
-                self.buildTransactionViewError = Alpha3Error.Generic(
-                    message: "Could not get esplora"
-                )
-            }
         } catch {
             DispatchQueue.main.async {
-                self.buildTransactionViewError = Alpha3Error.Generic(
-                    message: "Could not get esplora"
+                self.buildTransactionViewError = .generic(
+                    message: error.localizedDescription
                 )
             }
         }

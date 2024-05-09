@@ -15,7 +15,7 @@ class FeeViewModel {
     let bdkClient: BDKClient
 
     var recommendedFees: RecommendedFees?
-    var feeViewError: Alpha3Error?
+    var feeViewError: AppError?
     var showingFeeViewErrorAlert = false
     var selectedFeeIndex: Int = 2
     var selectedFee: Int? {
@@ -47,7 +47,7 @@ class FeeViewModel {
             let recommendedFees = try await feeClient.fetchFees()
             self.recommendedFees = recommendedFees
         } catch {
-            self.feeViewError = .Generic(message: "Error Getting Fees")
+            self.feeViewError = .generic(message: error.localizedDescription)
             self.showingFeeViewErrorAlert = true
         }
     }
