@@ -22,7 +22,7 @@ extension CalculateFeeError {
 extension CannotConnectError {
     var description: String {
         switch self {
-        case .Include(height: let height):
+        case .Include(let height):
             return "Include height \(height)"
         }
     }
@@ -39,21 +39,21 @@ extension DescriptorError {
             return "HardenedDerivationXpub"
         case .MultiPath:
             return "MultiPath"
-        case .Key(errorMessage: let errorMessage):
+        case .Key(let errorMessage):
             return errorMessage
-        case .Policy(errorMessage: let errorMessage):
+        case .Policy(let errorMessage):
             return errorMessage
-        case .InvalidDescriptorCharacter(char: let char):
+        case .InvalidDescriptorCharacter(let char):
             return char
-        case .Bip32(errorMessage: let errorMessage):
+        case .Bip32(let errorMessage):
             return errorMessage
-        case .Base58(errorMessage: let errorMessage):
+        case .Base58(let errorMessage):
             return errorMessage
-        case .Pk(errorMessage: let errorMessage):
+        case .Pk(let errorMessage):
             return errorMessage
-        case .Miniscript(errorMessage: let errorMessage):
+        case .Miniscript(let errorMessage):
             return errorMessage
-        case .Hex(errorMessage: let errorMessage):
+        case .Hex(let errorMessage):
             return errorMessage
         }
     }
@@ -95,7 +95,7 @@ extension EsploraError {
 extension PersistenceError {
     var description: String {
         switch self {
-        case .Write(errorMessage: let errorMessage):
+        case .Write(let errorMessage):
             return "Write \(errorMessage)"
         }
     }
@@ -126,11 +126,11 @@ extension SignerError {
             return "NonStandardSighash"
         case .InvalidSighash:
             return "InvalidSighash"
-        case .SighashError(errorMessage: let errorMessage):
+        case .SighashError(let errorMessage):
             return errorMessage
-        case .MiniscriptPsbt(errorMessage: let errorMessage):
+        case .MiniscriptPsbt(let errorMessage):
             return errorMessage
-        case .External(errorMessage: let errorMessage):
+        case .External(let errorMessage):
             return errorMessage
         }
     }

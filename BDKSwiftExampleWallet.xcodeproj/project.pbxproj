@@ -28,13 +28,13 @@
 		AE2F255D2BED0BFB002A9AC6 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2F255C2BED0BFB002A9AC6 /* AppError.swift */; };
 		AE34DDAC2B6B31ED00F04AD4 /* SeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE34DDAB2B6B31ED00F04AD4 /* SeedView.swift */; };
 		AE34DDAE2B6B320F00F04AD4 /* SeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE34DDAD2B6B320F00F04AD4 /* SeedViewModel.swift */; };
+		AE3646262BEDB01200B04E25 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3646252BEDB01200B04E25 /* FileManager+Extensions.swift */; };
 		AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */; };
 		AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */; };
 		AE4984802A1BBBD7009951E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE49847F2A1BBBD7009951E2 /* Assets.xcassets */; };
 		AE4984832A1BBBD7009951E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE4984822A1BBBD7009951E2 /* Preview Assets.xcassets */; };
 		AE49848D2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE49848C2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift */; };
 		AE4984A62A1BBCB8009951E2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AE4984A52A1BBCB8009951E2 /* README.md */; };
-		AE569F592B9256C3000D52A3 /* BitcoinStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE569F582B9256C3000D52A3 /* BitcoinStorage.swift */; };
 		AE6715FA2A9A9220005C193F /* BDKSwiftExampleWalletPriceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6715F92A9A9220005C193F /* BDKSwiftExampleWalletPriceServiceTests.swift */; };
 		AE6715FD2A9AC056005C193F /* PriceServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6715FC2A9AC056005C193F /* PriceServiceError.swift */; };
 		AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6715FE2A9AC066005C193F /* FeeServiceError.swift */; };
@@ -109,6 +109,7 @@
 		AE2F255C2BED0BFB002A9AC6 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		AE34DDAB2B6B31ED00F04AD4 /* SeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedView.swift; sourceTree = "<group>"; };
 		AE34DDAD2B6B320F00F04AD4 /* SeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedViewModel.swift; sourceTree = "<group>"; };
+		AE3646252BEDB01200B04E25 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
 		AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHomeView.swift; sourceTree = "<group>"; };
 		AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BDKSwiftExampleWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletApp.swift; sourceTree = "<group>"; };
@@ -117,7 +118,6 @@
 		AE4984882A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BDKSwiftExampleWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE49848C2A1BBBD8009951E2 /* BDKSwiftExampleWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletTests.swift; sourceTree = "<group>"; };
 		AE4984A52A1BBCB8009951E2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		AE569F582B9256C3000D52A3 /* BitcoinStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinStorage.swift; sourceTree = "<group>"; };
 		AE6715F92A9A9220005C193F /* BDKSwiftExampleWalletPriceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletPriceServiceTests.swift; sourceTree = "<group>"; };
 		AE6715FC2A9AC056005C193F /* PriceServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceServiceError.swift; sourceTree = "<group>"; };
 		AE6715FE2A9AC066005C193F /* FeeServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeServiceError.swift; sourceTree = "<group>"; };
@@ -209,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				AE18E9372A9528200019D2A4 /* Bundle+Extensions.swift */,
+				AE3646252BEDB01200B04E25 /* FileManager+Extensions.swift */,
 				A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */,
 				AE783A042AB4F51F005F0CBA /* String+Extensions.swift */,
 				AEE6C74D2ABCB48600442ADD /* BDK+Extensions */,
@@ -240,7 +241,6 @@
 			isa = PBXGroup;
 			children = (
 				AE79538D2A2D59F000CCB277 /* Constants.swift */,
-				AE569F582B9256C3000D52A3 /* BitcoinStorage.swift */,
 				AE2F255C2BED0BFB002A9AC6 /* AppError.swift */,
 			);
 			path = Utilities;
@@ -552,6 +552,7 @@
 				AEAB03132ABDDBF4000C9528 /* AmountViewModel.swift in Sources */,
 				AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */,
 				AEA9BEB32AA8081800C523CA /* BDKError+Extensions.swift in Sources */,
+				AE3646262BEDB01200B04E25 /* FileManager+Extensions.swift in Sources */,
 				AEB6C9D12B7E8529003AD704 /* TransactionDetailsViewModel.swift in Sources */,
 				AE18E9382A9528200019D2A4 /* Bundle+Extensions.swift in Sources */,
 				AE79538E2A2D59F000CCB277 /* Constants.swift in Sources */,
@@ -576,7 +577,6 @@
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
-				AE569F592B9256C3000D52A3 /* BitcoinStorage.swift in Sources */,
 				AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */,
 				AE783A052AB4F51F005F0CBA /* String+Extensions.swift in Sources */,
 				AE29ED112BBE318A00EB9C4F /* WalletTransactionsListItemView.swift in Sources */,

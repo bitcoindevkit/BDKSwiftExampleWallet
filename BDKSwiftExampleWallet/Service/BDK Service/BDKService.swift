@@ -89,7 +89,7 @@ private class BDKService {
         try keyService.saveNetwork(self.network.description)
         try keyService.saveEsploraURL(baseUrl)
 
-        let documentsDirectoryURL = BitcoinStorage().getDocumentsDirectory()
+        let documentsDirectoryURL = FileManager.default.getDocumentsDirectoryPath()
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
         let persistenceBackendPath = walletDataDirectoryURL.path
         let wallet = try Wallet(
@@ -102,7 +102,7 @@ private class BDKService {
     }
 
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
-        let documentsDirectoryURL = BitcoinStorage().getDocumentsDirectory()
+        let documentsDirectoryURL = FileManager.default.getDocumentsDirectoryPath()
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
         let persistenceBackendPath = walletDataDirectoryURL.path
         let wallet = try Wallet(
