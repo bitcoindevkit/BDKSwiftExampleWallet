@@ -23,7 +23,10 @@ class TabHomeViewModel: ObservableObject {
     func loadWallet() {
         do {
             try bdkClient.loadWallet()
-        } catch let error as WalletError {
+        } catch let error as DescriptorError {
+            self.tabViewError = .generic(message: error.localizedDescription)
+            self.showingTabViewErrorAlert = true
+        } catch let error as WalletCreationError {
             self.tabViewError = .generic(message: error.localizedDescription)
             self.showingTabViewErrorAlert = true
         } catch {

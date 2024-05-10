@@ -25,7 +25,7 @@ class ReceiveViewModel {
         do {
             let address = try bdkClient.getAddress()
             self.address = address
-        } catch let error as WalletError {
+        } catch let error as PersistenceError {
             self.receiveViewError = .generic(message: error.localizedDescription)
             self.showingReceiveViewErrorAlert = true
         } catch {

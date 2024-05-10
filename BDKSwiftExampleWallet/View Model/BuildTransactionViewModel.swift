@@ -44,6 +44,12 @@ class BuildTransactionViewModel {
                 name: Notification.Name("TransactionSent"),
                 object: nil
             )
+        } catch let error as EsploraError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
+            self.showingBuildTransactionViewErrorAlert = true
+        } catch let error as SignerError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
+            self.showingBuildTransactionViewErrorAlert = true
         } catch let error as WalletError {
             self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
@@ -58,12 +64,10 @@ class BuildTransactionViewModel {
             let calculateFee = try bdkClient.calculateFee(tx)
             let feeString = String(calculateFee)
             self.calculateFee = feeString
+        } catch let error as CalculateFeeError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
         } catch {
-            DispatchQueue.main.async {
-                self.buildTransactionViewError = .generic(
-                    message: error.localizedDescription
-                )
-            }
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
         }
 
     }

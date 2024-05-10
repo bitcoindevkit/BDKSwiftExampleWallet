@@ -138,11 +138,6 @@ private class BDKService {
         return backupInfo
     }
 
-    func send(address: String, amount: UInt64, feeRate: UInt64) throws {
-        let txBuilder = try buildTransaction(address: address, amount: amount, feeRate: feeRate)
-        try signAndBroadcast(psbt: txBuilder)
-    }
-
     func send(
         address: String,
         amount: UInt64,
@@ -192,6 +187,7 @@ private class BDKService {
         self.wallet = wallet
     }
 
+    // TODO: use this
     func fullScan() async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let esploraClient = esploraClient

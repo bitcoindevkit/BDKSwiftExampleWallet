@@ -77,6 +77,15 @@ class WalletViewModel {
         do {
             try await bdkClient.sync()
             self.walletSyncState = .synced
+        } catch let error as CannotConnectError {
+            self.walletViewError = .generic(message: error.localizedDescription)
+            self.showingWalletViewErrorAlert = true
+        } catch let error as EsploraError {
+            self.walletViewError = .generic(message: error.localizedDescription)
+            self.showingWalletViewErrorAlert = true
+        } catch let error as PersistenceError {
+            self.walletViewError = .generic(message: error.localizedDescription)
+            self.showingWalletViewErrorAlert = true
         } catch {
             self.walletSyncState = .error(error)
             self.showingWalletViewErrorAlert = true

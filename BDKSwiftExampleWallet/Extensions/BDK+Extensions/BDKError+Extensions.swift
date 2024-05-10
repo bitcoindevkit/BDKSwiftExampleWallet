@@ -19,6 +19,46 @@ extension CalculateFeeError {
     }
 }
 
+extension CannotConnectError {
+    var description: String {
+        switch self {
+        case .Include(height: let height):
+            return "Include height \(height)"
+        }
+    }
+}
+
+extension DescriptorError {
+    var description: String {
+        switch self {
+        case .InvalidHdKeyPath:
+            return "InvalidHdKeyPath"
+        case .InvalidDescriptorChecksum:
+            return "InvalidDescriptorChecksum"
+        case .HardenedDerivationXpub:
+            return "HardenedDerivationXpub"
+        case .MultiPath:
+            return "MultiPath"
+        case .Key(errorMessage: let errorMessage):
+            return errorMessage
+        case .Policy(errorMessage: let errorMessage):
+            return errorMessage
+        case .InvalidDescriptorCharacter(char: let char):
+            return char
+        case .Bip32(errorMessage: let errorMessage):
+            return errorMessage
+        case .Base58(errorMessage: let errorMessage):
+            return errorMessage
+        case .Pk(errorMessage: let errorMessage):
+            return errorMessage
+        case .Miniscript(errorMessage: let errorMessage):
+            return errorMessage
+        case .Hex(errorMessage: let errorMessage):
+            return errorMessage
+        }
+    }
+}
+
 extension EsploraError {
     var description: String {
         switch self {
@@ -48,6 +88,50 @@ extension EsploraError {
             return value
         case .RequestAlreadyConsumed:
             return "Request Already Consumed."
+        }
+    }
+}
+
+extension PersistenceError {
+    var description: String {
+        switch self {
+        case .Write(errorMessage: let errorMessage):
+            return "Write \(errorMessage)"
+        }
+    }
+}
+
+extension SignerError {
+    var description: String {
+        switch self {
+        case .MissingKey:
+            return "MissingKey"
+        case .InvalidKey:
+            return "InvalidKey"
+        case .UserCanceled:
+            return "UserCanceled"
+        case .InputIndexOutOfRange:
+            return "InputIndexOutOfRange"
+        case .MissingNonWitnessUtxo:
+            return "MissingNonWitnessUtxo"
+        case .InvalidNonWitnessUtxo:
+            return "InvalidNonWitnessUtxo"
+        case .MissingWitnessUtxo:
+            return "MissingWitnessUtxo"
+        case .MissingWitnessScript:
+            return "MissingWitnessScript"
+        case .MissingHdKeypath:
+            return "MissingHdKeypath"
+        case .NonStandardSighash:
+            return "NonStandardSighash"
+        case .InvalidSighash:
+            return "InvalidSighash"
+        case .SighashError(errorMessage: let errorMessage):
+            return errorMessage
+        case .MiniscriptPsbt(errorMessage: let errorMessage):
+            return errorMessage
+        case .External(errorMessage: let errorMessage):
+            return errorMessage
         }
     }
 }
