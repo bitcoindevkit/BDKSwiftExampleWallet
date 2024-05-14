@@ -153,6 +153,9 @@ extension WalletCreationError {
             return "got: \(String(describing: got)), expected \(expected)"
         case .Persist(let errorMessage):
             return errorMessage
+        case .LoadedDescriptorDoesNotMatch(got: let got, keychain: let keychain):
+            return "got: \(String(describing: got)), keychain \(keychain)"
+
         }
     }
 }

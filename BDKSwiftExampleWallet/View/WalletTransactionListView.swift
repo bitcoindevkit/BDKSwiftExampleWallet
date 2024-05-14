@@ -20,8 +20,8 @@ struct WalletTransactionListView: View {
             if transactions.isEmpty && walletSyncState == .syncing {
                 WalletTransactionsListItemView(
                     sentAndReceivedValues: .init(
-                        sent: UInt64(0),
-                        received: UInt64(0)
+                        sent: Amount.fromSat(fromSat: UInt64(0)),
+                        received: Amount.fromSat(fromSat: UInt64(0))
                     ),
                     transaction:
                         mockTransaction1!,
@@ -47,9 +47,9 @@ struct WalletTransactionListView: View {
                             destination: TransactionDetailsView(
                                 viewModel: .init(),
                                 transaction: tx,
-                                amount: sentAndReceivedValues.sent == 0
-                                    && sentAndReceivedValues.received > 0
-                                    ? sentAndReceivedValues.received : sentAndReceivedValues.sent
+                                amount: sentAndReceivedValues.sent.toSat() == 0
+                                && sentAndReceivedValues.received.toSat() > 0
+                                ? sentAndReceivedValues.received.toSat() : sentAndReceivedValues.sent.toSat()
                             )
                         ) {
                             WalletTransactionsListItemView(

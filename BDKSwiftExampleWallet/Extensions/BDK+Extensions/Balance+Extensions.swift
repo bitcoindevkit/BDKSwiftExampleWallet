@@ -10,20 +10,20 @@ import Foundation
 
 #if DEBUG
     let mockBalance = Balance(
-        immature: UInt64(1),
-        trustedPending: UInt64(1),
-        untrustedPending: UInt64(1),
-        confirmed: UInt64(1),
-        trustedSpendable: UInt64(1),
-        total: UInt64(1000)
+        immature: Amount.fromSat(fromSat: UInt64(1)),
+        trustedPending: Amount.fromSat(fromSat: UInt64(1)),
+        untrustedPending: Amount.fromSat(fromSat: UInt64(1)),
+        confirmed: Amount.fromSat(fromSat: UInt64(1)),
+        trustedSpendable: Amount.fromSat(fromSat: UInt64(1)),
+        total: Amount.fromSat(fromSat: UInt64(1000))
     )
 
     let mockBalanceZero = Balance(
-        immature: UInt64(0),
-        trustedPending: UInt64(0),
-        untrustedPending: UInt64(0),
-        confirmed: UInt64(1),
-        trustedSpendable: UInt64(1),
-        total: UInt64(1000)
+        immature: Amount.fromSat(fromSat: UInt64(0)),
+        trustedPending: Amount.fromSat(fromSat: UInt64(0)),
+        untrustedPending: Amount.fromSat(fromSat: UInt64(0)),
+        confirmed: Amount.fromSat(fromSat: UInt64(1)),
+        trustedSpendable: Amount.fromSat(fromSat: UInt64(1)),
+        total: Amount.fromSat(fromSat: UInt64(1000))
     )
 #endif

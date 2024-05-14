@@ -32,9 +32,9 @@ struct TransactionDetailsView: View {
                     if let value = sentAndReceivedValues {
                         let sent = value.sent
                         let received = value.received
-                        if sent == 0 && received > 0 {
+                        if sent.toSat() == 0 && received.toSat() > 0 {
                             Text("Receive")
-                        } else if sent > 0 && received >= 0 {
+                        } else if sent.toSat() > 0 && received.toSat() >= 0 {
                             Text("Send")
                         } else {
                             Text("?")

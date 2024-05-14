@@ -49,7 +49,7 @@ class WalletViewModel {
     func getBalance() {
         do {
             let balance = try bdkClient.getBalance()
-            self.balanceTotal = balance.total
+            self.balanceTotal = balance.total.toSat()
         } catch let error as WalletError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true

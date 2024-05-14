@@ -25,8 +25,8 @@ class AmountViewModel {
     func getBalance() {
         do {
             let balance = try bdkClient.getBalance()
-            self.balanceTotal = balance.total
-            self.balanceConfirmed = balance.confirmed
+            self.balanceTotal = balance.total.toSat()
+            self.balanceConfirmed = balance.confirmed.toSat()
         } catch let error as WalletError {
             self.amountViewError = .generic(message: error.localizedDescription)
             self.showingAmountViewErrorAlert = true

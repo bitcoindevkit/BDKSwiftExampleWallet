@@ -31,8 +31,8 @@ struct WalletTransactionsListItemView: View {
             } else {
                 Image(
                     systemName:
-                        sentAndReceivedValues.sent == 0
-                        && sentAndReceivedValues.received > 0
+                        sentAndReceivedValues.sent.toSat() == 0
+                    && sentAndReceivedValues.received.toSat() > 0
                         ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
                 )
                 .font(.largeTitle)
@@ -63,10 +63,10 @@ struct WalletTransactionsListItemView: View {
             Spacer()
 
             Text(
-                sentAndReceivedValues.sent == 0
-                    && sentAndReceivedValues.received > 0
-                    ? "+ \(sentAndReceivedValues.received) sats"
-                    : "- \(sentAndReceivedValues.sent - sentAndReceivedValues.received) sats"
+                sentAndReceivedValues.sent.toSat() == 0
+                && sentAndReceivedValues.received.toSat() > 0
+                ? "+ \(sentAndReceivedValues.received.toSat()) sats"
+                : "- \(sentAndReceivedValues.sent.toSat() - sentAndReceivedValues.received.toSat()) sats"
 
             )
             .font(.subheadline)
@@ -87,8 +87,8 @@ struct WalletTransactionsListItemView: View {
     #Preview {
         WalletTransactionsListItemView(
             sentAndReceivedValues: SentAndReceivedValues.init(
-                sent: UInt64(100),
-                received: UInt64(200)
+                sent: Amount.fromSat(fromSat: UInt64(100)),
+                received: Amount.fromSat(fromSat: UInt64(200))
             ),
             transaction: mockTransaction1!,
             isRedacted: false
