@@ -103,7 +103,7 @@
     },
     "12 Word Seed Phrase (Optional)" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Phrase de semence de 12 mots (facultatif)"
@@ -123,7 +123,7 @@
     },
     "A simple bitcoin wallet." : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Un portefeuille bitcoin simple."
@@ -153,7 +153,7 @@
     },
     "Amount Error" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de montant"
@@ -163,7 +163,7 @@
     },
     "Are you sure you want to delete the seed?" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Êtes-vous sûr de vouloir supprimer la semence ?"
@@ -173,7 +173,7 @@
     },
     "Are you sure you want to view the seed?" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Êtes-vous sûr de vouloir voir la semence ?"
@@ -203,17 +203,17 @@
     },
     "Build Transaction Error" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erreur lors de la création de la transaction"
+            "value" : "Erreur de construction de transaction"
           }
         }
       }
     },
     "Choose your Network." : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choisissez votre réseau."
@@ -243,7 +243,7 @@
     },
     "Copy" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copier"
@@ -252,11 +252,18 @@
       }
     },
     "Create Wallet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer un portefeuille"
+          }
+        }
+      }
     },
     "Danger Zone" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zone dangereuse"
@@ -266,7 +273,7 @@
     },
     "Delete Seed" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer la semence"
@@ -286,7 +293,7 @@
     },
     "Esplora Server" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Serveur Esplora"
@@ -306,7 +313,7 @@
     },
     "Fee Error" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de frais"
@@ -326,7 +333,7 @@
     },
     "Network" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réseau"
@@ -346,7 +353,7 @@
     },
     "No" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Non"
@@ -356,7 +363,7 @@
     },
     "No Network" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucun réseau"
@@ -376,7 +383,7 @@
     },
     "OK" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -386,7 +393,7 @@
     },
     "Onboarding Error" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur d'intégration"
@@ -416,7 +423,7 @@
     },
     "Receive Error" : {
       "localizations" : {
-        "en" : {
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de réception"
@@ -425,7 +432,14 @@
       }
     },
     "Regtest" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regtest"
+          }
+        }
+      }
     },
     "sat/vb" : {
       "localizations" : {
@@ -469,16 +483,44 @@
       }
     },
     "Settings Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur des paramètres"
+          }
+        }
+      }
     },
     "Show Seed" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la graine"
+          }
+        }
+      }
     },
     "Showing Seed Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur d’affichage de la graine"
+          }
+        }
+      }
     },
     "Signet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signet"
+          }
+        }
+      }
     },
     "Syncing" : {
       "extractionState" : "manual",
@@ -492,10 +534,24 @@
       }
     },
     "TabView Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de TabView"
+          }
+        }
+      }
     },
     "Testnet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testnet"
+          }
+        }
+      }
     },
     "To" : {
       "localizations" : {
@@ -559,10 +615,24 @@
       }
     },
     "Wallet Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur du portefeuille"
+          }
+        }
+      }
     },
     "Yes" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oui"
+          }
+        }
+      }
     },
     "Your wallet, your coins" : {
       "localizations" : {
