@@ -238,6 +238,9 @@
     "Create Wallet" : {
 
     },
+    "Current Progress: %@" : {
+
+    },
     "Danger Zone" : {
 
     },
@@ -291,6 +294,9 @@
         }
       }
     },
+    "Inspected: %llu" : {
+
+    },
     "Network" : {
 
     },
@@ -321,6 +327,9 @@
 
     },
     "Onboarding Error" : {
+
+    },
+    "Progress" : {
 
     },
     "Receive" : {
@@ -448,6 +457,9 @@
           }
         }
       }
+    },
+    "Total: %llu" : {
+
     },
     "Transaction" : {
       "localizations" : {

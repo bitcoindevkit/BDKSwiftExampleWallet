@@ -48,8 +48,9 @@ struct WalletTransactionListView: View {
                                 viewModel: .init(),
                                 transaction: tx,
                                 amount: sentAndReceivedValues.sent.toSat() == 0
-                                && sentAndReceivedValues.received.toSat() > 0
-                                ? sentAndReceivedValues.received.toSat() : sentAndReceivedValues.sent.toSat()
+                                    && sentAndReceivedValues.received.toSat() > 0
+                                    ? sentAndReceivedValues.received.toSat()
+                                    : sentAndReceivedValues.sent.toSat()
                             )
                         ) {
                             WalletTransactionsListItemView(

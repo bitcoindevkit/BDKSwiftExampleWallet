@@ -15,6 +15,7 @@ private class BDKService {
     private var wallet: Wallet?
     private let keyService: KeyClient
     private let esploraClient: EsploraClient  // TODO: this is new, and it's use can be refactored in this file
+    private var needsFullScan: Bool = false
 
     init(
         keyService: KeyClient = .live
@@ -60,9 +61,11 @@ private class BDKService {
         var words12: String
         if let words = words, !words.isEmpty {
             words12 = words
+            needsFullScan = true
         } else {
             let mnemonic = Mnemonic(wordCount: WordCount.words12)
             words12 = mnemonic.asString()
+            needsFullScan = false
         }
         let mnemonic = try Mnemonic.fromString(mnemonic: words12)
         let secretKey = DescriptorSecretKey(
@@ -160,7 +163,7 @@ private class BDKService {
         let txBuilder = try TxBuilder()
             .addRecipient(
                 script: script,
-                amount: Amount.fromSat(fromSat: amount)//amount: amount
+                amount: Amount.fromSat(fromSat: amount)
             )
             .feeRate(feeRate: FeeRate.fromSatPerVb(satPerVb: feeRate))
             .finish(wallet: wallet)
@@ -175,10 +178,26 @@ private class BDKService {
         try client.broadcast(transaction: transaction)
     }
 
-    func sync() async throws {
+    //    func sync() async throws {
+    //        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+    //        let esploraClient = self.esploraClient
+    //        let syncRequest = wallet.startSyncWithRevealedSpks()
+    //        let update = try esploraClient.sync(
+    //            syncRequest: syncRequest,
+    //            parallelRequests: UInt64(5)
+    //        )
+    //        let _ = try wallet.applyUpdate(update: update)
+    //        let _ = try wallet.commit()
+    //        // TODO: Do i need to do this next step of setting wallet to wallet again?
+    //        // prob not
+    //        self.wallet = wallet
+    //    }
+
+    func syncWithInspector(inspector: ScriptInspector) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let esploraClient = self.esploraClient
-        let syncRequest = wallet.startSyncWithRevealedSpks()
+        let syncRequest = try wallet.startSyncWithRevealedSpks()
+            .inspectSpks(inspector: inspector)
         let update = try esploraClient.sync(
             syncRequest: syncRequest,
             parallelRequests: UInt64(5)
@@ -190,11 +209,27 @@ private class BDKService {
         self.wallet = wallet
     }
 
-    // TODO: use this
-    func fullScan() async throws {
+    //    func fullScan() async throws {
+    //        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+    //        let esploraClient = esploraClient
+    //        let fullScanRequest = wallet.startFullScan()
+    //        let update = try esploraClient.fullScan(
+    //            fullScanRequest: fullScanRequest,
+    //            stopGap: UInt64(150),  // should we default value this for folks?
+    //            parallelRequests: UInt64(5)  // should we default value this for folks?
+    //        )
+    //        let _ = try wallet.applyUpdate(update: update)
+    //        let _ = try wallet.commit()
+    //        // TODO: Do i need to do this next step of setting wallet to wallet again?
+    //        // prob not
+    //        self.wallet = wallet
+    //    }
+
+    func fullScanWithInspector(inspector: ScriptInspectorFullScan) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let esploraClient = esploraClient
-        let fullScanRequest = wallet.startFullScan()
+        let fullScanRequest = try wallet.startFullScan()
+            .inspectSpksForAllKeychains(inspector: inspector)
         let update = try esploraClient.fullScan(
             fullScanRequest: fullScanRequest,
             stopGap: UInt64(150),  // should we default value this for folks?
@@ -233,14 +268,26 @@ private class BDKService {
 
 }
 
+extension BDKService {
+    func needsFullScanOfWallet() -> Bool {
+        return needsFullScan
+    }
+
+    func setNeedsFullScan(_ value: Bool) {
+        needsFullScan = value
+    }
+}
+
 struct BDKClient {
     let loadWallet: () throws -> Void
     let deleteWallet: () throws -> Void
     let createWallet: (String?) throws -> Void
     let getBalance: () throws -> Balance
     let transactions: () throws -> [CanonicalTx]
-    let sync: () async throws -> Void
-    let fullScan: () async throws -> Void
+    //    let sync: () async throws -> Void
+    let syncWithInspector: (ScriptInspector) async throws -> Void
+    //    let fullScan: () async throws -> Void
+    let fullScanWithInspector: (ScriptInspectorFullScan) async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, UInt64) throws -> Void
     let calculateFee: (Transaction) throws -> UInt64
@@ -248,6 +295,8 @@ struct BDKClient {
     let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
     let buildTransaction: (String, UInt64, UInt64) throws -> Psbt
     let getBackupInfo: () throws -> BackupInfo
+    let needsFullScan: () -> Bool
+    let setNeedsFullScan: (Bool) -> Void
 }
 
 extension BDKClient {
@@ -257,8 +306,14 @@ extension BDKClient {
         createWallet: { words in try BDKService.shared.createWallet(words: words) },
         getBalance: { try BDKService.shared.getBalance() },
         transactions: { try BDKService.shared.transactions() },
-        sync: { try await BDKService.shared.sync() },
-        fullScan: { try await BDKService.shared.fullScan() },
+        //        sync: { try await BDKService.shared.sync() },
+        syncWithInspector: { inspector in
+            try await BDKService.shared.syncWithInspector(inspector: inspector)
+        },
+        //        fullScan: { try await BDKService.shared.fullScan() },
+        fullScanWithInspector: { inspector in
+            try await BDKService.shared.fullScanWithInspector(inspector: inspector)
+        },
         getAddress: { try BDKService.shared.getAddress() },
         send: { (address, amount, feeRate) in
             Task {
@@ -275,7 +330,9 @@ extension BDKClient {
                 feeRate: feeRate
             )
         },
-        getBackupInfo: { try BDKService.shared.getBackupInfo() }
+        getBackupInfo: { try BDKService.shared.getBackupInfo() },
+        needsFullScan: { BDKService.shared.needsFullScanOfWallet() },
+        setNeedsFullScan: { value in BDKService.shared.setNeedsFullScan(value) }
     )
 }
 
@@ -295,16 +352,18 @@ extension BDKClient {
                 )
                 return [mockCanonicalTx]
             },
-            sync: {},
-            fullScan: {},
+            //            sync: {},
+            syncWithInspector: { _ in },
+            //            fullScan: {},
+            fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
             calculateFee: { _ in return UInt64(615) },
             calculateFeeRate: { _ in return UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(
-                    sent: Amount.fromSat(fromSat: UInt64(615)),//sent: UInt64(615),
-                    received: Amount.fromSat(fromSat: UInt64(21))//received: UInt64(21)
+                    sent: Amount.fromSat(fromSat: UInt64(615)),
+                    received: Amount.fromSat(fromSat: UInt64(21))
                 )
             },
             buildTransaction: { _, _, _ in
@@ -319,7 +378,9 @@ extension BDKClient {
                     descriptor: "descriptor",
                     changeDescriptor: "changeDescriptor"
                 )
-            }
+            },
+            needsFullScan: { true },
+            setNeedsFullScan: { _ in }
         )
     }
 #endif

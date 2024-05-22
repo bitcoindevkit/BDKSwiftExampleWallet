@@ -56,10 +56,41 @@ struct WalletView: View {
                         }
                         HStack {
                             if viewModel.walletSyncState == .syncing {
-                                Image(systemName: "chart.bar.fill")
-                                    .symbolEffect(
-                                        .variableColor.cumulative
-                                    )
+                                VStack {
+
+                                    Image(systemName: "chart.bar.fill")
+                                        .symbolEffect(
+                                            .variableColor.cumulative
+                                        )
+
+                                    ProgressView(value: viewModel.progress) {
+                                        Text("Progress")
+                                    } currentValueLabel: {
+                                        Text(
+                                            "Current Progress: \(String(format: "%.0f%%", viewModel.progress * 100))"
+                                        )
+                                    }
+                                    .progressViewStyle(.circular)
+                                    .tint(.bitcoinOrange)
+
+                                    HStack {
+                                        ProgressView(value: viewModel.progress)
+                                            .progressViewStyle(CircularProgressViewStyle())
+                                            .frame(width: 50, height: 50)
+
+                                        VStack(alignment: .leading) {
+                                            Text("Inspected: \(viewModel.inspectedScripts)")
+                                            Text("Total: \(viewModel.totalScripts)")
+                                            Text(
+                                                String(
+                                                    format: "Progress: %.2f%%",
+                                                    viewModel.progress * 100
+                                                )
+                                            )
+                                        }
+                                    }
+
+                                }
                             }
                             Text(viewModel.satsPrice)
                                 .contentTransition(.numericText())
@@ -107,7 +138,7 @@ struct WalletView: View {
                             viewModel: .init()
                         )
                         .refreshable {
-                            await viewModel.sync()
+                            await viewModel.syncOrFullScan()
                             viewModel.getBalance()
                             viewModel.getTransactions()
                             await viewModel.getPrices()
@@ -125,7 +156,7 @@ struct WalletView: View {
                 )
                 .task {
                     if isFirstAppear || newTransactionSent {
-                        await viewModel.sync()
+                        await viewModel.syncOrFullScan()
                         isFirstAppear = false
                         newTransactionSent = false
                     }

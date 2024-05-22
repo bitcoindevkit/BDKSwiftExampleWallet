@@ -32,7 +32,7 @@ struct WalletTransactionsListItemView: View {
                 Image(
                     systemName:
                         sentAndReceivedValues.sent.toSat() == 0
-                    && sentAndReceivedValues.received.toSat() > 0
+                        && sentAndReceivedValues.received.toSat() > 0
                         ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
                 )
                 .font(.largeTitle)
@@ -64,9 +64,9 @@ struct WalletTransactionsListItemView: View {
 
             Text(
                 sentAndReceivedValues.sent.toSat() == 0
-                && sentAndReceivedValues.received.toSat() > 0
-                ? "+ \(sentAndReceivedValues.received.toSat()) sats"
-                : "- \(sentAndReceivedValues.sent.toSat() - sentAndReceivedValues.received.toSat()) sats"
+                    && sentAndReceivedValues.received.toSat() > 0
+                    ? "+ \(sentAndReceivedValues.received.toSat()) sats"
+                    : "- \(sentAndReceivedValues.sent.toSat() - sentAndReceivedValues.received.toSat()) sats"
 
             )
             .font(.subheadline)
