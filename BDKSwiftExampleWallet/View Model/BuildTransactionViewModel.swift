@@ -69,7 +69,6 @@ class BuildTransactionViewModel {
         } catch {
             self.buildTransactionViewError = .generic(message: error.localizedDescription)
         }
-
     }
 
 }

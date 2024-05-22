@@ -8,6 +8,14 @@
 import BitcoinDevKit
 import Foundation
 
+extension Balance: Equatable {
+    public static func == (lhs: Balance, rhs: Balance) -> Bool {
+        return lhs.immature == rhs.immature && lhs.trustedPending == rhs.trustedPending
+            && lhs.untrustedPending == rhs.untrustedPending && lhs.confirmed == rhs.confirmed
+            && lhs.trustedSpendable == rhs.trustedSpendable && lhs.total == rhs.total
+    }
+}
+
 #if DEBUG
     let mockBalance = Balance(
         immature: Amount.fromSat(fromSat: UInt64(1)),

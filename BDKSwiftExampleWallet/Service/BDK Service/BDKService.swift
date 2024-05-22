@@ -160,7 +160,7 @@ private class BDKService {
         let txBuilder = try TxBuilder()
             .addRecipient(
                 script: script,
-                amount: Amount.fromSat(fromSat: amount)  //amount: amount
+                amount: Amount.fromSat(fromSat: amount)
             )
             .feeRate(feeRate: FeeRate.fromSatPerVb(satPerVb: feeRate))
             .finish(wallet: wallet)
@@ -220,7 +220,7 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
         let feeRate = try wallet.calculateFeeRate(tx: tx)
-        return feeRate.toSatPerVbCeil()  // TODO: is this the right method to use on feerate?
+        return feeRate.toSatPerVbCeil()
     }
 
     func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
@@ -303,8 +303,8 @@ extension BDKClient {
             calculateFeeRate: { _ in return UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(
-                    sent: Amount.fromSat(fromSat: UInt64(615)),  //sent: UInt64(615),
-                    received: Amount.fromSat(fromSat: UInt64(21))  //received: UInt64(21)
+                    sent: Amount.fromSat(fromSat: UInt64(615)),
+                    received: Amount.fromSat(fromSat: UInt64(21))
                 )
             },
             buildTransaction: { _, _, _ in
