@@ -23,8 +23,7 @@ struct WalletTransactionListView: View {
                         sent: Amount.fromSat(fromSat: UInt64(0)),
                         received: Amount.fromSat(fromSat: UInt64(0))
                     ),
-                    transaction:
-                        mockTransaction1!,
+                    canonicalTx: mockCanonicalTx1,
                     isRedacted: true
                 )
                 .listRowInsets(EdgeInsets())
@@ -48,13 +47,14 @@ struct WalletTransactionListView: View {
                                 viewModel: .init(),
                                 canonicalTx: canonicalTx,
                                 amount: sentAndReceivedValues.sent.toSat() == 0
-                                && sentAndReceivedValues.received.toSat() > 0
-                                ? sentAndReceivedValues.received.toSat() : sentAndReceivedValues.sent.toSat()
+                                    && sentAndReceivedValues.received.toSat() > 0
+                                    ? sentAndReceivedValues.received.toSat()
+                                    : sentAndReceivedValues.sent.toSat()
                             )
                         ) {
                             WalletTransactionsListItemView(
                                 sentAndReceivedValues: sentAndReceivedValues,
-                                transaction: tx,
+                                canonicalTx: canonicalTx,
                                 isRedacted: false
                             )
                         }

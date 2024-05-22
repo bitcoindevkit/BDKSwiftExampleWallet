@@ -10,7 +10,7 @@ import SwiftUI
 
 struct WalletTransactionsListItemView: View {
     let sentAndReceivedValues: SentAndReceivedValues
-    let transaction: BitcoinDevKit.Transaction
+    let canonicalTx: CanonicalTx
     let isRedacted: Bool
     @Environment(\.sizeCategory) var sizeCategory
 
@@ -32,7 +32,7 @@ struct WalletTransactionsListItemView: View {
                 Image(
                     systemName:
                         sentAndReceivedValues.sent.toSat() == 0
-                    && sentAndReceivedValues.received.toSat() > 0
+                        && sentAndReceivedValues.received.toSat() > 0
                         ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
                 )
                 .font(.largeTitle)
@@ -41,19 +41,35 @@ struct WalletTransactionsListItemView: View {
             }
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(transaction.txid())
+                Text(canonicalTx.transaction.txid())
                     .truncationMode(.middle)
                     .lineLimit(1)
                     .fontDesign(.monospaced)
                     .fontWeight(.semibold)
                     .font(.title)
                     .foregroundColor(.primary)
-                Text(
-                    "{Confirmation Status / Timestamp}"
-                )
-                .lineLimit(
-                    sizeCategory > .accessibilityMedium ? 2 : 1
-                )
+                switch canonicalTx.chainPosition {
+                case .confirmed(_, let timestamp):
+                    Text(
+                        timestamp.toDate().formatted(
+                            date: .abbreviated,
+                            time: Date.FormatStyle.TimeStyle.shortened
+                        )
+                    )
+                    .lineLimit(
+                        sizeCategory > .accessibilityMedium ? 2 : 1
+                    )
+                case .unconfirmed(let timestamp):
+                    Text(
+                        timestamp.toDate().formatted(
+                            date: .abbreviated,
+                            time: Date.FormatStyle.TimeStyle.shortened
+                        )
+                    )
+                    .lineLimit(
+                        sizeCategory > .accessibilityMedium ? 2 : 1
+                    )
+                }
             }
             .foregroundColor(.secondary)
             .font(.subheadline)
@@ -64,9 +80,9 @@ struct WalletTransactionsListItemView: View {
 
             Text(
                 sentAndReceivedValues.sent.toSat() == 0
-                && sentAndReceivedValues.received.toSat() > 0
-                ? "+ \(sentAndReceivedValues.received.toSat()) sats"
-                : "- \(sentAndReceivedValues.sent.toSat() - sentAndReceivedValues.received.toSat()) sats"
+                    && sentAndReceivedValues.received.toSat() > 0
+                    ? "+ \(sentAndReceivedValues.received.toSat()) sats"
+                    : "- \(sentAndReceivedValues.sent.toSat() - sentAndReceivedValues.received.toSat()) sats"
 
             )
             .font(.subheadline)
@@ -90,7 +106,7 @@ struct WalletTransactionsListItemView: View {
                 sent: Amount.fromSat(fromSat: UInt64(100)),
                 received: Amount.fromSat(fromSat: UInt64(200))
             ),
-            transaction: mockTransaction1!,
+            canonicalTx: mockCanonicalTx1,
             isRedacted: false
         )
     }

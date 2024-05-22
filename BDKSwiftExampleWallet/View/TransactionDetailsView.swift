@@ -28,7 +28,9 @@ struct TransactionDetailsView: View {
                     .fontWeight(.bold)
                     .frame(width: 50, height: 50, alignment: .center)
                 HStack(spacing: 3) {
-                    let sentAndReceivedValues = viewModel.getSentAndReceived(tx: canonicalTx.transaction)
+                    let sentAndReceivedValues = viewModel.getSentAndReceived(
+                        tx: canonicalTx.transaction
+                    )
                     if let value = sentAndReceivedValues {
                         let sent = value.sent
                         let received = value.received
@@ -42,7 +44,7 @@ struct TransactionDetailsView: View {
                     }
                 }
                 .fontWeight(.semibold)
-                
+
                 switch canonicalTx.chainPosition {
                 case .confirmed(let height, let timestamp):
                     Text("Block \(height.delimiter)")

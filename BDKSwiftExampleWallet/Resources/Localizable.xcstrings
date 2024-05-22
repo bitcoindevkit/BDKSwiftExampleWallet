@@ -64,9 +64,6 @@
         }
       }
     },
-    "{Confirmation Status / Timestamp}" : {
-
-    },
     "%@ sats" : {
       "localizations" : {
         "fr" : {
