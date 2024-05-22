@@ -69,7 +69,22 @@ struct TransactionDetailsView: View {
                 .fontWeight(.bold)
                 .fontDesign(.rounded)
                 VStack(spacing: 4) {
-                    Text("{Confirmation Status / Timestamp}")
+                    switch canonicalTx.chainPosition {
+                    case .confirmed(_, let timestamp):
+                        Text(
+                            timestamp.toDate().formatted(
+                                date: .abbreviated,
+                                time: Date.FormatStyle.TimeStyle.shortened
+                            )
+                        )
+                    case .unconfirmed(let timestamp):
+                        Text(
+                            timestamp.toDate().formatted(
+                                date: .abbreviated,
+                                time: Date.FormatStyle.TimeStyle.shortened
+                            )
+                        )
+                    }
                     if let fee = viewModel.calculateFee {
                         Text("\(fee.formattedWithSeparator) sats fee")
                     }
