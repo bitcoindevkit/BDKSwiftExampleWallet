@@ -180,11 +180,7 @@
         }
       }
     },
-    "Block {Height}" : {
-
-    },
     "Block %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -471,7 +467,6 @@
       }
     },
     "Unconfirmed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

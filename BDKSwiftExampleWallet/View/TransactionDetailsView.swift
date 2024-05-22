@@ -12,7 +12,7 @@ import SwiftUI
 struct TransactionDetailsView: View {
     @ObservedObject var viewModel: TransactionDetailsViewModel
 
-    let transaction: BitcoinDevKit.Transaction
+    let canonicalTx: CanonicalTx
     let amount: UInt64
     @State private var isCopied = false
     @State private var showCheckmark = false
@@ -28,7 +28,7 @@ struct TransactionDetailsView: View {
                     .fontWeight(.bold)
                     .frame(width: 50, height: 50, alignment: .center)
                 HStack(spacing: 3) {
-                    let sentAndReceivedValues = viewModel.getSentAndReceived(tx: transaction)
+                    let sentAndReceivedValues = viewModel.getSentAndReceived(tx: canonicalTx.transaction)
                     if let value = sentAndReceivedValues {
                         let sent = value.sent
                         let received = value.received
@@ -42,8 +42,16 @@ struct TransactionDetailsView: View {
                     }
                 }
                 .fontWeight(.semibold)
-                Text("Block {Height}")
-                    .foregroundColor(.secondary)
+                
+                switch canonicalTx.chainPosition {
+                case .confirmed(let height, let timestamp):
+                    Text("Block \(height.delimiter)")
+                        .foregroundColor(.secondary)
+                case .unconfirmed(let timestamp):
+                    Text("Unconfirmed")
+                        .foregroundColor(.secondary)
+                }
+
             }
             .font(.caption)
 
@@ -76,7 +84,7 @@ struct TransactionDetailsView: View {
                 if viewModel.network != Network.regtest.description {
                     Button {
                         if let esploraURL = viewModel.esploraURL {
-                            let urlString = "\(esploraURL)/tx/\(transaction.txid())"
+                            let urlString = "\(esploraURL)/tx/\(canonicalTx.transaction.txid())"
                                 .replacingOccurrences(of: "/api", with: "")
                             if let url = URL(string: urlString) {
                                 UIApplication.shared.open(url)
@@ -89,12 +97,12 @@ struct TransactionDetailsView: View {
                     }
                     Spacer()
                 }
-                Text(transaction.txid())
+                Text(canonicalTx.transaction.txid())
                     .lineLimit(1)
                     .truncationMode(.middle)
                 Spacer()
                 Button {
-                    UIPasteboard.general.string = transaction.txid()
+                    UIPasteboard.general.string = canonicalTx.transaction.txid()
                     isCopied = true
                     showCheckmark = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -117,7 +125,7 @@ struct TransactionDetailsView: View {
             .onAppear {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
-                viewModel.getCalulateFee(tx: transaction)
+                viewModel.getCalulateFee(tx: canonicalTx.transaction)
             }
 
         }
@@ -130,7 +138,7 @@ struct TransactionDetailsView: View {
     #Preview {
         TransactionDetailsView(
             viewModel: .init(),
-            transaction: mockTransaction1!,
+            canonicalTx: mockCanonicalTx1,
             amount: UInt64(10_000_000)
         )
     }
@@ -138,7 +146,7 @@ struct TransactionDetailsView: View {
     #Preview {
         TransactionDetailsView(
             viewModel: .init(),
-            transaction: mockTransaction1!,
+            canonicalTx: mockCanonicalTx2,
             amount: UInt64(10_000_000)
         )
         .environment(\.sizeCategory, .accessibilityLarge)

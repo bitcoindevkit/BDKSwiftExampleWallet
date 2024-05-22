@@ -46,7 +46,7 @@ struct WalletTransactionListView: View {
                         NavigationLink(
                             destination: TransactionDetailsView(
                                 viewModel: .init(),
-                                transaction: tx,
+                                canonicalTx: canonicalTx,
                                 amount: sentAndReceivedValues.sent.toSat() == 0
                                 && sentAndReceivedValues.received.toSat() > 0
                                 ? sentAndReceivedValues.received.toSat() : sentAndReceivedValues.sent.toSat()
