@@ -20,7 +20,7 @@ class WalletViewModel {
     var transactions: [CanonicalTx] = []
     var price: Double = 0.00
     var time: Int?
-    var satsPrice: String {
+    var satsPrice: Double {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
@@ -76,30 +76,10 @@ class WalletViewModel {
         }
     }
 
-    //    func fullScan() async {
-    //        self.walletSyncState = .syncing
-    //        do {
-    //            try await bdkClient.fullScan()
-    //            self.walletSyncState = .synced
-    //        } catch let error as CannotConnectError {
-    //            self.walletViewError = .generic(message: error.localizedDescription)
-    //            self.showingWalletViewErrorAlert = true
-    //        } catch let error as EsploraError {
-    //            self.walletViewError = .generic(message: error.localizedDescription)
-    //            self.showingWalletViewErrorAlert = true
-    //        } catch let error as PersistenceError {
-    //            self.walletViewError = .generic(message: error.localizedDescription)
-    //            self.showingWalletViewErrorAlert = true
-    //        } catch {
-    //            self.walletSyncState = .error(error)
-    //            self.showingWalletViewErrorAlert = true
-    //        }
-    //    }
-
     func fullScanWithProgress() async {
         self.walletSyncState = .syncing
         do {
-            let inspector = MyFullScanScriptInspector(updateProgress: updateProgressFullScan)
+            let inspector = WalletFullScanScriptInspector(updateProgress: updateProgressFullScan)
             try await bdkClient.fullScanWithInspector(inspector)
             self.walletSyncState = .synced
         } catch let error as CannotConnectError {
@@ -116,31 +96,11 @@ class WalletViewModel {
             self.showingWalletViewErrorAlert = true
         }
     }
-    //
-    //    func sync() async {
-    //        self.walletSyncState = .syncing
-    //        do {
-    //            try await bdkClient.sync()
-    //            self.walletSyncState = .synced
-    //        } catch let error as CannotConnectError {
-    //            self.walletViewError = .generic(message: error.localizedDescription)
-    //            self.showingWalletViewErrorAlert = true
-    //        } catch let error as EsploraError {
-    //            self.walletViewError = .generic(message: error.localizedDescription)
-    //            self.showingWalletViewErrorAlert = true
-    //        } catch let error as PersistenceError {
-    //            self.walletViewError = .generic(message: error.localizedDescription)
-    //            self.showingWalletViewErrorAlert = true
-    //        } catch {
-    //            self.walletSyncState = .error(error)
-    //            self.showingWalletViewErrorAlert = true
-    //        }
-    //    }
 
     func startSyncWithProgress() async {
         self.walletSyncState = .syncing
         do {
-            let inspector = MySyncScriptInspector(updateProgress: updateProgress)
+            let inspector = WalletSyncScriptInspector(updateProgress: updateProgress)
             try await bdkClient.syncWithInspector(inspector)
             self.walletSyncState = .synced
         } catch let error as CannotConnectError {
@@ -163,11 +123,9 @@ class WalletViewModel {
 
     func syncOrFullScan() async {
         if bdkClient.needsFullScan() {
-            // If the flag is set, proceed with full scan
             await fullScanWithProgress()
-            bdkClient.setNeedsFullScan(false)  // Reset the flag after the full scan
+            bdkClient.setNeedsFullScan(false)
         } else {
-            // Otherwise, proceed with sync
             await startSyncWithProgress()
         }
     }
@@ -188,7 +146,7 @@ class WalletViewModel {
 
 }
 
-class MySyncScriptInspector: SyncScriptInspector {
+class WalletSyncScriptInspector: SyncScriptInspector {
     private let updateProgress: (UInt64, UInt64) -> Void
     private var inspectedCount: UInt64 = 0
     private var totalCount: UInt64 = 0
@@ -201,11 +159,11 @@ class MySyncScriptInspector: SyncScriptInspector {
         totalCount = total
         inspectedCount += 1
         updateProgress(inspectedCount, totalCount)
-        Thread.sleep(forTimeInterval: 1.5)
+        Thread.sleep(forTimeInterval: 0.3)
     }
 }
 
-class MyFullScanScriptInspector: FullScanScriptInspector {
+class WalletFullScanScriptInspector: FullScanScriptInspector {
     private let updateProgress: (UInt64) -> Void
     private var inspectedCount: UInt64 = 0
 

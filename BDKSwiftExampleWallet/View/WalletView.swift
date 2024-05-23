@@ -61,7 +61,7 @@ struct WalletView: View {
                                         .variableColor.cumulative
                                     )
                             }
-                            Text(viewModel.satsPrice)
+                            Text(viewModel.satsPrice, format: .currency(code: "USD"))
                                 .contentTransition(.numericText())
                                 .fontDesign(.rounded)
                         }
@@ -74,39 +74,12 @@ struct WalletView: View {
                     VStack {
                         HStack {
                             Text("Activity")
-                            Text("\(viewModel.transactions.count) Transactions")
-                                .fontWeight(.thin)
-                                .font(.caption2)
+                            if viewModel.walletSyncState == .synced {
+                                Text("\(viewModel.transactions.count) Transactions")
+                                    .fontWeight(.thin)
+                                    .font(.caption2)
+                            }
                             Spacer()
-                            //                            if viewModel.walletSyncState == .syncing {
-                            //                                    HStack {
-                            //                                        Text("\(viewModel.inspectedScripts)")
-                            //                                            .padding(.trailing, -5.0)
-                            //                                            .contentTransition(.numericText())
-                            //                                        if !viewModel.bdkClient.needsFullScan() {
-                            //                                            Text("/")
-                            //                                                .padding(.trailing, -5.0)
-                            //                                                .transition(.opacity)
-                            //                                            Text("\(viewModel.totalScripts)")
-                            //                                                .contentTransition(.numericText())
-                            //                                                .transition(.opacity)
-                            //                                            Text(
-                            //                                                String(
-                            //                                                    format: "%.0f%%",
-                            //                                                    viewModel.progress * 100
-                            //                                                )
-                            //                                            )
-                            //                                            .contentTransition(.numericText())
-                            //                                            .transition(.opacity)
-                            //                                        }
-                            //                                    }
-                            //                                .fontDesign(.monospaced)
-                            //                                .foregroundColor(.secondary)
-                            //                                .font(.caption2)
-                            //                                .fontWeight(.thin)
-                            //                                .animation(.easeInOut, value: viewModel.inspectedScripts)
-                            //                                .animation(.easeInOut, value: viewModel.totalScripts)
-                            //                                .animation(.easeInOut, value: viewModel.progress)
                             if viewModel.walletSyncState == .syncing {
                                 HStack {
                                     if viewModel.progress < 1.0 {

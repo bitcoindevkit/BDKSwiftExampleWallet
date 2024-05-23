@@ -178,21 +178,6 @@ private class BDKService {
         try client.broadcast(transaction: transaction)
     }
 
-    //    func sync() async throws {
-    //        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-    //        let esploraClient = self.esploraClient
-    //        let syncRequest = wallet.startSyncWithRevealedSpks()
-    //        let update = try esploraClient.sync(
-    //            syncRequest: syncRequest,
-    //            parallelRequests: UInt64(5)
-    //        )
-    //        let _ = try wallet.applyUpdate(update: update)
-    //        let _ = try wallet.commit()
-    //        // TODO: Do i need to do this next step of setting wallet to wallet again?
-    //        // prob not
-    //        self.wallet = wallet
-    //    }
-
     func syncWithInspector(inspector: SyncScriptInspector) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let esploraClient = self.esploraClient
@@ -208,22 +193,6 @@ private class BDKService {
         // prob not
         self.wallet = wallet
     }
-
-    //    func fullScan() async throws {
-    //        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-    //        let esploraClient = esploraClient
-    //        let fullScanRequest = wallet.startFullScan()
-    //        let update = try esploraClient.fullScan(
-    //            fullScanRequest: fullScanRequest,
-    //            stopGap: UInt64(150),  // should we default value this for folks?
-    //            parallelRequests: UInt64(5)  // should we default value this for folks?
-    //        )
-    //        let _ = try wallet.applyUpdate(update: update)
-    //        let _ = try wallet.commit()
-    //        // TODO: Do i need to do this next step of setting wallet to wallet again?
-    //        // prob not
-    //        self.wallet = wallet
-    //    }
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
@@ -284,9 +253,7 @@ struct BDKClient {
     let createWallet: (String?) throws -> Void
     let getBalance: () throws -> Balance
     let transactions: () throws -> [CanonicalTx]
-    //    let sync: () async throws -> Void
     let syncWithInspector: (SyncScriptInspector) async throws -> Void
-    //    let fullScan: () async throws -> Void
     let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, UInt64) throws -> Void
@@ -306,11 +273,9 @@ extension BDKClient {
         createWallet: { words in try BDKService.shared.createWallet(words: words) },
         getBalance: { try BDKService.shared.getBalance() },
         transactions: { try BDKService.shared.transactions() },
-        //        sync: { try await BDKService.shared.sync() },
         syncWithInspector: { inspector in
             try await BDKService.shared.syncWithInspector(inspector: inspector)
         },
-        //        fullScan: { try await BDKService.shared.fullScan() },
         fullScanWithInspector: { inspector in
             try await BDKService.shared.fullScanWithInspector(inspector: inspector)
         },
@@ -352,9 +317,7 @@ extension BDKClient {
                 )
                 return [mockCanonicalTx]
             },
-            //            sync: {},
             syncWithInspector: { _ in },
-            //            fullScan: {},
             fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
