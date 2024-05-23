@@ -193,7 +193,7 @@ private class BDKService {
     //        self.wallet = wallet
     //    }
 
-    func syncWithInspector(inspector: ScriptInspector) async throws {
+    func syncWithInspector(inspector: SyncScriptInspector) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let esploraClient = self.esploraClient
         let syncRequest = try wallet.startSyncWithRevealedSpks()
@@ -225,7 +225,7 @@ private class BDKService {
     //        self.wallet = wallet
     //    }
 
-    func fullScanWithInspector(inspector: ScriptInspectorFullScan) async throws {
+    func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let esploraClient = esploraClient
         let fullScanRequest = try wallet.startFullScan()
@@ -285,9 +285,9 @@ struct BDKClient {
     let getBalance: () throws -> Balance
     let transactions: () throws -> [CanonicalTx]
     //    let sync: () async throws -> Void
-    let syncWithInspector: (ScriptInspector) async throws -> Void
+    let syncWithInspector: (SyncScriptInspector) async throws -> Void
     //    let fullScan: () async throws -> Void
-    let fullScanWithInspector: (ScriptInspectorFullScan) async throws -> Void
+    let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, UInt64) throws -> Void
     let calculateFee: (Transaction) throws -> UInt64

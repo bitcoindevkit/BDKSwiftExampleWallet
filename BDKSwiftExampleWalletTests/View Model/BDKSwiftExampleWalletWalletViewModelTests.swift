@@ -18,8 +18,10 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
         let viewModel = WalletViewModel(priceClient: .mock, bdkClient: .mock)
         XCTAssertEqual(viewModel.walletSyncState, .notStarted)
 
+        // TODO: test a full scan
+
         // Simulate successful sync() call
-        await viewModel.sync()
+        await viewModel.startSyncWithProgress()  //.sync()
         //try? await Task.sleep(nanoseconds: 10_000_000_000)  // Wait for for the state to be updated
         XCTAssertEqual(viewModel.walletSyncState, .synced)
 

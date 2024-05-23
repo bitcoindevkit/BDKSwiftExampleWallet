@@ -99,7 +99,7 @@ class WalletViewModel {
     func fullScanWithProgress() async {
         self.walletSyncState = .syncing
         do {
-            let inspector = MyScriptInspectorFullScan(updateProgress: updateProgressFullScan)
+            let inspector = MyFullScanScriptInspector(updateProgress: updateProgressFullScan)
             try await bdkClient.fullScanWithInspector(inspector)
             self.walletSyncState = .synced
         } catch let error as CannotConnectError {
@@ -140,7 +140,7 @@ class WalletViewModel {
     func startSyncWithProgress() async {
         self.walletSyncState = .syncing
         do {
-            let inspector = MyScriptInspector(updateProgress: updateProgress)
+            let inspector = MySyncScriptInspector(updateProgress: updateProgress)
             try await bdkClient.syncWithInspector(inspector)
             self.walletSyncState = .synced
         } catch let error as CannotConnectError {
@@ -149,10 +149,10 @@ class WalletViewModel {
         } catch let error as EsploraError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
-        } catch let error as PersistenceError {
+        } catch let error as InspectError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
-        } catch let error as RequestError {
+        } catch let error as PersistenceError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch {
@@ -188,7 +188,7 @@ class WalletViewModel {
 
 }
 
-class MyScriptInspector: ScriptInspector {
+class MySyncScriptInspector: SyncScriptInspector {
     private let updateProgress: (UInt64, UInt64) -> Void
     private var inspectedCount: UInt64 = 0
     private var totalCount: UInt64 = 0
@@ -205,7 +205,7 @@ class MyScriptInspector: ScriptInspector {
     }
 }
 
-class MyScriptInspectorFullScan: ScriptInspectorFullScan {
+class MyFullScanScriptInspector: FullScanScriptInspector {
     private let updateProgress: (UInt64) -> Void
     private var inspectedCount: UInt64 = 0
 
@@ -216,6 +216,5 @@ class MyScriptInspectorFullScan: ScriptInspectorFullScan {
     func inspect(keychain: KeychainKind, index: UInt32, script: Script) {
         inspectedCount += 1
         updateProgress(inspectedCount)
-        Thread.sleep(forTimeInterval: 1.5)
     }
 }

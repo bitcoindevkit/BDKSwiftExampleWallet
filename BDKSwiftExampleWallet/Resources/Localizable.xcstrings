@@ -67,6 +67,9 @@
     "{Confirmation Status / Timestamp}" : {
 
     },
+    "/" : {
+
+    },
     "%@ sats" : {
       "localizations" : {
         "fr" : {
@@ -92,6 +95,9 @@
           }
         }
       }
+    },
+    "%llu" : {
+
     },
     "%llu sats fee" : {
       "extractionState" : "stale",
@@ -238,9 +244,6 @@
     "Create Wallet" : {
 
     },
-    "Current Progress: %@" : {
-
-    },
     "Danger Zone" : {
 
     },
@@ -294,9 +297,6 @@
         }
       }
     },
-    "Inspected: %llu" : {
-
-    },
     "Network" : {
 
     },
@@ -327,9 +327,6 @@
 
     },
     "Onboarding Error" : {
-
-    },
-    "Progress" : {
 
     },
     "Receive" : {
@@ -457,9 +454,6 @@
           }
         }
       }
-    },
-    "Total: %llu" : {
-
     },
     "Transaction" : {
       "localizations" : {

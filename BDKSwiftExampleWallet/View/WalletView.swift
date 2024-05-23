@@ -56,41 +56,10 @@ struct WalletView: View {
                         }
                         HStack {
                             if viewModel.walletSyncState == .syncing {
-                                VStack {
-
-                                    Image(systemName: "chart.bar.fill")
-                                        .symbolEffect(
-                                            .variableColor.cumulative
-                                        )
-
-                                    ProgressView(value: viewModel.progress) {
-                                        Text("Progress")
-                                    } currentValueLabel: {
-                                        Text(
-                                            "Current Progress: \(String(format: "%.0f%%", viewModel.progress * 100))"
-                                        )
-                                    }
-                                    .progressViewStyle(.circular)
-                                    .tint(.bitcoinOrange)
-
-                                    HStack {
-                                        ProgressView(value: viewModel.progress)
-                                            .progressViewStyle(CircularProgressViewStyle())
-                                            .frame(width: 50, height: 50)
-
-                                        VStack(alignment: .leading) {
-                                            Text("Inspected: \(viewModel.inspectedScripts)")
-                                            Text("Total: \(viewModel.totalScripts)")
-                                            Text(
-                                                String(
-                                                    format: "Progress: %.2f%%",
-                                                    viewModel.progress * 100
-                                                )
-                                            )
-                                        }
-                                    }
-
-                                }
+                                Image(systemName: "chart.bar.fill")
+                                    .symbolEffect(
+                                        .variableColor.cumulative
+                                    )
                             }
                             Text(viewModel.satsPrice)
                                 .contentTransition(.numericText())
@@ -109,6 +78,73 @@ struct WalletView: View {
                                 .fontWeight(.thin)
                                 .font(.caption2)
                             Spacer()
+                            //                            if viewModel.walletSyncState == .syncing {
+                            //                                    HStack {
+                            //                                        Text("\(viewModel.inspectedScripts)")
+                            //                                            .padding(.trailing, -5.0)
+                            //                                            .contentTransition(.numericText())
+                            //                                        if !viewModel.bdkClient.needsFullScan() {
+                            //                                            Text("/")
+                            //                                                .padding(.trailing, -5.0)
+                            //                                                .transition(.opacity)
+                            //                                            Text("\(viewModel.totalScripts)")
+                            //                                                .contentTransition(.numericText())
+                            //                                                .transition(.opacity)
+                            //                                            Text(
+                            //                                                String(
+                            //                                                    format: "%.0f%%",
+                            //                                                    viewModel.progress * 100
+                            //                                                )
+                            //                                            )
+                            //                                            .contentTransition(.numericText())
+                            //                                            .transition(.opacity)
+                            //                                        }
+                            //                                    }
+                            //                                .fontDesign(.monospaced)
+                            //                                .foregroundColor(.secondary)
+                            //                                .font(.caption2)
+                            //                                .fontWeight(.thin)
+                            //                                .animation(.easeInOut, value: viewModel.inspectedScripts)
+                            //                                .animation(.easeInOut, value: viewModel.totalScripts)
+                            //                                .animation(.easeInOut, value: viewModel.progress)
+                            if viewModel.walletSyncState == .syncing {
+                                HStack {
+                                    if viewModel.progress < 1.0 {
+                                        Text("\(viewModel.inspectedScripts)")
+                                            .padding(.trailing, -5.0)
+                                            .fontWeight(.semibold)
+                                            .contentTransition(.numericText())
+                                            .transition(.opacity)
+
+                                        if !viewModel.bdkClient.needsFullScan() {
+                                            Text("/")
+                                                .padding(.trailing, -5.0)
+                                                .transition(.opacity)
+                                            Text("\(viewModel.totalScripts)")
+                                                .contentTransition(.numericText())
+                                                .transition(.opacity)
+                                        }
+                                    }
+
+                                    if !viewModel.bdkClient.needsFullScan() {
+                                        Text(
+                                            String(
+                                                format: "%.0f%%",
+                                                viewModel.progress * 100
+                                            )
+                                        )
+                                        .contentTransition(.numericText())
+                                        .transition(.opacity)
+                                    }
+                                }
+                                .fontDesign(.monospaced)
+                                .foregroundColor(.secondary)
+                                .font(.caption2)
+                                .fontWeight(.thin)
+                                .animation(.easeInOut, value: viewModel.inspectedScripts)
+                                .animation(.easeInOut, value: viewModel.totalScripts)
+                                .animation(.easeInOut, value: viewModel.progress)
+                            }
                             HStack {
                                 HStack(spacing: 5) {
                                     if viewModel.walletSyncState == .syncing {
