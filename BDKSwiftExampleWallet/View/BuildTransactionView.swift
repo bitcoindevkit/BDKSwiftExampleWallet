@@ -56,10 +56,11 @@ struct BuildTransactionView: View {
                         Text("Total")
                         Spacer()
                         if let sentAmount = UInt64(amount),
-                            let feeAmount = viewModel.calculateFee
+                            let feeAmountString = viewModel.calculateFee,
+                            let feeAmount = UInt64(feeAmountString)
                         {
-                            let total = String(sentAmount) + feeAmount
-                            Text(total.formattedWithSeparator)
+                            let total = sentAmount + feeAmount
+                            Text(String(total).formattedWithSeparator)
                         } else {
                             Text("...")
                         }
@@ -160,7 +161,11 @@ struct BuildTransactionView: View {
                 amount: UInt64(amount) ?? 0,
                 feeRate: UInt64(fee)
             )
-            // TODO: call calculateFee/fee?
+            if let tx = try? viewModel.psbt?.extractTx() {
+                viewModel.getCalulateFee(tx: tx)
+            } else {
+                // TODO: throw error could not extract tx
+            }
         }
         .alert(isPresented: $viewModel.showingBuildTransactionViewErrorAlert) {
             Alert(
