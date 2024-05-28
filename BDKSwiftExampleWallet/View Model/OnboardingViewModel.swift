@@ -18,7 +18,8 @@ class OnboardingViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
 
     @Published var networkColor = Color.gray
-    @Published var onboardingViewError: BdkError?
+    @Published var onboardingViewError: AppError?
+    @Published var walletCreationError: WalletCreationError?
     @Published var words: String = ""
     @Published var selectedNetwork: Network = .testnet {
         didSet {
@@ -29,7 +30,7 @@ class OnboardingViewModel: ObservableObject {
                 try KeyClient.live.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
-                    self.onboardingViewError = .InvalidNetwork(message: "Error Selecting Network")
+                    self.onboardingViewError = .generic(message: error.localizedDescription)
                 }
             }
         }
@@ -40,7 +41,7 @@ class OnboardingViewModel: ObservableObject {
                 try KeyClient.live.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
-                    self.onboardingViewError = .Esplora(message: "Error Selecting Esplora")
+                    self.onboardingViewError = .generic(message: error.localizedDescription)
                 }
             }
         }
@@ -87,7 +88,7 @@ class OnboardingViewModel: ObservableObject {
             }
         } catch {
             DispatchQueue.main.async {
-                self.onboardingViewError = .Esplora(message: "Error Selecting Esplora")
+                self.onboardingViewError = .generic(message: error.localizedDescription)
             }
         }
     }
@@ -96,11 +97,16 @@ class OnboardingViewModel: ObservableObject {
         do {
             try bdkClient.createWallet(words)
             isOnboarding = false
+        } catch let error as WalletCreationError {
+            DispatchQueue.main.async {
+                self.walletCreationError = error
+            }
         } catch {
             DispatchQueue.main.async {
-                self.onboardingViewError = .Generic(message: "Error Creating Wallet")
+                self.onboardingViewError = .generic(message: error.localizedDescription)
             }
         }
+
     }
 
 }

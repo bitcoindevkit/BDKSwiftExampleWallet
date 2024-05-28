@@ -131,16 +131,18 @@ extension AddressView {
                 // TODO: handle error
             }
         case .failure(_):
-            print("TODO: handle error")
+            break  // TODO: handle error
         }
     }
 }
 
-#Preview {
-    AddressView(amount: "200", rootIsActive: .constant(false))
-}
+#if DEBUG
+    #Preview {
+        AddressView(amount: "200", rootIsActive: .constant(false))
+    }
 
-#Preview {
-    AddressView(amount: "200", rootIsActive: .constant(false))
-        .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview {
+        AddressView(amount: "200", rootIsActive: .constant(false))
+            .environment(\.sizeCategory, .accessibilityLarge)
+    }
+#endif

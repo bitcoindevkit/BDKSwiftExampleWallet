@@ -13,9 +13,10 @@ import Foundation
 class BuildTransactionViewModel {
     let bdkClient: BDKClient
 
-    var txBuilderResult: TxBuilderResult?
-    var buildTransactionViewError: BdkError?
+    var psbt: Psbt?
+    var buildTransactionViewError: AppError?
     var showingBuildTransactionViewErrorAlert = false
+    var calculateFee: String?
 
     init(
         bdkClient: BDKClient = .live
@@ -23,38 +24,50 @@ class BuildTransactionViewModel {
         self.bdkClient = bdkClient
     }
 
-    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) {
+    func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) {
         do {
             let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
-            self.txBuilderResult = txBuilderResult
+            self.psbt = txBuilderResult
         } catch let error as WalletError {
-            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
-            self.showingBuildTransactionViewErrorAlert = true
-        } catch let error as BdkError {
-            self.buildTransactionViewError = .Generic(message: error.description)
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
         } catch {
-            self.buildTransactionViewError = .Generic(message: "Error Building Transaction")
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
         }
     }
 
-    func send(address: String, amount: UInt64, feeRate: Float?) {
+    func send(address: String, amount: UInt64, feeRate: UInt64) {
         do {
             try bdkClient.send(address, amount, feeRate)
             NotificationCenter.default.post(
                 name: Notification.Name("TransactionSent"),
                 object: nil
             )
-        } catch let error as WalletError {
-            self.buildTransactionViewError = .Generic(message: error.localizedDescription)
+        } catch let error as EsploraError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
-        } catch let error as BdkError {
-            self.buildTransactionViewError = .Generic(message: error.description)
+        } catch let error as SignerError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
+            self.showingBuildTransactionViewErrorAlert = true
+        } catch let error as WalletError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
         } catch {
-            self.buildTransactionViewError = .Generic(message: "Error Sending")
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
+        }
+    }
+
+    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
+        do {
+            let calculateFee = try bdkClient.calculateFee(tx)
+            let feeString = String(calculateFee)
+            self.calculateFee = feeString
+        } catch let error as CalculateFeeError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
+        } catch {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
         }
     }
 

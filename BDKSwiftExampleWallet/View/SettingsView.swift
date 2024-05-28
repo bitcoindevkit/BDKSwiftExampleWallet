@@ -97,11 +97,13 @@ struct SettingsView: View {
 
 }
 
-#Preview {
-    SettingsView(viewModel: .init())
-}
+#if DEBUG
+    #Preview {
+        SettingsView(viewModel: .init())
+    }
 
-#Preview {
-    SettingsView(viewModel: .init())
-        .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview {
+        SettingsView(viewModel: .init())
+            .environment(\.sizeCategory, .accessibilityLarge)
+    }
+#endif

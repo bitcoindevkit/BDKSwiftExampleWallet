@@ -50,7 +50,6 @@ struct OnboardingView: View {
                             "Network",
                             selection: $viewModel.selectedNetwork
                         ) {
-                            // Text("Bitcoin").tag(Network.bitcoin)
                             Text("Testnet").tag(Network.testnet)
                             Text("Signet").tag(Network.signet)
                             Text("Regtest").tag(Network.regtest)

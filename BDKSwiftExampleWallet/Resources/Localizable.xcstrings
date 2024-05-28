@@ -51,6 +51,9 @@
         }
       }
     },
+    "?" : {
+
+    },
     "..." : {
       "localizations" : {
         "fr" : {
@@ -71,6 +74,12 @@
         }
       }
     },
+    "%@ sats fee" : {
+
+    },
+    "%lld Transactions" : {
+
+    },
     "%lld. %@" : {
       "localizations" : {
         "en" : {
@@ -82,6 +91,7 @@
       }
     },
     "%llu sats fee" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -232,6 +242,7 @@
       }
     },
     "Confirmed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

@@ -70,9 +70,13 @@ struct WalletView: View {
                     }
                     .padding(.top, 40.0)
                     .padding(.bottom, 20.0)
+
                     VStack {
                         HStack {
                             Text("Activity")
+                            Text("\(viewModel.transactions.count) Transactions")
+                                .fontWeight(.thin)
+                                .font(.caption2)
                             Spacer()
                             HStack {
                                 HStack(spacing: 5) {
@@ -98,8 +102,9 @@ struct WalletView: View {
                         }
                         .fontWeight(.bold)
                         WalletTransactionListView(
-                            transactionDetails: viewModel.transactionDetails,
-                            walletSyncState: viewModel.walletSyncState
+                            transactions: viewModel.transactions,
+                            walletSyncState: viewModel.walletSyncState,
+                            viewModel: .init()
                         )
                         .refreshable {
                             await viewModel.sync()
@@ -109,6 +114,7 @@ struct WalletView: View {
                         }
                         Spacer()
                     }
+
                 }
                 .padding()
                 .onReceive(
@@ -153,10 +159,6 @@ struct WalletView: View {
     #Preview("WalletView - en - Large") {
         WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
             .environment(\.sizeCategory, .accessibilityLarge)
-    }
-
-    #Preview("WalletView Zero - en") {
-        WalletView(viewModel: .init(priceClient: .mockZero, bdkClient: .mockZero))
     }
 
     #Preview("WalletView Wait - en") {

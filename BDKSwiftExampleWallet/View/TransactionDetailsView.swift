@@ -12,7 +12,7 @@ import SwiftUI
 struct TransactionDetailsView: View {
     @ObservedObject var viewModel: TransactionDetailsViewModel
 
-    let transaction: TransactionDetails
+    let canonicalTx: CanonicalTx
     let amount: UInt64
     @State private var isCopied = false
     @State private var showCheckmark = false
@@ -28,20 +28,32 @@ struct TransactionDetailsView: View {
                     .fontWeight(.bold)
                     .frame(width: 50, height: 50, alignment: .center)
                 HStack(spacing: 3) {
-                    Text(
-                        transaction.sent > 0 ? "Send" : "Receive"
+                    let sentAndReceivedValues = viewModel.getSentAndReceived(
+                        tx: canonicalTx.transaction
                     )
-                    if transaction.confirmationTime == nil {
-                        Text("Unconfirmed")
-                    } else {
-                        Text("Confirmed")
+                    if let value = sentAndReceivedValues {
+                        let sent = value.sent
+                        let received = value.received
+                        if sent.toSat() == 0 && received.toSat() > 0 {
+                            Text("Receive")
+                        } else if sent.toSat() > 0 && received.toSat() >= 0 {
+                            Text("Send")
+                        } else {
+                            Text("?")
+                        }
                     }
                 }
                 .fontWeight(.semibold)
-                if let height = transaction.confirmationTime?.height {
+
+                switch canonicalTx.chainPosition {
+                case .confirmed(let height, let timestamp):
                     Text("Block \(height.delimiter)")
                         .foregroundColor(.secondary)
+                case .unconfirmed(let timestamp):
+                    Text("Unconfirmed")
+                        .foregroundColor(.secondary)
                 }
+
             }
             .font(.caption)
 
@@ -59,22 +71,24 @@ struct TransactionDetailsView: View {
                 .fontWeight(.bold)
                 .fontDesign(.rounded)
                 VStack(spacing: 4) {
-                    if transaction.confirmationTime == nil {
-                        Text("Unconfirmed")
-                    } else {
-                        VStack {
-                            if let timestamp = transaction.confirmationTime?.timestamp {
-                                Text(
-                                    timestamp.toDate().formatted(
-                                        date: .abbreviated,
-                                        time: Date.FormatStyle.TimeStyle.shortened
-                                    )
-                                )
-                            }
-                        }
+                    switch canonicalTx.chainPosition {
+                    case .confirmed(_, let timestamp):
+                        Text(
+                            timestamp.toDate().formatted(
+                                date: .abbreviated,
+                                time: Date.FormatStyle.TimeStyle.shortened
+                            )
+                        )
+                    case .unconfirmed(let timestamp):
+                        Text(
+                            timestamp.toDate().formatted(
+                                date: .abbreviated,
+                                time: Date.FormatStyle.TimeStyle.shortened
+                            )
+                        )
                     }
-                    if let fee = transaction.fee {
-                        Text("\(fee) sats fee")
+                    if let fee = viewModel.calculateFee {
+                        Text("\(fee.formattedWithSeparator) sats fee")
                     }
                 }
                 .foregroundColor(.secondary)
@@ -87,7 +101,7 @@ struct TransactionDetailsView: View {
                 if viewModel.network != Network.regtest.description {
                     Button {
                         if let esploraURL = viewModel.esploraURL {
-                            let urlString = "\(esploraURL)/tx/\(transaction.txid)"
+                            let urlString = "\(esploraURL)/tx/\(canonicalTx.transaction.txid())"
                                 .replacingOccurrences(of: "/api", with: "")
                             if let url = URL(string: urlString) {
                                 UIApplication.shared.open(url)
@@ -100,12 +114,12 @@ struct TransactionDetailsView: View {
                     }
                     Spacer()
                 }
-                Text(transaction.txid)
+                Text(canonicalTx.transaction.txid())
                     .lineLimit(1)
                     .truncationMode(.middle)
                 Spacer()
                 Button {
-                    UIPasteboard.general.string = transaction.txid
+                    UIPasteboard.general.string = canonicalTx.transaction.txid()
                     isCopied = true
                     showCheckmark = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -128,6 +142,7 @@ struct TransactionDetailsView: View {
             .onAppear {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
+                viewModel.getCalulateFee(tx: canonicalTx.transaction)
             }
 
         }
@@ -136,19 +151,21 @@ struct TransactionDetailsView: View {
     }
 }
 
-#Preview {
-    TransactionDetailsView(
-        viewModel: .init(),
-        transaction: mockTransactionDetail,
-        amount: UInt64(10_000_000)
-    )
-}
+#if DEBUG
+    #Preview {
+        TransactionDetailsView(
+            viewModel: .init(),
+            canonicalTx: mockCanonicalTx1,
+            amount: UInt64(10_000_000)
+        )
+    }
 
-#Preview {
-    TransactionDetailsView(
-        viewModel: .init(),
-        transaction: mockTransactionDetail,
-        amount: UInt64(10_000_000)
-    )
-    .environment(\.sizeCategory, .accessibilityLarge)
-}
+    #Preview {
+        TransactionDetailsView(
+            viewModel: .init(),
+            canonicalTx: mockCanonicalTx2,
+            amount: UInt64(10_000_000)
+        )
+        .environment(\.sizeCategory, .accessibilityLarge)
+    }
+#endif

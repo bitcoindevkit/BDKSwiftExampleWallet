@@ -46,8 +46,8 @@ struct BuildTransactionView: View {
                     HStack {
                         Text("Fee")
                         Spacer()
-                        if let fee = viewModel.txBuilderResult?.transactionDetails.fee {
-                            Text(fee.delimiter)
+                        if let fee = viewModel.calculateFee {
+                            Text(fee.formattedWithSeparator)
                         } else {
                             Text("...")
                         }
@@ -56,10 +56,11 @@ struct BuildTransactionView: View {
                         Text("Total")
                         Spacer()
                         if let sentAmount = UInt64(amount),
-                            let feeAmount = viewModel.txBuilderResult?.transactionDetails.fee
+                            let feeAmountString = viewModel.calculateFee,
+                            let feeAmount = UInt64(feeAmountString)
                         {
                             let total = sentAmount + feeAmount
-                            Text(total.delimiter)
+                            Text(String(total).formattedWithSeparator)
                         } else {
                             Text("...")
                         }
@@ -74,28 +75,23 @@ struct BuildTransactionView: View {
 
                 if !isSent {
                     Button {
-                        let feeRate: Float? = Float(fee)
-                        if let rate = feeRate {
-                            if let amt = UInt64(amount) {
-                                viewModel.buildTransactionViewError = nil
-                                viewModel.send(
-                                    address: address,
-                                    amount: amt,
-                                    feeRate: rate
-                                )
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    if self.viewModel.buildTransactionViewError == nil {
-                                        self.isSent = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                            self.shouldPopToRootView = false
-                                        }
-                                    } else {
-                                        self.isSent = false
-                                        self.isError = true
+                        if let amt = UInt64(amount) {
+                            viewModel.buildTransactionViewError = nil
+                            viewModel.send(
+                                address: address,
+                                amount: amt,
+                                feeRate: UInt64(fee)
+                            )
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                if self.viewModel.buildTransactionViewError == nil {
+                                    self.isSent = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                        self.shouldPopToRootView = false
                                     }
+                                } else {
+                                    self.isSent = false
+                                    self.isError = true
                                 }
-                            } else {
-                                self.isError = true
                             }
                         } else {
                             self.isError = true
@@ -118,14 +114,14 @@ struct BuildTransactionView: View {
                     VStack {
                         Image(systemName: "checkmark")
                             .foregroundColor(.green)
-                        if let transaction = viewModel.txBuilderResult?.transactionDetails {
+                        if let transaction = try? viewModel.psbt?.extractTx() {  // TODO: implement catch
                             HStack {
-                                Text(transaction.txid)
+                                Text(transaction.txid())
                                     .lineLimit(1)
                                     .truncationMode(.middle)
                                 Spacer()
                                 Button {
-                                    UIPasteboard.general.string = transaction.txid
+                                    UIPasteboard.general.string = transaction.txid()
                                     isCopied = true
                                     showCheckmark = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -160,13 +156,15 @@ struct BuildTransactionView: View {
         .padding()
         .navigationTitle("Transaction")
         .onAppear {
-            let feeRate: Float? = Float(fee)
-            if let rate = feeRate {
-                viewModel.buildTransaction(
-                    address: address,
-                    amount: UInt64(amount) ?? 0,
-                    feeRate: rate
-                )
+            viewModel.buildTransaction(
+                address: address,
+                amount: UInt64(amount) ?? 0,
+                feeRate: UInt64(fee)
+            )
+            if let tx = try? viewModel.psbt?.extractTx() {
+                viewModel.getCalulateFee(tx: tx)
+            } else {
+                // TODO: throw error could not extract tx
             }
         }
         .alert(isPresented: $viewModel.showingBuildTransactionViewErrorAlert) {

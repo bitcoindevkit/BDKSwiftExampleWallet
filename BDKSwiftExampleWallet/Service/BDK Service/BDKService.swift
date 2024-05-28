@@ -11,10 +11,10 @@ import Foundation
 private class BDKService {
     static var shared: BDKService = BDKService()
     private var balance: Balance?
-    private var blockchainConfig: BlockchainConfig?
     var network: Network
     private var wallet: Wallet?
     private let keyService: KeyClient
+    private let esploraClient: EsploraClient  // TODO: this is new, and it's use can be refactored in this file
 
     init(
         keyService: KeyClient = .live
@@ -26,36 +26,29 @@ private class BDKService {
 
         self.network = Network(stringValue: storedNetworkString) ?? .testnet
         self.keyService = keyService
-
-        let esploraConfig = EsploraConfig(
-            baseUrl: storedEsploraURL,
-            proxy: nil,
-            concurrency: nil,
-            stopGap: UInt64(20),
-            timeout: nil
-        )
-        let blockchainConfig = BlockchainConfig.esplora(config: esploraConfig)
-        self.blockchainConfig = blockchainConfig
+        self.esploraClient = EsploraClient(url: storedEsploraURL)
     }
 
     func getAddress() throws -> String {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        let addressInfo = try wallet.getAddress(addressIndex: .new)
+        let addressInfo = try wallet.revealNextAddress(keychain: .external)
         return addressInfo.address.asString()
     }
 
     func getBalance() throws -> Balance {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let balance = try wallet.getBalance()
+        let balance = wallet.getBalance()
         return balance
     }
 
-    func getTransactions() throws -> [TransactionDetails] {
-        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let transactionDetails = try wallet.listTransactions(includeRaw: false)
-        return transactionDetails
+    func transactions() throws -> [CanonicalTx] {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let transactions = wallet.transactions()
+        return transactions
     }
 
     func createWallet(words: String?) throws {
@@ -63,15 +56,6 @@ private class BDKService {
         let baseUrl =
             try! keyService.getEsploraURL()
             ?? Constants.Config.EsploraServerURLNetwork.Testnet.mempoolspace
-        let esploraConfig = EsploraConfig(
-            baseUrl: baseUrl,
-            proxy: nil,
-            concurrency: nil,
-            stopGap: UInt64(20),
-            timeout: nil
-        )
-        let blockchainConfig = BlockchainConfig.esplora(config: esploraConfig)
-        self.blockchainConfig = blockchainConfig
 
         var words12: String
         if let words = words, !words.isEmpty {
@@ -104,21 +88,28 @@ private class BDKService {
         try keyService.saveBackupInfo(backupInfo)
         try keyService.saveNetwork(self.network.description)
         try keyService.saveEsploraURL(baseUrl)
+
+        let documentsDirectoryURL = FileManager.default.getDocumentsDirectoryPath()
+        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+        let persistenceBackendPath = walletDataDirectoryURL.path
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
-            network: network,
-            databaseConfig: .memory
+            persistenceBackendPath: persistenceBackendPath,
+            network: network
         )
         self.wallet = wallet
     }
 
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
+        let documentsDirectoryURL = FileManager.default.getDocumentsDirectoryPath()
+        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+        let persistenceBackendPath = walletDataDirectoryURL.path
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
-            network: network,
-            databaseConfig: .memory
+            persistenceBackendPath: persistenceBackendPath,
+            network: network
         )
         self.wallet = wallet
     }
@@ -147,42 +138,97 @@ private class BDKService {
         return backupInfo
     }
 
-    func send(address: String, amount: UInt64, feeRate: Float?) throws {
-        let txBuilder = try buildTransaction(address: address, amount: amount, feeRate: feeRate)
-        try signAndBroadcast(txBuilder: txBuilder)
+    func send(
+        address: String,
+        amount: UInt64,
+        feeRate: UInt64
+    ) async throws {
+        let psbt = try buildTransaction(
+            address: address,
+            amount: amount,
+            feeRate: feeRate
+        )
+        try signAndBroadcast(psbt: psbt)
     }
 
-    func buildTransaction(address: String, amount: UInt64, feeRate: Float?) throws
-        -> TxBuilderResult
+    func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws
+        -> Psbt
     {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let script = try Address(address: address, network: network)
+        let script = try Address(address: address, network: self.network)
             .scriptPubkey()
         let txBuilder = try TxBuilder()
-            .addRecipient(script: script, amount: amount)
-            .feeRate(satPerVbyte: feeRate ?? 1.0)
+            .addRecipient(
+                script: script,
+                amount: Amount.fromSat(fromSat: amount)
+            )
+            .feeRate(feeRate: FeeRate.fromSatPerVb(satPerVb: feeRate))
             .finish(wallet: wallet)
         return txBuilder
     }
 
-    private func signAndBroadcast(txBuilder: TxBuilderResult) throws {
+    private func signAndBroadcast(psbt: Psbt) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        guard let config = blockchainConfig else { throw WalletError.blockchainConfigNotFound }
-        let _ = try wallet.sign(psbt: txBuilder.psbt, signOptions: nil)
-        let transaction = txBuilder.psbt.extractTx()
-        let blockchain = try Blockchain(config: config)
-        try blockchain.broadcast(transaction: transaction)
+        let _ = try wallet.sign(psbt: psbt)
+        let transaction = try psbt.extractTx()
+        let client = self.esploraClient
+        try client.broadcast(transaction: transaction)
     }
 
     func sync() async throws {
-        guard let config = self.blockchainConfig else {
-            throw WalletError.blockchainConfigNotFound
-        }
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let esploraClient = self.esploraClient
+        let syncRequest = wallet.startSyncWithRevealedSpks()
+        let update = try esploraClient.sync(
+            syncRequest: syncRequest,
+            parallelRequests: UInt64(5)
+        )
+        let _ = try wallet.applyUpdate(update: update)
+        let _ = try wallet.commit()
+        // TODO: Do i need to do this next step of setting wallet to wallet again?
+        // prob not
+        self.wallet = wallet
+    }
+
+    // TODO: use this
+    func fullScan() async throws {
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let esploraClient = esploraClient
+        let fullScanRequest = wallet.startFullScan()
+        let update = try esploraClient.fullScan(
+            fullScanRequest: fullScanRequest,
+            stopGap: UInt64(150),  // should we default value this for folks?
+            parallelRequests: UInt64(5)  // should we default value this for folks?
+        )
+        let _ = try wallet.applyUpdate(update: update)
+        let _ = try wallet.commit()
+        // TODO: Do i need to do this next step of setting wallet to wallet again?
+        // prob not
+        self.wallet = wallet
+    }
+
+    func calculateFee(tx: Transaction) throws -> UInt64 {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        let blockchain = try Blockchain(config: config)
-        try wallet.sync(blockchain: blockchain, progress: nil)
+        let fee = try wallet.calculateFee(tx: tx)
+        return fee
+    }
+
+    func calculateFeeRate(tx: Transaction) throws -> UInt64 {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let feeRate = try wallet.calculateFeeRate(tx: tx)
+        return feeRate.toSatPerVbCeil()
+    }
+
+    func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let values = wallet.sentAndReceived(tx: tx)
+        return values
     }
 
 }
@@ -192,11 +238,15 @@ struct BDKClient {
     let deleteWallet: () throws -> Void
     let createWallet: (String?) throws -> Void
     let getBalance: () throws -> Balance
-    let getTransactions: () throws -> [TransactionDetails]
+    let transactions: () throws -> [CanonicalTx]
     let sync: () async throws -> Void
+    let fullScan: () async throws -> Void
     let getAddress: () throws -> String
-    let send: (String, UInt64, Float?) throws -> Void
-    let buildTransaction: (String, UInt64, Float?) throws -> TxBuilderResult
+    let send: (String, UInt64, UInt64) throws -> Void
+    let calculateFee: (Transaction) throws -> UInt64
+    let calculateFeeRate: (Transaction) throws -> UInt64
+    let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
+    let buildTransaction: (String, UInt64, UInt64) throws -> Psbt
     let getBackupInfo: () throws -> BackupInfo
 }
 
@@ -206,12 +256,18 @@ extension BDKClient {
         deleteWallet: { try BDKService.shared.deleteWallet() },
         createWallet: { words in try BDKService.shared.createWallet(words: words) },
         getBalance: { try BDKService.shared.getBalance() },
-        getTransactions: { try BDKService.shared.getTransactions() },
+        transactions: { try BDKService.shared.transactions() },
         sync: { try await BDKService.shared.sync() },
+        fullScan: { try await BDKService.shared.fullScan() },
         getAddress: { try BDKService.shared.getAddress() },
         send: { (address, amount, feeRate) in
-            try BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+            Task {
+                try await BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+            }
         },
+        calculateFee: { tx in try BDKService.shared.calculateFee(tx: tx) },
+        calculateFeeRate: { tx in try BDKService.shared.calculateFeeRate(tx: tx) },
+        sentAndReceived: { tx in try BDKService.shared.sentAndReceived(tx: tx) },
         buildTransaction: { (address, amount, feeRate) in
             try BDKService.shared.buildTransaction(
                 address: address,
@@ -230,41 +286,32 @@ extension BDKClient {
             deleteWallet: {},
             createWallet: { _ in },
             getBalance: { mockBalance },
-            getTransactions: { mockTransactionDetails },
+            transactions: {
+                let mockData: [UInt8] = [0x01, 0x02, 0x03]
+                let mockTransaction = try Transaction(transactionBytes: mockData)
+                let mockCanonicalTx = CanonicalTx(
+                    transaction: mockTransaction,
+                    chainPosition: .confirmed(height: UInt32(210000), timestamp: UInt64(21000))
+                )
+                return [mockCanonicalTx]
+            },
             sync: {},
+            fullScan: {},
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
+            calculateFee: { _ in return UInt64(615) },
+            calculateFeeRate: { _ in return UInt64(6.15) },
+            sentAndReceived: { _ in
+                return SentAndReceivedValues(
+                    sent: Amount.fromSat(fromSat: UInt64(615)),
+                    received: Amount.fromSat(fromSat: UInt64(21))
+                )
+            },
             buildTransaction: { _, _, _ in
                 let pb64 = """
                     cHNidP8BAIkBAAAAAeaWcxp4/+xSRJ2rhkpUJ+jQclqocoyuJ/ulSZEgEkaoAQAAAAD+////Ak/cDgAAAAAAIlEgqxShDO8ifAouGyRHTFxWnTjpY69Cssr3IoNQvMYOKG/OVgAAAAAAACJRIGnlvMwBz4Ylb6xLTe5g4ZeZCxmVH/XWG+CDlcPzzaoT8qoGAAABAStAQg8AAAAAACJRIFGGvSoLWt3hRAIwYa8KEyawiFTXoOCVWFxYtSofZuAsIRZ2b8YiEpzexWYGt8B5EqLM8BE4qxJY3pkiGw/8zOZGYxkAvh7sj1YAAIABAACAAAAAgAAAAAAEAAAAARcgdm/GIhKc3sVmBrfAeRKizPAROKsSWN6ZIhsP/MzmRmMAAQUge7cvJMsJmR56NzObGOGkm8vNqaAIJdnBXLZD2PvrinIhB3u3LyTLCZkeejczmxjhpJvLzamgCCXZwVy2Q9j764pyGQC+HuyPVgAAgAEAAIAAAACAAQAAAAYAAAAAAQUgtIFPrI2EW/+PJiAmYdmux88p0KgeAxDFLMoeQoS66hIhB7SBT6yNhFv/jyYgJmHZrsfPKdCoHgMQxSzKHkKEuuoSGQC+HuyPVgAAgAEAAIAAAACAAAAAAAIAAAAA
                     """
-                return try! TxBuilderResult(
-                    psbt: .init(psbtBase64: pb64),
-                    transactionDetails: mockTransactionDetail
-                )
-            },
-            getBackupInfo: {
-                BackupInfo(
-                    mnemonic: "mnemonic",
-                    descriptor: "descriptor",
-                    changeDescriptor: "changeDescriptor"
-                )
-            }
-        )
-        static let mockZero = Self(
-            loadWallet: {},
-            deleteWallet: {},
-            createWallet: { _ in },
-            getBalance: { mockBalanceZero },
-            getTransactions: { mockTransactionDetailsZero },
-            sync: {},
-            getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
-            send: { _, _, _ in },
-            buildTransaction: { _, _, _ in
-                return try! TxBuilderResult(
-                    psbt: .init(psbtBase64: "psbtBase64"),
-                    transactionDetails: mockTransactionDetail
-                )
+                return try! Psbt(psbtBase64: pb64)
             },
             getBackupInfo: {
                 BackupInfo(

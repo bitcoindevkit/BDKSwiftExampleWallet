@@ -14,8 +14,13 @@ class TransactionDetailsViewModel: ObservableObject {
 
     @Published var network: String?
     @Published var esploraURL: String?
-    @Published var transactionDetailsError: BdkError?
+
+    @Published var esploraError: EsploraError?
+    @Published var calculateFeeError: CalculateFeeError?
+    @Published var transactionDetailsError: AppError?
+
     @Published var showingTransactionDetailsViewErrorAlert = false
+    @Published var calculateFee: String?
 
     init(
         bdkClient: BDKClient = .live,
@@ -28,15 +33,9 @@ class TransactionDetailsViewModel: ObservableObject {
     func getNetwork() {
         do {
             self.network = try keyClient.getNetwork()
-        } catch _ as BdkError {
-            DispatchQueue.main.async {
-                self.transactionDetailsError = BdkError.Generic(message: "Could not get network")
-                self.showingTransactionDetailsViewErrorAlert = true
-            }
         } catch {
             DispatchQueue.main.async {
-                self.transactionDetailsError = BdkError.Generic(message: "Could not get network")
-                self.showingTransactionDetailsViewErrorAlert = true
+                self.transactionDetailsError = .generic(message: error.localizedDescription)
             }
         }
     }
@@ -49,14 +48,35 @@ class TransactionDetailsViewModel: ObservableObject {
             } else {
                 self.esploraURL = savedEsploraURL
             }
-        } catch _ as BdkError {
+        } catch let error as EsploraError {
             DispatchQueue.main.async {
-                self.transactionDetailsError = BdkError.Generic(message: "Could not get esplora")
+                self.esploraError = error
             }
+        } catch {}
+    }
+
+    func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {
+        do {
+            let sentAndReceived = try bdkClient.sentAndReceived(tx)
+            return sentAndReceived
         } catch {
             DispatchQueue.main.async {
-                self.transactionDetailsError = BdkError.Generic(message: "Could not get esplora")
+                self.transactionDetailsError = .generic(message: error.localizedDescription)
             }
+            return nil
         }
     }
+
+    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
+        do {
+            let calculateFee = try bdkClient.calculateFee(tx)
+            let feeString = String(calculateFee)
+            self.calculateFee = feeString
+        } catch let error as CalculateFeeError {
+            DispatchQueue.main.async {
+                self.calculateFeeError = error
+            }
+        } catch {}
+    }
+
 }

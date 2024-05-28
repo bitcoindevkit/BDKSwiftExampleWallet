@@ -17,14 +17,14 @@ class WalletViewModel {
 
     var balanceTotal: UInt64 = 0
     var walletSyncState: WalletSyncState = .notStarted
-    var transactionDetails: [TransactionDetails] = []
+    var transactions: [CanonicalTx] = []
     var price: Double = 0.00
     var time: Int?
     var satsPrice: String {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
         return usdValue
     }
-    var walletViewError: BdkError?
+    var walletViewError: AppError?
     var showingWalletViewErrorAlert = false
 
     init(
@@ -41,7 +41,7 @@ class WalletViewModel {
             self.price = price.usd
             self.time = price.time
         } catch {
-            self.walletViewError = .Generic(message: "Error Getting Prices")
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         }
     }
@@ -49,31 +49,25 @@ class WalletViewModel {
     func getBalance() {
         do {
             let balance = try bdkClient.getBalance()
-            self.balanceTotal = balance.total
+            self.balanceTotal = balance.total.toSat()
         } catch let error as WalletError {
-            self.walletViewError = .Generic(message: error.localizedDescription)
-            self.showingWalletViewErrorAlert = true
-        } catch let error as BdkError {
-            self.walletViewError = .Generic(message: error.description)
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch {
-            self.walletViewError = .Generic(message: "Error Getting Balance")
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         }
     }
 
     func getTransactions() {
         do {
-            let transactionDetails = try bdkClient.getTransactions()
-            self.transactionDetails = transactionDetails
+            let transactionDetails = try bdkClient.transactions()
+            self.transactions = transactionDetails
         } catch let error as WalletError {
-            self.walletViewError = .Generic(message: error.localizedDescription)
-            self.showingWalletViewErrorAlert = true
-        } catch let error as BdkError {
-            self.walletViewError = .Generic(message: error.description)
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch {
-            self.walletViewError = .Generic(message: "Error Getting Transactions")
+            self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         }
     }
@@ -83,6 +77,15 @@ class WalletViewModel {
         do {
             try await bdkClient.sync()
             self.walletSyncState = .synced
+        } catch let error as CannotConnectError {
+            self.walletViewError = .generic(message: error.localizedDescription)
+            self.showingWalletViewErrorAlert = true
+        } catch let error as EsploraError {
+            self.walletViewError = .generic(message: error.localizedDescription)
+            self.showingWalletViewErrorAlert = true
+        } catch let error as PersistenceError {
+            self.walletViewError = .generic(message: error.localizedDescription)
+            self.showingWalletViewErrorAlert = true
         } catch {
             self.walletSyncState = .error(error)
             self.showingWalletViewErrorAlert = true

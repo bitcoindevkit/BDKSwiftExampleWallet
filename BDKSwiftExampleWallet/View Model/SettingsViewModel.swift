@@ -15,7 +15,7 @@ class SettingsViewModel: ObservableObject {
 
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
 
-    @Published var settingsError: BdkError?
+    @Published var settingsError: AppError?
     @Published var showingSettingsViewErrorAlert = false
     @Published var network: String?
     @Published var esploraURL: String?
@@ -32,14 +32,9 @@ class SettingsViewModel: ObservableObject {
         do {
             try bdkClient.deleteWallet()
             self.isOnboarding = true
-        } catch _ as BdkError {
-            DispatchQueue.main.async {
-                self.settingsError = BdkError.Generic(message: "Could not delete seed")
-                self.showingSettingsViewErrorAlert = true
-            }
         } catch {
             DispatchQueue.main.async {
-                self.settingsError = BdkError.Generic(message: "Could not delete seed")
+                self.settingsError = .generic(message: error.localizedDescription)
                 self.showingSettingsViewErrorAlert = true
             }
         }
@@ -48,14 +43,9 @@ class SettingsViewModel: ObservableObject {
     func getNetwork() {
         do {
             self.network = try keyClient.getNetwork()
-        } catch _ as BdkError {
-            DispatchQueue.main.async {
-                self.settingsError = BdkError.Generic(message: "Could not get network")
-                self.showingSettingsViewErrorAlert = true
-            }
         } catch {
             DispatchQueue.main.async {
-                self.settingsError = BdkError.Generic(message: "Could not get network")
+                self.settingsError = .generic(message: error.localizedDescription)
                 self.showingSettingsViewErrorAlert = true
             }
         }
@@ -64,13 +54,9 @@ class SettingsViewModel: ObservableObject {
     func getEsploraUrl() {
         do {
             self.esploraURL = try keyClient.getEsploraURL()
-        } catch _ as BdkError {
-            DispatchQueue.main.async {
-                self.settingsError = BdkError.Generic(message: "Could not get esplora")
-            }
         } catch {
             DispatchQueue.main.async {
-                self.settingsError = BdkError.Generic(message: "Could not get esplora")
+                self.settingsError = .generic(message: error.localizedDescription)
             }
         }
     }
