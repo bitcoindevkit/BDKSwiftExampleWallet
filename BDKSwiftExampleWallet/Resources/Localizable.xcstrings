@@ -112,7 +112,14 @@
       }
     },
     "12 Word Seed Phrase (Optional)" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phrase de semence de 12 mots (facultatif)"
+          }
+        }
+      }
     },
     "100% open-source & open-design" : {
       "localizations" : {
@@ -124,19 +131,15 @@
         }
       }
     },
-    "A simple bitcoin wallet for your enjoyment." : {
-      "extractionState" : "stale",
+    "A simple bitcoin wallet." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un portefeuille bitcoin simple pour votre plaisir."
+            "value" : "Un portefeuille bitcoin simple."
           }
         }
       }
-    },
-    "A simple bitcoin wallet." : {
-
     },
     "Activity" : {
       "localizations" : {
@@ -159,13 +162,34 @@
       }
     },
     "Amount Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de montant"
+          }
+        }
+      }
     },
     "Are you sure you want to delete the seed?" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûr de vouloir supprimer la semence ?"
+          }
+        }
+      }
     },
     "Are you sure you want to view the seed?" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûr de vouloir voir la semence ?"
+          }
+        }
+      }
     },
     "Bitcoin Wallet" : {
       "localizations" : {
@@ -188,10 +212,24 @@
       }
     },
     "Build Transaction Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de construction de transaction"
+          }
+        }
+      }
     },
     "Choose your Network." : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez votre réseau."
+          }
+        }
+      }
     },
     "confirmed" : {
       "localizations" : {
@@ -215,27 +253,44 @@
       }
     },
     "Copy" : {
-
-    },
-    "Create a new wallet" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Créer un nouveau portefeuille"
+            "value" : "Copier"
           }
         }
       }
     },
     "Create Wallet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer un portefeuille"
+          }
+        }
+      }
     },
     "Danger Zone" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zone dangereuse"
+          }
+        }
+      }
     },
     "Delete Seed" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la semence"
+          }
+        }
+      }
     },
     "Enter address to send BTC to" : {
       "localizations" : {
@@ -247,19 +302,15 @@
         }
       }
     },
-    "Error" : {
-      "extractionState" : "stale",
+    "Esplora Server" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\nErreur"
+            "value" : "Serveur Esplora"
           }
         }
       }
-    },
-    "Esplora Server" : {
-
     },
     "Fee" : {
       "localizations" : {
@@ -272,7 +323,14 @@
       }
     },
     "Fee Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de frais"
+          }
+        }
+      }
     },
     "Fees" : {
       "localizations" : {
@@ -285,7 +343,14 @@
       }
     },
     "Network" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réseau"
+          }
+        }
+      }
     },
     "Next" : {
       "localizations" : {
@@ -298,7 +363,24 @@
       }
     },
     "No" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non"
+          }
+        }
+      }
+    },
+    "No Network" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun réseau"
+          }
+        }
+      }
     },
     "No Transactions" : {
       "localizations" : {
@@ -311,10 +393,24 @@
       }
     },
     "OK" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
     },
     "Onboarding Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur d'intégration"
+          }
+        }
+      }
     },
     "Receive" : {
       "localizations" : {
@@ -337,10 +433,24 @@
       }
     },
     "Receive Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de réception"
+          }
+        }
+      }
     },
     "Regtest" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regtest"
+          }
+        }
+      }
     },
     "sat/vb" : {
       "localizations" : {
@@ -384,16 +494,44 @@
       }
     },
     "Settings Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur des paramètres"
+          }
+        }
+      }
     },
     "Show Seed" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la graine"
+          }
+        }
+      }
     },
     "Showing Seed Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur d’affichage de la graine"
+          }
+        }
+      }
     },
     "Signet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signet"
+          }
+        }
+      }
     },
     "Syncing" : {
       "extractionState" : "manual",
@@ -407,10 +545,24 @@
       }
     },
     "TabView Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de TabView"
+          }
+        }
+      }
     },
     "Testnet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testnet"
+          }
+        }
+      }
     },
     "To" : {
       "localizations" : {
@@ -474,10 +626,24 @@
       }
     },
     "Wallet Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur du portefeuille"
+          }
+        }
+      }
     },
     "Yes" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oui"
+          }
+        }
+      }
     },
     "Your wallet, your coins" : {
       "localizations" : {
