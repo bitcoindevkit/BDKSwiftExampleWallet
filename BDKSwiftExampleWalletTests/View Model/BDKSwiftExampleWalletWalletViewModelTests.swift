@@ -19,7 +19,7 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.walletSyncState, .notStarted)
 
         // Simulate successful sync() call
-        await viewModel.sync()
+        await viewModel.syncOrFullScan()
         //try? await Task.sleep(nanoseconds: 10_000_000_000)  // Wait for for the state to be updated
         XCTAssertEqual(viewModel.walletSyncState, .synced)
 
@@ -35,7 +35,7 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
         // Simulate successful getPrices() call
         await viewModel.getPrices()
         //try? await Task.sleep(nanoseconds: 10_000_000_000)  // Wait 10sec for the state to be updated
-        XCTAssertEqual(viewModel.satsPrice, "$0.26")
+        XCTAssertEqual(viewModel.satsPrice, 0.26030000000000003)
     }
 
 }

@@ -23,7 +23,7 @@ final class BDKSwiftExampleWalletDouble_Extensions: XCTestCase {
         let currentBitcoinPrice: Double = 50000.0
         let usdValue = bitcoinAmount.valueInUSD(price: currentBitcoinPrice)
 
-        XCTAssertEqual(usdValue, "$0.00")
+        XCTAssertEqual(usdValue, 0.0000025)
     }
 
 }
