@@ -64,6 +64,9 @@
         }
       }
     },
+    "/" : {
+
+    },
     "%@ sats" : {
       "localizations" : {
         "fr" : {
@@ -89,6 +92,9 @@
           }
         }
       }
+    },
+    "%llu" : {
+
     },
     "%llu sats fee" : {
       "extractionState" : "stale",

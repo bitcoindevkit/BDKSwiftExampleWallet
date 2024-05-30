@@ -17,10 +17,10 @@ extension Double {
         return numberFormatter.string(from: NSNumber(value: self)) ?? "\(self)"
     }
 
-    func valueInUSD(price: Double) -> String {
+    func valueInUSD(price: Double) -> Double {
         let bitcoin = self / 100_000_000.0
         let usdValue = bitcoin * price
-        return usdValue.formattedPrice(currencyCode: .USD)
+        return usdValue
     }
 
 }
