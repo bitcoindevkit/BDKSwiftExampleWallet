@@ -53,22 +53,26 @@ struct WalletTransactionsListItemView: View {
                     Text(
                         timestamp.toDate().formatted(
                             date: .abbreviated,
-                            time: Date.FormatStyle.TimeStyle.shortened
+                            time: .shortened
                         )
                     )
                     .lineLimit(
                         sizeCategory > .accessibilityMedium ? 2 : 1
                     )
+                    .font(.caption2)
+                    .fontWidth(.condensed)
                 case .unconfirmed(let timestamp):
                     Text(
                         timestamp.toDate().formatted(
                             date: .abbreviated,
-                            time: Date.FormatStyle.TimeStyle.shortened
+                            time: .shortened
                         )
                     )
                     .lineLimit(
                         sizeCategory > .accessibilityMedium ? 2 : 1
                     )
+                    .font(.caption2)
+                    .fontWidth(.condensed)
                 }
             }
             .foregroundColor(.secondary)
