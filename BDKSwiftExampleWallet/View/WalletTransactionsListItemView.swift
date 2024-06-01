@@ -6,6 +6,7 @@
 //
 
 import BitcoinDevKit
+import BitcoinUI
 import SwiftUI
 
 struct WalletTransactionsListItemView: View {
@@ -29,15 +30,28 @@ struct WalletTransactionsListItemView: View {
                     Color.gray.opacity(0.5)
                 )
             } else {
-                Image(
-                    systemName:
-                        sentAndReceivedValues.sent.toSat() == 0
-                        && sentAndReceivedValues.received.toSat() > 0
-                        ? "arrow.up.circle.fill" : "arrow.down.circle.fill"
-                )
-                .font(.largeTitle)
-                .symbolRenderingMode(.palette)
-                .foregroundStyle(Color.gray.opacity(0.5))  // TODO: foreground style, used to be based on confirmation time
+                ZStack {
+                    Image(systemName: "circle.fill")
+                        .font(.largeTitle)
+                        .foregroundStyle(Color.gray.opacity(0.25))
+                    Image(
+                        systemName:
+                            sentAndReceivedValues.sent.toSat() == 0
+                            && sentAndReceivedValues.received.toSat() > 0
+                            ? "arrow.down" : "arrow.up"
+                    )
+                    .font(.callout)
+                    .foregroundStyle(
+                        {
+                            switch canonicalTx.chainPosition {
+                            case .confirmed(_, _):
+                                Color.bitcoinOrange
+                            case .unconfirmed(_):
+                                Color.gray.opacity(0.5)
+                            }
+                        }()
+                    )
+                }
             }
 
             VStack(alignment: .leading, spacing: 5) {
@@ -87,7 +101,6 @@ struct WalletTransactionsListItemView: View {
                     && sentAndReceivedValues.received.toSat() > 0
                     ? "+ \(sentAndReceivedValues.received.toSat()) sats"
                     : "- \(sentAndReceivedValues.sent.toSat() - sentAndReceivedValues.received.toSat()) sats"
-
             )
             .font(.subheadline)
             .fontWeight(.semibold)
