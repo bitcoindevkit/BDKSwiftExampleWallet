@@ -15,84 +15,90 @@ struct SettingsView: View {
     @State private var isSeedPresented = false
 
     var body: some View {
-        Form {
-            Section(header: Text("Network")) {
-                if let network = viewModel.network, let url = viewModel.esploraURL {
-                    Text("\(network)".uppercased())
-                        .foregroundColor(.bitcoinOrange)
-                    Text(
-                        url.replacingOccurrences(
-                            of: "https://",
-                            with: ""
-                        ).replacingOccurrences(
-                            of: "http://",
-                            with: ""
-                        )
-                    )
-                    .foregroundColor(.bitcoinOrange)
-                } else {
-                    HStack {
-                        Text("No Network")
-                    }
-                }
 
-            }
-            Section(header: Text("Danger Zone")) {
-                Button {
-                    showingShowSeedConfirmation = true
-                } label: {
-                    Text(String(localized: "Show Seed"))
-                        .foregroundStyle(.red)
-                }
-                .alert(
-                    "Are you sure you want to view the seed?",
-                    isPresented: $showingShowSeedConfirmation
-                ) {
-                    Button("Yes", role: .destructive) {
-                        isSeedPresented = true
+        NavigationView {
+
+            Form {
+                Section(header: Text("Network")) {
+                    if let network = viewModel.network, let url = viewModel.esploraURL {
+                        Text(network.capitalized)
+                            .foregroundColor(.primary)
+                        Text(
+                            url.replacingOccurrences(
+                                of: "https://",
+                                with: ""
+                            ).replacingOccurrences(
+                                of: "http://",
+                                with: ""
+                            )
+                        )
+                        .foregroundColor(.primary)
+                    } else {
+                        HStack {
+                            Text("No Network")
+                        }
                     }
-                    Button("No", role: .cancel) {}
+
                 }
-                Button {
-                    showingDeleteSeedConfirmation = true
-                } label: {
-                    HStack {
-                        Text(String(localized: "Delete Seed"))
+                Section(header: Text("Danger Zone")) {
+                    Button {
+                        showingShowSeedConfirmation = true
+                    } label: {
+                        Text(String(localized: "Show Seed"))
                             .foregroundStyle(.red)
                     }
-                }
-                .alert(
-                    "Are you sure you want to delete the seed?",
-                    isPresented: $showingDeleteSeedConfirmation
-                ) {
-                    Button("Yes", role: .destructive) {
-                        viewModel.delete()
+                    .alert(
+                        "Are you sure you want to view the seed?",
+                        isPresented: $showingShowSeedConfirmation
+                    ) {
+                        Button("Yes", role: .destructive) {
+                            isSeedPresented = true
+                        }
+                        Button("No", role: .cancel) {}
                     }
-                    Button("No", role: .cancel) {}
+                    Button {
+                        showingDeleteSeedConfirmation = true
+                    } label: {
+                        HStack {
+                            Text(String(localized: "Delete Seed"))
+                                .foregroundStyle(.red)
+                        }
+                    }
+                    .alert(
+                        "Are you sure you want to delete the seed?",
+                        isPresented: $showingDeleteSeedConfirmation
+                    ) {
+                        Button("Yes", role: .destructive) {
+                            viewModel.delete()
+                        }
+                        Button("No", role: .cancel) {}
+                    }
                 }
             }
+            .navigationTitle("Settings")
+            .onAppear {
+                viewModel.getNetwork()
+                viewModel.getEsploraUrl()
+            }
+            .sheet(
+                isPresented: $isSeedPresented
+            ) {
+                SeedView(viewModel: .init())
+                    .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.visible)
+            }
+            .alert(isPresented: $viewModel.showingSettingsViewErrorAlert) {
+                Alert(
+                    title: Text("Settings Error"),
+                    message: Text(viewModel.settingsError?.description ?? "Unknown"),
+                    dismissButton: .default(Text("OK")) {
+                        viewModel.settingsError = nil
+                    }
+                )
+            }
+
         }
-        .navigationTitle(String("Settings"))
-        .onAppear {
-            viewModel.getNetwork()
-            viewModel.getEsploraUrl()
-        }
-        .sheet(
-            isPresented: $isSeedPresented
-        ) {
-            SeedView(viewModel: .init())
-                .presentationDetents([.medium, .large])
-                .presentationDragIndicator(.visible)
-        }
-        .alert(isPresented: $viewModel.showingSettingsViewErrorAlert) {
-            Alert(
-                title: Text("Settings Error"),
-                message: Text(viewModel.settingsError?.description ?? "Unknown"),
-                dismissButton: .default(Text("OK")) {
-                    viewModel.settingsError = nil
-                }
-            )
-        }
+
     }
 
 }
@@ -101,7 +107,6 @@ struct SettingsView: View {
     #Preview {
         SettingsView(viewModel: .init())
     }
-
     #Preview {
         SettingsView(viewModel: .init())
             .environment(\.sizeCategory, .accessibilityLarge)

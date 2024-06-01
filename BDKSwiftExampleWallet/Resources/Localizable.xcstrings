@@ -499,6 +499,9 @@
         }
       }
     },
+    "Settings" : {
+
+    },
     "Settings Error" : {
       "localizations" : {
         "fr" : {
