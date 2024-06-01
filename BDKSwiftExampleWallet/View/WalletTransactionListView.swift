@@ -65,6 +65,7 @@ struct WalletTransactionListView: View {
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
 
             }
 
