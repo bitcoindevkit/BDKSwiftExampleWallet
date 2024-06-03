@@ -348,6 +348,9 @@
         }
       }
     },
+    "Full Scan" : {
+
+    },
     "Network" : {
       "localizations" : {
         "fr" : {
@@ -633,6 +636,9 @@
           }
         }
       }
+    },
+    "Wallet" : {
+
     },
     "Wallet Error" : {
       "localizations" : {
