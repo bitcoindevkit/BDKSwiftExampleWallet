@@ -46,10 +46,10 @@ struct TransactionDetailsView: View {
                 .fontWeight(.semibold)
 
                 switch canonicalTx.chainPosition {
-                case .confirmed(let height, let timestamp):
+                case .confirmed(let height, _):
                     Text("Block \(height.delimiter)")
                         .foregroundColor(.secondary)
-                case .unconfirmed(let timestamp):
+                case .unconfirmed(_):
                     Text("Unconfirmed")
                         .foregroundColor(.secondary)
                 }
@@ -156,15 +156,15 @@ struct TransactionDetailsView: View {
         TransactionDetailsView(
             viewModel: .init(),
             canonicalTx: mockCanonicalTx1,
-            amount: UInt64(10_000_000)
+            amount: UInt64(1_000_000)
         )
     }
 
     #Preview {
         TransactionDetailsView(
             viewModel: .init(),
-            canonicalTx: mockCanonicalTx2,
-            amount: UInt64(10_000_000)
+            canonicalTx: mockCanonicalTx1,
+            amount: UInt64(1_000_000)
         )
         .environment(\.sizeCategory, .accessibilityLarge)
     }

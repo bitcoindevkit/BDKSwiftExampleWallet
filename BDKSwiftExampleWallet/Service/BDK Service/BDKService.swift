@@ -88,6 +88,7 @@ private class BDKService {
             descriptor: descriptor.asStringPrivate(),
             changeDescriptor: changeDescriptor.asStringPrivate()
         )
+
         try keyService.saveBackupInfo(backupInfo)
         try keyService.saveNetwork(self.network.description)
         try keyService.saveEsploraURL(baseUrl)
@@ -310,13 +311,9 @@ extension BDKClient {
             createWallet: { _ in },
             getBalance: { mockBalance },
             transactions: {
-                let mockData: [UInt8] = [0x01, 0x02, 0x03]
-                let mockTransaction = try Transaction(transactionBytes: mockData)
-                let mockCanonicalTx = CanonicalTx(
-                    transaction: mockTransaction,
-                    chainPosition: .confirmed(height: UInt32(210000), timestamp: UInt64(21000))
-                )
-                return [mockCanonicalTx]
+                return [
+                    mockCanonicalTx1
+                ]
             },
             syncWithInspector: { _ in },
             fullScanWithInspector: { _ in },
@@ -326,8 +323,8 @@ extension BDKClient {
             calculateFeeRate: { _ in return UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(
-                    sent: Amount.fromSat(fromSat: UInt64(615)),
-                    received: Amount.fromSat(fromSat: UInt64(21))
+                    sent: Amount.fromSat(fromSat: UInt64(20000)),
+                    received: Amount.fromSat(fromSat: UInt64(210))
                 )
             },
             buildTransaction: { _, _, _ in
@@ -338,9 +335,12 @@ extension BDKClient {
             },
             getBackupInfo: {
                 BackupInfo(
-                    mnemonic: "mnemonic",
-                    descriptor: "descriptor",
-                    changeDescriptor: "changeDescriptor"
+                    mnemonic:
+                        "excite mesh empower noble virus main flee cake gorilla weapon maid radio",
+                    descriptor:
+                        "tr(tprv8ZgxMBicQKsPdXGCpRXi6PRsH2BaTpP2Aw4K7J5BLVEWHfXYfLZKsPh43VQncqSJucGj6KvzLTNayDcRJEKMfEqLGN1Pi3jjnM7mwRxGQ1s/86\'/1\'/0\'/0/*)#q4yvkz4r",
+                    changeDescriptor:
+                        "tr(tprv8ZgxMBicQKsPdXGCpRXi6PRsH2BaTpP2Aw4K7J5BLVEWHfXYfLZKsPh43VQncqSJucGj6KvzLTNayDcRJEKMfEqLGN1Pi3jjnM7mwRxGQ1s/86\'/1\'/0\'/1/*)#3ppdth9m"
                 )
             },
             needsFullScan: { true },

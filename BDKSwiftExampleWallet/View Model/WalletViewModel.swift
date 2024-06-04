@@ -16,8 +16,8 @@ class WalletViewModel {
     let bdkClient: BDKClient
 
     var balanceTotal: UInt64 = 0
-    var walletSyncState: WalletSyncState = .notStarted
-    var transactions: [CanonicalTx] = []
+    var walletSyncState: WalletSyncState
+    var transactions: [CanonicalTx]
     var price: Double = 0.00
     var time: Int?
     var satsPrice: Double {
@@ -33,10 +33,14 @@ class WalletViewModel {
 
     init(
         priceClient: PriceClient = .live,
-        bdkClient: BDKClient = .live
+        bdkClient: BDKClient = .live,
+        walletSyncState: WalletSyncState = .notStarted,
+        transactions: [CanonicalTx] = []
     ) {
         self.priceClient = priceClient
         self.bdkClient = bdkClient
+        self.walletSyncState = walletSyncState
+        self.transactions = transactions
     }
 
     func getPrices() async {

@@ -16,4 +16,23 @@ extension String {
         formatter.groupingSize = 3
         return formatter.string(from: NSNumber(value: number)) ?? self
     }
+
+    func hexStringToByteArray() -> [UInt8] {
+        var startIndex = self.startIndex
+        var byteArray: [UInt8] = []
+
+        while startIndex < self.endIndex {
+            let endIndex =
+                self.index(startIndex, offsetBy: 2, limitedBy: self.endIndex) ?? self.endIndex
+            let byteString = self[startIndex..<endIndex]
+            if let byte = UInt8(byteString, radix: 16) {
+                byteArray.append(byte)
+            } else {
+                return []
+            }
+            startIndex = endIndex
+        }
+
+        return byteArray
+    }
 }

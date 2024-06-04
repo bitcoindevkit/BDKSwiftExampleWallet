@@ -55,7 +55,7 @@ struct TabHomeView: View {
 
 #if DEBUG
     #Preview {
-        TabHomeView(viewModel: .init())
+        TabHomeView(viewModel: .init(bdkClient: .mock))
     }
 
     #Preview {
