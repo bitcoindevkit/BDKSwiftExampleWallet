@@ -132,9 +132,14 @@ struct WalletView: View {
                                                 viewModel.walletSyncState == .synced
                                                     ? .green : .secondary
                                             )
+                                    } else if viewModel.walletSyncState == .notStarted {
+                                        Image(systemName: "goforward")
                                     } else {
-                                        Image(systemName: "questionmark")
+                                        Image(
+                                            systemName: "person.crop.circle.badge.exclamationmark"
+                                        )
                                     }
+
                                 }
                             }
                             .foregroundColor(.secondary)
@@ -193,20 +198,24 @@ struct WalletView: View {
 
 #if DEBUG
     #Preview("WalletView - en") {
-        WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
+        WalletView(
+            viewModel: .init(
+                priceClient: .mock,
+                bdkClient: .mock,
+                walletSyncState: .synced,
+                transactions: [mockCanonicalTx1]
+            )
+        )
     }
-
-    #Preview("WalletView - en - Large") {
-        WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
-            .environment(\.sizeCategory, .accessibilityLarge)
-    }
-
-    #Preview("WalletView Wait - en") {
-        WalletView(viewModel: .init(priceClient: .mockPause, bdkClient: .mock))
-    }
-
     #Preview("WalletView - fr") {
-        WalletView(viewModel: .init(priceClient: .mock, bdkClient: .mock))
-            .environment(\.locale, .init(identifier: "fr"))
+        WalletView(
+            viewModel: .init(
+                priceClient: .mock,
+                bdkClient: .mock,
+                walletSyncState: .synced,
+                transactions: [mockCanonicalTx1]
+            )
+        )
+        .environment(\.locale, .init(identifier: "fr"))
     }
 #endif

@@ -79,11 +79,11 @@ struct SeedView: View {
 
 #if DEBUG
     #Preview {
-        SeedView(viewModel: .init())
+        SeedView(viewModel: .init(bdkService: .mock))
     }
 
     #Preview {
-        SeedView(viewModel: .init())
+        SeedView(viewModel: .init(bdkService: .mock))
             .environment(\.sizeCategory, .accessibilityLarge)
     }
 #endif

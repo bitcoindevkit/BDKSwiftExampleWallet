@@ -79,33 +79,19 @@ struct WalletTransactionListView: View {
     #Preview {
         WalletTransactionListView(
             transactions: [
-                mockCanonicalTx1,
-                mockCanonicalTx2,
+                mockCanonicalTx1
             ],
             walletSyncState: .synced,
-            viewModel: .init()
+            viewModel: .init(bdkClient: .mock)
         )
-        .environment(\.colorScheme, .dark)
     }
     #Preview {
         WalletTransactionListView(
             transactions: [
-                mockCanonicalTx1,
-                mockCanonicalTx2,
+                mockCanonicalTx1
             ],
             walletSyncState: .synced,
-            viewModel: .init()
-        )
-        .environment(\.colorScheme, .dark)
-    }
-    #Preview {
-        WalletTransactionListView(
-            transactions: [
-                mockCanonicalTx1,
-                mockCanonicalTx2,
-            ],
-            walletSyncState: .synced,
-            viewModel: .init()
+            viewModel: .init(bdkClient: .mock)
         )
         .environment(\.sizeCategory, .accessibilityLarge)
     }

@@ -23,3 +23,11 @@ struct BackupInfo: Codable, Equatable {
             && lhs.changeDescriptor == rhs.changeDescriptor
     }
 }
+
+extension BackupInfo {
+    static var mock = Self(
+        mnemonic: "space echo position wrist orient erupt relief museum myself grain wisdom tumble",
+        descriptor: "",
+        changeDescriptor: ""
+    )
+}

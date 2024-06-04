@@ -120,8 +120,19 @@ struct WalletTransactionsListItemView: View {
     #Preview {
         WalletTransactionsListItemView(
             sentAndReceivedValues: SentAndReceivedValues.init(
-                sent: Amount.fromSat(fromSat: UInt64(100)),
-                received: Amount.fromSat(fromSat: UInt64(200))
+                sent: Amount.fromSat(fromSat: UInt64(0)),
+                received: Amount.fromSat(fromSat: UInt64(1_000_000))
+            ),
+            canonicalTx: mockCanonicalTx1,
+            isRedacted: false
+        )
+    }
+
+    #Preview {
+        WalletTransactionsListItemView(
+            sentAndReceivedValues: SentAndReceivedValues.init(
+                sent: Amount.fromSat(fromSat: UInt64(0)),
+                received: Amount.fromSat(fromSat: UInt64(1_000_000))
             ),
             canonicalTx: mockCanonicalTx1,
             isRedacted: false
