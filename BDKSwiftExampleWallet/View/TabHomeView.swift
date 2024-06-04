@@ -16,10 +16,17 @@ struct TabHomeView: View {
             Color(uiColor: UIColor.systemBackground)
 
             TabView {
-                WalletView(viewModel: .init())
-                    .tabItem {
-                        Image(systemName: "bitcoinsign")
-                    }
+                WalletView(
+                    viewModel: .init(
+                        priceClient: .mock,
+                        bdkClient: .mock,
+                        walletSyncState: .synced,
+                        transactions: [.mock]
+                    )
+                )
+                .tabItem {
+                    Image(systemName: "bitcoinsign")
+                }
                 ReceiveView(viewModel: .init())
                     .tabItem {
                         Image(systemName: "arrow.down")
@@ -57,7 +64,6 @@ struct TabHomeView: View {
     #Preview {
         TabHomeView(viewModel: .init(bdkClient: .mock))
     }
-
     #Preview {
         TabHomeView(viewModel: .init())
             .environment(\.sizeCategory, .accessibilityLarge)

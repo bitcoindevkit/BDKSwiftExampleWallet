@@ -23,7 +23,7 @@ struct WalletTransactionListView: View {
                         sent: Amount.fromSat(fromSat: UInt64(0)),
                         received: Amount.fromSat(fromSat: UInt64(0))
                     ),
-                    canonicalTx: mockCanonicalTx1,
+                    canonicalTx: .mock,
                     isRedacted: true
                 )
                 .listRowInsets(EdgeInsets())
@@ -79,19 +79,23 @@ struct WalletTransactionListView: View {
     #Preview {
         WalletTransactionListView(
             transactions: [
-                mockCanonicalTx1
+                .mock
             ],
             walletSyncState: .synced,
-            viewModel: .init(bdkClient: .mock)
+            viewModel: .init(
+                bdkClient: .mock
+            )
         )
     }
     #Preview {
         WalletTransactionListView(
             transactions: [
-                mockCanonicalTx1
+                .mock
             ],
             walletSyncState: .synced,
-            viewModel: .init(bdkClient: .mock)
+            viewModel: .init(
+                bdkClient: .mock
+            )
         )
         .environment(\.sizeCategory, .accessibilityLarge)
     }

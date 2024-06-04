@@ -126,12 +126,10 @@ struct OnboardingView: View {
     #Preview("OnboardingView - en") {
         OnboardingView(viewModel: .init(bdkClient: .mock))
     }
-
     #Preview("OnboardingView - en - Large") {
         OnboardingView(viewModel: .init(bdkClient: .mock))
             .environment(\.sizeCategory, .accessibilityLarge)
     }
-
     #Preview("OnboardingView - fr") {
         OnboardingView(viewModel: .init(bdkClient: .mock))
             .environment(\.locale, .init(identifier: "fr"))
