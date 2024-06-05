@@ -155,6 +155,8 @@ extension WalletCreationError {
             return errorMessage
         case .LoadedDescriptorDoesNotMatch(let got, let keychain):
             return "got: \(String(describing: got)), keychain \(keychain)"
+        case .Sqlite(let errorMessage):
+            return errorMessage
         }
     }
 }

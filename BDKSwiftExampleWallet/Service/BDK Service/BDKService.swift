@@ -55,7 +55,7 @@ private class BDKService {
     func createWallet(words: String?) throws {
 
         let baseUrl =
-            try! keyService.getEsploraURL()
+            try keyService.getEsploraURL()
             ?? Constants.Config.EsploraServerURLNetwork.Testnet.mempoolspace
 
         var words12: String
@@ -95,7 +95,10 @@ private class BDKService {
 
         let documentsDirectoryURL = FileManager.default.getDocumentsDirectoryPath()
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-        let persistenceBackendPath = walletDataDirectoryURL.path
+        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
+        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
+        let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
+            .path
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
@@ -108,7 +111,10 @@ private class BDKService {
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
         let documentsDirectoryURL = FileManager.default.getDocumentsDirectoryPath()
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-        let persistenceBackendPath = walletDataDirectoryURL.path
+        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
+        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
+        let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
+            .path
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
