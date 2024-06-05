@@ -11,14 +11,13 @@ import SwiftUI
 @main
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
-    let bdkService: BDKClient = .live
 
     var body: some Scene {
         WindowGroup {
             if isOnboarding {
-                OnboardingView(viewModel: .init())
+                OnboardingView(viewModel: .init(bdkClient: .live))
             } else {
-                TabHomeView(viewModel: .init())
+                TabHomeView(viewModel: .init(bdkClient: .live))
             }
         }
     }
