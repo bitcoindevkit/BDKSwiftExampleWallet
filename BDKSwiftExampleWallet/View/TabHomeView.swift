@@ -18,10 +18,8 @@ struct TabHomeView: View {
             TabView {
                 WalletView(
                     viewModel: .init(
-                        priceClient: .mock,
-                        bdkClient: .mock,
-                        walletSyncState: .synced,
-                        transactions: [.mock]
+                        priceClient: .live,
+                        bdkClient: .live
                     )
                 )
                 .tabItem {

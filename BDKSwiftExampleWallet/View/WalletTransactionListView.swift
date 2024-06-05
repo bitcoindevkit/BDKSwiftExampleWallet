@@ -44,7 +44,7 @@ struct WalletTransactionListView: View {
                     if let sentAndReceivedValues = viewModel.getSentAndReceived(tx: tx) {
                         NavigationLink(
                             destination: TransactionDetailsView(
-                                viewModel: .init(),
+                                viewModel: .init(bdkClient: .live, keyClient: .live),
                                 canonicalTx: canonicalTx,
                                 amount: sentAndReceivedValues.sent.toSat() == 0
                                     && sentAndReceivedValues.received.toSat() > 0
