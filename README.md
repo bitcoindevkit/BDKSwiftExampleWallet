@@ -16,17 +16,7 @@ Supports single key HD wallets with BIP86 derivation paths.
 
 ### Implemented
 
-- [x] Create Wallet `Wallet(descriptor: changeDescriptor: network: databaseConfig:)`
-
-- [x] Get Address `getAddress`
-
-- [x] Get Balance `getBalance`
-
-- [x] List Transactions `listTransactions`
-
-- [x] Send `send`
-
-- [x] Sync `sync`
+Create a wallet, send and receive.
 
 ## Swift Packages
 
