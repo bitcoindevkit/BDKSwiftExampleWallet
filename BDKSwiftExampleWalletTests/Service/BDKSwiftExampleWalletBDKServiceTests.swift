@@ -21,7 +21,7 @@ final class BDKSwiftExampleWalletBDKServiceTests: XCTestCase {
     func testBDKClientMockGetBalance() throws {
         let balance = try BDKClient.mock.getBalance()
 
-        XCTAssertEqual(balance, mockBalance)
+        XCTAssertEqual(balance, .mock)
     }
 
     // TODO: update this test

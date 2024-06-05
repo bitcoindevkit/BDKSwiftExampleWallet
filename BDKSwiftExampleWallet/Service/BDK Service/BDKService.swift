@@ -309,10 +309,10 @@ extension BDKClient {
             loadWallet: {},
             deleteWallet: {},
             createWallet: { _ in },
-            getBalance: { mockBalance },
+            getBalance: { .mock },
             transactions: {
                 return [
-                    mockCanonicalTx1
+                    .mock
                 ]
             },
             syncWithInspector: { _ in },

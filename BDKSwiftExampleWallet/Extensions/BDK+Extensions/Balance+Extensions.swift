@@ -17,21 +17,14 @@ extension Balance: Equatable {
 }
 
 #if DEBUG
-    let mockBalance = Balance(
-        immature: Amount.fromSat(fromSat: UInt64(100)),
-        trustedPending: Amount.fromSat(fromSat: UInt64(200)),
-        untrustedPending: Amount.fromSat(fromSat: UInt64(300)),
-        confirmed: Amount.fromSat(fromSat: UInt64(21000)),
-        trustedSpendable: Amount.fromSat(fromSat: UInt64(1_000_000)),
-        total: Amount.fromSat(fromSat: UInt64(615_000_000))
-    )
-
-    let mockBalanceZero = Balance(
-        immature: Amount.fromSat(fromSat: UInt64(0)),
-        trustedPending: Amount.fromSat(fromSat: UInt64(0)),
-        untrustedPending: Amount.fromSat(fromSat: UInt64(0)),
-        confirmed: Amount.fromSat(fromSat: UInt64(1)),
-        trustedSpendable: Amount.fromSat(fromSat: UInt64(1)),
-        total: Amount.fromSat(fromSat: UInt64(1000))
-    )
+    extension Balance {
+        static var mock = Self(
+            immature: Amount.fromSat(fromSat: UInt64(100)),
+            trustedPending: Amount.fromSat(fromSat: UInt64(200)),
+            untrustedPending: Amount.fromSat(fromSat: UInt64(300)),
+            confirmed: Amount.fromSat(fromSat: UInt64(21000)),
+            trustedSpendable: Amount.fromSat(fromSat: UInt64(1_000_000)),
+            total: Amount.fromSat(fromSat: UInt64(615_000_000))
+        )
+    }
 #endif

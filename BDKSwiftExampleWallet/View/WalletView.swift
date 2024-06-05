@@ -203,7 +203,7 @@ struct WalletView: View {
                 priceClient: .mock,
                 bdkClient: .mock,
                 walletSyncState: .synced,
-                transactions: [mockCanonicalTx1]
+                transactions: [.mock]
             )
         )
     }
@@ -213,7 +213,7 @@ struct WalletView: View {
                 priceClient: .mock,
                 bdkClient: .mock,
                 walletSyncState: .synced,
-                transactions: [mockCanonicalTx1]
+                transactions: [.mock]
             )
         )
         .environment(\.locale, .init(identifier: "fr"))

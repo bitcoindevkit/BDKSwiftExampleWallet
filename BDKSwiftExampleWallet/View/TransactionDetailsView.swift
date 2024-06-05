@@ -154,16 +154,16 @@ struct TransactionDetailsView: View {
 #if DEBUG
     #Preview {
         TransactionDetailsView(
-            viewModel: .init(),
-            canonicalTx: mockCanonicalTx1,
+            viewModel: .init(bdkClient: .mock, keyClient: .mock),
+            canonicalTx: .mock,
             amount: UInt64(1_000_000)
         )
     }
 
     #Preview {
         TransactionDetailsView(
-            viewModel: .init(),
-            canonicalTx: mockCanonicalTx1,
+            viewModel: .init(bdkClient: .mock, keyClient: .mock),
+            canonicalTx: .mock,
             amount: UInt64(1_000_000)
         )
         .environment(\.sizeCategory, .accessibilityLarge)

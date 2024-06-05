@@ -120,10 +120,10 @@ struct SettingsView: View {
 
 #if DEBUG
     #Preview {
-        SettingsView(viewModel: .init())
+        SettingsView(viewModel: .init(bdkClient: .mock, keyClient: .mock))
     }
     #Preview {
-        SettingsView(viewModel: .init())
+        SettingsView(viewModel: .init(bdkClient: .mock, keyClient: .mock))
             .environment(\.sizeCategory, .accessibilityLarge)
     }
 #endif
