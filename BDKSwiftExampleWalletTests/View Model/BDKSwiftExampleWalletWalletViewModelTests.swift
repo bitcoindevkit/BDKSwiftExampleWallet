@@ -9,9 +9,9 @@ import XCTest
 
 @testable import BDKSwiftExampleWallet
 
-@MainActor
 final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
 
+    @MainActor
     func testWalletViewModel() async {
 
         // Set up viewModel
@@ -27,10 +27,9 @@ final class BDKSwiftExampleWalletWalletViewModelTests: XCTestCase {
         viewModel.getBalance()
         XCTAssertGreaterThan(viewModel.balanceTotal, UInt64(0))
 
-        // TODO: update this test
         // Simulate successful transactions() call
-        //        viewModel.getTransactions()
-        //        XCTAssertGreaterThan(viewModel.transactions.count, 0)
+        viewModel.getTransactions()
+        XCTAssertGreaterThan(viewModel.transactions.count, 0)
 
         // Simulate successful getPrices() call
         await viewModel.getPrices()
