@@ -114,7 +114,7 @@ struct BuildTransactionView: View {
                     VStack {
                         Image(systemName: "checkmark")
                             .foregroundColor(.green)
-                        if let transaction = try? viewModel.psbt?.extractTx() {  // TODO: implement catch
+                        if let transaction = viewModel.extractTransaction() {
                             HStack {
                                 Text(transaction.txid())
                                     .lineLimit(1)
@@ -147,9 +147,7 @@ struct BuildTransactionView: View {
                         }
 
                     }
-                } else {
                 }
-
             }
 
         }
@@ -161,10 +159,8 @@ struct BuildTransactionView: View {
                 amount: UInt64(amount) ?? 0,
                 feeRate: UInt64(fee)
             )
-            if let tx = try? viewModel.psbt?.extractTx() {
+            if let tx = viewModel.extractTransaction() {
                 viewModel.getCalulateFee(tx: tx)
-            } else {
-                // TODO: throw error could not extract tx
             }
         }
         .alert(isPresented: $viewModel.showingBuildTransactionViewErrorAlert) {

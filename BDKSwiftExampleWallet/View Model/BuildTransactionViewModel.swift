@@ -71,4 +71,22 @@ class BuildTransactionViewModel {
         }
     }
 
+    func extractTransaction() -> BitcoinDevKit.Transaction? {
+        guard let psbt = self.psbt else {
+            self.buildTransactionViewError = .generic(message: "PSBT is nil.")
+            self.showingBuildTransactionViewErrorAlert = true
+            return nil
+        }
+        do {
+            let transaction = try psbt.extractTx()
+            return transaction
+        } catch let error {
+            self.buildTransactionViewError = .generic(
+                message: "Failed to extract transaction: \(error.localizedDescription)"
+            )
+            self.showingBuildTransactionViewErrorAlert = true
+            return nil
+        }
+    }
+
 }
