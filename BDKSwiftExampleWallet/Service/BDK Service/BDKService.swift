@@ -14,7 +14,7 @@ private class BDKService {
     var network: Network
     private var wallet: Wallet?
     private let keyService: KeyClient
-    private let esploraClient: EsploraClient  // TODO: this is new, and it's use can be refactored in this file
+    private let esploraClient: EsploraClient
     private var needsFullScan: Bool = false
 
     init(
@@ -197,9 +197,6 @@ private class BDKService {
         )
         let _ = try wallet.applyUpdate(update: update)
         let _ = try wallet.commit()
-        // TODO: Do i need to do this next step of setting wallet to wallet again?
-        // prob not
-        self.wallet = wallet
     }
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
@@ -214,9 +211,6 @@ private class BDKService {
         )
         let _ = try wallet.applyUpdate(update: update)
         let _ = try wallet.commit()
-        // TODO: Do i need to do this next step of setting wallet to wallet again?
-        // prob not
-        self.wallet = wallet
     }
 
     func calculateFee(tx: Transaction) throws -> UInt64 {

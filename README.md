@@ -12,7 +12,7 @@ An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) (BD
 
 ### Wallet
 
-Supports single key HD wallets with BIP86 derivation paths. 
+Defaults to single key HD wallets with BIP86 derivation paths. 
 
 ### Implemented
 
