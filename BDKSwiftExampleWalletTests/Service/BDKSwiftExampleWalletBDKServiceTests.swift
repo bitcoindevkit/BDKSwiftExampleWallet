@@ -24,11 +24,13 @@ final class BDKSwiftExampleWalletBDKServiceTests: XCTestCase {
         XCTAssertEqual(balance, .mock)
     }
 
-    // TODO: update this test
-    //    func testBDKClientMockGetTransactions() throws {
-    //        let transactionDetails = try BDKClient.mock.transactions()
-    //
-    //        XCTAssertEqual(transactionDetails.first?.transaction.transactionID, mockTransaction1?.transactionID)
-    //    }
+    func testBDKClientMockGetTransactions() throws {
+        let transactionDetails = try BDKClient.mock.transactions()
+
+        XCTAssertEqual(
+            transactionDetails.first?.transaction.transactionID,
+            Transaction.mock?.txid()
+        )
+    }
 
 }
