@@ -83,6 +83,6 @@ struct SeedView: View {
 
     #Preview {
         SeedView(viewModel: .init(bdkService: .mock))
-            .environment(\.sizeCategory, .accessibilityLarge)
+            .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif
