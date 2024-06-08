@@ -8,11 +8,11 @@
 import BitcoinDevKit
 import Foundation
 
-//#if DEBUG
-extension CanonicalTx {
-    static var mock = Self(
-        transaction: .mock!,
-        chainPosition: .confirmed(height: UInt32(1_127_972), timestamp: UInt64(1_716_927_886))
-    )
-}
-//#endif
+#if DEBUG
+    extension CanonicalTx {
+        static var mock = Self(
+            transaction: .mock!,
+            chainPosition: .confirmed(height: UInt32(1_127_972), timestamp: UInt64(1_716_927_886))
+        )
+    }
+#endif

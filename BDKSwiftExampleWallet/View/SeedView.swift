@@ -13,51 +13,50 @@ struct SeedView: View {
     @State private var showCheckmark = false
 
     var body: some View {
-
         ZStack {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
 
             VStack(alignment: .leading) {
-                ForEach(
-                    Array(viewModel.seed.mnemonic.components(separatedBy: " ").enumerated()),
-                    id: \.element
-                ) { index, word in
-                    HStack {
-                        Text("\(index + 1). \(word)")
-                        Spacer()
-                    }
-                    .padding(.horizontal, 40.0)
-                }
-                HStack {
-                    Spacer()
-                    Button {
-                        UIPasteboard.general.string = viewModel.seed.mnemonic
-                        isCopied = true
-                        showCheckmark = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            isCopied = false
-                            showCheckmark = false
-                        }
-                    } label: {
+                if let seed = viewModel.seed {
+                    ForEach(
+                        Array(seed.mnemonic.components(separatedBy: " ").enumerated()),
+                        id: \.element
+                    ) { index, word in
                         HStack {
-                            withAnimation {
-                                HStack {
-                                    Image(
-                                        systemName: showCheckmark
-                                            ? "checkmark" : "doc.on.doc"
-                                    )
-                                    Text("Copy")
-                                }
+                            Text("\(index + 1). \(word)")
+                            Spacer()
+                        }
+                        .padding(.horizontal, 40.0)
+                    }
+
+                    HStack {
+                        Spacer()
+                        Button {
+                            UIPasteboard.general.string = seed.mnemonic
+                            isCopied = true
+                            showCheckmark = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                isCopied = false
+                                showCheckmark = false
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: showCheckmark ? "checkmark" : "doc.on.doc")
+                                Text("Copy")
+                                    .bold()
                             }
                         }
-                        .bold()
+                        .buttonStyle(.borderedProminent)
+                        .tint(.bitcoinOrange)
+                        Spacer()
                     }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.bitcoinOrange)
-                    Spacer()
+                    .padding()
+                } else {
+                    Text("No seed available")
+                        .font(.headline)
+                        .padding(.horizontal, 40.0)
                 }
-                .padding()
             }
             .padding()
             .onAppear {

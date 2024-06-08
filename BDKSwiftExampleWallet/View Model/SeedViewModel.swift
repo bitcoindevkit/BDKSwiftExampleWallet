@@ -12,13 +12,13 @@ import SwiftUI
 @Observable
 @MainActor
 class SeedViewModel {
-    var seed: BackupInfo
+    var seed: BackupInfo?
     var seedViewError: AppError?
     var showingSeedViewErrorAlert: Bool
     let bdkService: BDKClient
 
     init(
-        seed: BackupInfo = .mock,
+        seed: BackupInfo? = nil,
         seedViewError: AppError? = nil,
         showingSeedViewErrorAlert: Bool = false,
         bdkService: BDKClient = .live

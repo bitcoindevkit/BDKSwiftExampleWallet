@@ -13,10 +13,10 @@ extension Transaction {
     }
 }
 
-//#if DEBUG
-extension Transaction {
-    static var mock = try? Transaction(
-        transactionBytes: String.mockTransactionHex.hexStringToByteArray()
-    )
-}
-//#endif
+#if DEBUG
+    extension Transaction {
+        static var mock = try? Transaction(
+            transactionBytes: String.mockTransactionHex.hexStringToByteArray()
+        )
+    }
+#endif
