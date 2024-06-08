@@ -147,6 +147,15 @@ struct TransactionDetailsView: View {
 
         }
         .padding()
+        .alert(isPresented: $viewModel.showingTransactionDetailsViewErrorAlert) {
+            Alert(
+                title: Text("Transaction Details Error"),
+                message: Text(viewModel.transactionDetailsError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.transactionDetailsError = nil
+                }
+            )
+        }
 
     }
 }

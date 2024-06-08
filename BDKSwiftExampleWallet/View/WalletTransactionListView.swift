@@ -71,6 +71,15 @@ struct WalletTransactionListView: View {
 
         }
         .listStyle(.plain)
+        .alert(isPresented: $viewModel.showingWalletTransactionsViewErrorAlert) {
+            Alert(
+                title: Text("Wallet Transaction Error"),
+                message: Text(viewModel.walletTransactionsViewError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.walletTransactionsViewError = nil
+                }
+            )
+        }
 
     }
 }
