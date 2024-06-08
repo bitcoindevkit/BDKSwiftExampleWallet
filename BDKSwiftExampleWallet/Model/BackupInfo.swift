@@ -24,13 +24,13 @@ struct BackupInfo: Codable, Equatable {
     }
 }
 
-//#if DEBUG
-extension BackupInfo {
-    static var mock = Self(
-        mnemonic:
-            "space echo position wrist orient erupt relief museum myself grain wisdom tumble",
-        descriptor: "",
-        changeDescriptor: ""
-    )
-}
-//#endif
+#if DEBUG
+    extension BackupInfo {
+        static var mock = Self(
+            mnemonic:
+                "space echo position wrist orient erupt relief museum myself grain wisdom tumble",
+            descriptor: "",
+            changeDescriptor: ""
+        )
+    }
+#endif

@@ -391,6 +391,9 @@
         }
       }
     },
+    "No seed available" : {
+
+    },
     "No Transactions" : {
       "localizations" : {
         "fr" : {
@@ -616,6 +619,9 @@
         }
       }
     },
+    "Transaction Details Error" : {
+
+    },
     "Transactions" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -649,6 +655,9 @@
           }
         }
       }
+    },
+    "Wallet Transaction Error" : {
+
     },
     "Yes" : {
       "localizations" : {
