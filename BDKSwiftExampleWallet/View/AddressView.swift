@@ -15,6 +15,8 @@ struct AddressView: View {
     @Binding var rootIsActive: Bool
     let pasteboard = UIPasteboard.general
     @State private var isShowingScanner = false
+    @State private var isShowingAlert = false
+    @State private var alertMessage = ""
 
     var body: some View {
 
@@ -42,10 +44,12 @@ struct AddressView: View {
                                 let lowercaseAddress = string.lowercased()
                                 address = lowercaseAddress
                             } else {
-                                // TODO: handle error
+                                alertMessage = "Unable to get the string from the pasteboard."
+                                isShowingAlert = true
                             }
                         } else {
-                            // TODO: handle error
+                            alertMessage = "No strings found in the pasteboard."
+                            isShowingAlert = true
                         }
                     } label: {
                         HStack {
@@ -128,10 +132,12 @@ extension AddressView {
             if let bitcoinAddress = components.first {
                 address = bitcoinAddress
             } else {
-                // TODO: handle error
+                alertMessage = "The scanned QR code did not contain a valid Bitcoin address."
+                isShowingAlert = true
             }
-        case .failure(_):
-            break  // TODO: handle error
+        case .failure(let error):
+            alertMessage = "Scanning failed: \(error.localizedDescription)"
+            isShowingAlert = true
         }
     }
 }
