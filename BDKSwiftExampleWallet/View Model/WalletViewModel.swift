@@ -163,7 +163,6 @@ class WalletSyncScriptInspector: SyncScriptInspector {
         totalCount = total
         inspectedCount += 1
         updateProgress(inspectedCount, totalCount)
-        Thread.sleep(forTimeInterval: 0.25)
     }
 }
 
@@ -178,6 +177,5 @@ class WalletFullScanScriptInspector: FullScanScriptInspector {
     func inspect(keychain: KeychainKind, index: UInt32, script: Script) {
         inspectedCount += 1
         updateProgress(inspectedCount)
-        Thread.sleep(forTimeInterval: 0.25)
     }
 }
