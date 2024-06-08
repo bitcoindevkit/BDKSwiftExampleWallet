@@ -1,8 +1,8 @@
-# BDKSwiftExampleWallet
+# BDK Swift Example Wallet
 
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](https://github.com/reez/BDKSwiftExampleWallet/blob/main/LICENSE)
 
-An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) (BDK) 1.0
+An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) 1.0
 
 <img src="Docs/bitcoin-screen.png" alt="Screenshot" width="210.5" height="420">
 
@@ -10,13 +10,11 @@ An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) (BD
 
 *This is an experimental work in progress.*
 
+Create a wallet, send and receive.
+
 ### Wallet
 
 Defaults to single key HD wallets with BIP86 derivation paths. 
-
-### Implemented
-
-Create a wallet, send and receive.
 
 ## Swift Packages
 
