@@ -106,6 +106,6 @@ struct WalletTransactionListView: View {
                 bdkClient: .mock
             )
         )
-        .environment(\.sizeCategory, .accessibilityLarge)
+        .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif

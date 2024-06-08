@@ -200,6 +200,6 @@ struct BuildTransactionView: View {
             ),
             shouldPopToRootView: .constant(false)
         )
-        .environment(\.sizeCategory, .accessibilityLarge)
+        .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif

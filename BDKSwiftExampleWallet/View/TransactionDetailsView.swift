@@ -175,6 +175,6 @@ struct TransactionDetailsView: View {
             canonicalTx: .mock,
             amount: UInt64(1_000_000)
         )
-        .environment(\.sizeCategory, .accessibilityLarge)
+        .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif

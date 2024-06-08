@@ -13,7 +13,7 @@ struct WalletTransactionsListItemView: View {
     let sentAndReceivedValues: SentAndReceivedValues
     let canonicalTx: CanonicalTx
     let isRedacted: Bool
-    @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
 
     var body: some View {
 
@@ -70,9 +70,7 @@ struct WalletTransactionsListItemView: View {
                             time: .shortened
                         )
                     )
-                    .lineLimit(
-                        sizeCategory > .accessibilityMedium ? 2 : 1
-                    )
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
                     .font(.caption2)
                     .fontWidth(.condensed)
                 case .unconfirmed(let timestamp):
@@ -82,9 +80,7 @@ struct WalletTransactionsListItemView: View {
                             time: .shortened
                         )
                     )
-                    .lineLimit(
-                        sizeCategory > .accessibilityMedium ? 2 : 1
-                    )
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
                     .font(.caption2)
                     .fontWidth(.condensed)
                 }

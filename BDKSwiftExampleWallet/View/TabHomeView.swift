@@ -64,6 +64,6 @@ struct TabHomeView: View {
     }
     #Preview {
         TabHomeView(viewModel: .init())
-            .environment(\.sizeCategory, .accessibilityLarge)
+            .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif

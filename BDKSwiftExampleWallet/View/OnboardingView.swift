@@ -128,7 +128,7 @@ struct OnboardingView: View {
     }
     #Preview("OnboardingView - en - Large") {
         OnboardingView(viewModel: .init(bdkClient: .mock))
-            .environment(\.sizeCategory, .accessibilityLarge)
+            .environment(\.dynamicTypeSize, .accessibility5)
     }
     #Preview("OnboardingView - fr") {
         OnboardingView(viewModel: .init(bdkClient: .mock))

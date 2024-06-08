@@ -100,7 +100,7 @@ struct ReceiveView: View {
 
     #Preview("ReceiveView - en - Large") {
         ReceiveView(viewModel: .init(bdkClient: .mock))
-            .environment(\.sizeCategory, .accessibilityLarge)
+            .environment(\.dynamicTypeSize, .accessibility5)
     }
 
     #Preview("ReceiveView - fr") {

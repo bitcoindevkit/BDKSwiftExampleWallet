@@ -124,6 +124,6 @@ struct FeeView: View {
             viewModel: .init(feeClient: .mock, bdkClient: .mock),
             rootIsActive: .constant(false)
         )
-        .environment(\.sizeCategory, .accessibilityLarge)
+        .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif

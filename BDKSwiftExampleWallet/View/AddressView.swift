@@ -149,6 +149,6 @@ extension AddressView {
 
     #Preview {
         AddressView(amount: "200", rootIsActive: .constant(false))
-            .environment(\.sizeCategory, .accessibilityLarge)
+            .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif
