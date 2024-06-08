@@ -93,7 +93,7 @@ private class BDKService {
         try keyService.saveNetwork(self.network.description)
         try keyService.saveEsploraURL(baseUrl)
 
-        let documentsDirectoryURL = FileManager.default.getDocumentsDirectoryPath()
+        let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
         try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
@@ -109,7 +109,7 @@ private class BDKService {
     }
 
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
-        let documentsDirectoryURL = FileManager.default.getDocumentsDirectoryPath()
+        let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
         try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)

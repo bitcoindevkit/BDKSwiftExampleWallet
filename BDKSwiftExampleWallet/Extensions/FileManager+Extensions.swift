@@ -8,13 +8,9 @@
 import Foundation
 
 extension FileManager {
-    func getDocumentsDirectoryPath() -> URL {
-        let paths = urls(for: .documentDirectory, in: .userDomainMask)
-        return paths.first!
-    }
 
     func deleteAllContentsInDocumentsDirectory() throws {
-        let documentsURL = getDocumentsDirectoryPath()
+        let documentsURL = URL.documentsDirectory
         let contents = try contentsOfDirectory(
             at: documentsURL,
             includingPropertiesForKeys: nil,
