@@ -75,9 +75,11 @@ struct WalletView: View {
                         HStack {
                             Text("Activity")
                             if viewModel.walletSyncState == .synced {
-                                Text("\(viewModel.transactions.count) Transactions")
-                                    .fontWeight(.thin)
-                                    .font(.caption2)
+                                Text(
+                                    "\(viewModel.transactions.count) \(viewModel.transactions.count == 1 ? "Transaction" : "Transactions")"
+                                )
+                                .fontWeight(.thin)
+                                .font(.caption2)
                             }
                             Spacer()
                             if viewModel.walletSyncState == .syncing {
