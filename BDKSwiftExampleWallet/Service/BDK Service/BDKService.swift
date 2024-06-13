@@ -35,7 +35,7 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
         let addressInfo = try wallet.revealNextAddress(keychain: .external)
-        return addressInfo.address.asString()
+        return addressInfo.address.description
     }
 
     func getBalance() throws -> Balance {
@@ -64,7 +64,7 @@ private class BDKService {
             needsFullScan = true
         } else {
             let mnemonic = Mnemonic(wordCount: WordCount.words12)
-            words12 = mnemonic.asString()
+            words12 = mnemonic.description
             needsFullScan = false
         }
         let mnemonic = try Mnemonic.fromString(mnemonic: words12)
@@ -84,9 +84,9 @@ private class BDKService {
             network: network
         )
         let backupInfo = BackupInfo(
-            mnemonic: mnemonic.asString(),
-            descriptor: descriptor.asStringPrivate(),
-            changeDescriptor: changeDescriptor.asStringPrivate()
+            mnemonic: mnemonic.description,
+            descriptor: descriptor.description,
+            changeDescriptor: changeDescriptor.toStringWithSecret()
         )
 
         try keyService.saveBackupInfo(backupInfo)
