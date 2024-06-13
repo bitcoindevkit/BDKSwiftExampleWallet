@@ -139,9 +139,9 @@ extension KeyClient {
                     network: mockKeyClientNetwork
                 )
                 let backupInfo = BackupInfo(
-                    mnemonic: mnemonic.asString(),
-                    descriptor: descriptor.asString(),
-                    changeDescriptor: changeDescriptor.asStringPrivate()
+                    mnemonic: mnemonic.description,
+                    descriptor: descriptor.description,
+                    changeDescriptor: changeDescriptor.toStringWithSecret()
                 )
                 return backupInfo
             },

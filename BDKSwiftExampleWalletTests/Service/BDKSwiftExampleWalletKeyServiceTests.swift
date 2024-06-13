@@ -34,9 +34,9 @@ final class BDKSwiftExampleWalletKeyServiceTests: XCTestCase {
             network: mockKeyClientNetwork
         )
         let backupInfoMock = BackupInfo(
-            mnemonic: mnemonic.asString(),
-            descriptor: descriptor.asString(),
-            changeDescriptor: changeDescriptor.asStringPrivate()
+            mnemonic: mnemonic.description,
+            descriptor: descriptor.description,
+            changeDescriptor: changeDescriptor.toStringWithSecret()
         )
 
         XCTAssertEqual(backupInfo, backupInfoMock)
