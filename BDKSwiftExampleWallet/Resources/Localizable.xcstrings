@@ -80,22 +80,15 @@
     "%@ sats fee" : {
 
     },
+    "%lld" : {
+
+    },
     "%lld %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$lld %2$@"
-          }
-        }
-      }
-    },
-    "%lld. %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld. %2$@"
           }
         }
       }
@@ -135,6 +128,7 @@
       }
     },
     "100% open-source & open-design" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -144,7 +138,11 @@
         }
       }
     },
+    "A bitcoin wallet powered by Bitcoin Dev Kit" : {
+
+    },
     "A simple bitcoin wallet." : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -204,7 +202,11 @@
         }
       }
     },
+    "BDK Wallet" : {
+
+    },
     "Bitcoin Wallet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -235,6 +237,7 @@
       }
     },
     "Choose your Network." : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -677,6 +680,7 @@
       }
     },
     "Your wallet, your coins" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

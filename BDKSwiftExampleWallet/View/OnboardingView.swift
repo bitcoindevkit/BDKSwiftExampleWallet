@@ -29,21 +29,18 @@ struct OnboardingView: View {
                         .resizable()
                         .foregroundColor(.bitcoinOrange)
                         .frame(width: 100, height: 100, alignment: .center)
-                    Text("Bitcoin Wallet")
+                    Text("BDK Wallet")
                         .textStyle(BitcoinTitle1())
                         .multilineTextAlignment(.center)
                         .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-                    Text("A simple bitcoin wallet.")
-                        .textStyle(BitcoinBody1())
+                    Text("A bitcoin wallet powered by Bitcoin Dev Kit.")
+                        .textStyle(BitcoinBody5())
+                        .fontWidth(.expanded)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
 
                 VStack {
-
-                    Text("Choose your Network.")
-                        .textStyle(BitcoinBody4())
-                        .multilineTextAlignment(.center)
 
                     VStack {
                         Picker(
@@ -87,24 +84,19 @@ struct OnboardingView: View {
                         .submitLabel(.done)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal, 40)
-                    Button("Create Wallet") {
-                        viewModel.createWallet()
+                    if viewModel.wordArray != [] {
+                        SeedPhraseView(words: viewModel.wordArray, preferredWordsPerRow: 3)
                     }
-                    .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
                 }
                 .padding(.top, 30)
 
                 Spacer()
 
-                VStack {
-                    Text("Your wallet, your coins")
-                        .textStyle(BitcoinBody4())
-                        .multilineTextAlignment(.center)
-                    Text("100% open-source & open-design")
-                        .textStyle(BitcoinBody4())
-                        .multilineTextAlignment(.center)
+                Button("Create Wallet") {
+                    viewModel.createWallet()
                 }
-                .padding(EdgeInsets(top: 32, leading: 32, bottom: 8, trailing: 32))
+                .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
+                .padding()
 
             }
 
