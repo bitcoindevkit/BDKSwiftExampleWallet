@@ -5,6 +5,7 @@
 //  Created by Matthew Ramsden on 1/31/24.
 //
 
+import BitcoinUI
 import SwiftUI
 
 struct SeedView: View {
@@ -17,10 +18,13 @@ struct SeedView: View {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
 
-            VStack(alignment: .leading) {
+            VStack {
                 if let seed = viewModel.seed {
 
-                    SeedPhraseView(words: seed.mnemonic.components(separatedBy: " "))
+                    SeedPhraseView(
+                        words: seed.mnemonic.components(separatedBy: " "),
+                        preferredWordsPerRow: 3
+                    )
 
                     HStack {
                         Spacer()
