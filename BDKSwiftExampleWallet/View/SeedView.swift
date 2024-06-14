@@ -19,16 +19,8 @@ struct SeedView: View {
 
             VStack(alignment: .leading) {
                 if let seed = viewModel.seed {
-                    ForEach(
-                        Array(seed.mnemonic.components(separatedBy: " ").enumerated()),
-                        id: \.element
-                    ) { index, word in
-                        HStack {
-                            Text("\(index + 1). \(word)")
-                            Spacer()
-                        }
-                        .padding(.horizontal, 40.0)
-                    }
+
+                    SeedPhraseView(words: seed.mnemonic.components(separatedBy: " "))
 
                     HStack {
                         Spacer()
@@ -79,6 +71,11 @@ struct SeedView: View {
 #if DEBUG
     #Preview {
         SeedView(viewModel: .init(bdkService: .mock))
+    }
+
+    #Preview {
+        SeedView(viewModel: .init(bdkService: .mock))
+            .environment(\.colorScheme, .dark)
     }
 
     #Preview {

@@ -20,7 +20,12 @@ class OnboardingViewModel: ObservableObject {
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: AppError?
     @Published var walletCreationError: WalletCreationError?
-    @Published var words: String = ""
+    @Published var words: String = "" {
+        didSet {
+            updateWordArray()
+        }
+    }
+    @Published var wordArray: [String] = []
     @Published var selectedNetwork: Network = .testnet {
         didSet {
             do {
@@ -106,7 +111,10 @@ class OnboardingViewModel: ObservableObject {
                 self.onboardingViewError = .generic(message: error.localizedDescription)
             }
         }
-
     }
 
+    private func updateWordArray() {
+        let trimmedWords = words.trimmingCharacters(in: .whitespacesAndNewlines)
+        wordArray = trimmedWords.split(separator: " ").map { String($0) }
+    }
 }
