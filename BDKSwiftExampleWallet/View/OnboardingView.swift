@@ -33,7 +33,7 @@ struct OnboardingView: View {
                         .textStyle(BitcoinTitle1())
                         .multilineTextAlignment(.center)
                         .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-                    Text("A bitcoin wallet powered by Bitcoin Dev Kit.")
+                    Text("A bitcoin wallet powered by Bitcoin Dev Kit")
                         .textStyle(BitcoinBody5())
                         .fontWidth(.expanded)
                         .foregroundColor(.secondary)
@@ -79,13 +79,19 @@ struct OnboardingView: View {
                 }
                 .padding()
 
-                VStack(spacing: 25) {
+                VStack {
                     TextField("12 Word Seed Phrase (Optional)", text: $viewModel.words)
                         .submitLabel(.done)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal, 40)
                     if viewModel.wordArray != [] {
-                        SeedPhraseView(words: viewModel.wordArray, preferredWordsPerRow: 3)
+                        SeedPhraseView(
+                            words: viewModel.wordArray,
+                            preferredWordsPerRow: 2,
+                            usePaging: true,
+                            wordsPerPage: 4
+                        )
+                        .frame(height: 200)
                     }
                 }
                 .padding(.top, 30)
