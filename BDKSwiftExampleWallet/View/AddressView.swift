@@ -11,7 +11,7 @@ import SwiftUI
 
 struct AddressView: View {
     let amount: String
-    @State private var address: String = ""
+    @State var address: String = ""
     @Binding var rootIsActive: Bool
     let pasteboard = UIPasteboard.general
     @State private var isShowingScanner = false
@@ -89,6 +89,14 @@ struct AddressView: View {
                     .padding()
                 }
 
+                AddressFormattedView(
+                    address: address,
+                    columns: 4,
+                    spacing: 20.0,
+                    gridItemSize: 60.0
+                )
+                .padding()
+
                 Spacer()
 
                 NavigationLink(
@@ -144,11 +152,18 @@ extension AddressView {
 
 #if DEBUG
     #Preview {
-        AddressView(amount: "200", rootIsActive: .constant(false))
+        AddressView(
+            amount: "200",
+            address: "tb1pw6y0vtmsn46epvz0j8ddc46ketmp28t82p22hcrrkch3a0jhu40qe267dl",
+            rootIsActive: .constant(false)
+        )
     }
-
     #Preview {
-        AddressView(amount: "200", rootIsActive: .constant(false))
-            .environment(\.dynamicTypeSize, .accessibility5)
+        AddressView(
+            amount: "200",
+            address: "tb1pw6y0vtmsn46epvz0j8ddc46ketmp28t82p22hcrrkch3a0jhu40qe267dl",
+            rootIsActive: .constant(false)
+        )
+        .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif
