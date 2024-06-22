@@ -45,6 +45,14 @@ struct ReceiveView: View {
 
                 Spacer()
 
+                AddressFormattedView(
+                    address: viewModel.address,
+                    columns: 4,
+                    spacing: 20.0,
+                    gridItemSize: 60.0
+                )
+                .padding()
+
                 HStack {
                     Text(viewModel.address)
                         .lineLimit(1)

@@ -56,6 +56,7 @@
 		AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67062A744CE200CED561 /* Double+Extensions.swift */; };
 		AE7F67092A7451AA00CED561 /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67082A7451AA00CED561 /* Price.swift */; };
 		AE7F670C2A7451D700CED561 /* CurrencyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F670B2A7451D700CED561 /* CurrencyCode.swift */; };
+		AE8DA0B82C265B6D00C3A99E /* AddressFormattedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DA0B72C265B6D00C3A99E /* AddressFormattedView.swift */; };
 		AE91CEED2C0FDB70000AAD20 /* SentAndReceivedValues+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE91CEEC2C0FDB70000AAD20 /* SentAndReceivedValues+Extensions.swift */; };
 		AE91CEEF2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE91CEEE2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift */; };
 		AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift */; };
@@ -143,6 +144,7 @@
 		AE7F67062A744CE200CED561 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		AE7F67082A7451AA00CED561 /* Price.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
 		AE7F670B2A7451D700CED561 /* CurrencyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCode.swift; sourceTree = "<group>"; };
+		AE8DA0B72C265B6D00C3A99E /* AddressFormattedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormattedView.swift; sourceTree = "<group>"; };
 		AE91CEEC2C0FDB70000AAD20 /* SentAndReceivedValues+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SentAndReceivedValues+Extensions.swift"; sourceTree = "<group>"; };
 		AE91CEEE2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CanonicalTx+Extensions.swift"; sourceTree = "<group>"; };
 		AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletReceiveViewModelTests.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				AE1C34232A424456008F807A /* ReceiveView.swift */,
 				AE7839FC2AB4E18D005F0CBA /* AmountView.swift */,
 				AE783A022AB4ECC2005F0CBA /* AddressView.swift */,
+				AE8DA0B72C265B6D00C3A99E /* AddressFormattedView.swift */,
 				AE783A062AB4F7C7005F0CBA /* FeeView.swift */,
 				AE783A002AB4E5E1005F0CBA /* BuildTransactionView.swift */,
 				AE2ADD732B61E8F500C2A823 /* SettingsView.swift */,
@@ -554,6 +557,7 @@
 				AEAB03112ABDDB86000C9528 /* FeeViewModel.swift in Sources */,
 				AEE6C74C2ABCB3E200442ADD /* Transaction+Extensions.swift in Sources */,
 				AE0C30F72A804A2D008F1EAE /* WalletTransactionListView.swift in Sources */,
+				AE8DA0B82C265B6D00C3A99E /* AddressFormattedView.swift in Sources */,
 				AE29ED152BBE36C500EB9C4F /* WalletTransactionsListViewModel.swift in Sources */,
 				AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */,
 				AE783A072AB4F7C7005F0CBA /* FeeView.swift in Sources */,
