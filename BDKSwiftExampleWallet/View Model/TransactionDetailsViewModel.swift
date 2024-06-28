@@ -70,7 +70,7 @@ class TransactionDetailsViewModel: ObservableObject {
     func getCalulateFee(tx: BitcoinDevKit.Transaction) {
         do {
             let calculateFee = try bdkClient.calculateFee(tx)
-            let feeString = String(calculateFee)
+            let feeString = String(calculateFee.toSat())
             self.calculateFee = feeString
         } catch let error as CalculateFeeError {
             DispatchQueue.main.async {

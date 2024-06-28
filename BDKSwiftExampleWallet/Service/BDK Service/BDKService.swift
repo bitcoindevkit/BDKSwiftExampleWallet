@@ -16,6 +16,7 @@ private class BDKService {
     private let keyService: KeyClient
     private let esploraClient: EsploraClient
     private var needsFullScan: Bool = false
+    private var dbService: SqliteStore?
 
     init(
         keyService: KeyClient = .live
@@ -34,13 +35,17 @@ private class BDKService {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        let addressInfo = try wallet.revealNextAddress(keychain: .external)
+        let addressInfo = wallet.revealNextAddress(keychain: .external)
+        guard let db = self.dbService else { throw WalletError.dbNotFound }
+        if let changeSet = wallet.takeStaged() {
+            try db.write(changeSet: changeSet)
+        }
         return addressInfo.address.description
     }
 
     func getBalance() throws -> Balance {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let balance = wallet.getBalance()
+        let balance = wallet.balance()
         return balance
     }
 
@@ -97,10 +102,13 @@ private class BDKService {
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
-        let wallet = try Wallet(
+        let sqliteStore = try SqliteStore(path: persistenceBackendPath)
+        self.dbService = sqliteStore
+        let changeSet = try sqliteStore.read()
+        let wallet = try Wallet.newOrLoad(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
-            persistenceBackendPath: persistenceBackendPath,
+            changeSet: changeSet,
             network: network
         )
         self.wallet = wallet
@@ -111,10 +119,13 @@ private class BDKService {
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
-        let wallet = try Wallet(
+        let sqliteStore = try SqliteStore(path: persistenceBackendPath)
+        self.dbService = sqliteStore
+        let changeSet = try sqliteStore.read()
+        let wallet = try Wallet.newOrLoad(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
-            persistenceBackendPath: persistenceBackendPath,
+            changeSet: changeSet,
             network: network
         )
         self.wallet = wallet
@@ -192,7 +203,10 @@ private class BDKService {
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
-        let _ = try wallet.commit()
+        guard let db = self.dbService else { throw WalletError.dbNotFound }
+        if let changeSet = wallet.takeStaged() {
+            try db.write(changeSet: changeSet)
+        }
     }
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
@@ -206,10 +220,13 @@ private class BDKService {
             parallelRequests: UInt64(5)  // should we default value this for folks?
         )
         let _ = try wallet.applyUpdate(update: update)
-        let _ = try wallet.commit()
+        guard let db = self.dbService else { throw WalletError.dbNotFound }
+        if let changeSet = wallet.takeStaged() {
+            try db.write(changeSet: changeSet)
+        }
     }
 
-    func calculateFee(tx: Transaction) throws -> UInt64 {
+    func calculateFee(tx: Transaction) throws -> Amount {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
@@ -255,7 +272,7 @@ struct BDKClient {
     let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, UInt64) throws -> Void
-    let calculateFee: (Transaction) throws -> UInt64
+    let calculateFee: (Transaction) throws -> Amount
     let calculateFeeRate: (Transaction) throws -> UInt64
     let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
     let buildTransaction: (String, UInt64, UInt64) throws -> Psbt
@@ -315,7 +332,7 @@ extension BDKClient {
             fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
-            calculateFee: { _ in return UInt64(615) },
+            calculateFee: {_ in Amount.fromSat(fromSat: UInt64(615)) },
             calculateFeeRate: { _ in return UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(

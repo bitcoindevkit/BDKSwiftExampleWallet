@@ -55,7 +55,7 @@ struct WalletTransactionsListItemView: View {
             }
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(canonicalTx.transaction.txid())
+                Text(canonicalTx.transaction.computeTxid())
                     .truncationMode(.middle)
                     .lineLimit(1)
                     .fontDesign(.monospaced)

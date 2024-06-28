@@ -55,6 +55,8 @@ extension DescriptorError {
             return errorMessage
         case .Hex(let errorMessage):
             return errorMessage
+        case .ExternalAndInternalAreTheSame:
+            return "ExternalAndInternalAreTheSame"
         }
     }
 }
@@ -126,11 +128,15 @@ extension SignerError {
             return "NonStandardSighash"
         case .InvalidSighash:
             return "InvalidSighash"
-        case .SighashError(let errorMessage):
-            return errorMessage
         case .MiniscriptPsbt(let errorMessage):
             return errorMessage
         case .External(let errorMessage):
+            return errorMessage
+        case .SighashP2wpkh(errorMessage: let errorMessage):
+            return errorMessage
+        case .SighashTaproot(errorMessage: let errorMessage):
+            return errorMessage
+        case .TxInputsIndexError(errorMessage: let errorMessage):
             return errorMessage
         }
     }
@@ -139,24 +145,14 @@ extension SignerError {
 extension WalletCreationError {
     var description: String {
         switch self {
-        case .Io(let e):
-            return e.description
-        case .InvalidMagicBytes(let got, let expected):
-            return "got: \(got), expected \(expected)"
         case .Descriptor:
             return "descriptor"
-        case .NotInitialized:
-            return "not initialized"
         case .LoadedGenesisDoesNotMatch:
             return "loaded genesis does not match"
         case .LoadedNetworkDoesNotMatch(let expected, let got):
             return "got: \(String(describing: got)), expected \(expected)"
-        case .Persist(let errorMessage):
-            return errorMessage
         case .LoadedDescriptorDoesNotMatch(let got, let keychain):
             return "got: \(String(describing: got)), keychain \(keychain)"
-        case .Sqlite(let errorMessage):
-            return errorMessage
         }
     }
 }

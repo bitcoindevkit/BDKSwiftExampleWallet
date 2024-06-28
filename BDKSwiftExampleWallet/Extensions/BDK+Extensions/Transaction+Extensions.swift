@@ -9,7 +9,7 @@ import BitcoinDevKit
 
 extension Transaction {
     var transactionID: String {
-        return self.txid()
+        return self.computeTxid()
     }
 }
 

@@ -101,7 +101,7 @@ struct TransactionDetailsView: View {
                 if viewModel.network != Network.regtest.description {
                     Button {
                         if let esploraURL = viewModel.esploraURL {
-                            let urlString = "\(esploraURL)/tx/\(canonicalTx.transaction.txid())"
+                            let urlString = "\(esploraURL)/tx/\(canonicalTx.transaction.computeTxid())"
                                 .replacingOccurrences(of: "/api", with: "")
                             if let url = URL(string: urlString) {
                                 UIApplication.shared.open(url)
@@ -114,12 +114,12 @@ struct TransactionDetailsView: View {
                     }
                     Spacer()
                 }
-                Text(canonicalTx.transaction.txid())
+                Text(canonicalTx.transaction.computeTxid())
                     .lineLimit(1)
                     .truncationMode(.middle)
                 Spacer()
                 Button {
-                    UIPasteboard.general.string = canonicalTx.transaction.txid()
+                    UIPasteboard.general.string = canonicalTx.transaction.computeTxid()
                     isCopied = true
                     showCheckmark = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
