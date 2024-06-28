@@ -132,11 +132,11 @@ extension SignerError {
             return errorMessage
         case .External(let errorMessage):
             return errorMessage
-        case .SighashP2wpkh(errorMessage: let errorMessage):
+        case .SighashP2wpkh(let errorMessage):
             return errorMessage
-        case .SighashTaproot(errorMessage: let errorMessage):
+        case .SighashTaproot(let errorMessage):
             return errorMessage
-        case .TxInputsIndexError(errorMessage: let errorMessage):
+        case .TxInputsIndexError(let errorMessage):
             return errorMessage
         }
     }

@@ -101,7 +101,8 @@ struct TransactionDetailsView: View {
                 if viewModel.network != Network.regtest.description {
                     Button {
                         if let esploraURL = viewModel.esploraURL {
-                            let urlString = "\(esploraURL)/tx/\(canonicalTx.transaction.computeTxid())"
+                            let urlString =
+                                "\(esploraURL)/tx/\(canonicalTx.transaction.computeTxid())"
                                 .replacingOccurrences(of: "/api", with: "")
                             if let url = URL(string: urlString) {
                                 UIApplication.shared.open(url)

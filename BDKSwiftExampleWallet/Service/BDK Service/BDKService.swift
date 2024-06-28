@@ -332,7 +332,7 @@ extension BDKClient {
             fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
-            calculateFee: {_ in Amount.fromSat(fromSat: UInt64(615)) },
+            calculateFee: { _ in Amount.fromSat(fromSat: UInt64(615)) },
             calculateFeeRate: { _ in return UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(
