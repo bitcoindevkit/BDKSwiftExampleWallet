@@ -12,7 +12,7 @@ import SwiftUI
 struct AddressView: View {
     let amount: String
     @State var address: String = ""
-    @Binding var rootIsActive: Bool
+    @Binding var navigationPath: NavigationPath
     let pasteboard = UIPasteboard.general
     @State private var isShowingScanner = false
     @State private var isShowingAlert = false
@@ -99,22 +99,17 @@ struct AddressView: View {
 
                 Spacer()
 
-                NavigationLink(
-                    destination:
-                        FeeView(
-                            amount: amount,
-                            address: address,
-                            viewModel: .init(),
-                            rootIsActive: self.$rootIsActive
-                        )
-                ) {
+                Button {
+                    navigationPath.append(
+                        NavigationDestination.fee(amount: amount, address: address)
+                    )
+                } label: {
                     Label(
                         title: { Text("Next") },
                         icon: { Image(systemName: "arrow.right") }
                     )
                     .labelStyle(.iconOnly)
                 }
-                .isDetailLink(false)
                 .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
             }
@@ -155,14 +150,14 @@ extension AddressView {
         AddressView(
             amount: "200",
             address: "tb1pw6y0vtmsn46epvz0j8ddc46ketmp28t82p22hcrrkch3a0jhu40qe267dl",
-            rootIsActive: .constant(false)
+            navigationPath: .constant(NavigationPath())
         )
     }
     #Preview {
         AddressView(
             amount: "200",
             address: "tb1pw6y0vtmsn46epvz0j8ddc46ketmp28t82p22hcrrkch3a0jhu40qe267dl",
-            rootIsActive: .constant(false)
+            navigationPath: .constant(NavigationPath())
         )
         .environment(\.dynamicTypeSize, .accessibility5)
     }

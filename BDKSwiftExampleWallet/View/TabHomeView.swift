@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TabHomeView: View {
     @Bindable var viewModel: TabHomeViewModel
+    @State private var sendNavigationPath = NavigationPath()
 
     var body: some View {
 
@@ -29,10 +30,35 @@ struct TabHomeView: View {
                     .tabItem {
                         Image(systemName: "arrow.down")
                     }
-                AmountView(viewModel: .init())
-                    .tabItem {
-                        Image(systemName: "arrow.up")
-                    }
+
+                NavigationStack(path: $sendNavigationPath) {
+                    AmountView(viewModel: .init(), navigationPath: $sendNavigationPath)
+                        .navigationDestination(for: NavigationDestination.self) { destination in
+                            switch destination {
+                            case .address(let amount):
+                                AddressView(amount: amount, navigationPath: $sendNavigationPath)
+                            case .fee(let amount, let address):
+                                FeeView(
+                                    amount: amount,
+                                    address: address,
+                                    viewModel: .init(),
+                                    navigationPath: $sendNavigationPath
+                                )
+                            case .buildTransaction(let amount, let address, let fee):
+                                BuildTransactionView(
+                                    amount: amount,
+                                    address: address,
+                                    fee: fee,
+                                    viewModel: .init(),
+                                    navigationPath: $sendNavigationPath
+                                )
+                            }
+                        }
+                }
+                .tabItem {
+                    Image(systemName: "arrow.up")
+                }
+
                 SettingsView(viewModel: .init())
                     .tabItem {
                         Image(systemName: "gear")
@@ -56,6 +82,12 @@ struct TabHomeView: View {
 
     }
 
+}
+
+enum NavigationDestination: Hashable {
+    case address(amount: String)
+    case fee(amount: String, address: String)
+    case buildTransaction(amount: String, address: String, fee: Int)
 }
 
 #if DEBUG
