@@ -16,7 +16,6 @@ struct BuildTransactionView: View {
     @Bindable var viewModel: BuildTransactionViewModel
     @State var isSent: Bool = false
     @State var isError: Bool = false
-//    @Binding var shouldPopToRootView: Bool
     @Binding var navigationPath: NavigationPath
     @State private var isCopied = false
     @State private var showCheckmark = false
@@ -87,7 +86,6 @@ struct BuildTransactionView: View {
                                 if self.viewModel.buildTransactionViewError == nil {
                                     self.isSent = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//                                        self.shouldPopToRootView = false
                                         self.navigationPath.removeLast(self.navigationPath.count)
                                     }
                                 } else {
@@ -188,9 +186,7 @@ struct BuildTransactionView: View {
             viewModel: .init(
                 bdkClient: .mock
             ),
-//            shouldPopToRootView: .constant(false)
             navigationPath: .constant(NavigationPath())
-
         )
     }
 
@@ -202,9 +198,7 @@ struct BuildTransactionView: View {
             viewModel: .init(
                 bdkClient: .mock
             ),
-//            shouldPopToRootView: .constant(false)
             navigationPath: .constant(NavigationPath())
-
         )
         .environment(\.dynamicTypeSize, .accessibility5)
     }

@@ -170,8 +170,7 @@ private class BDKService {
             amount: amount,
             feeRate: feeRate
         )
-        try! signAndBroadcast(psbt: psbt)
-        print("send sended")
+        try signAndBroadcast(psbt: psbt)
     }
 
     func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws

@@ -11,7 +11,6 @@ import SwiftUI
 struct AmountView: View {
     @Bindable var viewModel: AmountViewModel
     @State var numpadAmount = "0"
-//    @State var isActive: Bool = false
     @Binding var navigationPath: NavigationPath
 
     var body: some View {
@@ -61,36 +60,20 @@ struct AmountView: View {
                     Spacer()
 
                     VStack {
-                        
-//                        Button {
-//                            isActive = true
-//                        } label: {
-//                            Label(
-//                                title: { Text("Next") },
-//                                icon: { Image(systemName: "arrow.right") }
-//                            )
-//                            .labelStyle(.iconOnly)
-//                        }
-//                        .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
-//                        NavigationLink(
-//                            destination: AddressView(amount: numpadAmount, rootIsActive: $isActive),
-//                            isActive: $isActive
-//                        ) {
-//                            EmptyView()
-//                        }
-//                        .hidden()
-                        
+
                         Button {
-                              navigationPath.append(NavigationDestination.address(amount: numpadAmount))
-                          } label: {
-                              Label(
-                                  title: { Text("Next") },
-                                  icon: { Image(systemName: "arrow.right") }
-                              )
-                              .labelStyle(.iconOnly)
-                          }
-                          .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
-                        
+                            navigationPath.append(
+                                NavigationDestination.address(amount: numpadAmount)
+                            )
+                        } label: {
+                            Label(
+                                title: { Text("Next") },
+                                icon: { Image(systemName: "arrow.right") }
+                            )
+                            .labelStyle(.iconOnly)
+                        }
+                        .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
+
                     }
 
                 }
@@ -99,11 +82,6 @@ struct AmountView: View {
                     viewModel.getBalance()
                 }
             }
-//            .onChange(of: isActive) {
-//                if !isActive {
-//                    numpadAmount = "0"
-//                }
-//            }
             .onChange(of: navigationPath) { oldPath, newPath in
                 if newPath.isEmpty {
                     numpadAmount = "0"
@@ -165,7 +143,7 @@ struct NumpadButton: View {
 #if DEBUG
     #Preview {
         AmountView(
-            viewModel: .init(bdkClient: .mock), 
+            viewModel: .init(bdkClient: .mock),
             navigationPath: .constant(NavigationPath())
         )
     }
@@ -176,6 +154,6 @@ struct NumpadButton: View {
             navigationPath: .constant(NavigationPath())
 
         )
-            .environment(\.dynamicTypeSize, .accessibility5)
+        .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif
