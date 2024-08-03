@@ -15,10 +15,11 @@ struct SettingsView: View {
     @State private var isSeedPresented = false
 
     var body: some View {
-
-        NavigationView {
-
+        
+        NavigationStack {
+            
             Form {
+                
                 Section(header: Text("Network")) {
                     if let network = viewModel.network, let url = viewModel.esploraURL {
                         Text(network.capitalized)
@@ -39,6 +40,7 @@ struct SettingsView: View {
                         }
                     }
                 }
+                
                 Section(header: Text("Wallet")) {
                     Button {
                         Task {
@@ -55,21 +57,13 @@ struct SettingsView: View {
                             .animation(.easeInOut, value: viewModel.inspectedScripts)
                     }
                 }
+                
                 Section(header: Text("Danger Zone")) {
                     Button {
                         showingShowSeedConfirmation = true
                     } label: {
                         Text(String(localized: "Show Seed"))
                             .foregroundStyle(.red)
-                    }
-                    .alert(
-                        "Are you sure you want to view the seed?",
-                        isPresented: $showingShowSeedConfirmation
-                    ) {
-                        Button("Yes", role: .destructive) {
-                            isSeedPresented = true
-                        }
-                        Button("No", role: .cancel) {}
                     }
                     Button {
                         showingDeleteSeedConfirmation = true
@@ -79,43 +73,49 @@ struct SettingsView: View {
                                 .foregroundStyle(.red)
                         }
                     }
-                    .alert(
-                        "Are you sure you want to delete the seed?",
-                        isPresented: $showingDeleteSeedConfirmation
-                    ) {
-                        Button("Yes", role: .destructive) {
-                            viewModel.delete()
-                        }
-                        Button("No", role: .cancel) {}
-                    }
                 }
+                
             }
             .navigationTitle("Settings")
             .onAppear {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
             }
-            .sheet(
-                isPresented: $isSeedPresented
-            ) {
-                SeedView(viewModel: .init())
-                    .presentationDetents([.medium, .large])
-                    .presentationDragIndicator(.visible)
-            }
-            .alert(isPresented: $viewModel.showingSettingsViewErrorAlert) {
-                Alert(
-                    title: Text("Settings Error"),
-                    message: Text(viewModel.settingsError?.description ?? "Unknown"),
-                    dismissButton: .default(Text("OK")) {
-                        viewModel.settingsError = nil
-                    }
-                )
-            }
-
+            
         }
-
+        .sheet(isPresented: $isSeedPresented) {
+            SeedView(viewModel: .init())
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+        }
+        .alert(
+            "Are you sure you want to view the seed?",
+            isPresented: $showingShowSeedConfirmation
+        ) {
+            Button("Yes", role: .destructive) {
+                isSeedPresented = true
+            }
+            Button("No", role: .cancel) {}
+        }
+        .alert(
+            "Are you sure you want to delete the seed?",
+            isPresented: $showingDeleteSeedConfirmation
+        ) {
+            Button("Yes", role: .destructive) {
+                viewModel.delete()
+            }
+            Button("No", role: .cancel) {}
+        }
+        .alert(isPresented: $viewModel.showingSettingsViewErrorAlert) {
+            Alert(
+                title: Text("Settings Error"),
+                message: Text(viewModel.settingsError?.description ?? "Unknown"),
+                dismissButton: .default(Text("OK")) {
+                    viewModel.settingsError = nil
+                }
+            )
+        }
     }
-
 }
 
 #if DEBUG
