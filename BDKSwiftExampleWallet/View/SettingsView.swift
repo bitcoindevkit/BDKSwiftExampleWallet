@@ -15,11 +15,11 @@ struct SettingsView: View {
     @State private var isSeedPresented = false
 
     var body: some View {
-        
+
         NavigationStack {
-            
+
             Form {
-                
+
                 Section(header: Text("Network")) {
                     if let network = viewModel.network, let url = viewModel.esploraURL {
                         Text(network.capitalized)
@@ -40,7 +40,7 @@ struct SettingsView: View {
                         }
                     }
                 }
-                
+
                 Section(header: Text("Wallet")) {
                     Button {
                         Task {
@@ -57,7 +57,7 @@ struct SettingsView: View {
                             .animation(.easeInOut, value: viewModel.inspectedScripts)
                     }
                 }
-                
+
                 Section(header: Text("Danger Zone")) {
                     Button {
                         showingShowSeedConfirmation = true
@@ -74,14 +74,14 @@ struct SettingsView: View {
                         }
                     }
                 }
-                
+
             }
             .navigationTitle("Settings")
             .onAppear {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
             }
-            
+
         }
         .sheet(isPresented: $isSeedPresented) {
             SeedView(viewModel: .init())
