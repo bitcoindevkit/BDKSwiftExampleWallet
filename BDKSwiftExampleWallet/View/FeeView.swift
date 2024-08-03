@@ -13,7 +13,8 @@ struct FeeView: View {
     let amount: String
     let address: String
     @Bindable var viewModel: FeeViewModel
-    @Binding var rootIsActive: Bool
+//    @Binding var rootIsActive: Bool
+    @Binding var navigationPath: NavigationPath
 
     var body: some View {
 
@@ -66,24 +67,35 @@ struct FeeView: View {
 
                 Spacer()
 
-                NavigationLink(
-                    destination: BuildTransactionView(
-                        amount: amount,
-                        address: address,
-                        fee: viewModel.selectedFee ?? 1,
-                        viewModel: .init(),
-                        shouldPopToRootView: self.$rootIsActive
-
-                    )
-                ) {
-                    Label(
-                        title: { Text("Next") },
-                        icon: { Image(systemName: "arrow.right") }
-                    )
-                    .labelStyle(.iconOnly)
-                }
-                .isDetailLink(false)
-                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
+//                NavigationLink(
+//                    destination: BuildTransactionView(
+//                        amount: amount,
+//                        address: address,
+//                        fee: viewModel.selectedFee ?? 1,
+//                        viewModel: .init(),
+//                        shouldPopToRootView: self.$rootIsActive
+//
+//                    )
+//                ) {
+//                    Label(
+//                        title: { Text("Next") },
+//                        icon: { Image(systemName: "arrow.right") }
+//                    )
+//                    .labelStyle(.iconOnly)
+//                }
+//                .isDetailLink(false)
+//                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
+                
+                Button {
+                    navigationPath.append(NavigationDestination.buildTransaction(amount: amount, address: address, fee: viewModel.selectedFee ?? 1))
+                 } label: {
+                     Label(
+                         title: { Text("Next") },
+                         icon: { Image(systemName: "arrow.right") }
+                     )
+                     .labelStyle(.iconOnly)
+                 }
+                 .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
             }
             .padding()
@@ -113,7 +125,9 @@ struct FeeView: View {
             amount: "50",
             address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
             viewModel: .init(feeClient: .mock, bdkClient: .mock),
-            rootIsActive: .constant(false)
+//            rootIsActive: .constant(false)
+            navigationPath: .constant(NavigationPath())
+
         )
     }
 
@@ -122,7 +136,9 @@ struct FeeView: View {
             amount: "50",
             address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
             viewModel: .init(feeClient: .mock, bdkClient: .mock),
-            rootIsActive: .constant(false)
+//            rootIsActive: .constant(false)
+            navigationPath: .constant(NavigationPath())
+
         )
         .environment(\.dynamicTypeSize, .accessibility5)
     }

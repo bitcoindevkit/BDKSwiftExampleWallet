@@ -44,6 +44,7 @@ class BuildTransactionViewModel {
                 name: Notification.Name("TransactionSent"),
                 object: nil
             )
+            print("Sent!")
         } catch let error as EsploraError {
             self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
