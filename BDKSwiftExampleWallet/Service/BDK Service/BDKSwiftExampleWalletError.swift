@@ -11,4 +11,5 @@ enum WalletError: Error {
     case walletNotFound
     case blockchainConfigNotFound
     case dbNotFound
+    case notSigned
 }

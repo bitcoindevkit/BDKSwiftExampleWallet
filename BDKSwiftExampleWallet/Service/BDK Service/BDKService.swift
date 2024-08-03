@@ -100,6 +100,8 @@ private class BDKService {
 
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
+        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
         let sqliteStore = try SqliteStore(path: persistenceBackendPath)
@@ -117,6 +119,8 @@ private class BDKService {
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
+        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
         let sqliteStore = try SqliteStore(path: persistenceBackendPath)
@@ -187,10 +191,14 @@ private class BDKService {
 
     private func signAndBroadcast(psbt: Psbt) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let _ = try wallet.sign(psbt: psbt)
-        let transaction = try psbt.extractTx()
-        let client = self.esploraClient
-        try client.broadcast(transaction: transaction)
+        let isSigned = try wallet.sign(psbt: psbt)
+        if isSigned {
+            let transaction = try psbt.extractTx()
+            let client = self.esploraClient
+            try client.broadcast(transaction: transaction)
+        } else {
+            throw WalletError.notSigned
+        }
     }
 
     func syncWithInspector(inspector: SyncScriptInspector) async throws {
