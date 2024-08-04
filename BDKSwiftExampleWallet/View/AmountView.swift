@@ -15,77 +15,74 @@ struct AmountView: View {
 
     var body: some View {
 
-        NavigationView {
+        ZStack {
+            Color(uiColor: .systemBackground)
 
-            ZStack {
-                Color(uiColor: .systemBackground)
-
-                VStack(spacing: 50) {
-                    Spacer()
-                    VStack(spacing: 4) {
-                        Text("\(numpadAmount.formattedWithSeparator) sats")
-                            .textStyle(BitcoinTitle1())
-                        if let balance = viewModel.balanceTotal {
-                            HStack(spacing: 2) {
-                                Text(balance.delimiter)
-                                Text("total")
-                            }
-                            .fontWeight(.semibold)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+            VStack(spacing: 50) {
+                Spacer()
+                VStack(spacing: 4) {
+                    Text("\(numpadAmount.formattedWithSeparator) sats")
+                        .textStyle(BitcoinTitle1())
+                    if let balance = viewModel.balanceTotal {
+                        HStack(spacing: 2) {
+                            Text(balance.delimiter)
+                            Text("total")
                         }
-                        if let balance = viewModel.balanceConfirmed {
-                            HStack(spacing: 2) {
-                                Text(balance.delimiter)
-                                Text("confirmed")
-                            }
-                            .fontWeight(.semibold)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        }
+                        .fontWeight(.semibold)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                     }
-
-                    GeometryReader { geometry in
-                        let buttonSize = geometry.size.width / 4
-                        VStack(spacing: buttonSize / 10) {
-                            numpadRow(["1", "2", "3"], buttonSize: buttonSize)
-                            numpadRow(["4", "5", "6"], buttonSize: buttonSize)
-                            numpadRow(["7", "8", "9"], buttonSize: buttonSize)
-                            numpadRow([" ", "0", "<"], buttonSize: buttonSize)
+                    if let balance = viewModel.balanceConfirmed {
+                        HStack(spacing: 2) {
+                            Text(balance.delimiter)
+                            Text("confirmed")
                         }
-                        .frame(maxWidth: .infinity)
+                        .fontWeight(.semibold)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                     }
-                    .frame(height: 300)
+                }
 
-                    Spacer()
-
-                    VStack {
-
-                        Button {
-                            navigationPath.append(
-                                NavigationDestination.address(amount: numpadAmount)
-                            )
-                        } label: {
-                            Label(
-                                title: { Text("Next") },
-                                icon: { Image(systemName: "arrow.right") }
-                            )
-                            .labelStyle(.iconOnly)
-                        }
-                        .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
-
+                GeometryReader { geometry in
+                    let buttonSize = geometry.size.width / 4
+                    VStack(spacing: buttonSize / 10) {
+                        numpadRow(["1", "2", "3"], buttonSize: buttonSize)
+                        numpadRow(["4", "5", "6"], buttonSize: buttonSize)
+                        numpadRow(["7", "8", "9"], buttonSize: buttonSize)
+                        numpadRow([" ", "0", "<"], buttonSize: buttonSize)
                     }
+                    .frame(maxWidth: .infinity)
+                }
+                .frame(height: 300)
+
+                Spacer()
+
+                VStack {
+
+                    Button {
+                        navigationPath.append(
+                            NavigationDestination.address(amount: numpadAmount)
+                        )
+                    } label: {
+                        Label(
+                            title: { Text("Next") },
+                            icon: { Image(systemName: "arrow.right") }
+                        )
+                        .labelStyle(.iconOnly)
+                    }
+                    .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
 
                 }
-                .padding()
-                .task {
-                    viewModel.getBalance()
-                }
+
             }
-            .onChange(of: navigationPath) { oldPath, newPath in
-                if newPath.isEmpty {
-                    numpadAmount = "0"
-                }
+            .padding()
+            .task {
+                viewModel.getBalance()
+            }
+        }
+        .onChange(of: navigationPath) { oldPath, newPath in
+            if newPath.isEmpty {
+                numpadAmount = "0"
             }
         }
         .alert(isPresented: $viewModel.showingAmountViewErrorAlert) {
