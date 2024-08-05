@@ -9,7 +9,7 @@ import BitcoinDevKit
 import SwiftUI
 
 struct LocalOutputItemView: View {
-    let utxo: LocalOutput
+    let output: LocalOutput
     let isRedacted: Bool
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
 
@@ -33,7 +33,7 @@ struct LocalOutputItemView: View {
 
             VStack(alignment: .leading, spacing: 5) {
 
-                Text(utxo.outpoint.txid)
+                Text(output.outpoint.txid)
                     .truncationMode(.middle)
                     .lineLimit(1)
                     .fontDesign(.monospaced)
@@ -41,7 +41,7 @@ struct LocalOutputItemView: View {
                     .font(.title)
                     .foregroundColor(.primary)
 
-                Text("Vout: \(utxo.outpoint.vout)")
+                Text("Vout: \(output.outpoint.vout)")
                     .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
                     .font(.caption2)
                     .fontWidth(.condensed)
@@ -54,7 +54,7 @@ struct LocalOutputItemView: View {
 
             Spacer()
 
-            Text("\(utxo.txout.value) sats")
+            Text("\(output.txout.value) sats")
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .fontDesign(.rounded)
@@ -69,5 +69,5 @@ struct LocalOutputItemView: View {
 }
 
 #Preview {
-    LocalOutputItemView(utxo: .mock, isRedacted: false)
+    LocalOutputItemView(output: .mock, isRedacted: false)
 }

@@ -30,20 +30,20 @@ struct ActivityListView: View {
                     )
                 } else {
                     LocalOutputListView(
-                        localOutputs: viewModel.utxos,
+                        localOutputs: viewModel.localOutputs,
                         walletSyncState: viewModel.walletSyncState
                     )
                 }
             }
             .task {
                 viewModel.getTransactions()
-                viewModel.getUTXOs()
+                viewModel.listUnspent()
             }
         }
         .navigationTitle(
             viewModel.displayMode == .transactions
                 ? "\(viewModel.transactions.count) Transaction\(viewModel.transactions.count == 1 ? "" : "s")"
-                : "\(viewModel.utxos.count) UTXO\(viewModel.utxos.count == 1 ? "" : "s")"
+                : "\(viewModel.localOutputs.count) Output\(viewModel.localOutputs.count == 1 ? "" : "s")"
         )
         .navigationBarTitleDisplayMode(.inline)
         .padding(.top)
@@ -59,7 +59,7 @@ struct CustomSegmentedControl: View {
     var body: some View {
         HStack(spacing: 20) {
             segmentButton(for: .transactions)
-            segmentButton(for: .utxos)
+            segmentButton(for: .outputs)
             Spacer()
         }
     }
@@ -68,7 +68,7 @@ struct CustomSegmentedControl: View {
         Button(action: {
             selection = mode
         }) {
-            Text(mode == .transactions ? "Transactions" : "UTXOs").bold()
+            Text(mode == .transactions ? "Transactions" : "Outputs").bold()
                 .foregroundColor(selection == mode ? .primary : .gray)
         }
     }

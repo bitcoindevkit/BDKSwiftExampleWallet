@@ -19,12 +19,12 @@ class ActivityListViewModel {
     var progress: Float = 0.0
     var inspectedScripts: UInt64 = 0
     var totalScripts: UInt64 = 0
-    var utxos: [LocalOutput] = []
+    var localOutputs: [LocalOutput] = []
     var displayMode: DisplayMode = .transactions
 
     enum DisplayMode {
         case transactions
-        case utxos
+        case outputs
     }
 
     init(
@@ -37,9 +37,9 @@ class ActivityListViewModel {
         self.transactions = transactions
     }
 
-    func getUTXOs() {
+    func listUnspent() {
         do {
-            self.utxos = try bdkClient.listUnspent()
+            self.localOutputs = try bdkClient.listUnspent()
         } catch let error as WalletError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
