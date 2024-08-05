@@ -90,22 +90,22 @@
     "%@ sats fee" : {
 
     },
+    "%lld Output%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld Output%2$@"
+          }
+        }
+      }
+    },
     "%lld Transaction%@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$lld Transaction%2$@"
-          }
-        }
-      }
-    },
-    "%lld UTXO%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld UTXO%2$@"
           }
         }
       }
@@ -427,6 +427,9 @@
         }
       }
     },
+    "No Outputs" : {
+
+    },
     "No seed available" : {
 
     },
@@ -439,9 +442,6 @@
           }
         }
       }
-    },
-    "No UTXOs" : {
-
     },
     "OK" : {
       "localizations" : {
@@ -462,6 +462,9 @@
           }
         }
       }
+    },
+    "Outputs" : {
+
     },
     "Receive" : {
       "localizations" : {
@@ -684,9 +687,6 @@
           }
         }
       }
-    },
-    "UTXOs" : {
-
     },
     "Vout: %u" : {
 

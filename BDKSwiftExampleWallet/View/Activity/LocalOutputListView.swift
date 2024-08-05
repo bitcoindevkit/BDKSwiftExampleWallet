@@ -15,17 +15,17 @@ struct LocalOutputListView: View {
     var body: some View {
         List {
             if localOutputs.isEmpty && walletSyncState == .syncing {
-                LocalOutputItemView(utxo: .mock, isRedacted: true)
+                LocalOutputItemView(output: .mock, isRedacted: true)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
             } else if localOutputs.isEmpty {
-                Text("No UTXOs")
+                Text("No Outputs")
                     .font(.subheadline)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
             } else {
-                ForEach(localOutputs, id: \.outpoint) { utxo in
-                    LocalOutputItemView(utxo: utxo, isRedacted: false)
+                ForEach(localOutputs, id: \.outpoint) { output in
+                    LocalOutputItemView(output: output, isRedacted: false)
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
