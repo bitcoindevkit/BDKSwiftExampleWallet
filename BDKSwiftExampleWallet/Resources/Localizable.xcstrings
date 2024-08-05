@@ -67,6 +67,16 @@
     "/" : {
 
     },
+    "%@ • %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ • %2$@"
+          }
+        }
+      }
+    },
     "%@ sats" : {
       "localizations" : {
         "fr" : {
@@ -317,6 +327,9 @@
           }
         }
       }
+    },
+    "Destructive Zone" : {
+
     },
     "Enter address to send BTC to" : {
       "localizations" : {
