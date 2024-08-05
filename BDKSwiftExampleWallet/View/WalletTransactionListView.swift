@@ -42,6 +42,7 @@ struct WalletTransactionListView: View {
                     let canonicalTx = item
                     let tx = canonicalTx.transaction
                     if let sentAndReceivedValues = viewModel.getSentAndReceived(tx: tx) {
+
                         NavigationLink(
                             destination: TransactionDetailsView(
                                 viewModel: .init(bdkClient: .live, keyClient: .live),
@@ -58,6 +59,7 @@ struct WalletTransactionListView: View {
                                 isRedacted: false
                             )
                         }
+
                     } else {
                         Image(systemName: "questionmark")
                     }
@@ -82,6 +84,7 @@ struct WalletTransactionListView: View {
         }
 
     }
+
 }
 
 #if DEBUG

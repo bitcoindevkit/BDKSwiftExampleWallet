@@ -29,7 +29,7 @@ final class BDKSwiftExampleWalletBDKServiceTests: XCTestCase {
 
         XCTAssertEqual(
             transactionDetails.first?.transaction.transactionID,
-            Transaction.mock?.txid()
+            Transaction.mock?.computeTxid()  //txid()
         )
     }
 

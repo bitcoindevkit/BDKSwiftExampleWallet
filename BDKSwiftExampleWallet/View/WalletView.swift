@@ -14,10 +14,11 @@ struct WalletView: View {
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
+    @State private var showAllTransactions = false
 
     var body: some View {
 
-        NavigationView {
+        NavigationStack {
 
             ZStack {
                 Color(uiColor: .systemBackground)
@@ -68,19 +69,11 @@ struct WalletView: View {
                         .foregroundColor(.secondary)
                         .font(.subheadline)
                     }
-                    .padding(.top, 40.0)
                     .padding(.bottom, 20.0)
 
                     VStack {
                         HStack {
-                            Text("Activity")
-                            if viewModel.walletSyncState == .synced {
-                                Text(
-                                    "\(viewModel.transactions.count) \(viewModel.transactions.count == 1 ? "Transaction" : "Transactions")"
-                                )
-                                .fontWeight(.thin)
-                                .font(.caption2)
-                            }
+                            Text("Recent")
                             Spacer()
                             if viewModel.walletSyncState == .syncing {
                                 HStack {
@@ -149,7 +142,7 @@ struct WalletView: View {
                         }
                         .fontWeight(.bold)
                         WalletTransactionListView(
-                            transactions: viewModel.transactions,
+                            transactions: viewModel.recentTransactions,
                             walletSyncState: viewModel.walletSyncState,
                             viewModel: .init()
                         )
@@ -159,6 +152,21 @@ struct WalletView: View {
                             viewModel.getTransactions()
                             await viewModel.getPrices()
                         }
+                        Button(action: {
+                            showAllTransactions = true
+                        }) {
+                            Text("Show All")
+                                .font(.caption)
+                                .foregroundColor(.bitcoinOrange)
+                                .padding(.vertical, 5)
+                                .padding(.horizontal, 20)
+                                .background(
+                                    Capsule()
+                                        .stroke(Color.bitcoinOrange, lineWidth: 1)
+                                        .background(Color(.systemBackground))
+                                )
+                        }
+                        .padding()
                         Spacer()
                     }
 
@@ -181,6 +189,17 @@ struct WalletView: View {
                     await viewModel.getPrices()
                 }
 
+            }
+            .navigationDestination(isPresented: $showAllTransactions) {
+                AllTransactionsView(viewModel: .init())
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    VStack {
+                        Text("Navigation Title")
+                            .foregroundColor(.clear)
+                    }
+                }
             }
 
         }
