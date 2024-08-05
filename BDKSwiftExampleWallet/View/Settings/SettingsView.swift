@@ -22,16 +22,8 @@ struct SettingsView: View {
 
                 Section(header: Text("Network")) {
                     if let network = viewModel.network, let url = viewModel.esploraURL {
-                        Text(network.capitalized)
-                            .foregroundColor(.primary)
                         Text(
-                            url.replacingOccurrences(
-                                of: "https://",
-                                with: ""
-                            ).replacingOccurrences(
-                                of: "http://",
-                                with: ""
-                            )
+                            "\(network.capitalized) • \(url.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: ""))"
                         )
                         .foregroundColor(.primary)
                     } else {
@@ -65,6 +57,9 @@ struct SettingsView: View {
                         Text(String(localized: "Show Seed"))
                             .foregroundStyle(.red)
                     }
+                }
+
+                Section(header: Text("Destructive Zone")) {
                     Button {
                         showingDeleteSeedConfirmation = true
                     } label: {
@@ -76,11 +71,16 @@ struct SettingsView: View {
                 }
 
             }
+            .background(Color(uiColor: UIColor.systemBackground))
+            .scrollContentBackground(.hidden)
             .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
+            .listRowSeparator(.hidden)
             .onAppear {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
             }
+            .padding(.top, 40.0)
 
         }
         .sheet(isPresented: $isSeedPresented) {
