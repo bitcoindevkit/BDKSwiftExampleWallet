@@ -1,5 +1,5 @@
 //
-//  UTXOListView.swift
+//  LocalOutputListView.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 8/4/24.
@@ -8,24 +8,24 @@
 import BitcoinDevKit
 import SwiftUI
 
-struct UTXOListView: View {
-    let utxos: [LocalOutput]
+struct LocalOutputListView: View {
+    let localOutputs: [LocalOutput]
     let walletSyncState: WalletSyncState
 
     var body: some View {
         List {
-            if utxos.isEmpty && walletSyncState == .syncing {
-                UTXOListItemView(utxo: .mock, isRedacted: true)
+            if localOutputs.isEmpty && walletSyncState == .syncing {
+                LocalOutputItemView(utxo: .mock, isRedacted: true)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
-            } else if utxos.isEmpty {
+            } else if localOutputs.isEmpty {
                 Text("No UTXOs")
                     .font(.subheadline)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
             } else {
-                ForEach(utxos, id: \.outpoint) { utxo in
-                    UTXOListItemView(utxo: utxo, isRedacted: false)
+                ForEach(localOutputs, id: \.outpoint) { utxo in
+                    LocalOutputItemView(utxo: utxo, isRedacted: false)
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
@@ -37,5 +37,5 @@ struct UTXOListView: View {
 }
 
 #Preview {
-    UTXOListView(utxos: [.mock], walletSyncState: .synced)
+    LocalOutputListView(localOutputs: [.mock], walletSyncState: .synced)
 }

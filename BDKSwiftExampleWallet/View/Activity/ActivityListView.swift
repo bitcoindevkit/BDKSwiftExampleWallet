@@ -1,5 +1,5 @@
 //
-//  AllTransactionsView.swift
+//  ActivityListView.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 8/4/24.
@@ -8,8 +8,8 @@
 import BitcoinDevKit
 import SwiftUI
 
-struct AllTransactionsView: View {
-    @Bindable var viewModel: AllTransactionsViewModel
+struct ActivityListView: View {
+    @Bindable var viewModel: ActivityListViewModel
 
     var body: some View {
 
@@ -23,14 +23,14 @@ struct AllTransactionsView: View {
                     .padding(.vertical)
 
                 if viewModel.displayMode == .transactions {
-                    WalletTransactionListView(
+                    TransactionListView(
                         transactions: viewModel.transactions,
                         walletSyncState: viewModel.walletSyncState,
                         viewModel: .init()
                     )
                 } else {
-                    UTXOListView(
-                        utxos: viewModel.utxos,
+                    LocalOutputListView(
+                        localOutputs: viewModel.utxos,
                         walletSyncState: viewModel.walletSyncState
                     )
                 }
@@ -54,7 +54,7 @@ struct AllTransactionsView: View {
 }
 
 struct CustomSegmentedControl: View {
-    @Binding var selection: AllTransactionsViewModel.DisplayMode
+    @Binding var selection: ActivityListViewModel.DisplayMode
 
     var body: some View {
         HStack(spacing: 20) {
@@ -64,7 +64,7 @@ struct CustomSegmentedControl: View {
         }
     }
 
-    private func segmentButton(for mode: AllTransactionsViewModel.DisplayMode) -> some View {
+    private func segmentButton(for mode: ActivityListViewModel.DisplayMode) -> some View {
         Button(action: {
             selection = mode
         }) {
@@ -75,5 +75,5 @@ struct CustomSegmentedControl: View {
 }
 
 #Preview {
-    AllTransactionsView(viewModel: .init())
+    ActivityListView(viewModel: .init())
 }

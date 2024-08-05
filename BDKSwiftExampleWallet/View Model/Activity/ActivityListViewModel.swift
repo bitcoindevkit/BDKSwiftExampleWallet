@@ -1,5 +1,5 @@
 //
-//  AllTransactionsViewModel.swift
+//  ActivityListViewModel.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 8/4/24.
@@ -10,7 +10,7 @@ import Foundation
 
 @MainActor
 @Observable
-class AllTransactionsViewModel {
+class ActivityListViewModel {
     let bdkClient: BDKClient
     var walletSyncState: WalletSyncState
     var transactions: [CanonicalTx]

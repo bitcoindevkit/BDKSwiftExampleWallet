@@ -1,5 +1,5 @@
 //
-//  WalletTransactionsListViewModel.swift
+//  TransactionListViewModel.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 4/3/24.
@@ -10,7 +10,7 @@ import Foundation
 
 @MainActor
 @Observable
-class WalletTransactionsListViewModel {
+class TransactionListViewModel {
     let bdkClient: BDKClient
     var walletTransactionsViewError: AppError?
     var showingWalletTransactionsViewErrorAlert = false

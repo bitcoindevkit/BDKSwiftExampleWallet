@@ -1,5 +1,5 @@
 //
-//  UTXOListItemView.swift
+//  LocalOutputItemView.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 8/4/24.
@@ -8,7 +8,7 @@
 import BitcoinDevKit
 import SwiftUI
 
-struct UTXOListItemView: View {
+struct LocalOutputItemView: View {
     let utxo: LocalOutput
     let isRedacted: Bool
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
@@ -61,9 +61,6 @@ struct UTXOListItemView: View {
                 .lineLimit(1)
                 .redacted(reason: isRedacted ? .placeholder : [])
 
-            let a = utxo.outpoint
-            let b = utxo.txout
-            let c = utxo.keychain
         }
         .padding(.vertical, 15.0)
         .padding(.vertical, 5.0)
@@ -72,5 +69,5 @@ struct UTXOListItemView: View {
 }
 
 #Preview {
-    UTXOListItemView(utxo: .mock, isRedacted: false)
+    LocalOutputItemView(utxo: .mock, isRedacted: false)
 }

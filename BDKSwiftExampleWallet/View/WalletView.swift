@@ -73,7 +73,7 @@ struct WalletView: View {
 
                     VStack {
                         HStack {
-                            Text("Recent")
+                            Text("Activity")
                             Spacer()
                             if viewModel.walletSyncState == .syncing {
                                 HStack {
@@ -141,7 +141,7 @@ struct WalletView: View {
                             .font(.caption)
                         }
                         .fontWeight(.bold)
-                        WalletTransactionListView(
+                        TransactionListView(
                             transactions: viewModel.recentTransactions,
                             walletSyncState: viewModel.walletSyncState,
                             viewModel: .init()
@@ -191,7 +191,7 @@ struct WalletView: View {
 
             }
             .navigationDestination(isPresented: $showAllTransactions) {
-                AllTransactionsView(viewModel: .init())
+                ActivityListView(viewModel: .init())
             }
             .toolbar {
                 ToolbarItem(placement: .navigation) {

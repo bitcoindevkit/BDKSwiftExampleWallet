@@ -1,5 +1,5 @@
 //
-//  TransactionDetailsViewModel.swift
+//  TransactionDetailViewModel.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 2/15/24.
@@ -11,7 +11,7 @@ import Observation
 
 @MainActor
 @Observable
-class TransactionDetailsViewModel {
+class TransactionDetailViewModel {
     let bdkClient: BDKClient
     let keyClient: KeyClient
 

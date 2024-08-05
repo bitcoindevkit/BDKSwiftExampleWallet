@@ -163,7 +163,6 @@
       }
     },
     "Activity" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -480,9 +479,6 @@
           }
         }
       }
-    },
-    "Recent" : {
-
     },
     "Regtest" : {
       "localizations" : {

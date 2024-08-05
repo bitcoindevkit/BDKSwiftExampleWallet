@@ -61,8 +61,8 @@ private class BDKService {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        let values = wallet.listUnspent()
-        return values
+        let localOutputs = wallet.listUnspent()
+        return localOutputs
     }
 
     func createWallet(words: String?) throws {
