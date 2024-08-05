@@ -19,11 +19,13 @@ struct SettingsView: View {
         NavigationStack {
 
             Form {
-                
+
                 Section(header: Text("Network")) {
                     if let network = viewModel.network, let url = viewModel.esploraURL {
-                        Text("\(network.capitalized) • \(url.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: ""))")
-                            .foregroundColor(.primary)
+                        Text(
+                            "\(network.capitalized) • \(url.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: ""))"
+                        )
+                        .foregroundColor(.primary)
                     } else {
                         HStack {
                             Text("No Network")
@@ -56,7 +58,7 @@ struct SettingsView: View {
                             .foregroundStyle(.red)
                     }
                 }
-                
+
                 Section(header: Text("Destructive Zone")) {
                     Button {
                         showingDeleteSeedConfirmation = true
