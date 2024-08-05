@@ -1,5 +1,5 @@
 //
-//  WalletTransactionListView.swift
+//  TransactionListView.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 8/6/23.
@@ -9,16 +9,16 @@ import BitcoinDevKit
 import BitcoinUI
 import SwiftUI
 
-struct WalletTransactionListView: View {
+struct TransactionListView: View {
     let transactions: [CanonicalTx]
     let walletSyncState: WalletSyncState
-    @Bindable var viewModel: WalletTransactionsListViewModel
+    @Bindable var viewModel: TransactionListViewModel
 
     var body: some View {
 
         List {
             if transactions.isEmpty && walletSyncState == .syncing {
-                WalletTransactionsListItemView(
+                TransactionItemView(
                     sentAndReceivedValues: .init(
                         sent: Amount.fromSat(fromSat: UInt64(0)),
                         received: Amount.fromSat(fromSat: UInt64(0))
@@ -42,8 +42,9 @@ struct WalletTransactionListView: View {
                     let canonicalTx = item
                     let tx = canonicalTx.transaction
                     if let sentAndReceivedValues = viewModel.getSentAndReceived(tx: tx) {
+
                         NavigationLink(
-                            destination: TransactionDetailsView(
+                            destination: TransactionDetailView(
                                 viewModel: .init(bdkClient: .live, keyClient: .live),
                                 canonicalTx: canonicalTx,
                                 amount: sentAndReceivedValues.sent.toSat() == 0
@@ -52,12 +53,13 @@ struct WalletTransactionListView: View {
                                     : sentAndReceivedValues.sent.toSat()
                             )
                         ) {
-                            WalletTransactionsListItemView(
+                            TransactionItemView(
                                 sentAndReceivedValues: sentAndReceivedValues,
                                 canonicalTx: canonicalTx,
                                 isRedacted: false
                             )
                         }
+
                     } else {
                         Image(systemName: "questionmark")
                     }
@@ -82,11 +84,12 @@ struct WalletTransactionListView: View {
         }
 
     }
+
 }
 
 #if DEBUG
     #Preview {
-        WalletTransactionListView(
+        TransactionListView(
             transactions: [
                 .mock
             ],
@@ -97,7 +100,7 @@ struct WalletTransactionListView: View {
         )
     }
     #Preview {
-        WalletTransactionListView(
+        TransactionListView(
             transactions: [
                 .mock
             ],

@@ -1,5 +1,5 @@
 //
-//  TransactionDetailsView.swift
+//  TransactionDetailView.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 6/22/23.
@@ -9,8 +9,8 @@ import BitcoinDevKit
 import BitcoinUI
 import SwiftUI
 
-struct TransactionDetailsView: View {
-    @ObservedObject var viewModel: TransactionDetailsViewModel
+struct TransactionDetailView: View {
+    @Bindable var viewModel: TransactionDetailViewModel
 
     let canonicalTx: CanonicalTx
     let amount: UInt64
@@ -140,7 +140,8 @@ struct TransactionDetailsView: View {
             .fontDesign(.monospaced)
             .font(.caption)
             .padding()
-            .onAppear {
+            .task {
+                print("TransactionDetailsView appeared")
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
                 viewModel.getCalulateFee(tx: canonicalTx.transaction)
@@ -148,6 +149,7 @@ struct TransactionDetailsView: View {
 
         }
         .padding()
+        .padding(.top, 40.0)
         .alert(isPresented: $viewModel.showingTransactionDetailsViewErrorAlert) {
             Alert(
                 title: Text("Transaction Details Error"),
@@ -163,7 +165,7 @@ struct TransactionDetailsView: View {
 
 #if DEBUG
     #Preview {
-        TransactionDetailsView(
+        TransactionDetailView(
             viewModel: .init(bdkClient: .mock, keyClient: .mock),
             canonicalTx: .mock,
             amount: UInt64(1_000_000)
@@ -171,7 +173,7 @@ struct TransactionDetailsView: View {
     }
 
     #Preview {
-        TransactionDetailsView(
+        TransactionDetailView(
             viewModel: .init(bdkClient: .mock, keyClient: .mock),
             canonicalTx: .mock,
             amount: UInt64(1_000_000)

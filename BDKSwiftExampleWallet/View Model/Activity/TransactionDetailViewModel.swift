@@ -1,5 +1,5 @@
 //
-//  TransactionDetailsViewModel.swift
+//  TransactionDetailViewModel.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 2/15/24.
@@ -7,20 +7,23 @@
 
 import BitcoinDevKit
 import Foundation
+import Observation
 
-class TransactionDetailsViewModel: ObservableObject {
+@MainActor
+@Observable
+class TransactionDetailViewModel {
     let bdkClient: BDKClient
     let keyClient: KeyClient
 
-    @Published var network: String?
-    @Published var esploraURL: String?
+    var network: String?
+    var esploraURL: String?
 
-    @Published var esploraError: EsploraError?
-    @Published var calculateFeeError: CalculateFeeError?
-    @Published var transactionDetailsError: AppError?
+    var esploraError: EsploraError?
+    var calculateFeeError: CalculateFeeError?
+    var transactionDetailsError: AppError?
 
-    @Published var showingTransactionDetailsViewErrorAlert = false
-    @Published var calculateFee: String?
+    var showingTransactionDetailsViewErrorAlert = false
+    var calculateFee: String?
 
     init(
         bdkClient: BDKClient = .live,

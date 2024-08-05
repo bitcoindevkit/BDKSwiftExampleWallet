@@ -1,5 +1,5 @@
 //
-//  WalletTransactionsListItemView.swift
+//  TransactionItemView.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 4/3/24.
@@ -9,7 +9,7 @@ import BitcoinDevKit
 import BitcoinUI
 import SwiftUI
 
-struct WalletTransactionsListItemView: View {
+struct TransactionItemView: View {
     let sentAndReceivedValues: SentAndReceivedValues
     let canonicalTx: CanonicalTx
     let isRedacted: Bool
@@ -114,14 +114,14 @@ struct WalletTransactionsListItemView: View {
 
 #if DEBUG
     #Preview {
-        WalletTransactionsListItemView(
+        TransactionItemView(
             sentAndReceivedValues: .mock,
             canonicalTx: .mock,
             isRedacted: false
         )
     }
     #Preview {
-        WalletTransactionsListItemView(
+        TransactionItemView(
             sentAndReceivedValues: .mock,
             canonicalTx: .mock,
             isRedacted: false

@@ -57,6 +57,14 @@ private class BDKService {
         return transactions
     }
 
+    func listUnspent() throws -> [LocalOutput] {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let localOutputs = wallet.listUnspent()
+        return localOutputs
+    }
+
     func createWallet(words: String?) throws {
 
         let baseUrl =
@@ -276,6 +284,7 @@ struct BDKClient {
     let createWallet: (String?) throws -> Void
     let getBalance: () throws -> Balance
     let transactions: () throws -> [CanonicalTx]
+    let listUnspent: () throws -> [LocalOutput]
     let syncWithInspector: (SyncScriptInspector) async throws -> Void
     let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
     let getAddress: () throws -> String
@@ -296,6 +305,7 @@ extension BDKClient {
         createWallet: { words in try BDKService.shared.createWallet(words: words) },
         getBalance: { try BDKService.shared.getBalance() },
         transactions: { try BDKService.shared.transactions() },
+        listUnspent: { try BDKService.shared.listUnspent() },
         syncWithInspector: { inspector in
             try await BDKService.shared.syncWithInspector(inspector: inspector)
         },
@@ -332,6 +342,11 @@ extension BDKClient {
             createWallet: { _ in },
             getBalance: { .mock },
             transactions: {
+                return [
+                    .mock
+                ]
+            },
+            listUnspent: {
                 return [
                     .mock
                 ]

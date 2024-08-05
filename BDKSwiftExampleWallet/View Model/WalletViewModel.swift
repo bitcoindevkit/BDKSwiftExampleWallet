@@ -31,6 +31,10 @@ class WalletViewModel {
     var inspectedScripts: UInt64 = 0
     var totalScripts: UInt64 = 0
 
+    var recentTransactions: [CanonicalTx] {
+        Array(transactions.prefix(5))
+    }
+
     init(
         priceClient: PriceClient = .live,
         bdkClient: BDKClient = .live,

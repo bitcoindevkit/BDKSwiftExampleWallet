@@ -80,17 +80,30 @@
     "%@ sats fee" : {
 
     },
-    "%lld %@" : {
+    "%lld Transaction%@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$lld %2$@"
+            "value" : "%1$lld Transaction%2$@"
+          }
+        }
+      }
+    },
+    "%lld UTXO%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld UTXO%2$@"
           }
         }
       }
     },
     "%llu" : {
+
+    },
+    "%llu sats" : {
 
     },
     "%llu sats fee" : {
@@ -358,6 +371,9 @@
     "Full Scan" : {
 
     },
+    "Navigation Title" : {
+
+    },
     "Network" : {
       "localizations" : {
         "fr" : {
@@ -410,6 +426,9 @@
           }
         }
       }
+    },
+    "No UTXOs" : {
+
     },
     "OK" : {
       "localizations" : {
@@ -524,6 +543,9 @@
           }
         }
       }
+    },
+    "Show All" : {
+
     },
     "Show Seed" : {
       "localizations" : {
@@ -649,6 +671,12 @@
           }
         }
       }
+    },
+    "UTXOs" : {
+
+    },
+    "Vout: %u" : {
+
     },
     "Wallet" : {
 
