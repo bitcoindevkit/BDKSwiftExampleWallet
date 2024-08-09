@@ -152,21 +152,23 @@ struct WalletView: View {
                             viewModel.getTransactions()
                             await viewModel.getPrices()
                         }
-                        Button(action: {
-                            showAllTransactions = true
-                        }) {
-                            Text("Show All")
-                                .font(.caption)
-                                .foregroundColor(.bitcoinOrange)
-                                .padding(.vertical, 5)
-                                .padding(.horizontal, 20)
-                                .background(
-                                    Capsule()
-                                        .stroke(Color.bitcoinOrange, lineWidth: 1)
-                                        .background(Color(.systemBackground))
-                                )
+                        if viewModel.walletSyncState == .synced {
+                            Button(action: {
+                                showAllTransactions = true
+                            }) {
+                                Text("Show All")
+                                    .font(.caption)
+                                    .foregroundColor(.bitcoinOrange)
+                                    .padding(.vertical, 5)
+                                    .padding(.horizontal, 20)
+                                    .background(
+                                        Capsule()
+                                            .stroke(Color.bitcoinOrange, lineWidth: 1)
+                                            .background(Color(.systemBackground))
+                                    )
+                            }
+                            .padding()
                         }
-                        .padding()
                         Spacer()
                     }
 
