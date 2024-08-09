@@ -49,7 +49,8 @@ struct TransactionListView: View {
                                 canonicalTx: canonicalTx,
                                 amount: sentAndReceivedValues.sent.toSat() == 0
                                     ? sentAndReceivedValues.received.toSat()
-                                    : sentAndReceivedValues.sent.toSat() - sentAndReceivedValues.received.toSat()
+                                    : sentAndReceivedValues.sent.toSat()
+                                        - sentAndReceivedValues.received.toSat()
                             )
                         ) {
                             TransactionItemView(
