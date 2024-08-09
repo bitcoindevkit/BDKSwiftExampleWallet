@@ -141,7 +141,6 @@ struct TransactionDetailView: View {
             .font(.caption)
             .padding()
             .task {
-                print("TransactionDetailsView appeared")
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
                 viewModel.getCalulateFee(tx: canonicalTx.transaction)
