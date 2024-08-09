@@ -98,7 +98,7 @@ private class BDKService {
         )
         let backupInfo = BackupInfo(
             mnemonic: mnemonic.description,
-            descriptor: descriptor.description,
+            descriptor: descriptor.toStringWithSecret(),
             changeDescriptor: changeDescriptor.toStringWithSecret()
         )
 
