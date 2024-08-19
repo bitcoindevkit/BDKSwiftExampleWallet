@@ -28,11 +28,13 @@ struct ActivityListView: View {
                         walletSyncState: viewModel.walletSyncState,
                         viewModel: .init()
                     )
+                    .transition(.blurReplace)
                 } else {
                     LocalOutputListView(
                         localOutputs: viewModel.localOutputs,
                         walletSyncState: viewModel.walletSyncState
                     )
+                    .transition(.blurReplace)
                 }
             }
             .task {
@@ -66,9 +68,12 @@ struct CustomSegmentedControl: View {
 
     private func segmentButton(for mode: ActivityListViewModel.DisplayMode) -> some View {
         Button(action: {
-            selection = mode
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
+                selection = mode
+            }
         }) {
-            Text(mode == .transactions ? "Transactions" : "Outputs").bold()
+            Text(mode == .transactions ? "Transactions" : "Outputs")
+                .bold()
                 .foregroundColor(selection == mode ? .primary : .gray)
         }
     }
