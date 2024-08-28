@@ -16,10 +16,11 @@ struct WalletView: View {
     @State private var newTransactionSent = false
     @State private var showAllTransactions = false
     @State private var showReceiveView = false
+    @State private var sendNavigationPath = NavigationPath()
 
     var body: some View {
 
-        NavigationStack {
+        NavigationStack(path: $sendNavigationPath) {
 
             ZStack {
                 Color(uiColor: .systemBackground)
@@ -196,6 +197,29 @@ struct WalletView: View {
             .navigationDestination(isPresented: $showAllTransactions) {
                 ActivityListView(viewModel: .init())
             }
+            .navigationDestination(for: NavigationDestination.self) { destination in
+                switch destination {
+                case .amount:
+                    AmountView(viewModel: .init(), navigationPath: $sendNavigationPath)
+                case .address(let amount):
+                    AddressView(amount: amount, navigationPath: $sendNavigationPath)
+                case .fee(let amount, let address):
+                    FeeView(
+                        amount: amount,
+                        address: address,
+                        viewModel: .init(),
+                        navigationPath: $sendNavigationPath
+                    )
+                case .buildTransaction(let amount, let address, let fee):
+                    BuildTransactionView(
+                        amount: amount,
+                        address: address,
+                        fee: fee,
+                        viewModel: .init(),
+                        navigationPath: $sendNavigationPath
+                    )
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -208,6 +232,13 @@ struct WalletView: View {
                     VStack {
                         Text("Navigation Title")
                             .foregroundColor(.clear)
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        sendNavigationPath.append(NavigationDestination.amount)
+                    }) {
+                        Image(systemName: "qrcode.viewfinder")
                     }
                 }
             }
