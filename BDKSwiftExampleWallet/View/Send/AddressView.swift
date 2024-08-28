@@ -27,34 +27,14 @@ struct AddressView: View {
             VStack {
 
                 HStack {
+                    
+                    Spacer()
 
                     Button {
                         isShowingScanner = true
                     } label: {
                         HStack {
                             Image(systemName: "qrcode.viewfinder")
-                                .minimumScaleFactor(0.5)
-                        }
-                    }
-
-                    Spacer()
-
-                    Button {
-                        if pasteboard.hasStrings {
-                            if let string = pasteboard.string {
-                                let lowercaseAddress = string.lowercased()
-                                address = lowercaseAddress
-                            } else {
-                                alertMessage = "Unable to get the string from the pasteboard."
-                                isShowingAlert = true
-                            }
-                        } else {
-                            alertMessage = "No strings found in the pasteboard."
-                            isShowingAlert = true
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "doc.on.doc")
                                 .minimumScaleFactor(0.5)
                         }
                     }
