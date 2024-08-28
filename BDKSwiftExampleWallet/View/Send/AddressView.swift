@@ -5,6 +5,7 @@
 //  Created by Matthew Ramsden on 9/15/23.
 //
 
+import AVFoundation
 import BitcoinUI
 import CodeScanner
 import SwiftUI
@@ -63,10 +64,10 @@ struct AddressView: View {
                 .foregroundColor(Color(UIColor.label))
                 .padding(.top)
                 .sheet(isPresented: $isShowingScanner) {
-                    CodeScannerView(
+                    CustomScannerView(
                         codeTypes: [.qr],
-                        simulatedData: "1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2",
-                        completion: handleScan
+                        completion: handleScan,
+                        pasteAction: pasteAddress
                     )
                 }
 
@@ -115,6 +116,13 @@ struct AddressView: View {
             }
             .padding()
             .navigationTitle("Address")
+            .alert(isPresented: $isShowingAlert) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(alertMessage),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
 
         }
 
@@ -141,6 +149,44 @@ extension AddressView {
         case .failure(let error):
             alertMessage = "Scanning failed: \(error.localizedDescription)"
             isShowingAlert = true
+        }
+    }
+
+    private func pasteAddress() {
+        if pasteboard.hasStrings {
+            if let string = pasteboard.string {
+                let lowercaseAddress = string.lowercased()
+                address = lowercaseAddress
+                isShowingScanner = false
+            } else {
+                alertMessage = "Unable to get the string from the pasteboard."
+                isShowingAlert = true
+            }
+        } else {
+            alertMessage = "No strings found in the pasteboard."
+            isShowingAlert = true
+        }
+    }
+}
+
+struct CustomScannerView: View {
+    let codeTypes: [AVMetadataObject.ObjectType]
+    let completion: (Result<ScanResult, ScanError>) -> Void
+    let pasteAction: () -> Void
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            CodeScannerView(codeTypes: codeTypes, completion: completion)
+
+            Button(action: pasteAction) {
+                Text("Paste Address")
+                    .padding()
+                    .foregroundColor(.primary)
+                    .background(Color.white.opacity(0.5))
+                    .clipShape(Capsule())
+
+            }
+            .padding(.bottom, 20)
         }
     }
 }
