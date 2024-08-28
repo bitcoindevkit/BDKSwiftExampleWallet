@@ -213,6 +213,9 @@ struct WalletView: View {
             }
 
         }
+        .sheet(isPresented: $showReceiveView) {
+            ReceiveView(viewModel: .init())
+        }
         .alert(isPresented: $viewModel.showingWalletViewErrorAlert) {
             Alert(
                 title: Text("Wallet Error"),
