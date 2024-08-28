@@ -341,6 +341,9 @@
         }
       }
     },
+    "Error" : {
+
+    },
     "Esplora Server" : {
       "localizations" : {
         "fr" : {
@@ -464,6 +467,9 @@
       }
     },
     "Outputs" : {
+
+    },
+    "Paste Address" : {
 
     },
     "Receive" : {
