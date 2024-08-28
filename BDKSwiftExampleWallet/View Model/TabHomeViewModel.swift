@@ -26,7 +26,7 @@ class TabHomeViewModel: ObservableObject {
         } catch let error as DescriptorError {
             self.tabViewError = .generic(message: error.localizedDescription)
             self.showingTabViewErrorAlert = true
-        } catch let error as WalletCreationError {
+        } catch let error as CreateWithPersistError {//WalletCreationError {
             self.tabViewError = .generic(message: error.localizedDescription)
             self.showingTabViewErrorAlert = true
         } catch {

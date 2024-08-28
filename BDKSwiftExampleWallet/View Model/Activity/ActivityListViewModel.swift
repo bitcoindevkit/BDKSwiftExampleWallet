@@ -74,7 +74,7 @@ class ActivityListViewModel {
         } catch let error as EsploraError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
-        } catch let error as InspectError {
+        } catch let error as RequestBuilderError {//InspectError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch let error as PersistenceError {

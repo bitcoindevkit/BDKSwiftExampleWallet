@@ -16,9 +16,9 @@ struct TransactionItemView: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
 
     var body: some View {
-
+        
         HStack(spacing: 15) {
-
+//
             if isRedacted {
                 Image(
                     systemName:
@@ -44,7 +44,7 @@ struct TransactionItemView: View {
                     .foregroundStyle(
                         {
                             switch canonicalTx.chainPosition {
-                            case .confirmed(_, _):
+                            case .confirmed(_):
                                 Color.bitcoinOrange
                             case .unconfirmed(_):
                                 Color.gray.opacity(0.5)
@@ -63,9 +63,9 @@ struct TransactionItemView: View {
                     .font(.title)
                     .foregroundColor(.primary)
                 switch canonicalTx.chainPosition {
-                case .confirmed(_, let timestamp):
+                case .confirmed(let confirmationBlockTime)://case .confirmed(let timestamp):
                     Text(
-                        timestamp.toDate().formatted(
+                        confirmationBlockTime.confirmationTime.toDate().formatted(//timestamp.toDate().formatted(
                             date: .abbreviated,
                             time: .shortened
                         )

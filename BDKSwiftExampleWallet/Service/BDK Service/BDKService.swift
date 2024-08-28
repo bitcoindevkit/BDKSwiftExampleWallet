@@ -16,7 +16,7 @@ private class BDKService {
     private let keyService: KeyClient
     private let esploraClient: EsploraClient
     private var needsFullScan: Bool = false
-    private var dbService: SqliteStore?
+    private var dbService: Connection?//SqliteStore?
 
     init(
         keyService: KeyClient = .live
@@ -36,10 +36,12 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
         let addressInfo = wallet.revealNextAddress(keychain: .external)
-        guard let db = self.dbService else { throw WalletError.dbNotFound }
-        if let changeSet = wallet.takeStaged() {
-            try db.write(changeSet: changeSet)
-        }
+        
+//        guard let db = self.dbService else { throw WalletError.dbNotFound }
+//        if let changeSet = wallet.takeStaged() {
+//            try db.write(changeSet: changeSet)
+//        }
+        
         return addressInfo.address.description
     }
 
@@ -112,14 +114,15 @@ private class BDKService {
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
-        let sqliteStore = try SqliteStore(path: persistenceBackendPath)
-        self.dbService = sqliteStore
-        let changeSet = try sqliteStore.read()
-        let wallet = try Wallet.newOrLoad(
+        let connection = try Connection(path: persistenceBackendPath)//let sqliteStore = try SqliteStore(path: persistenceBackendPath)
+        self.dbService = connection//sqliteStore
+//        let changeSet = try sqliteStore.read()
+        let wallet = try Wallet.load(//.newOrLoad(
             descriptor: descriptor,
-            changeDescriptor: changeDescriptor,
-            changeSet: changeSet,
-            network: network
+            changeDescriptor: changeDescriptor, 
+            connection: connection//,
+//            changeSet: changeSet,
+//            network: network
         )
         self.wallet = wallet
     }
@@ -131,14 +134,15 @@ private class BDKService {
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
-        let sqliteStore = try SqliteStore(path: persistenceBackendPath)
-        self.dbService = sqliteStore
-        let changeSet = try sqliteStore.read()
-        let wallet = try Wallet.newOrLoad(
+        let connection = try Connection(path: persistenceBackendPath)//let sqliteStore = try SqliteStore(path: persistenceBackendPath)
+        self.dbService = connection//sqliteStore
+        //let changeSet = try sqliteStore.read()
+        let wallet = try Wallet.load(//.newOrLoad(
             descriptor: descriptor,
-            changeDescriptor: changeDescriptor,
-            changeSet: changeSet,
-            network: network
+            changeDescriptor: changeDescriptor, 
+            connection: connection//,
+//            changeSet: changeSet,
+//            network: network
         )
         self.wallet = wallet
     }
@@ -214,15 +218,16 @@ private class BDKService {
         let esploraClient = self.esploraClient
         let syncRequest = try wallet.startSyncWithRevealedSpks()
             .inspectSpks(inspector: inspector)
+            .build()
         let update = try esploraClient.sync(
             syncRequest: syncRequest,
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
-        guard let db = self.dbService else { throw WalletError.dbNotFound }
-        if let changeSet = wallet.takeStaged() {
-            try db.write(changeSet: changeSet)
-        }
+//        guard let db = self.dbService else { throw WalletError.dbNotFound }
+//        if let changeSet = wallet.takeStaged() {
+//            try db.write(changeSet: changeSet)
+//        }
     }
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
@@ -230,16 +235,17 @@ private class BDKService {
         let esploraClient = esploraClient
         let fullScanRequest = try wallet.startFullScan()
             .inspectSpksForAllKeychains(inspector: inspector)
+            .build()
         let update = try esploraClient.fullScan(
             fullScanRequest: fullScanRequest,
             stopGap: UInt64(150),  // should we default value this for folks?
             parallelRequests: UInt64(5)  // should we default value this for folks?
         )
         let _ = try wallet.applyUpdate(update: update)
-        guard let db = self.dbService else { throw WalletError.dbNotFound }
-        if let changeSet = wallet.takeStaged() {
-            try db.write(changeSet: changeSet)
-        }
+//        guard let db = self.dbService else { throw WalletError.dbNotFound }
+//        if let changeSet = wallet.takeStaged() {
+//            try db.write(changeSet: changeSet)
+//        }
     }
 
     func calculateFee(tx: Transaction) throws -> Amount {

@@ -28,26 +28,26 @@ struct TransactionDetailView: View {
                     .fontWeight(.bold)
                     .frame(width: 50, height: 50, alignment: .center)
                 HStack(spacing: 3) {
-                    let sentAndReceivedValues = viewModel.getSentAndReceived(
-                        tx: canonicalTx.transaction
-                    )
-                    if let value = sentAndReceivedValues {
-                        let sent = value.sent
-                        let received = value.received
-                        if sent.toSat() == 0 && received.toSat() > 0 {
-                            Text("Receive")
-                        } else if sent.toSat() > 0 && received.toSat() >= 0 {
-                            Text("Send")
-                        } else {
-                            Text("?")
-                        }
-                    }
+//                    let sentAndReceivedValues = viewModel.getSentAndReceived(
+//                        tx: canonicalTx.transaction
+//                    )
+//                    if let value = sentAndReceivedValues {
+//                        let sent = value.sent
+//                        let received = value.received
+//                        if sent.toSat() == 0 && received.toSat() > 0 {
+//                            Text("Receive")
+//                        } else if sent.toSat() > 0 && received.toSat() >= 0 {
+//                            Text("Send")
+//                        } else {
+//                            Text("?")
+//                        }
+//                    }
                 }
                 .fontWeight(.semibold)
 
                 switch canonicalTx.chainPosition {
-                case .confirmed(let height, _):
-                    Text("Block \(height.delimiter)")
+                case .confirmed(let confirmationBlockTime)://.confirmed(let height, _):
+                    Text("Block \(confirmationBlockTime.blockId.height.delimiter)")//Text("Block \(height.delimiter)")
                         .foregroundColor(.secondary)
                 case .unconfirmed(_):
                     Text("Unconfirmed")
@@ -72,9 +72,9 @@ struct TransactionDetailView: View {
                 .fontDesign(.rounded)
                 VStack(spacing: 4) {
                     switch canonicalTx.chainPosition {
-                    case .confirmed(_, let timestamp):
+                    case .confirmed(let confirmationBlockTime)://.confirmed(_, let timestamp):
                         Text(
-                            timestamp.toDate().formatted(
+                            confirmationBlockTime.confirmationTime.toDate().formatted(//timestamp.toDate().formatted(
                                 date: .abbreviated,
                                 time: Date.FormatStyle.TimeStyle.shortened
                             )

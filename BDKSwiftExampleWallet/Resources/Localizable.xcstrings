@@ -51,9 +51,6 @@
         }
       }
     },
-    "?" : {
-
-    },
     "..." : {
       "localizations" : {
         "fr" : {
@@ -473,6 +470,7 @@
 
     },
     "Receive" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
