@@ -27,7 +27,7 @@ struct AddressView: View {
             VStack {
 
                 HStack {
-                    
+
                     Spacer()
 
                     Button {

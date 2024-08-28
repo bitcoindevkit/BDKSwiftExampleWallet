@@ -26,10 +26,6 @@ struct TabHomeView: View {
                 .tabItem {
                     Image(systemName: "bitcoinsign")
                 }
-                ReceiveView(viewModel: .init())
-                    .tabItem {
-                        Image(systemName: "arrow.down")
-                    }
 
                 NavigationStack(path: $sendNavigationPath) {
                     AmountView(viewModel: .init(), navigationPath: $sendNavigationPath)

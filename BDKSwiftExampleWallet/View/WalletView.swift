@@ -15,6 +15,7 @@ struct WalletView: View {
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
     @State private var showAllTransactions = false
+    @State private var showReceiveView = false
 
     var body: some View {
 
@@ -196,6 +197,13 @@ struct WalletView: View {
                 ActivityListView(viewModel: .init())
             }
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        showReceiveView = true
+                    }) {
+                        Image(systemName: "qrcode")
+                    }
+                }
                 ToolbarItem(placement: .navigation) {
                     VStack {
                         Text("Navigation Title")
@@ -204,6 +212,9 @@ struct WalletView: View {
                 }
             }
 
+        }
+        .sheet(isPresented: $showReceiveView) {
+            ReceiveView(viewModel: .init())
         }
         .alert(isPresented: $viewModel.showingWalletViewErrorAlert) {
             Alert(
