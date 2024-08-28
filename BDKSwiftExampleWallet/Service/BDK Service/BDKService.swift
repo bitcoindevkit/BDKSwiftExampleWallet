@@ -117,13 +117,22 @@ private class BDKService {
         let connection = try Connection(path: persistenceBackendPath)//let sqliteStore = try SqliteStore(path: persistenceBackendPath)
         self.dbService = connection//sqliteStore
 //        let changeSet = try sqliteStore.read()
-        let wallet = try Wallet.load(//.newOrLoad(
+        
+//        let wallet = try Wallet.load(//.newOrLoad(
+//            descriptor: descriptor,
+//            changeDescriptor: changeDescriptor, 
+//            connection: connection//,
+////            changeSet: changeSet,
+////            network: network
+//        )
+        
+        let wallet = try Wallet(//.newOrLoad(
             descriptor: descriptor,
-            changeDescriptor: changeDescriptor, 
-            connection: connection//,
-//            changeSet: changeSet,
-//            network: network
+            changeDescriptor: changeDescriptor,
+            network: network,
+            connection: connection
         )
+        
         self.wallet = wallet
     }
 
