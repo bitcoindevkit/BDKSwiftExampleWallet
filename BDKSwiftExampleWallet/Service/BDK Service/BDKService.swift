@@ -35,7 +35,11 @@ private class BDKService {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
+        guard let connection = self.connection else {
+            throw WalletError.dbNotFound
+        }
         let addressInfo = wallet.revealNextAddress(keychain: .external)
+        let _ = try wallet.persist(connection: connection)
         return addressInfo.address.description
     }
 
@@ -213,6 +217,10 @@ private class BDKService {
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
+        guard let connection = self.connection else {
+            throw WalletError.dbNotFound
+        }
+        let _ = try wallet.persist(connection: connection)
     }
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
@@ -227,6 +235,10 @@ private class BDKService {
             parallelRequests: UInt64(5)  // should we default value this for folks?
         )
         let _ = try wallet.applyUpdate(update: update)
+        guard let connection = self.connection else {
+            throw WalletError.dbNotFound
+        }
+        let _ = try wallet.persist(connection: connection)
     }
 
     func calculateFee(tx: Transaction) throws -> Amount {
