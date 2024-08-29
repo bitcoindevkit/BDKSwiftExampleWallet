@@ -16,6 +16,7 @@ struct WalletView: View {
     @State private var newTransactionSent = false
     @State private var showAllTransactions = false
     @State private var showReceiveView = false
+    @State private var showSettingsView = false
     @State private var sendNavigationPath = NavigationPath()
 
     var body: some View {
@@ -236,6 +237,13 @@ struct WalletView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
+                        showSettingsView = true
+                    }) {
+                        Image(systemName: "person.and.background.dotted")
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
                         sendNavigationPath.append(NavigationDestination.amount)
                     }) {
                         Image(systemName: "qrcode.viewfinder")
@@ -246,6 +254,9 @@ struct WalletView: View {
         }
         .sheet(isPresented: $showReceiveView) {
             ReceiveView(viewModel: .init())
+        }
+        .sheet(isPresented: $showSettingsView) {
+            SettingsView(viewModel: .init())
         }
         .alert(isPresented: $viewModel.showingWalletViewErrorAlert) {
             Alert(
