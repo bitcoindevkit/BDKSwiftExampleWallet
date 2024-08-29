@@ -18,6 +18,17 @@ struct SettingsView: View {
 
         NavigationStack {
 
+            HStack {
+                Text("Profile".uppercased())
+                    .font(.body)
+                    .padding()
+                Spacer()
+            }
+            .padding(.horizontal, 20.0)
+            .padding(.top, 40.0)
+            .padding(.bottom, -40.0)
+            .foregroundColor(.secondary)
+
             Form {
 
                 Section(header: Text("Network")) {
@@ -73,8 +84,6 @@ struct SettingsView: View {
             }
             .background(Color(uiColor: UIColor.systemBackground))
             .scrollContentBackground(.hidden)
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
             .listRowSeparator(.hidden)
             .onAppear {
                 viewModel.getNetwork()

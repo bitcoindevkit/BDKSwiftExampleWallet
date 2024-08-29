@@ -25,7 +25,7 @@ struct ReceiveView: View {
                     Image("bitcoinsign.arrow.down")
                         .symbolRenderingMode(.hierarchical)
                         .font(.title)
-                    Text("Receive Address")
+                    Text("Receive")
                         .fontWeight(.semibold)
                 }
                 .font(.caption)

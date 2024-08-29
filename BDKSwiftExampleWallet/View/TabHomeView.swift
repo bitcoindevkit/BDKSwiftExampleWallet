@@ -26,10 +26,6 @@ struct TabHomeView: View {
                     Image(systemName: "bitcoinsign")
                 }
 
-                SettingsView(viewModel: .init())
-                    .tabItem {
-                        Image(systemName: "gear")
-                    }
             }
             .tint(.primary)
             .onAppear {

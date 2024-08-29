@@ -483,6 +483,7 @@
       }
     },
     "Receive Address" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -552,9 +553,6 @@
           }
         }
       }
-    },
-    "Settings" : {
-
     },
     "Settings Error" : {
       "localizations" : {
