@@ -22,11 +22,9 @@ struct TransactionDetailView: View {
         VStack {
 
             VStack(spacing: 8) {
-                Image(systemName: "bitcoinsign.circle.fill")
-                    .resizable()
-                    .foregroundColor(.bitcoinOrange)
-                    .fontWeight(.bold)
-                    .frame(width: 50, height: 50, alignment: .center)
+                Image("bitcoinsign.arrow.up")
+                    .symbolRenderingMode(.hierarchical)
+                    .font(.title)
                 HStack(spacing: 3) {
                     let sentAndReceivedValues = viewModel.getSentAndReceived(
                         tx: canonicalTx.transaction
