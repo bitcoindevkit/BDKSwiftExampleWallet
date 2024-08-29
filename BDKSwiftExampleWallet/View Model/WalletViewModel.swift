@@ -96,7 +96,7 @@ class WalletViewModel {
         } catch let error as EsploraError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
-        } catch let error as RequestBuilderError {//InspectError {
+        } catch let error as RequestBuilderError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch let error as PersistenceError {
