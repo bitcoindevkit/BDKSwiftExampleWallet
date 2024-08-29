@@ -44,7 +44,7 @@ struct TransactionItemView: View {
                     .foregroundStyle(
                         {
                             switch canonicalTx.chainPosition {
-                            case .confirmed(_, _):
+                            case .confirmed(_):
                                 Color.bitcoinOrange
                             case .unconfirmed(_):
                                 Color.gray.opacity(0.5)
@@ -63,9 +63,9 @@ struct TransactionItemView: View {
                     .font(.title)
                     .foregroundColor(.primary)
                 switch canonicalTx.chainPosition {
-                case .confirmed(_, let timestamp):
+                case .confirmed(let confirmationBlockTime):
                     Text(
-                        timestamp.toDate().formatted(
+                        confirmationBlockTime.confirmationTime.toDate().formatted(
                             date: .abbreviated,
                             time: .shortened
                         )

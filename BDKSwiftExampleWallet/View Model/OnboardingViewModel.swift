@@ -19,7 +19,7 @@ class OnboardingViewModel: ObservableObject {
 
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: AppError?
-    @Published var walletCreationError: WalletCreationError?
+    @Published var createWithPersistError: CreateWithPersistError?
     @Published var words: String = "" {
         didSet {
             updateWordArray()
@@ -102,9 +102,9 @@ class OnboardingViewModel: ObservableObject {
         do {
             try bdkClient.createWallet(words)
             isOnboarding = false
-        } catch let error as WalletCreationError {
+        } catch let error as CreateWithPersistError {
             DispatchQueue.main.async {
-                self.walletCreationError = error
+                self.createWithPersistError = error
             }
         } catch {
             DispatchQueue.main.async {

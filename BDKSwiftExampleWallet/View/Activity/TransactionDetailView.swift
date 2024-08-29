@@ -46,8 +46,8 @@ struct TransactionDetailView: View {
                 .fontWeight(.semibold)
 
                 switch canonicalTx.chainPosition {
-                case .confirmed(let height, _):
-                    Text("Block \(height.delimiter)")
+                case .confirmed(let confirmationBlockTime):
+                    Text("Block \(confirmationBlockTime.blockId.height.delimiter)")
                         .foregroundColor(.secondary)
                 case .unconfirmed(_):
                     Text("Unconfirmed")
@@ -72,9 +72,9 @@ struct TransactionDetailView: View {
                 .fontDesign(.rounded)
                 VStack(spacing: 4) {
                     switch canonicalTx.chainPosition {
-                    case .confirmed(_, let timestamp):
+                    case .confirmed(let confirmationBlockTime):
                         Text(
-                            timestamp.toDate().formatted(
+                            confirmationBlockTime.confirmationTime.toDate().formatted(
                                 date: .abbreviated,
                                 time: Date.FormatStyle.TimeStyle.shortened
                             )

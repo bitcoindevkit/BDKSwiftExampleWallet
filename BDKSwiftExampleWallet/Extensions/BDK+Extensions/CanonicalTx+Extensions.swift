@@ -12,7 +12,15 @@ import Foundation
 extension CanonicalTx {
     static var mock = Self(
         transaction: .mock!,
-        chainPosition: .confirmed(height: UInt32(1_127_972), timestamp: UInt64(1_716_927_886))
+        chainPosition: .confirmed(
+            confirmationBlockTime: .init(
+                blockId: .init(
+                    height: UInt32(12),
+                    hash: "hash"
+                ),
+                confirmationTime: UInt64(21)
+            )
+        )
     )
 }
 //#endif
