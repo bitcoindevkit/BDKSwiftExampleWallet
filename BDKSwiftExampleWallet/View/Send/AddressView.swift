@@ -14,7 +14,6 @@ struct AddressView: View {
     @State var address: String = ""
     @Binding var navigationPath: NavigationPath
     let pasteboard = UIPasteboard.general
-    @State private var isShowingScanner = false
     @State private var isShowingAlert = false
     @State private var alertMessage = ""
 
@@ -23,78 +22,11 @@ struct AddressView: View {
         ZStack {
             Color(uiColor: .systemBackground)
 
-            VStack {
-
-                HStack {
-
-                    Spacer()
-
-                    Button {
-                        isShowingScanner = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "qrcode.viewfinder")
-                                .minimumScaleFactor(0.5)
-                        }
-                    }
-
-                }
-                .font(.largeTitle)
-                .foregroundColor(Color(UIColor.label))
-                .padding(.top)
-                .sheet(isPresented: $isShowingScanner) {
-                    CustomScannerView(
-                        codeTypes: [.qr],
-                        completion: handleScan,
-                        pasteAction: pasteAddress
-                    )
-                }
-
-                Spacer()
-
-                VStack {
-                    HStack {
-                        Text("Address")
-                            .bold()
-                        Spacer()
-                    }
-                    .padding(.horizontal, 15.0)
-                    TextField(
-                        "Enter address to send BTC to",
-                        text: $address
-                    )
-                    .truncationMode(.middle)
-                    .submitLabel(.done)
-                    .lineLimit(1)
-                    .padding()
-                }
-
-                AddressFormattedView(
-                    address: address,
-                    columns: 4,
-                    spacing: 20.0,
-                    gridItemSize: 60.0
-                )
-                .padding()
-
-                Spacer()
-
-                Button {
-                    navigationPath.append(
-                        NavigationDestination.amount(address: address)
-                    )
-                } label: {
-                    Label(
-                        title: { Text("Next") },
-                        icon: { Image(systemName: "arrow.right") }
-                    )
-                    .labelStyle(.iconOnly)
-                }
-                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
-
-            }
-            .padding()
-            .navigationTitle("Address")
+            CustomScannerView(
+                codeTypes: [.qr],
+                completion: handleScan,
+                pasteAction: pasteAddress
+            )
             .alert(isPresented: $isShowingAlert) {
                 Alert(
                     title: Text("Error"),
@@ -111,7 +43,6 @@ struct AddressView: View {
 
 extension AddressView {
     func handleScan(result: Result<ScanResult, ScanError>) {
-        isShowingScanner = false
         switch result {
         case .success(let result):
             let scannedAddress = result.string.lowercased().replacingOccurrences(
@@ -121,6 +52,7 @@ extension AddressView {
             let components = scannedAddress.components(separatedBy: "?")
             if let bitcoinAddress = components.first {
                 address = bitcoinAddress
+                navigationPath.append(NavigationDestination.amount(address: bitcoinAddress))
             } else {
                 alertMessage = "The scanned QR code did not contain a valid Bitcoin address."
                 isShowingAlert = true
@@ -132,17 +64,23 @@ extension AddressView {
     }
 
     private func pasteAddress() {
-        if pasteboard.hasStrings {
-            if let string = pasteboard.string {
-                let lowercaseAddress = string.lowercased()
-                address = lowercaseAddress
-                isShowingScanner = false
-            } else {
-                alertMessage = "Unable to get the string from the pasteboard."
+        if let pasteboardContent = UIPasteboard.general.string {
+            if pasteboardContent.isEmpty {
+                alertMessage = "The pasteboard is empty."
                 isShowingAlert = true
+                return
             }
+            let trimmedContent = pasteboardContent.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmedContent.isEmpty {
+                alertMessage = "The pasteboard contains only whitespace."
+                isShowingAlert = true
+                return
+            }
+            let lowercaseAddress = trimmedContent.lowercased()
+            address = lowercaseAddress
+            navigationPath.append(NavigationDestination.amount(address: address))
         } else {
-            alertMessage = "No strings found in the pasteboard."
+            alertMessage = "Unable to access the pasteboard. Please try copying the address again."
             isShowingAlert = true
         }
     }
@@ -152,21 +90,45 @@ struct CustomScannerView: View {
     let codeTypes: [AVMetadataObject.ObjectType]
     let completion: (Result<ScanResult, ScanError>) -> Void
     let pasteAction: () -> Void
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            CodeScannerView(codeTypes: codeTypes, completion: completion)
+        GeometryReader { geometry in
+            ZStack(alignment: .top) {
+                CodeScannerView(codeTypes: codeTypes, completion: completion)
+                    .edgesIgnoringSafeArea(.all)
 
-            Button(action: pasteAction) {
-                Text("Paste Address")
-                    .padding()
-                    .foregroundColor(.primary)
-                    .background(Color.white.opacity(0.5))
-                    .clipShape(Capsule())
+                VStack {
+                    HStack {
+                        Button(action: { dismiss() }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.white)
+                                .font(.system(size: 20, weight: .bold))
+                                .frame(width: 44, height: 44)
+                                .background(Color.black.opacity(0.6))
+                                .clipShape(Circle())
+                        }
+                        .padding(.top, 50)
+                        .padding(.leading, 20)
 
+                        Spacer()
+                    }
+
+                    Spacer()
+
+                    Button(action: pasteAction) {
+                        Text("Paste Address")
+                            .padding()
+                            .foregroundColor(.primary)
+                            .background(Color.white.opacity(0.8))
+                            .clipShape(Capsule())
+                    }
+                    .padding(.bottom, geometry.safeAreaInsets.bottom + 20)
+                }
             }
-            .padding(.bottom, 20)
         }
+        .navigationBarHidden(true)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
