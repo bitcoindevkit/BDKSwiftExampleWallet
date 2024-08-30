@@ -42,8 +42,8 @@ struct HomeView: View {
 }
 
 enum NavigationDestination: Hashable {
-    case amount
-    case address(amount: String)
+    case address
+    case amount(address: String)
     case fee(amount: String, address: String)
     case buildTransaction(amount: String, address: String, fee: Int)
 }

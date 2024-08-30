@@ -11,7 +11,6 @@ import CodeScanner
 import SwiftUI
 
 struct AddressView: View {
-    let amount: String
     @State var address: String = ""
     @Binding var navigationPath: NavigationPath
     let pasteboard = UIPasteboard.general
@@ -82,7 +81,7 @@ struct AddressView: View {
 
                 Button {
                     navigationPath.append(
-                        NavigationDestination.fee(amount: amount, address: address)
+                        NavigationDestination.amount(address: address)
                     )
                 } label: {
                     Label(
@@ -174,14 +173,12 @@ struct CustomScannerView: View {
 #if DEBUG
     #Preview {
         AddressView(
-            amount: "200",
             address: "tb1pw6y0vtmsn46epvz0j8ddc46ketmp28t82p22hcrrkch3a0jhu40qe267dl",
             navigationPath: .constant(NavigationPath())
         )
     }
     #Preview {
         AddressView(
-            amount: "200",
             address: "tb1pw6y0vtmsn46epvz0j8ddc46ketmp28t82p22hcrrkch3a0jhu40qe267dl",
             navigationPath: .constant(NavigationPath())
         )
