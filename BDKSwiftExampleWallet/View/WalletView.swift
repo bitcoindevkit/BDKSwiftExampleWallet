@@ -173,6 +173,29 @@ struct WalletView: View {
                             .padding()
                         }
                         Spacer()
+
+                        HStack {
+                            Button(action: {
+                                showReceiveView = true
+                            }) {
+                                Image(systemName: "qrcode")
+                                    .font(.title)
+                                    .foregroundColor(.primary)
+                            }
+
+                            Spacer()
+
+                            Button(action: {
+                                sendNavigationPath.append(NavigationDestination.amount)
+                            }) {
+                                Image(systemName: "qrcode.viewfinder")
+                                    .font(.title)
+                                    .foregroundColor(.primary)
+
+                            }
+                        }
+                        .padding([.horizontal, .bottom])
+
                     }
 
                 }
@@ -222,13 +245,6 @@ struct WalletView: View {
                 }
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        showReceiveView = true
-                    }) {
-                        Image(systemName: "qrcode")
-                    }
-                }
                 ToolbarItem(placement: .navigation) {
                     VStack {
                         Text("Navigation Title")
@@ -240,13 +256,6 @@ struct WalletView: View {
                         showSettingsView = true
                     }) {
                         Image(systemName: "person.and.background.dotted")
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        sendNavigationPath.append(NavigationDestination.amount)
-                    }) {
-                        Image(systemName: "qrcode.viewfinder")
                     }
                 }
             }
