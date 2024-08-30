@@ -17,7 +17,7 @@ struct BDKSwiftExampleWalletApp: App {
             if isOnboarding {
                 OnboardingView(viewModel: .init(bdkClient: .live))
             } else {
-                TabHomeView(viewModel: .init(bdkClient: .live))
+                HomeView(viewModel: .init(bdkClient: .live))
             }
         }
     }
