@@ -72,7 +72,7 @@ struct WalletView: View {
                         .foregroundColor(.secondary)
                         .font(.subheadline)
                     }
-                    .padding(.bottom, 20.0)
+                    .padding(.vertical, 20.0)
 
                     VStack {
                         HStack {
@@ -142,6 +142,21 @@ struct WalletView: View {
                             }
                             .foregroundColor(.secondary)
                             .font(.caption)
+
+                            if viewModel.walletSyncState == .synced {
+                                Button(action: {
+                                    showAllTransactions = true
+                                }) {
+                                    HStack(spacing: 2) {
+                                        Text("Show All")
+                                        Image(systemName: "arrow.right")
+                                    }
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .fontWeight(.regular)
+                                }
+                            }
+
                         }
                         .fontWeight(.bold)
                         TransactionListView(
@@ -155,24 +170,6 @@ struct WalletView: View {
                             viewModel.getTransactions()
                             await viewModel.getPrices()
                         }
-                        if viewModel.walletSyncState == .synced {
-                            Button(action: {
-                                showAllTransactions = true
-                            }) {
-                                Text("Show All")
-                                    .font(.caption)
-                                    .foregroundColor(.bitcoinOrange)
-                                    .padding(.vertical, 5)
-                                    .padding(.horizontal, 20)
-                                    .background(
-                                        Capsule()
-                                            .stroke(Color.bitcoinOrange, lineWidth: 1)
-                                            .background(Color(.systemBackground))
-                                    )
-                            }
-                            .padding()
-                        }
-                        Spacer()
 
                         HStack {
                             Button(action: {
