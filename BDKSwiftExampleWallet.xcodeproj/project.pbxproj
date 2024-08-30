@@ -307,8 +307,8 @@
 		AE2381B82C61254B00F6B00C /* Send */ = {
 			isa = PBXGroup;
 			children = (
-				AE7839FC2AB4E18D005F0CBA /* AmountView.swift */,
 				AE783A022AB4ECC2005F0CBA /* AddressView.swift */,
+				AE7839FC2AB4E18D005F0CBA /* AmountView.swift */,
 				AE783A062AB4F7C7005F0CBA /* FeeView.swift */,
 				AE783A002AB4E5E1005F0CBA /* BuildTransactionView.swift */,
 			);

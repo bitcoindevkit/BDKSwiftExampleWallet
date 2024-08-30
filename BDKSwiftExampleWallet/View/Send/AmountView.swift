@@ -9,6 +9,7 @@ import BitcoinUI
 import SwiftUI
 
 struct AmountView: View {
+    let address: String
     @Bindable var viewModel: AmountViewModel
     @State var numpadAmount = "0"
     @Binding var navigationPath: NavigationPath
@@ -61,7 +62,7 @@ struct AmountView: View {
 
                     Button {
                         navigationPath.append(
-                            NavigationDestination.address(amount: numpadAmount)
+                            NavigationDestination.fee(amount: numpadAmount, address: address)
                         )
                     } label: {
                         Label(
@@ -140,6 +141,7 @@ struct NumpadButton: View {
 #if DEBUG
     #Preview {
         AmountView(
+            address: "address",
             viewModel: .init(bdkClient: .mock),
             navigationPath: .constant(NavigationPath())
         )
@@ -147,9 +149,9 @@ struct NumpadButton: View {
 
     #Preview {
         AmountView(
+            address: "address",
             viewModel: .init(bdkClient: .mock),
             navigationPath: .constant(NavigationPath())
-
         )
         .environment(\.dynamicTypeSize, .accessibility5)
     }

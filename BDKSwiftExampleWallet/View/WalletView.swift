@@ -183,7 +183,7 @@ struct WalletView: View {
                             Spacer()
 
                             Button(action: {
-                                sendNavigationPath.append(NavigationDestination.amount)
+                                sendNavigationPath.append(NavigationDestination.address)
                             }) {
                                 Image(systemName: "qrcode.viewfinder")
                                     .font(.title)
@@ -220,10 +220,14 @@ struct WalletView: View {
             }
             .navigationDestination(for: NavigationDestination.self) { destination in
                 switch destination {
-                case .amount:
-                    AmountView(viewModel: .init(), navigationPath: $sendNavigationPath)
-                case .address(let amount):
-                    AddressView(amount: amount, navigationPath: $sendNavigationPath)
+                case .address:
+                    AddressView(navigationPath: $sendNavigationPath)
+                case .amount(let address):
+                    AmountView(
+                        address: address,
+                        viewModel: .init(),
+                        navigationPath: $sendNavigationPath
+                    )
                 case .fee(let amount, let address):
                     FeeView(
                         amount: amount,
