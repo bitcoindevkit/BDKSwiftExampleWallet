@@ -22,9 +22,6 @@ struct TransactionDetailView: View {
         VStack {
 
             VStack(spacing: 8) {
-                Image("bitcoinsign.arrow.up")
-                    .symbolRenderingMode(.hierarchical)
-                    .font(.title)
                 HStack(spacing: 3) {
                     let sentAndReceivedValues = viewModel.getSentAndReceived(
                         tx: canonicalTx.transaction
@@ -33,9 +30,19 @@ struct TransactionDetailView: View {
                         let sent = value.sent
                         let received = value.received
                         if sent.toSat() == 0 && received.toSat() > 0 {
-                            Text("Receive")
+                            VStack {
+                                Image("bitcoinsign.arrow.down")
+                                    .symbolRenderingMode(.hierarchical)
+                                    .font(.title)
+                                Text("Receive")
+                            }
                         } else if sent.toSat() > 0 && received.toSat() >= 0 {
-                            Text("Send")
+                            VStack {
+                                Image("bitcoinsign.arrow.up")
+                                    .symbolRenderingMode(.hierarchical)
+                                    .font(.title)
+                                Text("Send")
+                            }
                         } else {
                             Text("?")
                         }
