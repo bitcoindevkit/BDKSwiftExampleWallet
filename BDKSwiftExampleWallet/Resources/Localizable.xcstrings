@@ -387,6 +387,9 @@
     "Full Scan" : {
 
     },
+    "HomeView Error" : {
+
+    },
     "Navigation Title" : {
 
     },
@@ -609,6 +612,7 @@
       }
     },
     "TabView Error" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

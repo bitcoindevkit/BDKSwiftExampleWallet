@@ -28,7 +28,7 @@
 		AE29ED112BBE318A00EB9C4F /* TransactionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29ED102BBE318A00EB9C4F /* TransactionItemView.swift */; };
 		AE29ED152BBE36C500EB9C4F /* TransactionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29ED142BBE36C500EB9C4F /* TransactionListViewModel.swift */; };
 		AE2ADD742B61E8F500C2A823 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2ADD732B61E8F500C2A823 /* SettingsView.swift */; };
-		AE2ADD762B61EFEB00C2A823 /* TabHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2ADD752B61EFEB00C2A823 /* TabHomeViewModel.swift */; };
+		AE2ADD762B61EFEB00C2A823 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2ADD752B61EFEB00C2A823 /* HomeViewModel.swift */; };
 		AE2ADD782B61EFFF00C2A823 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2ADD772B61EFFE00C2A823 /* SettingsViewModel.swift */; };
 		AE2B8C1D2A9678C900815B2F /* FeeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2B8C1C2A9678C900815B2F /* FeeService.swift */; };
 		AE2B8C1F2A96797300815B2F /* RecommendedFees.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2B8C1E2A96797300815B2F /* RecommendedFees.swift */; };
@@ -36,7 +36,7 @@
 		AE34DDAC2B6B31ED00F04AD4 /* SeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE34DDAB2B6B31ED00F04AD4 /* SeedView.swift */; };
 		AE34DDAE2B6B320F00F04AD4 /* SeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE34DDAD2B6B320F00F04AD4 /* SeedViewModel.swift */; };
 		AE3646262BEDB01200B04E25 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3646252BEDB01200B04E25 /* FileManager+Extensions.swift */; };
-		AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */; };
+		AE3902A42A3B4CD900BEC318 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3902A32A3B4CD900BEC318 /* HomeView.swift */; };
 		AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */; };
 		AE4984802A1BBBD7009951E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE49847F2A1BBBD7009951E2 /* Assets.xcassets */; };
 		AE4984832A1BBBD7009951E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE4984822A1BBBD7009951E2 /* Preview Assets.xcassets */; };
@@ -119,7 +119,7 @@
 		AE29ED102BBE318A00EB9C4F /* TransactionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemView.swift; sourceTree = "<group>"; };
 		AE29ED142BBE36C500EB9C4F /* TransactionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewModel.swift; sourceTree = "<group>"; };
 		AE2ADD732B61E8F500C2A823 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		AE2ADD752B61EFEB00C2A823 /* TabHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHomeViewModel.swift; sourceTree = "<group>"; };
+		AE2ADD752B61EFEB00C2A823 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		AE2ADD772B61EFFE00C2A823 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		AE2B8C1C2A9678C900815B2F /* FeeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeService.swift; sourceTree = "<group>"; };
 		AE2B8C1E2A96797300815B2F /* RecommendedFees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedFees.swift; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 		AE34DDAB2B6B31ED00F04AD4 /* SeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedView.swift; sourceTree = "<group>"; };
 		AE34DDAD2B6B320F00F04AD4 /* SeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedViewModel.swift; sourceTree = "<group>"; };
 		AE3646252BEDB01200B04E25 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
-		AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHomeView.swift; sourceTree = "<group>"; };
+		AE3902A32A3B4CD900BEC318 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BDKSwiftExampleWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE49847B2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletApp.swift; sourceTree = "<group>"; };
 		AE49847F2A1BBBD7009951E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -211,7 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				AE0C30F82A804B65008F1EAE /* OnboardingViewModel.swift */,
-				AE2ADD752B61EFEB00C2A823 /* TabHomeViewModel.swift */,
+				AE2ADD752B61EFEB00C2A823 /* HomeViewModel.swift */,
 				AE0C30FA2A804B95008F1EAE /* WalletViewModel.swift */,
 				AE2381BA2C61256000F6B00C /* Activity */,
 				AE2381BB2C61256E00F6B00C /* Receive */,
@@ -239,7 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				AED4CC0B2A1D3A9400CE1831 /* OnboardingView.swift */,
-				AE3902A32A3B4CD900BEC318 /* TabHomeView.swift */,
+				AE3902A32A3B4CD900BEC318 /* HomeView.swift */,
 				AED4CC0F2A1D522100CE1831 /* WalletView.swift */,
 				AE2381B62C61253200F6B00C /* Activity */,
 				AE2381B92C61255100F6B00C /* Receive */,
@@ -640,7 +640,7 @@
 				AEC2CF5A2ABFBA19008065E4 /* BuildTransactionViewModel.swift in Sources */,
 				AE2B8C1F2A96797300815B2F /* RecommendedFees.swift in Sources */,
 				AE7F670C2A7451D700CED561 /* CurrencyCode.swift in Sources */,
-				AE2ADD762B61EFEB00C2A823 /* TabHomeViewModel.swift in Sources */,
+				AE2ADD762B61EFEB00C2A823 /* HomeViewModel.swift in Sources */,
 				AE783A032AB4ECC2005F0CBA /* AddressView.swift in Sources */,
 				AE7F67052A7446B600CED561 /* PriceService.swift in Sources */,
 				AEAB03132ABDDBF4000C9528 /* AmountViewModel.swift in Sources */,
@@ -685,7 +685,7 @@
 				AE29ED112BBE318A00EB9C4F /* TransactionItemView.swift in Sources */,
 				AE34DDAE2B6B320F00F04AD4 /* SeedViewModel.swift in Sources */,
 				AE0C30F92A804B65008F1EAE /* OnboardingViewModel.swift in Sources */,
-				AE3902A42A3B4CD900BEC318 /* TabHomeView.swift in Sources */,
+				AE3902A42A3B4CD900BEC318 /* HomeView.swift in Sources */,
 				AE0C30FD2A804BC1008F1EAE /* ReceiveViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

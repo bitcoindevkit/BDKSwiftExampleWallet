@@ -1,5 +1,5 @@
 //
-//  TabHomeView.swift
+//  HomeView.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 6/15/23.
@@ -7,38 +7,32 @@
 
 import SwiftUI
 
-struct TabHomeView: View {
-    @Bindable var viewModel: TabHomeViewModel
+struct HomeView: View {
+    @Bindable var viewModel: HomeViewModel
 
     var body: some View {
 
         ZStack {
             Color(uiColor: UIColor.systemBackground)
 
-            TabView {
-                WalletView(
-                    viewModel: .init(
-                        priceClient: .live,
-                        bdkClient: .live
-                    )
+            WalletView(
+                viewModel: .init(
+                    priceClient: .live,
+                    bdkClient: .live
                 )
-                .tabItem {
-                    Image(systemName: "bitcoinsign")
-                }
-
-            }
+            )
             .tint(.primary)
             .onAppear {
                 viewModel.loadWallet()
             }
 
         }
-        .alert(isPresented: $viewModel.showingTabViewErrorAlert) {
+        .alert(isPresented: $viewModel.showingHomeViewErrorAlert) {
             Alert(
-                title: Text("TabView Error"),
-                message: Text(viewModel.tabViewError?.description ?? "Unknown"),
+                title: Text("HomeView Error"),
+                message: Text(viewModel.homeViewError?.description ?? "Unknown"),
                 dismissButton: .default(Text("OK")) {
-                    viewModel.tabViewError = nil
+                    viewModel.homeViewError = nil
                 }
             )
         }
@@ -56,10 +50,10 @@ enum NavigationDestination: Hashable {
 
 #if DEBUG
     #Preview {
-        TabHomeView(viewModel: .init(bdkClient: .mock))
+        HomeView(viewModel: .init(bdkClient: .mock))
     }
     #Preview {
-        TabHomeView(viewModel: .init())
+        HomeView(viewModel: .init())
             .environment(\.dynamicTypeSize, .accessibility5)
     }
 #endif
