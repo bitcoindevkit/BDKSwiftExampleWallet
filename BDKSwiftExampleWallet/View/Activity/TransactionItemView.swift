@@ -120,11 +120,4 @@ struct TransactionItemView: View {
             isRedacted: false
         )
     }
-    #Preview {
-        TransactionItemView(
-            sentAndReceivedValues: .mock,
-            canonicalTx: .mock,
-            isRedacted: false
-        )
-    }
 #endif

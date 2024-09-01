@@ -114,14 +114,4 @@ struct FeeView: View {
             navigationPath: .constant(NavigationPath())
         )
     }
-
-    #Preview {
-        FeeView(
-            amount: "50",
-            address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
-            viewModel: .init(feeClient: .mock, bdkClient: .mock),
-            navigationPath: .constant(NavigationPath())
-        )
-        .environment(\.dynamicTypeSize, .accessibility5)
-    }
 #endif

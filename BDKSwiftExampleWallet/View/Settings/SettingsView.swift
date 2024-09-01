@@ -131,8 +131,4 @@ struct SettingsView: View {
     #Preview {
         SettingsView(viewModel: .init(bdkClient: .mock, keyClient: .mock))
     }
-    #Preview {
-        SettingsView(viewModel: .init(bdkClient: .mock, keyClient: .mock))
-            .environment(\.dynamicTypeSize, .accessibility5)
-    }
 #endif

@@ -99,16 +99,4 @@ struct TransactionListView: View {
             )
         )
     }
-    #Preview {
-        TransactionListView(
-            transactions: [
-                .mock
-            ],
-            walletSyncState: .synced,
-            viewModel: .init(
-                bdkClient: .mock
-            )
-        )
-        .environment(\.dynamicTypeSize, .accessibility5)
-    }
 #endif

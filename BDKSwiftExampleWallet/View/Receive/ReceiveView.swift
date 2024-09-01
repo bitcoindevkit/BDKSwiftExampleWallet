@@ -103,14 +103,4 @@ struct ReceiveView: View {
     #Preview("ReceiveView - en") {
         ReceiveView(viewModel: .init(bdkClient: .mock))
     }
-
-    #Preview("ReceiveView - en - Large") {
-        ReceiveView(viewModel: .init(bdkClient: .mock))
-            .environment(\.dynamicTypeSize, .accessibility5)
-    }
-
-    #Preview("ReceiveView - fr") {
-        ReceiveView(viewModel: .init(bdkClient: .mock))
-            .environment(\.locale, .init(identifier: "fr"))
-    }
 #endif

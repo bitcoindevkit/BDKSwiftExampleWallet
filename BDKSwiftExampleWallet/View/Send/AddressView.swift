@@ -139,11 +139,4 @@ struct CustomScannerView: View {
             navigationPath: .constant(NavigationPath())
         )
     }
-    #Preview {
-        AddressView(
-            address: "tb1pw6y0vtmsn46epvz0j8ddc46ketmp28t82p22hcrrkch3a0jhu40qe267dl",
-            navigationPath: .constant(NavigationPath())
-        )
-        .environment(\.dynamicTypeSize, .accessibility5)
-    }
 #endif

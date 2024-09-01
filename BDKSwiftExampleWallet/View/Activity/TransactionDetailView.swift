@@ -175,13 +175,4 @@ struct TransactionDetailView: View {
             amount: UInt64(1_000_000)
         )
     }
-
-    #Preview {
-        TransactionDetailView(
-            viewModel: .init(bdkClient: .mock, keyClient: .mock),
-            canonicalTx: .mock,
-            amount: UInt64(1_000_000)
-        )
-        .environment(\.dynamicTypeSize, .accessibility5)
-    }
 #endif
