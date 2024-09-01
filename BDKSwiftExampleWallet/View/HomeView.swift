@@ -52,8 +52,4 @@ enum NavigationDestination: Hashable {
     #Preview {
         HomeView(viewModel: .init(bdkClient: .mock))
     }
-    #Preview {
-        HomeView(viewModel: .init())
-            .environment(\.dynamicTypeSize, .accessibility5)
-    }
 #endif

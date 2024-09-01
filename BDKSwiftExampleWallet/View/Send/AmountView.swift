@@ -146,13 +146,4 @@ struct NumpadButton: View {
             navigationPath: .constant(NavigationPath())
         )
     }
-
-    #Preview {
-        AmountView(
-            address: "address",
-            viewModel: .init(bdkClient: .mock),
-            navigationPath: .constant(NavigationPath())
-        )
-        .environment(\.dynamicTypeSize, .accessibility5)
-    }
 #endif

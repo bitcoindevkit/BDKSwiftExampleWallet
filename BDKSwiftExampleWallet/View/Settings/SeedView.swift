@@ -78,14 +78,4 @@ struct SeedView: View {
     #Preview {
         SeedView(viewModel: .init(bdkService: .mock))
     }
-
-    #Preview {
-        SeedView(viewModel: .init(bdkService: .mock))
-            .environment(\.colorScheme, .dark)
-    }
-
-    #Preview {
-        SeedView(viewModel: .init(bdkService: .mock))
-            .environment(\.dynamicTypeSize, .accessibility5)
-    }
 #endif

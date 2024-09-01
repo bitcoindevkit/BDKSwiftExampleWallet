@@ -293,15 +293,4 @@ struct WalletView: View {
             )
         )
     }
-    #Preview("WalletView - fr") {
-        WalletView(
-            viewModel: .init(
-                priceClient: .mock,
-                bdkClient: .mock,
-                walletSyncState: .synced,
-                transactions: [.mock]
-            )
-        )
-        .environment(\.locale, .init(identifier: "fr"))
-    }
 #endif
