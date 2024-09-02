@@ -21,12 +21,12 @@ private class BDKService {
     init(
         keyService: KeyClient = .live
     ) {
-        let storedNetworkString = try! keyService.getNetwork() ?? Network.testnet.description
+        let storedNetworkString = try! keyService.getNetwork() ?? Network.signet.description
         let storedEsploraURL =
             try! keyService.getEsploraURL()
-            ?? Constants.Config.EsploraServerURLNetwork.Testnet.mempoolspace
+            ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
 
-        self.network = Network(stringValue: storedNetworkString) ?? .testnet
+        self.network = Network(stringValue: storedNetworkString) ?? .signet
         self.keyService = keyService
         self.esploraClient = EsploraClient(url: storedEsploraURL)
     }
@@ -66,10 +66,16 @@ private class BDKService {
     }
 
     func createWallet(words: String?) throws {
+        let documentsDirectoryURL = URL.documentsDirectory
+        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+
+        if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
+            try FileManager.default.removeItem(at: walletDataDirectoryURL)
+        } else {
+        }
 
         let baseUrl =
-            try keyService.getEsploraURL()
-            ?? Constants.Config.EsploraServerURLNetwork.Testnet.mempoolspace
+            try keyService.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
 
         var words12: String
         if let words = words, !words.isEmpty {
@@ -106,8 +112,6 @@ private class BDKService {
         try keyService.saveNetwork(self.network.description)
         try keyService.saveEsploraURL(baseUrl)
 
-        let documentsDirectoryURL = URL.documentsDirectory
-        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
         try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
@@ -157,6 +161,14 @@ private class BDKService {
         try self.keyService.deleteBackupInfo()
         try self.keyService.deleteEsplora()
         try self.keyService.deleteNetwork()
+
+        let documentsDirectoryURL = URL.documentsDirectory
+        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+
+        if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
+            try FileManager.default.removeItem(at: walletDataDirectoryURL)
+        }
+
         needsFullScan = true
     }
 

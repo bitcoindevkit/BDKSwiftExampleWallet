@@ -26,7 +26,7 @@ class OnboardingViewModel: ObservableObject {
         }
     }
     @Published var wordArray: [String] = []
-    @Published var selectedNetwork: Network = .testnet {
+    @Published var selectedNetwork: Network = .signet {
         didSet {
             do {
                 let networkString = selectedNetwork.description
@@ -82,9 +82,9 @@ class OnboardingViewModel: ObservableObject {
         self.bdkClient = bdkClient
         do {
             if let networkString = try KeyClient.live.getNetwork() {
-                self.selectedNetwork = Network(stringValue: networkString) ?? .testnet
+                self.selectedNetwork = Network(stringValue: networkString) ?? .signet
             } else {
-                self.selectedNetwork = .testnet
+                self.selectedNetwork = .signet
             }
             if let esploraURL = try KeyClient.live.getEsploraURL() {
                 self.selectedURL = esploraURL
