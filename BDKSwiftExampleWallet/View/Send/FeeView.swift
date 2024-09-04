@@ -28,28 +28,40 @@ struct FeeView: View {
                     Spacer()
                     Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
                         HStack {
-                            Image(systemName: "gauge.with.dots.needle.0percent")
+                            Image(
+                                systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
+                                variableValue: 0.0
+                            )
                             Text(
                                 " No Priority - \(viewModel.recommendedFees?.minimumFee ?? 1)"
                             )
                         }
                         .tag(0)
                         HStack {
-                            Image(systemName: "gauge.with.dots.needle.33percent")
+                            Image(
+                                systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
+                                variableValue: 0.33
+                            )
                             Text(
                                 " Low Priority - \(viewModel.recommendedFees?.hourFee ?? 1)"
                             )
                         }
                         .tag(1)
                         HStack {
-                            Image(systemName: "gauge.with.dots.needle.50percent")
+                            Image(
+                                systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
+                                variableValue: 0.66
+                            )
                             Text(
                                 " Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 1)"
                             )
                         }
                         .tag(2)
                         HStack {
-                            Image(systemName: "gauge.with.dots.needle.67percent")
+                            Image(
+                                systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
+                                variableValue: 1.0
+                            )
                             Text(
                                 " High Priority - \(viewModel.recommendedFees?.fastestFee ?? 1)"
                             )
