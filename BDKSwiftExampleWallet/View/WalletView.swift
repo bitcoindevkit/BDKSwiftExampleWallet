@@ -203,6 +203,19 @@ struct WalletView: View {
                         newTransactionSent = true
                     }
                 )
+                .onReceive(
+                    NotificationCenter.default.publisher(
+                        for: Notification.Name("AddressGenerated")
+                    ),
+                    perform: { _ in
+                        Task {
+                            await viewModel.syncOrFullScan()
+                            viewModel.getBalance()
+                            viewModel.getTransactions()
+                            await viewModel.getPrices()
+                        }
+                    }
+                )
                 .task {
                     if isFirstAppear || newTransactionSent {
                         await viewModel.syncOrFullScan()
@@ -262,7 +275,15 @@ struct WalletView: View {
             }
 
         }
-        .sheet(isPresented: $showReceiveView) {
+        .sheet(
+            isPresented: $showReceiveView,
+            onDismiss: {
+                NotificationCenter.default.post(
+                    name: Notification.Name("AddressGenerated"),
+                    object: nil
+                )
+            }
+        ) {
             ReceiveView(viewModel: .init())
         }
         .sheet(isPresented: $showSettingsView) {
