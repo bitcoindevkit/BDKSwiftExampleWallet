@@ -72,7 +72,7 @@ struct CustomSegmentedControl: View {
                 selection = mode
             }
         }) {
-            Text(mode == .transactions ? "Transactions" : "Outputs")
+            Text(mode == .transactions ? "Transactions" : "Unspent")
                 .bold()
                 .foregroundColor(selection == mode ? .primary : .gray)
         }

@@ -19,7 +19,7 @@ struct LocalOutputListView: View {
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
             } else if localOutputs.isEmpty {
-                Text("No Outputs")
+                Text("No Unspent")
                     .font(.subheadline)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
