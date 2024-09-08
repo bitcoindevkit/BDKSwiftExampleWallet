@@ -52,7 +52,14 @@
       }
     },
     "?" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "?"
+          }
+        }
+      }
     },
     "..." : {
       "localizations" : {
@@ -65,13 +72,26 @@
       }
     },
     "/" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/"
+          }
+        }
+      }
     },
     "%@ • %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "%1$@ • %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "%1$@ • %2$@"
           }
         }
@@ -88,7 +108,14 @@
       }
     },
     "%@ sats fee" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ frais de sats"
+          }
+        }
+      }
     },
     "%lld Output%@" : {
       "localizations" : {
@@ -96,6 +123,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$lld Output%2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld Sortir %2$@"
           }
         }
       }
@@ -107,22 +140,31 @@
             "state" : "new",
             "value" : "%1$lld Transaction%2$@"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld Transaction%2$@"
+          }
         }
       }
     },
     "%llu" : {
-
-    },
-    "%llu sats" : {
-
-    },
-    "%llu sats fee" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lluFrais de sat "
+            "value" : "%llu"
+          }
+        }
+      }
+    },
+    "%llu sats" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%llu sats"
           }
         }
       }
@@ -147,27 +189,12 @@
         }
       }
     },
-    "100% open-source & open-design" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "100% open-source et open-design"
-          }
-        }
-      }
-    },
     "A bitcoin wallet powered by Bitcoin Dev Kit" : {
-
-    },
-    "A simple bitcoin wallet." : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un portefeuille bitcoin simple."
+            "value" : "Un portefeuille Bitcoin alimenté par Bitcoin Dev Kit"
           }
         }
       }
@@ -178,17 +205,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Activité"
-          }
-        }
-      }
-    },
-    "Address" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adresse"
           }
         }
       }
@@ -224,15 +240,11 @@
       }
     },
     "BDK Wallet" : {
-
-    },
-    "Bitcoin Wallet" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Portefeuille de Bitcoins"
+            "value" : "BDK Wallet"
           }
         }
       }
@@ -257,34 +269,12 @@
         }
       }
     },
-    "Choose your Network." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez votre réseau."
-          }
-        }
-      }
-    },
     "confirmed" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "confirmé"
-          }
-        }
-      }
-    },
-    "Confirmed" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirmé"
           }
         }
       }
@@ -330,21 +320,24 @@
       }
     },
     "Destructive Zone" : {
-
-    },
-    "Enter address to send BTC to" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entrez l'adresse à laquelle envoyer le BTC"
+            "value" : "Zone destructrice"
           }
         }
       }
     },
     "Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur"
+          }
+        }
+      }
     },
     "Esplora Server" : {
       "localizations" : {
@@ -387,13 +380,34 @@
       }
     },
     "Full Scan" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse complète"
+          }
+        }
+      }
     },
     "HomeView Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de HomeView"
+          }
+        }
+      }
     },
     "Navigation Title" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Titre de navigation"
+          }
+        }
+      }
     },
     "Network" : {
       "localizations" : {
@@ -435,11 +449,15 @@
         }
       }
     },
-    "No Outputs" : {
-
-    },
     "No seed available" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune graine disponible"
+          }
+        }
+      }
     },
     "No Transactions" : {
       "localizations" : {
@@ -447,6 +465,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune transaction"
+          }
+        }
+      }
+    },
+    "No Unspent" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun non dépensé"
           }
         }
       }
@@ -471,11 +499,15 @@
         }
       }
     },
-    "Outputs" : {
-
-    },
     "Paste Address" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coller l'adresse"
+          }
+        }
+      }
     },
     "Receive" : {
       "localizations" : {
@@ -483,17 +515,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recevoir"
-          }
-        }
-      }
-    },
-    "Receive Address" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adresse de réception"
           }
         }
       }
@@ -570,7 +591,14 @@
       }
     },
     "Show All" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout afficher"
+          }
+        }
+      }
     },
     "Show Seed" : {
       "localizations" : {
@@ -609,17 +637,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Synchronisation"
-          }
-        }
-      }
-    },
-    "TabView Error" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Erreur de TabView"
           }
         }
       }
@@ -675,7 +692,14 @@
       }
     },
     "Transaction Details Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur dans les détails de la transaction"
+          }
+        }
+      }
     },
     "Transactions" : {
       "extractionState" : "manual",
@@ -698,11 +722,35 @@
         }
       }
     },
+    "Unspent" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non dépensé"
+          }
+        }
+      }
+    },
     "Vout: %u" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vout: %u"
+          }
+        }
+      }
     },
     "Wallet" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wallet"
+          }
+        }
+      }
     },
     "Wallet Error" : {
       "localizations" : {
@@ -715,7 +763,14 @@
       }
     },
     "Wallet Transaction Error" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de transaction du portefeuille"
+          }
+        }
+      }
     },
     "Yes" : {
       "localizations" : {
@@ -723,17 +778,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oui"
-          }
-        }
-      }
-    },
-    "Your wallet, your coins" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre portefeuille, vos pièces"
           }
         }
       }
