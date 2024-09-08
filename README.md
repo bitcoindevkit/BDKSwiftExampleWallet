@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](https://github.com/reez/BDKSwiftExampleWallet/blob/main/LICENSE)
 
-An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) 1.0
+An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) via [language bindings](https://github.com/bitcoindevkit/bdk-ffi).
 
 <img src="Docs/bitcoin-home-screen.png" alt="Screenshot" width="210.5" height="420">
 
@@ -10,13 +10,7 @@ An example iOS app using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) 1.0
 
 ### BDK 1.0
 
-The `main` branch of BDK Swift Example Wallet uses a local package of bdk-swift, built using a [build script in bdk-ffi](https://github.com/bitcoindevkit/bdk-ffi/blob/master/bdk-swift/build-xcframework.sh).
-
-*This is temporary as we gear up for the 1.0 beta of bdk-swift, which is currently in [alpha](https://github.com/bitcoindevkit/bdk-swift/releases), and allows for those migrating to 1.0 to keep up with the latest and greatest.*
-
-### BDK Pre 1.0
-
-The `pre-v1` branch of BDK Swift Example Wallet uses a remote package of bdk-swift.
+The `main` branch of BDK Swift Example Wallet uses [bdk-swift](https://github.com/bitcoindevkit/bdk-swift) 1.0+.
 
 ## Functionality
 
