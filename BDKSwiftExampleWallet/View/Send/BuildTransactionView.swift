@@ -33,10 +33,12 @@ struct BuildTransactionView: View {
                     HStack {
                         Text("To")
                         Spacer()
-                        Text(address)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                            .frame(maxWidth: 100)
+                        Text(
+                            address.count > 10
+                                ? "\(address.prefix(6))...\(address.suffix(4))" : address
+                        )
+                        .lineLimit(1)
+                        .truncationMode(.middle)
                     }
                     HStack {
                         Text("Send")
