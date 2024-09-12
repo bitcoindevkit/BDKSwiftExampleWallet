@@ -217,12 +217,13 @@ struct WalletView: View {
                     }
                 )
                 .task {
+                    viewModel.getBalance()
                     if isFirstAppear || newTransactionSent {
                         await viewModel.syncOrFullScan()
                         isFirstAppear = false
                         newTransactionSent = false
+                        viewModel.getBalance()
                     }
-                    viewModel.getBalance()
                     viewModel.getTransactions()
                     await viewModel.getPrices()
                 }
