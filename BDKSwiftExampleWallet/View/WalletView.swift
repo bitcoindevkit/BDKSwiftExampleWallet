@@ -21,260 +21,238 @@ struct WalletView: View {
 
     var body: some View {
 
-        NavigationStack(path: $sendNavigationPath) {
+        ZStack {
+            Color(uiColor: .systemBackground)
+                .ignoresSafeArea()
 
-            ZStack {
-                Color(uiColor: .systemBackground)
-                    .ignoresSafeArea()
+            VStack(spacing: 20) {
 
-                VStack(spacing: 20) {
-
-                    VStack(spacing: 10) {
-                        Text("Bitcoin".uppercased())
-                            .fontWeight(.semibold)
-                            .fontWidth(.expanded)
-                            .foregroundColor(.bitcoinOrange)
-                            .scaleEffect(isAnimating ? 1.0 : 0.6)
-                            .onAppear {
-                                withAnimation(.easeOut(duration: 0.5)) {
-                                    isAnimating = true
-                                }
+                VStack(spacing: 10) {
+                    Text("Bitcoin".uppercased())
+                        .fontWeight(.semibold)
+                        .fontWidth(.expanded)
+                        .foregroundColor(.bitcoinOrange)
+                        .scaleEffect(isAnimating ? 1.0 : 0.6)
+                        .onAppear {
+                            withAnimation(.easeOut(duration: 0.5)) {
+                                isAnimating = true
                             }
-                        withAnimation {
-                            HStack(spacing: 15) {
-                                Image(systemName: "bitcoinsign")
-                                    .foregroundColor(.secondary)
-                                    .font(.title)
-                                    .fontWeight(.thin)
-                                Text(viewModel.balanceTotal.formattedSatoshis())
-                                    .contentTransition(.numericText())
-                                    .fontWeight(.semibold)
-                                    .fontDesign(.rounded)
-                                Text("sats")
-                                    .foregroundColor(.secondary)
-                                    .fontWeight(.thin)
-                            }
-                            .font(.largeTitle)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
                         }
-                        HStack {
-                            if viewModel.walletSyncState == .syncing {
-                                Image(systemName: "chart.bar.fill")
-                                    .symbolEffect(
-                                        .variableColor.cumulative
-                                    )
-                            }
-                            Text(viewModel.satsPrice, format: .currency(code: "USD"))
+                    withAnimation {
+                        HStack(spacing: 15) {
+                            Image(systemName: "bitcoinsign")
+                                .foregroundColor(.secondary)
+                                .font(.title)
+                                .fontWeight(.thin)
+                            Text(viewModel.balanceTotal.formattedSatoshis())
                                 .contentTransition(.numericText())
+                                .fontWeight(.semibold)
                                 .fontDesign(.rounded)
+                            Text("sats")
+                                .foregroundColor(.secondary)
+                                .fontWeight(.thin)
                         }
-                        .foregroundColor(.secondary)
-                        .font(.subheadline)
+                        .font(.largeTitle)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                     }
-                    .padding(.vertical, 20.0)
+                    HStack {
+                        if viewModel.walletSyncState == .syncing {
+                            Image(systemName: "chart.bar.fill")
+                                .symbolEffect(
+                                    .variableColor.cumulative
+                                )
+                        }
+                        Text(viewModel.satsPrice, format: .currency(code: "USD"))
+                            .contentTransition(.numericText())
+                            .fontDesign(.rounded)
+                    }
+                    .foregroundColor(.secondary)
+                    .font(.subheadline)
+                }
+                .padding(.vertical, 20.0)
 
-                    VStack {
-                        HStack {
-                            Text("Activity")
-                            Spacer()
-                            if viewModel.walletSyncState == .syncing {
-                                HStack {
-                                    if viewModel.progress < 1.0 {
-                                        Text("\(viewModel.inspectedScripts)")
-                                            .padding(.trailing, -5.0)
-                                            .fontWeight(.semibold)
-                                            .contentTransition(.numericText())
-                                            .transition(.opacity)
-
-                                        if !viewModel.bdkClient.needsFullScan() {
-                                            Text("/")
-                                                .padding(.trailing, -5.0)
-                                                .transition(.opacity)
-                                            Text("\(viewModel.totalScripts)")
-                                                .contentTransition(.numericText())
-                                                .transition(.opacity)
-                                        }
-                                    }
-
-                                    if !viewModel.bdkClient.needsFullScan() {
-                                        Text(
-                                            String(
-                                                format: "%.0f%%",
-                                                viewModel.progress * 100
-                                            )
-                                        )
+                VStack {
+                    HStack {
+                        Text("Activity")
+                        Spacer()
+                        if viewModel.walletSyncState == .syncing {
+                            HStack {
+                                if viewModel.progress < 1.0 {
+                                    Text("\(viewModel.inspectedScripts)")
+                                        .padding(.trailing, -5.0)
+                                        .fontWeight(.semibold)
                                         .contentTransition(.numericText())
                                         .transition(.opacity)
+
+                                    if !viewModel.bdkClient.needsFullScan() {
+                                        Text("/")
+                                            .padding(.trailing, -5.0)
+                                            .transition(.opacity)
+                                        Text("\(viewModel.totalScripts)")
+                                            .contentTransition(.numericText())
+                                            .transition(.opacity)
                                     }
                                 }
-                                .fontDesign(.monospaced)
-                                .foregroundColor(.secondary)
-                                .font(.caption2)
-                                .fontWeight(.thin)
-                                .animation(.easeInOut, value: viewModel.inspectedScripts)
-                                .animation(.easeInOut, value: viewModel.totalScripts)
-                                .animation(.easeInOut, value: viewModel.progress)
-                            }
-                            HStack {
-                                HStack(spacing: 5) {
-                                    if viewModel.walletSyncState == .syncing {
-                                        Image(systemName: "slowmo")
-                                            .symbolEffect(
-                                                .variableColor.cumulative
-                                            )
-                                            .contentTransition(.symbolEffect(.replace.offUp))
-                                    } else if viewModel.walletSyncState == .synced {
-                                        Image(systemName: "checkmark.circle")
-                                            .foregroundColor(
-                                                viewModel.walletSyncState == .synced
-                                                    ? .green : .secondary
-                                            )
-                                    } else if viewModel.walletSyncState == .notStarted {
-                                        Image(systemName: "goforward")
-                                    } else {
-                                        Image(
-                                            systemName: "person.crop.circle.badge.exclamationmark"
+
+                                if !viewModel.bdkClient.needsFullScan() {
+                                    Text(
+                                        String(
+                                            format: "%.0f%%",
+                                            viewModel.progress * 100
                                         )
-                                    }
-
+                                    )
+                                    .contentTransition(.numericText())
+                                    .transition(.opacity)
                                 }
                             }
+                            .fontDesign(.monospaced)
                             .foregroundColor(.secondary)
-                            .font(.caption)
-
-                            if viewModel.walletSyncState == .synced {
-                                Button(action: {
-                                    showAllTransactions = true
-                                }) {
-                                    HStack(spacing: 2) {
-                                        Text("Show All")
-                                        Image(systemName: "arrow.right")
-                                    }
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .fontWeight(.regular)
-                                }
-                            }
-
+                            .font(.caption2)
+                            .fontWeight(.thin)
+                            .animation(.easeInOut, value: viewModel.inspectedScripts)
+                            .animation(.easeInOut, value: viewModel.totalScripts)
+                            .animation(.easeInOut, value: viewModel.progress)
                         }
-                        .fontWeight(.bold)
-                        TransactionListView(
-                            transactions: viewModel.recentTransactions,
-                            walletSyncState: viewModel.walletSyncState,
-                            viewModel: .init()
-                        )
-                        .refreshable {
-                            await viewModel.syncOrFullScan()
-                            viewModel.getBalance()
-                            viewModel.getTransactions()
-                            await viewModel.getPrices()
-                        }
-
                         HStack {
-                            Button(action: {
-                                showReceiveView = true
-                            }) {
-                                Image(systemName: "qrcode")
-                                    .font(.title)
-                                    .foregroundColor(.primary)
-                            }
-
-                            Spacer()
-
-                            Button(action: {
-                                sendNavigationPath.append(NavigationDestination.address)
-                            }) {
-                                Image(systemName: "qrcode.viewfinder")
-                                    .font(.title)
-                                    .foregroundColor(.primary)
+                            HStack(spacing: 5) {
+                                if viewModel.walletSyncState == .syncing {
+                                    Image(systemName: "slowmo")
+                                        .symbolEffect(
+                                            .variableColor.cumulative
+                                        )
+                                        .contentTransition(.symbolEffect(.replace.offUp))
+                                } else if viewModel.walletSyncState == .synced {
+                                    Image(systemName: "checkmark.circle")
+                                        .foregroundColor(
+                                            viewModel.walletSyncState == .synced
+                                                ? .green : .secondary
+                                        )
+                                } else if viewModel.walletSyncState == .notStarted {
+                                    Image(systemName: "goforward")
+                                } else {
+                                    Image(
+                                        systemName: "person.crop.circle.badge.exclamationmark"
+                                    )
+                                }
 
                             }
                         }
-                        .padding([.horizontal, .bottom])
+                        .foregroundColor(.secondary)
+                        .font(.caption)
 
-                    }
-
-                }
-                .padding()
-                .onReceive(
-                    NotificationCenter.default.publisher(for: Notification.Name("TransactionSent")),
-                    perform: { _ in
-                        newTransactionSent = true
-                    }
-                )
-                .onReceive(
-                    NotificationCenter.default.publisher(
-                        for: Notification.Name("AddressGenerated")
-                    ),
-                    perform: { _ in
-                        Task {
-                            await viewModel.syncOrFullScan()
-                            viewModel.getBalance()
-                            viewModel.getTransactions()
-                            await viewModel.getPrices()
+                        if viewModel.walletSyncState == .synced {
+                            Button(action: {
+                                showAllTransactions = true
+                            }) {
+                                HStack(spacing: 2) {
+                                    Text("Show All")
+                                    Image(systemName: "arrow.right")
+                                }
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .fontWeight(.regular)
+                            }
                         }
+
                     }
-                )
-                .task {
-                    viewModel.getBalance()
-                    if isFirstAppear || newTransactionSent {
+                    .fontWeight(.bold)
+                    TransactionListView(
+                        transactions: viewModel.recentTransactions,
+                        walletSyncState: viewModel.walletSyncState,
+                        viewModel: .init()
+                    )
+                    .refreshable {
                         await viewModel.syncOrFullScan()
-                        isFirstAppear = false
-                        newTransactionSent = false
                         viewModel.getBalance()
+                        viewModel.getTransactions()
+                        await viewModel.getPrices()
                     }
-                    viewModel.getTransactions()
-                    await viewModel.getPrices()
+
+                    HStack {
+                        Button(action: {
+                            showReceiveView = true
+                        }) {
+                            Image(systemName: "qrcode")
+                                .font(.title)
+                                .foregroundColor(.primary)
+                        }
+
+                        Spacer()
+
+                        NavigationLink(value: NavigationDestination.address) {
+                            Image(systemName: "qrcode.viewfinder")
+                                .font(.title)
+                                .foregroundColor(.primary)
+                        }
+                    }
+                    .padding([.horizontal, .bottom])
+
                 }
 
             }
-            .navigationDestination(isPresented: $showAllTransactions) {
-                ActivityListView(viewModel: .init())
-            }
-            .navigationDestination(for: NavigationDestination.self) { destination in
-                switch destination {
-                case .address:
-                    AddressView(navigationPath: $sendNavigationPath)
-                case .amount(let address):
-                    AmountView(
-                        address: address,
-                        viewModel: .init(),
-                        navigationPath: $sendNavigationPath
-                    )
-                case .fee(let amount, let address):
-                    FeeView(
-                        amount: amount,
-                        address: address,
-                        viewModel: .init(),
-                        navigationPath: $sendNavigationPath
-                    )
-                case .buildTransaction(let amount, let address, let fee):
-                    BuildTransactionView(
-                        amount: amount,
-                        address: address,
-                        fee: fee,
-                        viewModel: .init(),
-                        navigationPath: $sendNavigationPath
-                    )
+            .padding()
+            .onReceive(
+                NotificationCenter.default.publisher(for: Notification.Name("TransactionSent")),
+                perform: { _ in
+                    newTransactionSent = true
                 }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    VStack {
-                        Text("Navigation Title")
-                            .foregroundColor(.clear)
+            )
+            .onReceive(
+                NotificationCenter.default.publisher(
+                    for: Notification.Name("AddressGenerated")
+                ),
+                perform: { _ in
+                    Task {
+                        await viewModel.syncOrFullScan()
+                        viewModel.getBalance()
+                        viewModel.getTransactions()
+                        await viewModel.getPrices()
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        showSettingsView = true
-                    }) {
-                        Image(systemName: "person.and.background.dotted")
-                    }
+            )
+            .task {
+                viewModel.getBalance()
+                if isFirstAppear || newTransactionSent {
+                    await viewModel.syncOrFullScan()
+                    isFirstAppear = false
+                    newTransactionSent = false
+                    viewModel.getBalance()
                 }
+                viewModel.getTransactions()
+                await viewModel.getPrices()
             }
 
+        }
+        .navigationDestination(isPresented: $showAllTransactions) {
+            ActivityListView(viewModel: .init())
+        }
+        .navigationDestination(for: NavigationDestination.self) { destination in
+            switch destination {
+            case .address:
+                AddressView(navigationPath: $sendNavigationPath)
+            case .amount(let address):
+                AmountView(
+                    address: address,
+                    viewModel: .init(),
+                    navigationPath: $sendNavigationPath
+                )
+            case .fee(let amount, let address):
+                FeeView(
+                    amount: amount,
+                    address: address,
+                    viewModel: .init(),
+                    navigationPath: $sendNavigationPath
+                )
+            case .buildTransaction(let amount, let address, let fee):
+                BuildTransactionView(
+                    amount: amount,
+                    address: address,
+                    fee: fee,
+                    viewModel: .init(),
+                    navigationPath: $sendNavigationPath
+                )
+            }
         }
         .sheet(
             isPresented: $showReceiveView,
@@ -298,6 +276,15 @@ struct WalletView: View {
                     viewModel.walletViewError = nil
                 }
             )
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    showSettingsView = true
+                }) {
+                    Image(systemName: "person.and.background.dotted")
+                }
+            }
         }
 
     }
