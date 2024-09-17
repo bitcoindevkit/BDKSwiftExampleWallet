@@ -13,6 +13,7 @@ struct SettingsView: View {
     @State private var showingDeleteSeedConfirmation = false
     @State private var showingShowSeedConfirmation = false
     @State private var isSeedPresented = false
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
 
@@ -112,6 +113,7 @@ struct SettingsView: View {
         ) {
             Button("Yes", role: .destructive) {
                 viewModel.delete()
+                dismiss()
             }
             Button("No", role: .cancel) {}
         }

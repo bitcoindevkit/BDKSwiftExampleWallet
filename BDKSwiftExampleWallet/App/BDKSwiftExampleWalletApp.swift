@@ -11,15 +11,20 @@ import SwiftUI
 @main
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
+    @State private var navigationPath = NavigationPath()
 
     var body: some Scene {
         WindowGroup {
-            if isOnboarding {
-                OnboardingView(viewModel: .init(bdkClient: .live))
-            } else {
-                HomeView(viewModel: .init(bdkClient: .live))
+            NavigationStack(path: $navigationPath) {
+                if isOnboarding {
+                    OnboardingView(viewModel: .init(bdkClient: .live))
+                } else {
+                    HomeView(viewModel: .init(bdkClient: .live))
+                }
+            }
+            .onChange(of: isOnboarding) { oldValue, newValue in
+                navigationPath = NavigationPath()
             }
         }
     }
-
 }
