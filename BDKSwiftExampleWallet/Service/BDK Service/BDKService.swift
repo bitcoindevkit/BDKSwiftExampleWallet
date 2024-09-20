@@ -53,7 +53,7 @@ private class BDKService {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        let transactions = wallet.transactionsSortBy()
+        let transactions = wallet.transactions()
         return transactions
     }
 

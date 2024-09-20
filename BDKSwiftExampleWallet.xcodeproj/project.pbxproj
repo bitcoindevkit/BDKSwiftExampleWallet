@@ -62,6 +62,7 @@
 		AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67062A744CE200CED561 /* Double+Extensions.swift */; };
 		AE7F67092A7451AA00CED561 /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F67082A7451AA00CED561 /* Price.swift */; };
 		AE7F670C2A7451D700CED561 /* CurrencyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F670B2A7451D700CED561 /* CurrencyCode.swift */; };
+		AE83EFDB2C9D07B200B41244 /* ChainPosition+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE83EFDA2C9D07B200B41244 /* ChainPosition+Extensions.swift */; };
 		AE91CEED2C0FDB70000AAD20 /* SentAndReceivedValues+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE91CEEC2C0FDB70000AAD20 /* SentAndReceivedValues+Extensions.swift */; };
 		AE91CEEF2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE91CEEE2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift */; };
 		AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift */; };
@@ -153,6 +154,7 @@
 		AE7F67062A744CE200CED561 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		AE7F67082A7451AA00CED561 /* Price.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
 		AE7F670B2A7451D700CED561 /* CurrencyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCode.swift; sourceTree = "<group>"; };
+		AE83EFDA2C9D07B200B41244 /* ChainPosition+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChainPosition+Extensions.swift"; sourceTree = "<group>"; };
 		AE91CEEC2C0FDB70000AAD20 /* SentAndReceivedValues+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SentAndReceivedValues+Extensions.swift"; sourceTree = "<group>"; };
 		AE91CEEE2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CanonicalTx+Extensions.swift"; sourceTree = "<group>"; };
 		AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletReceiveViewModelTests.swift; sourceTree = "<group>"; };
@@ -502,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */,
+				AE83EFDA2C9D07B200B41244 /* ChainPosition+Extensions.swift */,
 				AE2381B02C60690900F6B00C /* LocalOutput+Extensions.swift */,
 				AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */,
 				AE6F34D92AA6C1E00087E700 /* Balance+Extensions.swift */,
@@ -629,6 +632,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE83EFDB2C9D07B200B41244 /* ChainPosition+Extensions.swift in Sources */,
 				AE2ADD782B61EFFF00C2A823 /* SettingsViewModel.swift in Sources */,
 				AEAB03112ABDDB86000C9528 /* FeeViewModel.swift in Sources */,
 				AEE6C74C2ABCB3E200442ADD /* Transaction+Extensions.swift in Sources */,
