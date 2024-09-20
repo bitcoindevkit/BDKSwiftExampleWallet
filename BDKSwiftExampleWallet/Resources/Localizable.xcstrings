@@ -400,6 +400,7 @@
       }
     },
     "Navigation Title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

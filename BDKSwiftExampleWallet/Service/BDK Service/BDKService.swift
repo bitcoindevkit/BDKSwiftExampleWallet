@@ -54,7 +54,10 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
         let transactions = wallet.transactions()
-        return transactions
+        let sortedTransactions = transactions.sorted { (tx1, tx2) in
+            return tx1.chainPosition.isBefore(tx2.chainPosition)
+        }
+        return sortedTransactions
     }
 
     func listUnspent() throws -> [LocalOutput] {

@@ -36,7 +36,7 @@ struct TransactionListView: View {
             } else {
 
                 ForEach(
-                    transactions.sorted(by: { $0.transaction.vsize() > $1.transaction.vsize() }),
+                    transactions,
                     id: \.transaction.transactionID
                 ) { item in
                     let canonicalTx = item
