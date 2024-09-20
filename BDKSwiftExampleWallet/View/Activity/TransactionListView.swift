@@ -35,12 +35,8 @@ struct TransactionListView: View {
                     .listRowSeparator(.hidden)
             } else {
 
-                let sortedTransactions = transactions.sorted { (tx1, tx2) in
-                    return tx1.chainPosition.isBefore(tx2.chainPosition)
-                }
-
                 ForEach(
-                    sortedTransactions,
+                    transactions,
                     id: \.transaction.transactionID
                 ) { item in
                     let canonicalTx = item

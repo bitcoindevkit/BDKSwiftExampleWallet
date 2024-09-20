@@ -32,10 +32,7 @@ class WalletViewModel {
     var totalScripts: UInt64 = 0
 
     var recentTransactions: [CanonicalTx] {
-        let sortedTransactions = transactions.sorted { (tx1, tx2) in
-            return tx1.chainPosition.isBefore(tx2.chainPosition)
-        }
-        return Array(sortedTransactions.prefix(5))
+        Array(transactions.prefix(5))
     }
 
     init(
