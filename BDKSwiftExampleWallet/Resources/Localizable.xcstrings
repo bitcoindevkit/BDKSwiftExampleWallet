@@ -71,9 +71,6 @@
         }
       }
     },
-    "(Optional) Import 12 Word Seed Phrase" : {
-
-    },
     "/" : {
       "localizations" : {
         "fr" : {
@@ -181,6 +178,9 @@
           }
         }
       }
+    },
+    "12 Word Seed Phrase" : {
+
     },
     "12 Word Seed Phrase (Optional)" : {
       "extractionState" : "stale",
@@ -404,6 +404,9 @@
           }
         }
       }
+    },
+    "Import" : {
+
     },
     "Navigation Title" : {
       "extractionState" : "stale",

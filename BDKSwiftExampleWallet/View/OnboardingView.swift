@@ -13,6 +13,7 @@ struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     @State private var showingOnboardingViewErrorAlert = false
+    @State private var showingImportView = false
 
     var body: some View {
 
@@ -21,6 +22,30 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
 
             VStack {
+
+                HStack {
+                    Spacer()
+                    Button {
+                        showingImportView = true
+                    } label: {
+                        Image(
+                            systemName: viewModel.wordArray.isEmpty
+                                ? "square.and.arrow.down" : "square.and.arrow.down.fill"
+                        )
+                    }
+                    .tint(
+                        viewModel.wordArray.isEmpty ? .secondary : .primary
+                    )
+                    .font(.title)
+                    .padding()
+                    .sheet(isPresented: $showingImportView) {
+                        ImportView(
+                            isPresented: $showingImportView,
+                            importedWords: $viewModel.words
+                        )
+                        .presentationDetents([.medium])
+                    }
+                }
 
                 Spacer()
 
@@ -49,6 +74,7 @@ struct OnboardingView: View {
                         .multilineTextAlignment(.center)
                         .padding()
                 }
+                .padding()
 
                 Picker(
                     "Network",
@@ -81,26 +107,16 @@ struct OnboardingView: View {
                 .pickerStyle(.automatic)
                 .tint(.primary)
 
-                VStack {
-                    TextField(
-                        "(Optional) Import 12 Word Seed Phrase",
-                        text: $viewModel.words
+                if viewModel.wordArray != [] {
+                    SeedPhraseView(
+                        words: viewModel.wordArray,
+                        preferredWordsPerRow: 2,
+                        usePaging: true,
+                        wordsPerPage: 4
                     )
-                    .submitLabel(.done)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal, 40)
-                    if viewModel.wordArray != [] {
-                        SeedPhraseView(
-                            words: viewModel.wordArray,
-                            preferredWordsPerRow: 2,
-                            usePaging: true,
-                            wordsPerPage: 4
-                        )
-                        .frame(height: 200)
-                    } else {
-                    }
+                    .frame(height: 200)
+                    .padding()
                 }
-                .padding(.top, 30)
 
                 Spacer()
 
@@ -126,6 +142,48 @@ struct OnboardingView: View {
                     viewModel.onboardingViewError = nil
                 }
             )
+        }
+
+    }
+}
+
+struct ImportView: View {
+    @Binding var isPresented: Bool
+    @Binding var importedWords: String
+
+    private var wordArray: [String] {
+        importedWords.split(separator: " ").map(String.init)
+    }
+
+    var body: some View {
+
+        VStack {
+
+            Spacer()
+
+            TextField("12 Word Seed Phrase", text: $importedWords)
+                .submitLabel(.done)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal, 40)
+
+            if !importedWords.isEmpty {
+                SeedPhraseView(
+                    words: wordArray,
+                    preferredWordsPerRow: 2,
+                    usePaging: true,
+                    wordsPerPage: 4
+                )
+                .frame(height: 200)
+            }
+
+            Spacer()
+
+            Button("Import") {
+                isPresented = false
+            }
+            .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
+            .padding()
+
         }
 
     }
