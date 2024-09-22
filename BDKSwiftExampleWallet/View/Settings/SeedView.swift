@@ -23,7 +23,7 @@ struct SeedView: View {
 
                     SeedPhraseView(
                         words: seed.mnemonic.components(separatedBy: " "),
-                        preferredWordsPerRow: 3,
+                        preferredWordsPerRow: 2,
                         usePaging: true,
                         wordsPerPage: 6
                     )
@@ -45,8 +45,14 @@ struct SeedView: View {
                                     .bold()
                             }
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.bitcoinOrange)
+                        .buttonStyle(
+                            BitcoinFilled(
+                                width: 120,
+                                height: 40,
+                                tintColor: .bitcoinOrange,
+                                isCapsule: true
+                            )
+                        )
                         Spacer()
                     }
                     .padding()

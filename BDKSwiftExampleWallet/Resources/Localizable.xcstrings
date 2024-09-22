@@ -71,6 +71,9 @@
         }
       }
     },
+    "(Optional) Import 12 Word Seed Phrase" : {
+
+    },
     "/" : {
       "localizations" : {
         "fr" : {
@@ -180,6 +183,7 @@
       }
     },
     "12 Word Seed Phrase (Optional)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -190,6 +194,7 @@
       }
     },
     "A bitcoin wallet powered by Bitcoin Dev Kit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -240,6 +245,7 @@
       }
     },
     "BDK Wallet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -509,6 +515,9 @@
           }
         }
       }
+    },
+    "powered by Bitcoin Dev Kit" : {
+
     },
     "Receive" : {
       "localizations" : {

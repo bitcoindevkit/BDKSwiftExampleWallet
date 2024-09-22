@@ -25,65 +25,70 @@ struct OnboardingView: View {
                 Spacer()
 
                 VStack(spacing: 25) {
-                    Image(systemName: "bitcoinsign.circle.fill")
+                    Image(systemName: "bitcoinsign.circle")
                         .resizable()
-                        .foregroundColor(.bitcoinOrange)
+                        .foregroundStyle(
+                            .secondary
+                        )
                         .frame(width: 100, height: 100, alignment: .center)
-                    Text("BDK Wallet")
-                        .textStyle(BitcoinTitle1())
-                        .multilineTextAlignment(.center)
-                        .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-                    Text("A bitcoin wallet powered by Bitcoin Dev Kit")
-                        .textStyle(BitcoinBody5())
+                    Text("powered by Bitcoin Dev Kit")
+                        .foregroundStyle(
+                            LinearGradient(
+                                gradient: Gradient(
+                                    colors: [
+                                        .secondary,
+                                        .primary,
+                                    ]
+                                ),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                         .fontWidth(.expanded)
-                        .foregroundColor(.secondary)
+                        .fontWeight(.medium)
                         .multilineTextAlignment(.center)
+                        .padding()
                 }
 
-                VStack {
+                Picker(
+                    "Network",
+                    selection: $viewModel.selectedNetwork
+                ) {
+                    Text("Signet").tag(Network.signet)
+                    Text("Testnet").tag(Network.testnet)
+                    Text("Regtest").tag(Network.regtest)
+                }
+                .pickerStyle(.automatic)
+                .tint(.primary)
 
-                    VStack {
-                        Picker(
-                            "Network",
-                            selection: $viewModel.selectedNetwork
-                        ) {
-                            Text("Signet").tag(Network.signet)
-                            Text("Testnet").tag(Network.testnet)
-                            Text("Regtest").tag(Network.regtest)
-                        }
-                        .pickerStyle(.automatic)
-                        .tint(viewModel.buttonColor)
-
-                        Picker(
-                            "Esplora Server",
-                            selection: $viewModel.selectedURL
-                        ) {
-                            ForEach(viewModel.availableURLs, id: \.self) { url in
-                                Text(
-                                    url.replacingOccurrences(
-                                        of: "https://",
-                                        with: ""
-                                    ).replacingOccurrences(
-                                        of: "http://",
-                                        with: ""
-                                    )
-                                )
-                                .tag(url)
-                            }
-                        }
-                        .pickerStyle(.automatic)
-                        .tint(viewModel.buttonColor)
-
+                Picker(
+                    "Esplora Server",
+                    selection: $viewModel.selectedURL
+                ) {
+                    ForEach(viewModel.availableURLs, id: \.self) { url in
+                        Text(
+                            url.replacingOccurrences(
+                                of: "https://",
+                                with: ""
+                            ).replacingOccurrences(
+                                of: "http://",
+                                with: ""
+                            )
+                        )
+                        .tag(url)
                     }
-
                 }
-                .padding()
+                .pickerStyle(.automatic)
+                .tint(.primary)
 
                 VStack {
-                    TextField("12 Word Seed Phrase (Optional)", text: $viewModel.words)
-                        .submitLabel(.done)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal, 40)
+                    TextField(
+                        "(Optional) Import 12 Word Seed Phrase",
+                        text: $viewModel.words
+                    )
+                    .submitLabel(.done)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal, 40)
                     if viewModel.wordArray != [] {
                         SeedPhraseView(
                             words: viewModel.wordArray,
@@ -92,6 +97,7 @@ struct OnboardingView: View {
                             wordsPerPage: 4
                         )
                         .frame(height: 200)
+                    } else {
                     }
                 }
                 .padding(.top, 30)
@@ -101,7 +107,12 @@ struct OnboardingView: View {
                 Button("Create Wallet") {
                     viewModel.createWallet()
                 }
-                .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
+                .buttonStyle(
+                    BitcoinFilled(
+                        tintColor: .bitcoinOrange,
+                        isCapsule: true
+                    )
+                )
                 .padding()
 
             }
