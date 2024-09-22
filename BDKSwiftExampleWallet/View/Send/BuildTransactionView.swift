@@ -106,8 +106,16 @@ struct BuildTransactionView: View {
                     }
                     .buttonStyle(
                         isSent
-                            ? BitcoinFilled(tintColor: .bitcoinRed, isCapsule: true)
-                            : BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true)
+                            ? BitcoinFilled(
+                                tintColor: .bitcoinRed,
+                                textColor: Color(uiColor: .systemBackground),
+                                isCapsule: true
+                            )
+                            : BitcoinFilled(
+                                tintColor: .bitcoinOrange,
+                                textColor: Color(uiColor: .systemBackground),
+                                isCapsule: true
+                            )
 
                     )
                     .padding()

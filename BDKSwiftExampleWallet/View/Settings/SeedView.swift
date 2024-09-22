@@ -50,6 +50,7 @@ struct SeedView: View {
                                 width: 120,
                                 height: 40,
                                 tintColor: .bitcoinOrange,
+                                textColor: Color(uiColor: .systemBackground),
                                 isCapsule: true
                             )
                         )

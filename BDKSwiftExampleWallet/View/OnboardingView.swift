@@ -126,6 +126,7 @@ struct OnboardingView: View {
                 .buttonStyle(
                     BitcoinFilled(
                         tintColor: .bitcoinOrange,
+                        textColor: Color(uiColor: .systemBackground),
                         isCapsule: true
                     )
                 )
@@ -181,7 +182,13 @@ struct ImportView: View {
             Button("Import") {
                 isPresented = false
             }
-            .buttonStyle(BitcoinFilled(tintColor: .bitcoinOrange, isCapsule: true))
+            .buttonStyle(
+                BitcoinFilled(
+                    tintColor: .bitcoinOrange,
+                    textColor: Color(uiColor: .systemBackground),
+                    isCapsule: true
+                )
+            )
             .padding()
 
         }
