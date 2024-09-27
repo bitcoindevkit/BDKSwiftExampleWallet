@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Bindable var viewModel: HomeViewModel
+    @Binding var navigationPath: NavigationPath
 
     var body: some View {
 
@@ -19,7 +20,8 @@ struct HomeView: View {
                 viewModel: .init(
                     priceClient: .live,
                     bdkClient: .live
-                )
+                ),
+                sendNavigationPath: $navigationPath
             )
             .tint(.primary)
             .onAppear {
@@ -50,6 +52,9 @@ enum NavigationDestination: Hashable {
 
 #if DEBUG
     #Preview {
-        HomeView(viewModel: .init(bdkClient: .mock))
+        HomeView(
+            viewModel: .init(bdkClient: .mock),
+            navigationPath: .constant(.init())
+        )
     }
 #endif
