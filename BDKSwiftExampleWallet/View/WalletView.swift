@@ -17,7 +17,7 @@ struct WalletView: View {
     @State private var showAllTransactions = false
     @State private var showReceiveView = false
     @State private var showSettingsView = false
-    @State private var sendNavigationPath = NavigationPath()
+    @Binding var sendNavigationPath: NavigationPath
 
     var body: some View {
 
@@ -299,7 +299,8 @@ struct WalletView: View {
                 bdkClient: .mock,
                 walletSyncState: .synced,
                 transactions: [.mock]
-            )
+            ),
+            sendNavigationPath: .constant(.init())
         )
     }
 #endif

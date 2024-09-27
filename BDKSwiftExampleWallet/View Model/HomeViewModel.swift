@@ -29,6 +29,9 @@ class HomeViewModel: ObservableObject {
         } catch let error as LoadWithPersistError {
             self.homeViewError = .generic(message: error.localizedDescription)
             self.showingHomeViewErrorAlert = true
+        } catch let error as KeyServiceError {
+            self.homeViewError = .generic(message: error.localizedDescription)
+            self.showingHomeViewErrorAlert = true
         } catch {
             self.homeViewError = .generic(message: error.localizedDescription)
             self.showingHomeViewErrorAlert = true
