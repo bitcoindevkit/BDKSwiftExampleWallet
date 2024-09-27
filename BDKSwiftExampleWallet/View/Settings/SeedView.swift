@@ -25,7 +25,7 @@ struct SeedView: View {
                         words: seed.mnemonic.components(separatedBy: " "),
                         preferredWordsPerRow: 2,
                         usePaging: true,
-                        wordsPerPage: 6
+                        wordsPerPage: 4
                     )
 
                     HStack {

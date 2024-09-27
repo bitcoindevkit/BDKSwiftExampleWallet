@@ -179,9 +179,6 @@
         }
       }
     },
-    "12 Word Seed Phrase" : {
-
-    },
     "12 Word Seed Phrase (Optional)" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -404,9 +401,6 @@
           }
         }
       }
-    },
-    "Import" : {
-
     },
     "Navigation Title" : {
       "extractionState" : "stale",

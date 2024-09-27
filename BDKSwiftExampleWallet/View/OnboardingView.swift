@@ -14,6 +14,7 @@ struct OnboardingView: View {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     @State private var showingOnboardingViewErrorAlert = false
     @State private var showingImportView = false
+    let pasteboard = UIPasteboard.general
 
     var body: some View {
 
@@ -26,25 +27,25 @@ struct OnboardingView: View {
                 HStack {
                     Spacer()
                     Button {
-                        showingImportView = true
+                        if viewModel.wordArray.isEmpty {
+                            if let clipboardContent = UIPasteboard.general.string {
+                                viewModel.words = clipboardContent
+                            }
+                        } else {
+                            viewModel.words = ""
+                        }
                     } label: {
                         Image(
                             systemName: viewModel.wordArray.isEmpty
-                                ? "square.and.arrow.down" : "square.and.arrow.down.fill"
+                                ? "arrow.down.square" : "clear"
                         )
+                        .contentTransition(.symbolEffect(.replace))
                     }
                     .tint(
                         viewModel.wordArray.isEmpty ? .secondary : .primary
                     )
                     .font(.title)
                     .padding()
-                    .sheet(isPresented: $showingImportView) {
-                        ImportView(
-                            isPresented: $showingImportView,
-                            importedWords: $viewModel.words
-                        )
-                        .presentationDetents([.medium])
-                    }
                 }
 
                 Spacer()
@@ -143,54 +144,6 @@ struct OnboardingView: View {
                     viewModel.onboardingViewError = nil
                 }
             )
-        }
-
-    }
-}
-
-struct ImportView: View {
-    @Binding var isPresented: Bool
-    @Binding var importedWords: String
-
-    private var wordArray: [String] {
-        importedWords.split(separator: " ").map(String.init)
-    }
-
-    var body: some View {
-
-        VStack {
-
-            Spacer()
-
-            TextField("12 Word Seed Phrase", text: $importedWords)
-                .submitLabel(.done)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal, 40)
-
-            if !importedWords.isEmpty {
-                SeedPhraseView(
-                    words: wordArray,
-                    preferredWordsPerRow: 2,
-                    usePaging: true,
-                    wordsPerPage: 4
-                )
-                .frame(height: 200)
-            }
-
-            Spacer()
-
-            Button("Import") {
-                isPresented = false
-            }
-            .buttonStyle(
-                BitcoinFilled(
-                    tintColor: .bitcoinOrange,
-                    textColor: Color(uiColor: .systemBackground),
-                    isCapsule: true
-                )
-            )
-            .padding()
-
         }
 
     }
