@@ -34,13 +34,17 @@ struct SeedView: View {
                             UIPasteboard.general.string = seed.mnemonic
                             isCopied = true
                             showCheckmark = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 isCopied = false
                                 showCheckmark = false
                             }
                         } label: {
                             HStack {
-                                Image(systemName: showCheckmark ? "checkmark" : "doc.on.doc")
+                                Image(
+                                    systemName: showCheckmark
+                                        ? "document.on.document.fill" : "document.on.document"
+                                )
+                                .contentTransition(.symbolEffect(.replace))
                                 Text("Copy")
                                     .bold()
                             }

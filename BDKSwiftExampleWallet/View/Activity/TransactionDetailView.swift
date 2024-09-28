@@ -128,14 +128,18 @@ struct TransactionDetailView: View {
                     UIPasteboard.general.string = canonicalTx.transaction.computeTxid()
                     isCopied = true
                     showCheckmark = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         isCopied = false
                         showCheckmark = false
                     }
                 } label: {
                     HStack {
                         withAnimation {
-                            Image(systemName: showCheckmark ? "checkmark" : "doc.on.doc")
+                            Image(
+                                systemName: showCheckmark
+                                    ? "document.on.document.fill" : "document.on.document"
+                            )
+                            .contentTransition(.symbolEffect(.replace))
                         }
                     }
                     .fontWeight(.semibold)

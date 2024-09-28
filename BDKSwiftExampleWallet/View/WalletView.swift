@@ -121,22 +121,22 @@ struct WalletView: View {
                                         .symbolEffect(
                                             .variableColor.cumulative
                                         )
-                                        .contentTransition(.symbolEffect(.replace.offUp))
                                 } else if viewModel.walletSyncState == .synced {
-                                    Image(systemName: "checkmark.circle")
+                                    Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(
                                             viewModel.walletSyncState == .synced
                                                 ? .green : .secondary
                                         )
                                 } else if viewModel.walletSyncState == .notStarted {
-                                    Image(systemName: "goforward")
+                                    Image(systemName: "arrow.trianglehead.clockwise")
                                 } else {
                                     Image(
                                         systemName: "person.crop.circle.badge.exclamationmark"
                                     )
                                 }
-
                             }
+                            .contentTransition(.symbolEffect(.replace.offUp))
+
                         }
                         .foregroundColor(.secondary)
                         .font(.caption)
