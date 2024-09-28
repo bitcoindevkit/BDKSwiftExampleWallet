@@ -8,9 +8,9 @@
 import Foundation
 
 enum KeyServiceError: Error {
+    case decodingError
     case encodingError
+    case readError
     case writeError
     case urlError
-    case decodingError
-    case readError
 }

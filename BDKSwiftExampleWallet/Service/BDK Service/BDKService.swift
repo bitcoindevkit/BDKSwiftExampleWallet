@@ -10,13 +10,14 @@ import Foundation
 
 private class BDKService {
     static var shared: BDKService = BDKService()
+
     private var balance: Balance?
+    private var connection: Connection?
+    private let esploraClient: EsploraClient
+    private let keyService: KeyClient
+    private var needsFullScan: Bool = false
     var network: Network
     private var wallet: Wallet?
-    private let keyService: KeyClient
-    private let esploraClient: EsploraClient
-    private var needsFullScan: Bool = false
-    private var connection: Connection?
 
     init(
         keyService: KeyClient = .live

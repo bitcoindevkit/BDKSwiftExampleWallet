@@ -13,9 +13,9 @@ import Foundation
 class AmountViewModel {
     let bdkClient: BDKClient
 
-    var balanceTotal: UInt64?
-    var balanceConfirmed: UInt64?
     var amountViewError: AppError?
+    var balanceConfirmed: UInt64?
+    var balanceTotal: UInt64?
     var showingAmountViewErrorAlert = false
 
     init(bdkClient: BDKClient = .live) {

@@ -10,21 +10,21 @@ import BitcoinUI
 import SwiftUI
 
 struct TransactionListView: View {
+    @Bindable var viewModel: TransactionListViewModel
     let transactions: [CanonicalTx]
     let walletSyncState: WalletSyncState
-    @Bindable var viewModel: TransactionListViewModel
 
     var body: some View {
 
         List {
             if transactions.isEmpty && walletSyncState == .syncing {
                 TransactionItemView(
+                    canonicalTx: .mock,
+                    isRedacted: true,
                     sentAndReceivedValues: .init(
                         sent: Amount.fromSat(fromSat: UInt64(0)),
                         received: Amount.fromSat(fromSat: UInt64(0))
-                    ),
-                    canonicalTx: .mock,
-                    isRedacted: true
+                    )
                 )
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
@@ -46,17 +46,17 @@ struct TransactionListView: View {
                         NavigationLink(
                             destination: TransactionDetailView(
                                 viewModel: .init(bdkClient: .live, keyClient: .live),
-                                canonicalTx: canonicalTx,
                                 amount: sentAndReceivedValues.sent.toSat() == 0
                                     ? sentAndReceivedValues.received.toSat()
                                     : sentAndReceivedValues.sent.toSat()
-                                        - sentAndReceivedValues.received.toSat()
+                                        - sentAndReceivedValues.received.toSat(),
+                                canonicalTx: canonicalTx
                             )
                         ) {
                             TransactionItemView(
-                                sentAndReceivedValues: sentAndReceivedValues,
                                 canonicalTx: canonicalTx,
-                                isRedacted: false
+                                isRedacted: false,
+                                sentAndReceivedValues: sentAndReceivedValues
                             )
                         }
 
@@ -90,13 +90,13 @@ struct TransactionListView: View {
 #if DEBUG
     #Preview {
         TransactionListView(
+            viewModel: .init(
+                bdkClient: .mock
+            ),
             transactions: [
                 .mock
             ],
-            walletSyncState: .synced,
-            viewModel: .init(
-                bdkClient: .mock
-            )
+            walletSyncState: .synced
         )
     }
 #endif

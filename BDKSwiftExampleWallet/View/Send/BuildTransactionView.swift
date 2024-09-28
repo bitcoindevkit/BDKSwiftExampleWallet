@@ -10,15 +10,15 @@ import BitcoinUI
 import SwiftUI
 
 struct BuildTransactionView: View {
-    let amount: String
-    let address: String
-    let fee: Int
     @Bindable var viewModel: BuildTransactionViewModel
-    @State var isSent: Bool = false
-    @State var isError: Bool = false
     @Binding var navigationPath: NavigationPath
     @State private var isCopied = false
+    @State var isError: Bool = false
+    @State var isSent: Bool = false
     @State private var showCheckmark = false
+    let address: String
+    let amount: String
+    let fee: Int
 
     var body: some View {
 
@@ -190,13 +190,13 @@ struct BuildTransactionView: View {
 #if DEBUG
     #Preview {
         BuildTransactionView(
-            amount: "100000",
-            address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
-            fee: 17,
             viewModel: .init(
                 bdkClient: .mock
             ),
-            navigationPath: .constant(NavigationPath())
+            navigationPath: .constant(.init()),
+            address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
+            amount: "100000",
+            fee: 17
         )
     }
 #endif

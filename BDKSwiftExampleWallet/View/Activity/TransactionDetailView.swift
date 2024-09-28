@@ -11,11 +11,10 @@ import SwiftUI
 
 struct TransactionDetailView: View {
     @Bindable var viewModel: TransactionDetailViewModel
-
-    let canonicalTx: CanonicalTx
-    let amount: UInt64
     @State private var isCopied = false
     @State private var showCheckmark = false
+    let amount: UInt64
+    let canonicalTx: CanonicalTx
 
     var body: some View {
 
@@ -128,14 +127,18 @@ struct TransactionDetailView: View {
                     UIPasteboard.general.string = canonicalTx.transaction.computeTxid()
                     isCopied = true
                     showCheckmark = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         isCopied = false
                         showCheckmark = false
                     }
                 } label: {
                     HStack {
                         withAnimation {
-                            Image(systemName: showCheckmark ? "checkmark" : "doc.on.doc")
+                            Image(
+                                systemName: showCheckmark
+                                    ? "document.on.document.fill" : "document.on.document"
+                            )
+                            .contentTransition(.symbolEffect(.replace))
                         }
                     }
                     .fontWeight(.semibold)
@@ -171,8 +174,8 @@ struct TransactionDetailView: View {
     #Preview {
         TransactionDetailView(
             viewModel: .init(bdkClient: .mock, keyClient: .mock),
-            canonicalTx: .mock,
-            amount: UInt64(1_000_000)
+            amount: UInt64(1_000_000),
+            canonicalTx: .mock
         )
     }
 #endif

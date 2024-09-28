@@ -13,10 +13,10 @@ import Foundation
 class BuildTransactionViewModel {
     let bdkClient: BDKClient
 
-    var psbt: Psbt?
     var buildTransactionViewError: AppError?
-    var showingBuildTransactionViewErrorAlert = false
     var calculateFee: String?
+    var psbt: Psbt?
+    var showingBuildTransactionViewErrorAlert = false
 
     init(
         bdkClient: BDKClient = .live
@@ -34,6 +34,34 @@ class BuildTransactionViewModel {
         } catch {
             self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
+        }
+    }
+
+    func extractTransaction() -> BitcoinDevKit.Transaction? {
+        guard let psbt = self.psbt else {
+            return nil
+        }
+        do {
+            let transaction = try psbt.extractTx()
+            return transaction
+        } catch let error {
+            self.buildTransactionViewError = .generic(
+                message: "Failed to extract transaction: \(error.localizedDescription)"
+            )
+            self.showingBuildTransactionViewErrorAlert = true
+            return nil
+        }
+    }
+
+    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
+        do {
+            let calculateFee = try bdkClient.calculateFee(tx)
+            let feeString = String(calculateFee.toSat())
+            self.calculateFee = feeString
+        } catch let error as CalculateFeeError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
+        } catch {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
         }
     }
 
@@ -56,34 +84,6 @@ class BuildTransactionViewModel {
         } catch {
             self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
-        }
-    }
-
-    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
-        do {
-            let calculateFee = try bdkClient.calculateFee(tx)
-            let feeString = String(calculateFee.toSat())
-            self.calculateFee = feeString
-        } catch let error as CalculateFeeError {
-            self.buildTransactionViewError = .generic(message: error.localizedDescription)
-        } catch {
-            self.buildTransactionViewError = .generic(message: error.localizedDescription)
-        }
-    }
-
-    func extractTransaction() -> BitcoinDevKit.Transaction? {
-        guard let psbt = self.psbt else {
-            return nil
-        }
-        do {
-            let transaction = try psbt.extractTx()
-            return transaction
-        } catch let error {
-            self.buildTransactionViewError = .generic(
-                message: "Failed to extract transaction: \(error.localizedDescription)"
-            )
-            self.showingBuildTransactionViewErrorAlert = true
-            return nil
         }
     }
 

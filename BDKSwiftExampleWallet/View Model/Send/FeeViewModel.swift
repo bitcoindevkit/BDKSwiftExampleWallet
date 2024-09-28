@@ -14,10 +14,7 @@ class FeeViewModel {
     let feeClient: FeeClient
     let bdkClient: BDKClient
 
-    var recommendedFees: RecommendedFees?
     var feeViewError: AppError?
-    var showingFeeViewErrorAlert = false
-    var selectedFeeIndex: Int = 2
     var selectedFee: Int? {
         guard let fees = recommendedFees else {
             return nil
@@ -36,6 +33,9 @@ class FeeViewModel {
         let feeText = text(for: selectedFeeIndex)
         return "Selected \(feeText) Fee: \(selectedFee) sats"
     }
+    var selectedFeeIndex: Int = 2
+    var recommendedFees: RecommendedFees?
+    var showingFeeViewErrorAlert = false
 
     init(feeClient: FeeClient = .live, bdkClient: BDKClient = .live) {
         self.feeClient = feeClient

@@ -9,9 +9,9 @@ import BitcoinDevKit
 import SwiftUI
 
 struct LocalOutputItemView: View {
-    let output: LocalOutput
-    let isRedacted: Bool
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
+    let isRedacted: Bool
+    let output: LocalOutput
 
     var body: some View {
         HStack(spacing: 15) {
@@ -69,5 +69,8 @@ struct LocalOutputItemView: View {
 }
 
 #Preview {
-    LocalOutputItemView(output: .mock, isRedacted: false)
+    LocalOutputItemView(
+        isRedacted: false,
+        output: .mock
+    )
 }

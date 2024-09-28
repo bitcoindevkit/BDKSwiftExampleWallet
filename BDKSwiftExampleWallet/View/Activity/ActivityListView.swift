@@ -24,9 +24,9 @@ struct ActivityListView: View {
 
                 if viewModel.displayMode == .transactions {
                     TransactionListView(
+                        viewModel: .init(),
                         transactions: viewModel.transactions,
-                        walletSyncState: viewModel.walletSyncState,
-                        viewModel: .init()
+                        walletSyncState: viewModel.walletSyncState
                     )
                     .transition(.blurReplace)
                 } else {
