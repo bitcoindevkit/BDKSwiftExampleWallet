@@ -674,6 +674,7 @@
       }
     },
     "To" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
