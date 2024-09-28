@@ -119,6 +119,7 @@ struct BuildTransactionView: View {
 
                     )
                     .padding()
+                    .accessibilityLabel("Send Transaction")
 
                 } else if isSent && viewModel.buildTransactionViewError == nil {
                     VStack {

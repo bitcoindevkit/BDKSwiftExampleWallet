@@ -133,6 +133,9 @@
         }
       }
     },
+    "%lld satoshis per vbyte" : {
+
+    },
     "%lld Transaction%@" : {
       "localizations" : {
         "en" : {
@@ -251,6 +254,9 @@
           }
         }
       }
+    },
+    "Bitcoin Balance" : {
+
     },
     "Block %@" : {
       "localizations" : {
@@ -567,6 +573,9 @@
         }
       }
     },
+    "Select Bitcoin Network" : {
+
+    },
     "Select Fee" : {
       "localizations" : {
         "fr" : {
@@ -577,6 +586,9 @@
         }
       }
     },
+    "Select Transaction Fee" : {
+
+    },
     "Send" : {
       "localizations" : {
         "fr" : {
@@ -586,6 +598,9 @@
           }
         }
       }
+    },
+    "Send Transaction" : {
+
     },
     "Settings Error" : {
       "localizations" : {

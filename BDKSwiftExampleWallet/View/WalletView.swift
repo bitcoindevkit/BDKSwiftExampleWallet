@@ -56,6 +56,9 @@ struct WalletView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                     }
+                    .accessibilityLabel("Bitcoin Balance")
+                    .accessibilityValue("\(viewModel.balanceTotal.formattedSatoshis()) sats")
+
                     HStack {
                         if viewModel.walletSyncState == .syncing {
                             Image(systemName: "chart.bar.fill")
