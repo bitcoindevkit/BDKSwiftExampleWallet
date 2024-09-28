@@ -12,8 +12,9 @@ import Foundation
 @Observable
 class TransactionListViewModel {
     let bdkClient: BDKClient
-    var walletTransactionsViewError: AppError?
+
     var showingWalletTransactionsViewErrorAlert = false
+    var walletTransactionsViewError: AppError?
 
     init(
         bdkClient: BDKClient = .live

@@ -12,15 +12,16 @@ import Foundation
 @Observable
 class ActivityListViewModel {
     let bdkClient: BDKClient
-    var walletSyncState: WalletSyncState
-    var transactions: [CanonicalTx]
-    var walletViewError: AppError?
-    var showingWalletViewErrorAlert = false
-    var progress: Float = 0.0
-    var inspectedScripts: UInt64 = 0
-    var totalScripts: UInt64 = 0
-    var localOutputs: [LocalOutput] = []
+
     var displayMode: DisplayMode = .transactions
+    var inspectedScripts: UInt64 = 0
+    var localOutputs: [LocalOutput] = []
+    var progress: Float = 0.0
+    var transactions: [CanonicalTx]
+    var showingWalletViewErrorAlert = false
+    var totalScripts: UInt64 = 0
+    var walletSyncState: WalletSyncState
+    var walletViewError: AppError?
 
     enum DisplayMode {
         case transactions
@@ -29,17 +30,18 @@ class ActivityListViewModel {
 
     init(
         bdkClient: BDKClient = .live,
-        walletSyncState: WalletSyncState = .notStarted,
-        transactions: [CanonicalTx] = []
+        transactions: [CanonicalTx] = [],
+        walletSyncState: WalletSyncState = .notStarted
     ) {
         self.bdkClient = bdkClient
-        self.walletSyncState = walletSyncState
         self.transactions = transactions
+        self.walletSyncState = walletSyncState
     }
 
-    func listUnspent() {
+    func getTransactions() {
         do {
-            self.localOutputs = try bdkClient.listUnspent()
+            let transactionDetails = try bdkClient.transactions()
+            self.transactions = transactionDetails
         } catch let error as WalletError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
@@ -49,10 +51,9 @@ class ActivityListViewModel {
         }
     }
 
-    func getTransactions() {
+    func listUnspent() {
         do {
-            let transactionDetails = try bdkClient.transactions()
-            self.transactions = transactionDetails
+            self.localOutputs = try bdkClient.listUnspent()
         } catch let error as WalletError {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true

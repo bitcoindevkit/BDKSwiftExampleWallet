@@ -10,10 +10,10 @@ import BitcoinUI
 import SwiftUI
 
 struct TransactionItemView: View {
-    let sentAndReceivedValues: SentAndReceivedValues
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     let canonicalTx: CanonicalTx
     let isRedacted: Bool
-    @Environment(\.dynamicTypeSize) var dynamicTypeSize
+    let sentAndReceivedValues: SentAndReceivedValues
 
     var body: some View {
 
@@ -115,9 +115,9 @@ struct TransactionItemView: View {
 #if DEBUG
     #Preview {
         TransactionItemView(
-            sentAndReceivedValues: .mock,
             canonicalTx: .mock,
-            isRedacted: false
+            isRedacted: false,
+            sentAndReceivedValues: .mock
         )
     }
 #endif

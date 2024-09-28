@@ -16,16 +16,9 @@ class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool?
-
+    @Published var createWithPersistError: CreateWithPersistError?
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: AppError?
-    @Published var createWithPersistError: CreateWithPersistError?
-    @Published var words: String = "" {
-        didSet {
-            updateWordArray()
-        }
-    }
-    @Published var wordArray: [String] = []
     @Published var selectedNetwork: Network = .signet {
         didSet {
             do {
@@ -51,7 +44,12 @@ class OnboardingViewModel: ObservableObject {
             }
         }
     }
-
+    @Published var words: String = "" {
+        didSet {
+            updateWordArray()
+        }
+    }
+    @Published var wordArray: [String] = []
     var availableURLs: [String] {
         switch selectedNetwork {
         case .bitcoin:
@@ -64,7 +62,6 @@ class OnboardingViewModel: ObservableObject {
             return Constants.Config.EsploraServerURLNetwork.Signet.allValues
         }
     }
-
     var buttonColor: Color {
         switch selectedNetwork {
         case .bitcoin:

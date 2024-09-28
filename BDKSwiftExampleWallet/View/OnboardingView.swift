@@ -10,8 +10,8 @@ import BitcoinUI
 import SwiftUI
 
 struct OnboardingView: View {
-    @ObservedObject var viewModel: OnboardingViewModel
     @AppStorage("isOnboarding") var isOnboarding: Bool?
+    @ObservedObject var viewModel: OnboardingViewModel
     @State private var showingOnboardingViewErrorAlert = false
     @State private var showingImportView = false
     let pasteboard = UIPasteboard.general

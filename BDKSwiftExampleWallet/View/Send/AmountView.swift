@@ -9,10 +9,10 @@ import BitcoinUI
 import SwiftUI
 
 struct AmountView: View {
-    let address: String
     @Bindable var viewModel: AmountViewModel
-    @State var numpadAmount = "0"
     @Binding var navigationPath: NavigationPath
+    @State var numpadAmount = "0"
+    let address: String
 
     var body: some View {
 
@@ -141,9 +141,9 @@ struct NumpadButton: View {
 #if DEBUG
     #Preview {
         AmountView(
-            address: "address",
             viewModel: .init(bdkClient: .mock),
-            navigationPath: .constant(NavigationPath())
+            navigationPath: .constant(NavigationPath()),
+            address: "address"
         )
     }
 #endif

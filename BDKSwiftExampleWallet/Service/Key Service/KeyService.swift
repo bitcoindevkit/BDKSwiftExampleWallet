@@ -20,10 +20,16 @@ private struct KeyService {
         self.keychain = keychain
     }
 
-    func saveBackupInfo(backupInfo: BackupInfo) throws {
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(backupInfo)
-        keychain[data: "BackupInfo"] = data
+    func deleteBackupInfo() throws {
+        try keychain.remove("BackupInfo")
+    }
+
+    func deleteEsploraURL() throws {
+        try keychain.remove("SelectedEsploraURL")
+    }
+
+    func deleteNetwork() throws {
+        try keychain.remove("SelectedNetwork")
     }
 
     func getBackupInfo() throws -> BackupInfo {
@@ -35,90 +41,83 @@ private struct KeyService {
         return backupInfo
     }
 
-    func deleteBackupInfo() throws {
-        try keychain.remove("BackupInfo")
-    }
-}
-
-extension KeyService {
-    func saveNetwork(network: String) throws {
-        keychain[string: "SelectedNetwork"] = network
+    func getEsploraURL() throws -> String? {
+        return keychain[string: "SelectedEsploraURL"]
     }
 
     func getNetwork() throws -> String? {
         return keychain[string: "SelectedNetwork"]
     }
 
-    func deleteNetwork() throws {
-        try keychain.remove("SelectedNetwork")
+    func saveBackupInfo(backupInfo: BackupInfo) throws {
+        let encoder = JSONEncoder()
+        let data = try encoder.encode(backupInfo)
+        keychain[data: "BackupInfo"] = data
     }
 
     func saveEsploraURL(url: String) throws {
         keychain[string: "SelectedEsploraURL"] = url
     }
 
-    func getEsploraURL() throws -> String? {
-        return keychain[string: "SelectedEsploraURL"]
-    }
-
-    func deleteEsploraURL() throws {
-        try keychain.remove("SelectedEsploraURL")
+    func saveNetwork(network: String) throws {
+        keychain[string: "SelectedNetwork"] = network
     }
 }
 
 struct KeyClient {
-    let saveBackupInfo: (BackupInfo) throws -> Void
-    let getBackupInfo: () throws -> BackupInfo
     let deleteBackupInfo: () throws -> Void
-
-    let saveNetwork: (String) throws -> Void
+    let deleteEsplora: () throws -> Void
+    let deleteNetwork: () throws -> Void
+    let getBackupInfo: () throws -> BackupInfo
+    let getEsploraURL: () throws -> String?
     let getNetwork: () throws -> String?
     let saveEsploraURL: (String) throws -> Void
-    let getEsploraURL: () throws -> String?
-    let deleteNetwork: () throws -> Void
-    let deleteEsplora: () throws -> Void
+    let saveBackupInfo: (BackupInfo) throws -> Void
+    let saveNetwork: (String) throws -> Void
 
     private init(
-        saveBackupInfo: @escaping (BackupInfo) throws -> Void,
-        getBackupInfo: @escaping () throws -> BackupInfo,
         deleteBackupInfo: @escaping () throws -> Void,
-        saveNetwork: @escaping (String) throws -> Void,
-        getNetwork: @escaping () throws -> String?,
-        saveEsploraURL: @escaping (String) throws -> Void,
-        getEsploraURL: @escaping () throws -> String?,
+        deleteEsplora: @escaping () throws -> Void,
         deleteNetwork: @escaping () throws -> Void,
-        deleteEsplora: @escaping () throws -> Void
+        getBackupInfo: @escaping () throws -> BackupInfo,
+        getEsploraURL: @escaping () throws -> String?,
+        getNetwork: @escaping () throws -> String?,
+        saveBackupInfo: @escaping (BackupInfo) throws -> Void,
+        saveEsploraURL: @escaping (String) throws -> Void,
+        saveNetwork: @escaping (String) throws -> Void
     ) {
-        self.saveBackupInfo = saveBackupInfo
-        self.getBackupInfo = getBackupInfo
         self.deleteBackupInfo = deleteBackupInfo
-        self.saveNetwork = saveNetwork
-        self.getNetwork = getNetwork
-        self.saveEsploraURL = saveEsploraURL
-        self.getEsploraURL = getEsploraURL
-        self.deleteNetwork = deleteNetwork
         self.deleteEsplora = deleteEsplora
+        self.deleteNetwork = deleteNetwork
+        self.getBackupInfo = getBackupInfo
+        self.getEsploraURL = getEsploraURL
+        self.getNetwork = getNetwork
+        self.saveBackupInfo = saveBackupInfo
+        self.saveEsploraURL = saveEsploraURL
+        self.saveNetwork = saveNetwork
     }
 }
 
 extension KeyClient {
     static let live = Self(
-        saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
-        getBackupInfo: { try KeyService().getBackupInfo() },
         deleteBackupInfo: { try KeyService().deleteBackupInfo() },
-        saveNetwork: { network in try KeyService().saveNetwork(network: network) },
-        getNetwork: { try KeyService().getNetwork() },
-        saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
-        getEsploraURL: { try KeyService().getEsploraURL() },
+        deleteEsplora: { try KeyService().deleteEsploraURL() },
         deleteNetwork: { try KeyService().deleteNetwork() },
-        deleteEsplora: { try KeyService().deleteEsploraURL() }
+        getBackupInfo: { try KeyService().getBackupInfo() },
+        getEsploraURL: { try KeyService().getEsploraURL() },
+        getNetwork: { try KeyService().getNetwork() },
+        saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
+        saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
+        saveNetwork: { network in try KeyService().saveNetwork(network: network) }
     )
 }
 
 #if DEBUG
     extension KeyClient {
         static let mock = Self(
-            saveBackupInfo: { _ in },
+            deleteBackupInfo: { try KeyService().deleteBackupInfo() },
+            deleteEsplora: {},
+            deleteNetwork: {},
             getBackupInfo: {
                 let words12 =
                     "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
@@ -145,13 +144,11 @@ extension KeyClient {
                 )
                 return backupInfo
             },
-            deleteBackupInfo: { try KeyService().deleteBackupInfo() },
-            saveNetwork: { _ in },
-            getNetwork: { nil },
-            saveEsploraURL: { _ in },
             getEsploraURL: { nil },
-            deleteNetwork: {},
-            deleteEsplora: {}
+            getNetwork: { nil },
+            saveBackupInfo: { _ in },
+            saveEsploraURL: { _ in },
+            saveNetwork: { _ in }
         )
     }
 #endif

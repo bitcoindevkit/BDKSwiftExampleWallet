@@ -11,11 +11,10 @@ import SwiftUI
 
 struct TransactionDetailView: View {
     @Bindable var viewModel: TransactionDetailViewModel
-
-    let canonicalTx: CanonicalTx
-    let amount: UInt64
     @State private var isCopied = false
     @State private var showCheckmark = false
+    let amount: UInt64
+    let canonicalTx: CanonicalTx
 
     var body: some View {
 
@@ -175,8 +174,8 @@ struct TransactionDetailView: View {
     #Preview {
         TransactionDetailView(
             viewModel: .init(bdkClient: .mock, keyClient: .mock),
-            canonicalTx: .mock,
-            amount: UInt64(1_000_000)
+            amount: UInt64(1_000_000),
+            canonicalTx: .mock
         )
     }
 #endif

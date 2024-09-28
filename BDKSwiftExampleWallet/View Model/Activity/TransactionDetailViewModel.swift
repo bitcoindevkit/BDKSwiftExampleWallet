@@ -15,15 +15,13 @@ class TransactionDetailViewModel {
     let bdkClient: BDKClient
     let keyClient: KeyClient
 
-    var network: String?
-    var esploraURL: String?
-
-    var esploraError: EsploraError?
-    var calculateFeeError: CalculateFeeError?
-    var transactionDetailsError: AppError?
-
-    var showingTransactionDetailsViewErrorAlert = false
     var calculateFee: String?
+    var calculateFeeError: CalculateFeeError?
+    var esploraError: EsploraError?
+    var esploraURL: String?
+    var network: String?
+    var showingTransactionDetailsViewErrorAlert = false
+    var transactionDetailsError: AppError?
 
     init(
         bdkClient: BDKClient = .live,
@@ -33,14 +31,16 @@ class TransactionDetailViewModel {
         self.keyClient = keyClient
     }
 
-    func getNetwork() {
+    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
         do {
-            self.network = try keyClient.getNetwork()
-        } catch {
+            let calculateFee = try bdkClient.calculateFee(tx)
+            let feeString = String(calculateFee.toSat())
+            self.calculateFee = feeString
+        } catch let error as CalculateFeeError {
             DispatchQueue.main.async {
-                self.transactionDetailsError = .generic(message: error.localizedDescription)
+                self.calculateFeeError = error
             }
-        }
+        } catch {}
     }
 
     func getEsploraUrl() {
@@ -58,6 +58,16 @@ class TransactionDetailViewModel {
         } catch {}
     }
 
+    func getNetwork() {
+        do {
+            self.network = try keyClient.getNetwork()
+        } catch {
+            DispatchQueue.main.async {
+                self.transactionDetailsError = .generic(message: error.localizedDescription)
+            }
+        }
+    }
+
     func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {
         do {
             let sentAndReceived = try bdkClient.sentAndReceived(tx)
@@ -68,18 +78,6 @@ class TransactionDetailViewModel {
             }
             return nil
         }
-    }
-
-    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
-        do {
-            let calculateFee = try bdkClient.calculateFee(tx)
-            let feeString = String(calculateFee.toSat())
-            self.calculateFee = feeString
-        } catch let error as CalculateFeeError {
-            DispatchQueue.main.async {
-                self.calculateFeeError = error
-            }
-        } catch {}
     }
 
 }

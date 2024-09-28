@@ -15,9 +15,12 @@ struct LocalOutputListView: View {
     var body: some View {
         List {
             if localOutputs.isEmpty && walletSyncState == .syncing {
-                LocalOutputItemView(output: .mock, isRedacted: true)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
+                LocalOutputItemView(
+                    isRedacted: true,
+                    output: .mock
+                )
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
             } else if localOutputs.isEmpty {
                 Text("No Unspent")
                     .font(.subheadline)
@@ -25,7 +28,10 @@ struct LocalOutputListView: View {
                     .listRowSeparator(.hidden)
             } else {
                 ForEach(localOutputs, id: \.outpoint) { output in
-                    LocalOutputItemView(output: output, isRedacted: false)
+                    LocalOutputItemView(
+                        isRedacted: false,
+                        output: output
+                    )
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)

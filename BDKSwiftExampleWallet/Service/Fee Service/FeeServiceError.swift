@@ -8,7 +8,7 @@
 import Foundation
 
 enum FeeServiceError: Error {
-    case invalidURL
     case invalidServerResponse
+    case invalidURL
     case serialization
 }

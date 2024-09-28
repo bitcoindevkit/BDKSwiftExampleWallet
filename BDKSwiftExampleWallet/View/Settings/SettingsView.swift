@@ -9,11 +9,11 @@ import BitcoinUI
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: SettingsViewModel
+    @State private var isSeedPresented = false
     @State private var showingDeleteSeedConfirmation = false
     @State private var showingShowSeedConfirmation = false
-    @State private var isSeedPresented = false
-    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
 

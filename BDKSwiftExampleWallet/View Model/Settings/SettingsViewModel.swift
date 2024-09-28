@@ -14,13 +14,11 @@ class SettingsViewModel: ObservableObject {
     let keyClient: KeyClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
-
+    @Published var esploraURL: String?
+    @Published var inspectedScripts: UInt64 = 0
+    @Published var network: String?
     @Published var settingsError: AppError?
     @Published var showingSettingsViewErrorAlert = false
-    @Published var network: String?
-    @Published var esploraURL: String?
-
-    @Published var inspectedScripts: UInt64 = 0
     @Published var walletSyncState: WalletSyncState = .notStarted
 
     init(
@@ -29,6 +27,20 @@ class SettingsViewModel: ObservableObject {
     ) {
         self.bdkClient = bdkClient
         self.keyClient = keyClient
+    }
+
+    func delete() {
+        do {
+            try bdkClient.deleteWallet()
+            DispatchQueue.main.async {
+                self.isOnboarding = true
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.settingsError = .generic(message: error.localizedDescription)
+                self.showingSettingsViewErrorAlert = true
+            }
+        }
     }
 
     func fullScanWithProgress() async {
@@ -68,26 +80,6 @@ class SettingsViewModel: ObservableObject {
         }
     }
 
-    private func updateProgressFullScan(inspected: UInt64) {
-        DispatchQueue.main.async {
-            self.inspectedScripts = inspected
-        }
-    }
-
-    func delete() {
-        do {
-            try bdkClient.deleteWallet()
-            DispatchQueue.main.async {
-                self.isOnboarding = true
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-                self.showingSettingsViewErrorAlert = true
-            }
-        }
-    }
-
     func getNetwork() {
         do {
             self.network = try keyClient.getNetwork()
@@ -108,4 +100,11 @@ class SettingsViewModel: ObservableObject {
             }
         }
     }
+
+    private func updateProgressFullScan(inspected: UInt64) {
+        DispatchQueue.main.async {
+            self.inspectedScripts = inspected
+        }
+    }
+
 }

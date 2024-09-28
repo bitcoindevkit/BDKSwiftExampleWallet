@@ -11,13 +11,13 @@ import SwiftUI
 
 struct WalletView: View {
     @Bindable var viewModel: WalletViewModel
+    @Binding var sendNavigationPath: NavigationPath
     @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
     @State private var showAllTransactions = false
     @State private var showReceiveView = false
     @State private var showSettingsView = false
-    @Binding var sendNavigationPath: NavigationPath
 
     var body: some View {
 
@@ -158,9 +158,9 @@ struct WalletView: View {
                     }
                     .fontWeight(.bold)
                     TransactionListView(
+                        viewModel: .init(),
                         transactions: viewModel.recentTransactions,
-                        walletSyncState: viewModel.walletSyncState,
-                        viewModel: .init()
+                        walletSyncState: viewModel.walletSyncState
                     )
                     .refreshable {
                         await viewModel.syncOrFullScan()
@@ -233,24 +233,24 @@ struct WalletView: View {
                 AddressView(navigationPath: $sendNavigationPath)
             case .amount(let address):
                 AmountView(
-                    address: address,
                     viewModel: .init(),
-                    navigationPath: $sendNavigationPath
+                    navigationPath: $sendNavigationPath,
+                    address: address
                 )
             case .fee(let amount, let address):
                 FeeView(
-                    amount: amount,
-                    address: address,
                     viewModel: .init(),
-                    navigationPath: $sendNavigationPath
+                    navigationPath: $sendNavigationPath,
+                    address: address,
+                    amount: amount
                 )
             case .buildTransaction(let amount, let address, let fee):
                 BuildTransactionView(
-                    amount: amount,
-                    address: address,
-                    fee: fee,
                     viewModel: .init(),
-                    navigationPath: $sendNavigationPath
+                    navigationPath: $sendNavigationPath,
+                    address: address,
+                    amount: amount,
+                    fee: fee
                 )
             }
         }
@@ -295,10 +295,10 @@ struct WalletView: View {
     #Preview("WalletView - en") {
         WalletView(
             viewModel: .init(
-                priceClient: .mock,
                 bdkClient: .mock,
-                walletSyncState: .synced,
-                transactions: [.mock]
+                priceClient: .mock,
+                transactions: [.mock],
+                walletSyncState: .synced
             ),
             sendNavigationPath: .constant(.init())
         )

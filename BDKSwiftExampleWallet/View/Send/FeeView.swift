@@ -10,10 +10,10 @@ import BitcoinUI
 import SwiftUI
 
 struct FeeView: View {
-    let amount: String
-    let address: String
     @Bindable var viewModel: FeeViewModel
     @Binding var navigationPath: NavigationPath
+    let address: String
+    let amount: String
 
     var body: some View {
 
@@ -120,10 +120,10 @@ struct FeeView: View {
 #if DEBUG
     #Preview {
         FeeView(
-            amount: "50",
-            address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
             viewModel: .init(feeClient: .mock, bdkClient: .mock),
-            navigationPath: .constant(NavigationPath())
+            navigationPath: .constant(NavigationPath()),
+            address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
+            amount: "50"
         )
     }
 #endif
