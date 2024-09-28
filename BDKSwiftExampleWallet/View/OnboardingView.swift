@@ -87,6 +87,7 @@ struct OnboardingView: View {
                 }
                 .pickerStyle(.automatic)
                 .tint(.primary)
+                .accessibilityLabel("Select Bitcoin Network")
 
                 Picker(
                     "Esplora Server",

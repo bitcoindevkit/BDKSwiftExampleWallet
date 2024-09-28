@@ -26,6 +26,7 @@ struct FeeView: View {
 
                 HStack {
                     Spacer()
+
                     Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
                         HStack {
                             Image(
@@ -70,9 +71,13 @@ struct FeeView: View {
                     }
                     .pickerStyle(.automatic)
                     .tint(.primary)
+                    .accessibilityLabel("Select Transaction Fee")
+                    .accessibilityValue("\(viewModel.selectedFee ?? 1) satoshis per vbyte")
+
                     Text("sat/vb")
                         .foregroundColor(.secondary)
                         .fontWeight(.thin)
+
                     Spacer()
                 }
 
