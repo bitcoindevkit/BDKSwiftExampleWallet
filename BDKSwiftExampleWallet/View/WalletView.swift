@@ -31,7 +31,7 @@ struct WalletView: View {
                     Text("Bitcoin".uppercased())
                         .fontWeight(.semibold)
                         .fontWidth(.expanded)
-                        .foregroundColor(.bitcoinOrange)
+                        .foregroundStyle(Color.bitcoinOrange)
                         .scaleEffect(isAnimating ? 1.0 : 0.6)
                         .onAppear {
                             withAnimation(.easeOut(duration: 0.5)) {
@@ -41,7 +41,7 @@ struct WalletView: View {
                     withAnimation {
                         HStack(spacing: 15) {
                             Image(systemName: "bitcoinsign")
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                                 .font(.title)
                                 .fontWeight(.thin)
                             Text(viewModel.balanceTotal.formattedSatoshis())
@@ -49,7 +49,7 @@ struct WalletView: View {
                                 .fontWeight(.semibold)
                                 .fontDesign(.rounded)
                             Text("sats")
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                                 .fontWeight(.thin)
                         }
                         .font(.largeTitle)
@@ -70,7 +70,7 @@ struct WalletView: View {
                             .contentTransition(.numericText())
                             .fontDesign(.rounded)
                     }
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                     .font(.subheadline)
                 }
                 .padding(.vertical, 20.0)
@@ -110,7 +110,7 @@ struct WalletView: View {
                                 }
                             }
                             .fontDesign(.monospaced)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(.secondary)
                             .font(.caption2)
                             .fontWeight(.thin)
                             .animation(.easeInOut, value: viewModel.inspectedScripts)
@@ -126,7 +126,7 @@ struct WalletView: View {
                                         )
                                 } else if viewModel.walletSyncState == .synced {
                                     Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(
+                                        .foregroundStyle(
                                             viewModel.walletSyncState == .synced
                                                 ? .green : .secondary
                                         )
@@ -141,7 +141,7 @@ struct WalletView: View {
                             .contentTransition(.symbolEffect(.replace.offUp))
 
                         }
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                         .font(.caption)
 
                         if viewModel.walletSyncState == .synced {
@@ -153,7 +153,7 @@ struct WalletView: View {
                                     Image(systemName: "arrow.right")
                                 }
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                                 .fontWeight(.regular)
                             }
                         }
@@ -178,7 +178,7 @@ struct WalletView: View {
                         } label: {
                             Image(systemName: "qrcode")
                                 .font(.title)
-                                .foregroundColor(.primary)
+                                .foregroundStyle(.primary)
                         }
 
                         Spacer()
@@ -186,7 +186,7 @@ struct WalletView: View {
                         NavigationLink(value: NavigationDestination.address) {
                             Image(systemName: "qrcode.viewfinder")
                                 .font(.title)
-                                .foregroundColor(.primary)
+                                .foregroundStyle(.primary)
                         }
                     }
                     .padding([.horizontal, .bottom])

@@ -46,7 +46,7 @@ struct BuildTransactionView: View {
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .fontDesign(.rounded)
-                                .foregroundColor(.primary)
+                                .foregroundStyle(.primary)
                         } else {
                             Text("...")
                         }
@@ -166,7 +166,7 @@ struct BuildTransactionView: View {
                     } else if isSent && viewModel.buildTransactionViewError == nil {
                         VStack {
                             Image(systemName: "checkmark")
-                                .foregroundColor(.green)
+                                .foregroundStyle(.green)
                             if let transaction = viewModel.extractTransaction() {
                                 HStack {
                                     Text(transaction.computeTxid())
@@ -191,7 +191,7 @@ struct BuildTransactionView: View {
                                             }
                                         }
                                         .fontWeight(.semibold)
-                                        .foregroundColor(.bitcoinOrange)
+                                        .foregroundStyle(Color.bitcoinOrange)
                                     }
                                 }
                                 .fontDesign(.monospaced)

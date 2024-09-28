@@ -39,7 +39,7 @@ struct LocalOutputItemView: View {
                     .fontDesign(.monospaced)
                     .fontWeight(.semibold)
                     .font(.title)
-                    .foregroundColor(.primary)
+                    .foregroundStyle(.primary)
 
                 Text("Vout: \(output.outpoint.vout)")
                     .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
@@ -47,7 +47,7 @@ struct LocalOutputItemView: View {
                     .fontWidth(.condensed)
 
             }
-            .foregroundColor(.secondary)
+            .foregroundStyle(.secondary)
             .font(.subheadline)
             .padding(.trailing, 30.0)
             .redacted(reason: isRedacted ? .placeholder : [])

@@ -52,10 +52,10 @@ struct TransactionDetailView: View {
                 switch canonicalTx.chainPosition {
                 case .confirmed(let confirmationBlockTime):
                     Text("Block \(confirmationBlockTime.blockId.height.delimiter)")
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 case .unconfirmed(_):
                     Text("Unconfirmed")
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
 
             }
@@ -71,7 +71,7 @@ struct TransactionDetailView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
                 .font(.largeTitle)
-                .foregroundColor(.primary)
+                .foregroundStyle(.primary)
                 .fontWeight(.bold)
                 .fontDesign(.rounded)
                 VStack(spacing: 4) {
@@ -95,7 +95,7 @@ struct TransactionDetailView: View {
                         Text("\(fee.formattedWithSeparator) sats fee")
                     }
                 }
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
                 .font(.callout)
             }
 
@@ -115,7 +115,7 @@ struct TransactionDetailView: View {
                     } label: {
                         Image(systemName: "safari")
                             .fontWeight(.semibold)
-                            .foregroundColor(.bitcoinOrange)
+                            .foregroundStyle(Color.bitcoinOrange)
                     }
                     Spacer()
                 }
@@ -142,7 +142,7 @@ struct TransactionDetailView: View {
                         }
                     }
                     .fontWeight(.semibold)
-                    .foregroundColor(.bitcoinOrange)
+                    .foregroundStyle(Color.bitcoinOrange)
                 }
             }
             .fontDesign(.monospaced)

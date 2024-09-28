@@ -31,7 +31,7 @@ struct AmountView: View {
                         }
                         .fontWeight(.semibold)
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                     }
                     if let balance = viewModel.balanceConfirmed {
                         HStack(spacing: 2) {
@@ -40,7 +40,7 @@ struct AmountView: View {
                         }
                         .fontWeight(.semibold)
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                     }
                 }
 
