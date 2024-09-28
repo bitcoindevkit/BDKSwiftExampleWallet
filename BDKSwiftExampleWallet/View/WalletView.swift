@@ -145,9 +145,9 @@ struct WalletView: View {
                         .font(.caption)
 
                         if viewModel.walletSyncState == .synced {
-                            Button(action: {
+                            Button {
                                 showAllTransactions = true
-                            }) {
+                            } label: {
                                 HStack(spacing: 2) {
                                     Text("Show All")
                                     Image(systemName: "arrow.right")
@@ -173,9 +173,9 @@ struct WalletView: View {
                     }
 
                     HStack {
-                        Button(action: {
+                        Button {
                             showReceiveView = true
-                        }) {
+                        } label: {
                             Image(systemName: "qrcode")
                                 .font(.title)
                                 .foregroundColor(.primary)
@@ -282,9 +282,9 @@ struct WalletView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
+                Button {
                     showSettingsView = true
-                }) {
+                } label: {
                     Image(systemName: "person.and.background.dotted")
                 }
             }

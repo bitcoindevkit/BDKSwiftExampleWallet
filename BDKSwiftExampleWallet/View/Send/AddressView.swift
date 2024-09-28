@@ -104,7 +104,9 @@ struct CustomScannerView: View {
 
                 VStack {
                     HStack {
-                        Button(action: { dismiss() }) {
+                        Button {
+                            dismiss()
+                        } label: {
                             Image(systemName: "xmark")
                                 .foregroundColor(.white)
                                 .font(.system(size: 20, weight: .bold))
@@ -120,7 +122,9 @@ struct CustomScannerView: View {
 
                     Spacer()
 
-                    Button(action: pasteAction) {
+                    Button {
+                        pasteAction()
+                    } label: {
                         Text("Paste Address")
                             .padding()
                             .foregroundColor(Color(uiColor: .label))
