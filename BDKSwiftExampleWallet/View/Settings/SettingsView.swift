@@ -28,7 +28,7 @@ struct SettingsView: View {
             .padding(.horizontal, 20.0)
             .padding(.top, 40.0)
             .padding(.bottom, -40.0)
-            .foregroundColor(.secondary)
+            .foregroundStyle(.secondary)
 
             Form {
 
@@ -37,7 +37,7 @@ struct SettingsView: View {
                         Text(
                             "\(network.capitalized) • \(url.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: ""))"
                         )
-                        .foregroundColor(.primary)
+                        .foregroundStyle(.primary)
                     } else {
                         HStack {
                             Text("No Network")
@@ -53,11 +53,11 @@ struct SettingsView: View {
                     } label: {
                         Text("Full Scan")
                     }
-                    .foregroundColor(.bitcoinOrange)
+                    .foregroundStyle(Color.bitcoinOrange)
                     if viewModel.walletSyncState == .syncing {
                         Text("\(viewModel.inspectedScripts)")
                             .contentTransition(.numericText())
-                            .foregroundColor(.primary)
+                            .foregroundStyle(.primary)
                             .animation(.easeInOut, value: viewModel.inspectedScripts)
                     }
                 }

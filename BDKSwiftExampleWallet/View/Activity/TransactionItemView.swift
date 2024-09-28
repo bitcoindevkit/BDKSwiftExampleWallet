@@ -61,7 +61,7 @@ struct TransactionItemView: View {
                     .fontDesign(.monospaced)
                     .fontWeight(.semibold)
                     .font(.title)
-                    .foregroundColor(.primary)
+                    .foregroundStyle(.primary)
                 switch canonicalTx.chainPosition {
                 case .confirmed(let confirmationBlockTime):
                     Text(
@@ -85,7 +85,7 @@ struct TransactionItemView: View {
                     .fontWidth(.condensed)
                 }
             }
-            .foregroundColor(.secondary)
+            .foregroundStyle(.secondary)
             .font(.subheadline)
             .padding(.trailing, 30.0)
             .redacted(reason: isRedacted ? .placeholder : [])

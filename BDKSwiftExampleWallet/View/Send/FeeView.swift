@@ -75,7 +75,7 @@ struct FeeView: View {
                     .accessibilityValue("\(viewModel.selectedFee ?? 1) satoshis per vbyte")
 
                     Text("sat/vb")
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                         .fontWeight(.thin)
 
                     Spacer()

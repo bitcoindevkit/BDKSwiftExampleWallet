@@ -67,14 +67,14 @@ struct CustomSegmentedControl: View {
     }
 
     private func segmentButton(for mode: ActivityListViewModel.DisplayMode) -> some View {
-        Button(action: {
+        Button {
             withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
                 selection = mode
             }
-        }) {
+        } label: {
             Text(mode == .transactions ? "Transactions" : "Unspent")
                 .bold()
-                .foregroundColor(selection == mode ? .primary : .gray)
+                .foregroundStyle(selection == mode ? Color.primary : Color.gray)
         }
     }
 }
