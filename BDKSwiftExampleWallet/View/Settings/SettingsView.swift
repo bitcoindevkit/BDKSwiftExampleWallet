@@ -9,6 +9,7 @@ import BitcoinUI
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: SettingsViewModel
     @State private var isSeedPresented = false
@@ -44,6 +45,9 @@ struct SettingsView: View {
                         }
                     }
                 }
+                .listRowBackground(
+                    colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
+                )
 
                 Section(header: Text("Wallet")) {
                     Button {
@@ -61,6 +65,9 @@ struct SettingsView: View {
                             .animation(.easeInOut, value: viewModel.inspectedScripts)
                     }
                 }
+                .listRowBackground(
+                    colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
+                )
 
                 Section(header: Text("Danger Zone")) {
                     Button {
@@ -70,6 +77,9 @@ struct SettingsView: View {
                             .foregroundStyle(.red)
                     }
                 }
+                .listRowBackground(
+                    colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
+                )
 
                 Section(header: Text("Destructive Zone")) {
                     Button {
@@ -81,6 +91,9 @@ struct SettingsView: View {
                         }
                     }
                 }
+                .listRowBackground(
+                    colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
+                )
 
             }
             .background(Color(uiColor: UIColor.systemBackground))
