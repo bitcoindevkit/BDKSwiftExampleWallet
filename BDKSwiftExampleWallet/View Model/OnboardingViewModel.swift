@@ -14,6 +14,7 @@ import SwiftUI
 // Feature or Bug?
 class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
+    let keyClient: KeyClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     @Published var createWithPersistError: CreateWithPersistError?
@@ -23,9 +24,9 @@ class OnboardingViewModel: ObservableObject {
         didSet {
             do {
                 let networkString = selectedNetwork.description
-                try KeyClient.live.saveNetwork(networkString)
+                try keyClient.saveNetwork(networkString)
                 selectedURL = availableURLs.first ?? ""
-                try KeyClient.live.saveEsploraURL(selectedURL)
+                try keyClient.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
                     self.onboardingViewError = .generic(message: error.localizedDescription)
@@ -36,7 +37,7 @@ class OnboardingViewModel: ObservableObject {
     @Published var selectedURL: String = "" {
         didSet {
             do {
-                try KeyClient.live.saveEsploraURL(selectedURL)
+                try keyClient.saveEsploraURL(selectedURL)
             } catch {
                 DispatchQueue.main.async {
                     self.onboardingViewError = .generic(message: error.localizedDescription)
@@ -75,15 +76,19 @@ class OnboardingViewModel: ObservableObject {
         }
     }
 
-    init(bdkClient: BDKClient = .live) {
+    init(
+        bdkClient: BDKClient = .live,
+        keyClient: KeyClient = .live
+    ) {
         self.bdkClient = bdkClient
+        self.keyClient = keyClient
         do {
-            if let networkString = try KeyClient.live.getNetwork() {
+            if let networkString = try keyClient.getNetwork() {
                 self.selectedNetwork = Network(stringValue: networkString) ?? .signet
             } else {
                 self.selectedNetwork = .signet
             }
-            if let esploraURL = try KeyClient.live.getEsploraURL() {
+            if let esploraURL = try keyClient.getEsploraURL() {
                 self.selectedURL = esploraURL
             } else {
                 self.selectedURL = availableURLs.first ?? ""
