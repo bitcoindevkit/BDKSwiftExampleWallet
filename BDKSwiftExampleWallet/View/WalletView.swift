@@ -66,9 +66,17 @@ struct WalletView: View {
                                     .variableColor.cumulative
                                 )
                         }
-                        Text(viewModel.satsPrice, format: .currency(code: "USD"))
-                            .contentTransition(.numericText())
-                            .fontDesign(.rounded)
+                        if viewModel.walletSyncState == .synced {
+                            Text(viewModel.satsPrice, format: .currency(code: "USD"))
+                                .fontDesign(.rounded)
+                                .contentTransition(.numericText())
+                                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5), value: viewModel.satsPrice)
+                        } else {
+                            Text("$")
+                                .foregroundStyle(.secondary)
+                                .fontDesign(.rounded)
+                                .transition(.opacity)
+                        }
                     }
                     .foregroundStyle(.secondary)
                     .font(.subheadline)
