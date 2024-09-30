@@ -182,9 +182,6 @@
         }
       }
     },
-    "$" : {
-
-    },
     "12 Word Seed Phrase (Optional)" : {
       "extractionState" : "stale",
       "localizations" : {

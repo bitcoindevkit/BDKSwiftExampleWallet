@@ -58,28 +58,41 @@ struct WalletView: View {
                     }
                     .accessibilityLabel("Bitcoin Balance")
                     .accessibilityValue("\(viewModel.balanceTotal.formattedSatoshis()) sats")
-
                     HStack {
                         if viewModel.walletSyncState == .syncing {
                             Image(systemName: "chart.bar.fill")
-                                .symbolEffect(
-                                    .variableColor.cumulative
-                                )
+                                .symbolEffect(.variableColor.cumulative)
+                                .transition(.symbolEffect(.appear))
                         }
-                        if viewModel.walletSyncState == .synced {
-                            Text(viewModel.satsPrice, format: .currency(code: "USD"))
-                                .fontDesign(.rounded)
-                                .contentTransition(.numericText())
-                                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5), value: viewModel.satsPrice)
-                        } else {
-                            Text("$")
-                                .foregroundStyle(.secondary)
-                                .fontDesign(.rounded)
-                                .transition(.opacity)
-                        }
+                        Text(
+                            viewModel.satsPrice > 0 || viewModel.walletSyncState == .synced
+                                ? viewModel.satsPrice.formatted(.currency(code: "USD")) : ""
+                        )
+                        .fontDesign(.rounded)
+                        .foregroundStyle(
+                            viewModel.walletSyncState == .synced ? .secondary : .tertiary
+                        )
+                        .opacity(
+                            viewModel.walletSyncState == .syncing && viewModel.satsPrice == 0
+                                ? 0.7 : 1
+                        )
+                        .contentTransition(.numericText())
+                        .animation(
+                            .spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5),
+                            value: viewModel.satsPrice
+                        )
                     }
                     .foregroundStyle(.secondary)
                     .font(.subheadline)
+                    .animation(
+                        .interpolatingSpring(
+                            mass: 1,
+                            stiffness: 100,
+                            damping: 10,
+                            initialVelocity: 0
+                        ),
+                        value: viewModel.walletSyncState
+                    )
                 }
                 .padding(.vertical, 20.0)
 
