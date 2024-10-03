@@ -119,6 +119,7 @@ struct BuildTransactionView: View {
                         Button {
                             if let amt = UInt64(amount) {
                                 viewModel.buildTransactionViewError = nil
+                                isError = false
                                 viewModel.send(
                                     address: address,
                                     amount: amt,
@@ -138,7 +139,6 @@ struct BuildTransactionView: View {
                                     }
                                 }
                             } else {
-                                self.isError = true
                             }
                         } label: {
                             Text("Send")
@@ -158,12 +158,12 @@ struct BuildTransactionView: View {
                                     textColor: Color(uiColor: .systemBackground),
                                     isCapsule: true
                                 )
-
                         )
                         .padding()
                         .accessibilityLabel("Send Transaction")
+                        .disabled(isError)
 
-                    } else if isSent && viewModel.buildTransactionViewError == nil {
+                    } else if isSent && !isError {
                         VStack {
                             Image(systemName: "checkmark")
                                 .foregroundStyle(.green)
@@ -222,6 +222,8 @@ struct BuildTransactionView: View {
                     message: Text(viewModel.buildTransactionViewError?.description ?? "Unknown"),
                     dismissButton: .default(Text("OK")) {
                         viewModel.buildTransactionViewError = nil
+                        isError = true
+                        isSent = false
                     }
                 )
             }
