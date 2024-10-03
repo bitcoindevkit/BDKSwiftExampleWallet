@@ -14,6 +14,7 @@ struct SeedView: View {
     @State private var showCheckmark = false
 
     var body: some View {
+
         ZStack {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
@@ -27,6 +28,15 @@ struct SeedView: View {
                         usePaging: true,
                         wordsPerPage: 4
                     )
+
+                    VStack {
+                        Text("Seed is not synced across devices.")
+                        Text("Please make sure to write it down and store it securely.")
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding()
 
                     HStack {
                         Spacer()
