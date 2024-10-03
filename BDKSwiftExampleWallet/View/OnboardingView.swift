@@ -83,7 +83,6 @@ struct OnboardingView: View {
                 ) {
                     Text("Signet").tag(Network.signet)
                     Text("Testnet").tag(Network.testnet)
-                    Text("Regtest").tag(Network.regtest)
                 }
                 .pickerStyle(.automatic)
                 .tint(.primary)
