@@ -17,6 +17,7 @@ class BuildTransactionViewModel {
     var calculateFee: String?
     var psbt: Psbt?
     var showingBuildTransactionViewErrorAlert = false
+    var transactionSentSuccessfully = false
 
     init(
         bdkClient: BDKClient = .live
@@ -29,6 +30,9 @@ class BuildTransactionViewModel {
             let txBuilderResult = try bdkClient.buildTransaction(address, amount, feeRate)
             self.psbt = txBuilderResult
         } catch let error as WalletError {
+            self.buildTransactionViewError = .generic(message: error.localizedDescription)
+            self.showingBuildTransactionViewErrorAlert = true
+        } catch let error as AddressParseError {
             self.buildTransactionViewError = .generic(message: error.localizedDescription)
             self.showingBuildTransactionViewErrorAlert = true
         } catch {
@@ -68,6 +72,7 @@ class BuildTransactionViewModel {
     func send(address: String, amount: UInt64, feeRate: UInt64) {
         do {
             try bdkClient.send(address, amount, feeRate)
+            self.transactionSentSuccessfully = true
             NotificationCenter.default.post(
                 name: Notification.Name("TransactionSent"),
                 object: nil

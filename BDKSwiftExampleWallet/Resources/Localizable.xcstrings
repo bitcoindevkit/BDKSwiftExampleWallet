@@ -543,6 +543,7 @@
       }
     },
     "Regtest" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
