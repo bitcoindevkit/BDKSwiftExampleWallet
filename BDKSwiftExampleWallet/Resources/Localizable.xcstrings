@@ -519,6 +519,9 @@
         }
       }
     },
+    "Please make sure to write it down and store it securely." : {
+
+    },
     "powered by Bitcoin Dev Kit" : {
 
     },
@@ -573,6 +576,9 @@
           }
         }
       }
+    },
+    "Seed is not synced across devices." : {
+
     },
     "Select Bitcoin Network" : {
 
