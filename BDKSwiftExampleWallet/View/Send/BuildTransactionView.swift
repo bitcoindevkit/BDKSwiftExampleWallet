@@ -149,12 +149,12 @@ struct BuildTransactionView: View {
                         .buttonStyle(
                             isSent
                                 ? BitcoinFilled(
-                                    tintColor: .bitcoinRed,
+                                    tintColor: .secondary,
                                     textColor: Color(uiColor: .systemBackground),
                                     isCapsule: true
                                 )
                                 : BitcoinFilled(
-                                    tintColor: .bitcoinOrange,
+                                    tintColor: .primary,
                                     textColor: Color(uiColor: .systemBackground),
                                     isCapsule: true
                                 )
@@ -188,10 +188,11 @@ struct BuildTransactionView: View {
                                                     systemName: showCheckmark
                                                         ? "checkmark" : "doc.on.doc"
                                                 )
+                                                .foregroundStyle(.primary)
                                             }
                                         }
                                         .fontWeight(.semibold)
-                                        .foregroundStyle(Color.bitcoinOrange)
+                                        .foregroundStyle(.primary)
                                     }
                                 }
                                 .fontDesign(.monospaced)

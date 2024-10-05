@@ -115,7 +115,7 @@ struct TransactionDetailView: View {
                     } label: {
                         Image(systemName: "safari")
                             .fontWeight(.semibold)
-                            .foregroundStyle(Color.bitcoinOrange)
+                            .foregroundStyle(.primary)
                     }
                     Spacer()
                 }
@@ -142,7 +142,7 @@ struct TransactionDetailView: View {
                         }
                     }
                     .fontWeight(.semibold)
-                    .foregroundStyle(Color.bitcoinOrange)
+                    .foregroundStyle(.primary)
                 }
             }
             .fontDesign(.monospaced)

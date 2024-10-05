@@ -75,7 +75,7 @@ struct ReceiveView: View {
                             }
                         }
                         .fontWeight(.semibold)
-                        .foregroundStyle(Color.bitcoinOrange)
+                        .foregroundStyle(.primary)
                     }
                 }
                 .padding()

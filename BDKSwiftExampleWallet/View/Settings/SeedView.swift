@@ -63,7 +63,7 @@ struct SeedView: View {
                             BitcoinFilled(
                                 width: 120,
                                 height: 40,
-                                tintColor: .bitcoinOrange,
+                                tintColor: .primary,
                                 textColor: Color(uiColor: .systemBackground),
                                 isCapsule: true
                             )

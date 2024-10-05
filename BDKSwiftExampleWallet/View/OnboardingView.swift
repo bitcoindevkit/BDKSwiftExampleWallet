@@ -126,7 +126,7 @@ struct OnboardingView: View {
                 }
                 .buttonStyle(
                     BitcoinFilled(
-                        tintColor: .bitcoinOrange,
+                        tintColor: .primary,
                         textColor: Color(uiColor: .systemBackground),
                         isCapsule: true
                     )

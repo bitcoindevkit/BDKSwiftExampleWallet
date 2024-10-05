@@ -98,7 +98,13 @@ struct FeeView: View {
                     )
                     .labelStyle(.iconOnly)
                 }
-                .buttonStyle(BitcoinOutlined(width: 100, isCapsule: true))
+                .buttonStyle(
+                    BitcoinOutlined(
+                        width: 100,
+                        tintColor: .primary,
+                        isCapsule: true
+                    )
+                )
 
             }
             .padding()
