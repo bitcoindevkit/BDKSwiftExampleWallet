@@ -15,8 +15,8 @@ struct Constants {
                 private static let blockstream = "https://blockstream.info/api"
                 private static let mempoolspace = "https://mempool.space/api"
                 static let allValues = [
-                    blockstream,
                     mempoolspace,
+                    blockstream,
                 ]
             }
             struct Regtest {
@@ -35,12 +35,12 @@ struct Constants {
             }
             struct Testnet {
                 static let blockstream = "http://blockstream.info/testnet/api/"
-                static let kuutamo = "https://esplora.testnet.kuutamo.cloud"
+                //static let kuutamo = "https://esplora.testnet.kuutamo.cloud"
                 static let mempoolspace = "https://mempool.space/testnet/api/"
                 static let allValues = [
-                    blockstream,
-                    kuutamo,
                     mempoolspace,
+                    blockstream,
+                    //kuutamo,
                 ]
             }
         }
