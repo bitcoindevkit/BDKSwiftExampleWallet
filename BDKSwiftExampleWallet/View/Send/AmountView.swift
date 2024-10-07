@@ -24,6 +24,8 @@ struct AmountView: View {
                 VStack(spacing: 4) {
                     Text("\(numpadAmount.formattedWithSeparator) sats")
                         .textStyle(BitcoinTitle1())
+                        .contentTransition(.numericText())
+                        .animation(.default, value: numpadAmount)
                     if let balance = viewModel.balanceTotal {
                         HStack(spacing: 2) {
                             Text(balance.delimiter)
