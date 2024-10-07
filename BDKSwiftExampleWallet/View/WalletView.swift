@@ -48,7 +48,6 @@ struct WalletView: View {
                                 .contentTransition(.numericText())
                                 .fontWeight(.semibold)
                                 .fontDesign(.rounded)
-                                .animation(.default, value: viewModel.balanceTotal)
                             Text("sats")
                                 .foregroundStyle(.secondary)
                                 .fontWeight(.thin)
