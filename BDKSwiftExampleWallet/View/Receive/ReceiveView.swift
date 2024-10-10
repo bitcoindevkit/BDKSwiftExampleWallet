@@ -52,10 +52,6 @@ struct ReceiveView: View {
                 .padding()
 
                 HStack {
-                    Text(viewModel.address)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                        .fontDesign(.monospaced)
                     Button {
                         UIPasteboard.general.string = viewModel.address
                         isCopied = true
@@ -66,6 +62,10 @@ struct ReceiveView: View {
                         }
                     } label: {
                         HStack {
+                            Text(viewModel.address)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                                .fontDesign(.monospaced)
                             withAnimation {
                                 Image(
                                     systemName: showCheckmark
