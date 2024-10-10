@@ -13,27 +13,41 @@ import SwiftUI
 @MainActor
 class SeedViewModel {
     let bdkService: BDKClient
+    let keyService: KeyClient
 
-    var seed: BackupInfo?
+    var backupInfo: BackupInfo?
     var seedViewError: AppError?
     var showingSeedViewErrorAlert: Bool
 
     init(
         bdkService: BDKClient = .live,
-        seed: BackupInfo? = nil,
+        keyService: KeyClient = .live,
+        backupInfo: BackupInfo? = nil,
         seedViewError: AppError? = nil,
         showingSeedViewErrorAlert: Bool = false
     ) {
         self.bdkService = bdkService
-        self.seed = seed
+        self.keyService = keyService
+        self.backupInfo = backupInfo
         self.seedViewError = seedViewError
         self.showingSeedViewErrorAlert = showingSeedViewErrorAlert
     }
+    
+    func getNetwork() {
+        
+    }
 
-    func getSeed() {
+    func getBackupInfo() {
         do {
-            let seed = try bdkService.getBackupInfo()
-            self.seed = seed
+            let backupInfo = try bdkService.getBackupInfo()
+            
+            let externalPublicDescriptor = try Descriptor.init(descriptor: backupInfo.descriptor, network: .signet)
+            print("externalPublicDescriptor: \(externalPublicDescriptor)")
+            
+            let internalPublicDescriptor = try Descriptor.init(descriptor: backupInfo.changeDescriptor, network: .signet)
+            print("internalPublicDescriptor: \(internalPublicDescriptor)")
+            
+            self.backupInfo = backupInfo
         } catch {
             self.seedViewError = .generic(message: error.localizedDescription)
             self.showingSeedViewErrorAlert = true
