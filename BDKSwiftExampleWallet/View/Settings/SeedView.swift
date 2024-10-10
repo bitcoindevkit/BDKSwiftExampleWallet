@@ -55,13 +55,46 @@ struct SeedView: View {
                                         ? "document.on.document.fill" : "document.on.document"
                                 )
                                 .contentTransition(.symbolEffect(.replace))
-                                Text("Copy")
+                                Text("Seed")
                                     .bold()
                             }
                         }
                         .buttonStyle(
                             BitcoinFilled(
                                 width: 120,
+                                height: 40,
+                                tintColor: .primary,
+                                textColor: Color(uiColor: .systemBackground),
+                                isCapsule: true
+                            )
+                        )
+                        Spacer()
+                    }
+
+                    HStack {
+                        Spacer()
+                        Button {
+                            UIPasteboard.general.string = seed.descriptor
+                            isCopied = true
+                            showCheckmark = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                isCopied = false
+                                showCheckmark = false
+                            }
+                        } label: {
+                            HStack {
+                                Image(
+                                    systemName: showCheckmark
+                                        ? "document.on.document.fill" : "document.on.document"
+                                )
+                                .contentTransition(.symbolEffect(.replace))
+                                Text("Descriptor")
+                                    .bold()
+                            }
+                        }
+                        .buttonStyle(
+                            BitcoinFilled(
+                                width: 160,
                                 height: 40,
                                 tintColor: .primary,
                                 textColor: Color(uiColor: .systemBackground),

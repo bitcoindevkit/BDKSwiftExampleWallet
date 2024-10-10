@@ -13,6 +13,7 @@ import SwiftUI
 @MainActor
 class SeedViewModel {
     let bdkService: BDKClient
+    let keyService: KeyClient
 
     var seed: BackupInfo?
     var seedViewError: AppError?
@@ -20,11 +21,13 @@ class SeedViewModel {
 
     init(
         bdkService: BDKClient = .live,
+        keyService: KeyClient = .live,
         seed: BackupInfo? = nil,
         seedViewError: AppError? = nil,
         showingSeedViewErrorAlert: Bool = false
     ) {
         self.bdkService = bdkService
+        self.keyService = keyService
         self.seed = seed
         self.seedViewError = seedViewError
         self.showingSeedViewErrorAlert = showingSeedViewErrorAlert

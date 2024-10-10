@@ -289,6 +289,7 @@
       }
     },
     "Copy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -327,6 +328,9 @@
           }
         }
       }
+    },
+    "Descriptor" : {
+
     },
     "Destructive Zone" : {
       "localizations" : {
@@ -576,6 +580,9 @@
           }
         }
       }
+    },
+    "Seed" : {
+
     },
     "Seed is not synced across devices." : {
 
