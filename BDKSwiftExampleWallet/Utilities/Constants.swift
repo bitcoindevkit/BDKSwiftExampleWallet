@@ -34,7 +34,7 @@ struct Constants {
                 ]
             }
             struct Testnet {
-                static let blockstream = "http://blockstream.info/testnet/api/"
+                static let blockstream = "https://blockstream.info/testnet/api/"
                 //static let kuutamo = "https://esplora.testnet.kuutamo.cloud"
                 static let mempoolspace = "https://mempool.space/testnet/api/"
                 static let allValues = [
