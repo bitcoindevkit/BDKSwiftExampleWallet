@@ -119,10 +119,6 @@ struct TransactionDetailView: View {
                     }
                     Spacer()
                 }
-                Text(canonicalTx.transaction.computeTxid())
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                Spacer()
                 Button {
                     UIPasteboard.general.string = canonicalTx.transaction.computeTxid()
                     isCopied = true
@@ -133,6 +129,9 @@ struct TransactionDetailView: View {
                     }
                 } label: {
                     HStack {
+                        Text(canonicalTx.transaction.computeTxid())
+                            .lineLimit(1)
+                            .truncationMode(.middle)
                         withAnimation {
                             Image(
                                 systemName: showCheckmark
