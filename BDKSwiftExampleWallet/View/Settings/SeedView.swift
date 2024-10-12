@@ -97,6 +97,6 @@ struct SeedView: View {
 
 #if DEBUG
     #Preview {
-        SeedView(viewModel: .init(bdkService: .mock))
+        SeedView(viewModel: .init(bdkClient: .mock))
     }
 #endif

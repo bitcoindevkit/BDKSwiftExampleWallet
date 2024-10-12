@@ -12,19 +12,19 @@ import SwiftUI
 @Observable
 @MainActor
 class SeedViewModel {
-    let bdkService: BDKClient
+    let bdkClient: BDKClient
 
     var seed: BackupInfo?
     var seedViewError: AppError?
     var showingSeedViewErrorAlert: Bool
 
     init(
-        bdkService: BDKClient = .live,
+        bdkClient: BDKClient = .live,
         seed: BackupInfo? = nil,
         seedViewError: AppError? = nil,
         showingSeedViewErrorAlert: Bool = false
     ) {
-        self.bdkService = bdkService
+        self.bdkClient = bdkClient
         self.seed = seed
         self.seedViewError = seedViewError
         self.showingSeedViewErrorAlert = showingSeedViewErrorAlert
@@ -32,7 +32,7 @@ class SeedViewModel {
 
     func getSeed() {
         do {
-            let seed = try bdkService.getBackupInfo()
+            let seed = try bdkClient.getBackupInfo()
             self.seed = seed
         } catch {
             self.seedViewError = .generic(message: error.localizedDescription)
