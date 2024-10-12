@@ -398,6 +398,9 @@
         }
       }
     },
+    "Get sats from faucet" : {
+
+    },
     "HomeView Error" : {
       "localizations" : {
         "fr" : {
