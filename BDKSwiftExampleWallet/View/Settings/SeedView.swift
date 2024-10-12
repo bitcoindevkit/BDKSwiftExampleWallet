@@ -44,7 +44,7 @@ struct SeedView: View {
                             UIPasteboard.general.string = seed.mnemonic
                             isCopied = true
                             showCheckmark = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                                 isCopied = false
                                 showCheckmark = false
                             }
