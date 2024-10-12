@@ -85,12 +85,7 @@ struct WalletView: View {
                     .foregroundStyle(.secondary)
                     .font(.subheadline)
                     .animation(
-                        .interpolatingSpring(
-                            mass: 1,
-                            stiffness: 100,
-                            damping: 10,
-                            initialVelocity: 0
-                        ),
+                        .spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5),
                         value: viewModel.walletSyncState
                     )
                 }
