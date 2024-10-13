@@ -21,7 +21,6 @@ class OnboardingViewModel: ObservableObject {
     @Published var onboardingViewError: AppError?
     @Published var selectedNetwork: Network = .signet {
         didSet {
-            print("OnboardingViewModel: Network changed from \(oldValue) to \(selectedNetwork)")
             bdkClient.updateNetwork(selectedNetwork)
             selectedURL = availableURLs.first ?? ""
             bdkClient.updateEsploraURL(selectedURL)
@@ -29,7 +28,6 @@ class OnboardingViewModel: ObservableObject {
     }
     @Published var selectedURL: String = "" {
         didSet {
-            print("OnboardingViewModel: Esplora URL changed from \(oldValue) to \(selectedURL)")
             bdkClient.updateEsploraURL(selectedURL)
         }
     }
@@ -68,17 +66,12 @@ class OnboardingViewModel: ObservableObject {
         bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-        print("OnboardingViewModel: Initializing")
 
         let currentNetwork = bdkClient.getNetwork()
         let currentURL = bdkClient.getEsploraURL()
 
         self.selectedNetwork = currentNetwork
         self.selectedURL = currentURL
-
-        print(
-            "OnboardingViewModel: Initialized with network \(self.selectedNetwork) and URL \(self.selectedURL)"
-        )
     }
 
     func createWallet() {

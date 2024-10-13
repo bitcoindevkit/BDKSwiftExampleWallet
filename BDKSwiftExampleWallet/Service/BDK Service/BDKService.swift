@@ -30,33 +30,27 @@ private class BDKService {
             try! keyClient.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
         self.esploraClient = EsploraClient(url: self.esploraURL)
 
-        print("BDKService initialized - Network: \(self.network), Esplora URL: \(self.esploraURL)")
     }
 
     func updateNetwork(_ newNetwork: Network) {
         if newNetwork != self.network {
-            print("Updating network from \(self.network) to \(newNetwork)")
             self.network = newNetwork
             try? keyClient.saveNetwork(newNetwork.description)
             updateEsploraClient()
         } else {
-            print("Network update skipped: already set to \(newNetwork)")
         }
     }
 
     func updateEsploraURL(_ newURL: String) {
         if newURL != self.esploraURL {
-            print("Updating Esplora URL from \(self.esploraURL) to \(newURL)")
             self.esploraURL = newURL
             try? keyClient.saveEsploraURL(newURL)
             updateEsploraClient()
         } else {
-            print("Esplora URL update skipped: already set to \(newURL)")
         }
     }
 
     private func updateEsploraClient() {
-        print("Updating Esplora client with URL: \(self.esploraURL)")
         self.esploraClient = EsploraClient(url: self.esploraURL)
     }
 
@@ -379,21 +373,15 @@ extension BDKClient {
         needsFullScan: { BDKService.shared.needsFullScanOfWallet() },
         setNeedsFullScan: { value in BDKService.shared.setNeedsFullScan(value) },
         getNetwork: {
-            let network = BDKService.shared.network
-            print("BDKClient: Getting network - \(network)")
-            return network
+            BDKService.shared.network
         },
         getEsploraURL: {
-            let url = BDKService.shared.esploraURL
-            print("BDKClient: Getting Esplora URL - \(url)")
-            return url
+            BDKService.shared.esploraURL
         },
         updateNetwork: { newNetwork in
-            print("BDKClient: Updating network to \(newNetwork)")
             BDKService.shared.updateNetwork(newNetwork)
         },
         updateEsploraURL: { newURL in
-            print("BDKClient: Updating Esplora URL to \(newURL)")
             BDKService.shared.updateEsploraURL(newURL)
         }
     )

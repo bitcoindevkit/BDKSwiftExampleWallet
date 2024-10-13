@@ -24,22 +24,15 @@ class SettingsViewModel: ObservableObject {
         bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-        print("SettingsViewModel: Initializing")
         self.network = bdkClient.getNetwork().description
         self.esploraURL = bdkClient.getEsploraURL()
-        print(
-            "SettingsViewModel: Initialized with network \(self.network ?? "nil") and URL \(self.esploraURL ?? "nil")"
-        )
     }
 
     func delete() {
-        print("SettingsViewModel: Deleting wallet")
         do {
             try bdkClient.deleteWallet()
             isOnboarding = true
-            print("SettingsViewModel: Wallet deleted successfully")
         } catch {
-            print("SettingsViewModel: Error deleting wallet - \(error.localizedDescription)")
             self.settingsError = .generic(message: error.localizedDescription)
             self.showingSettingsViewErrorAlert = true
         }
@@ -84,12 +77,10 @@ class SettingsViewModel: ObservableObject {
 
     func getNetwork() {
         self.network = bdkClient.getNetwork().description
-        print("SettingsViewModel: Retrieved network - \(self.network ?? "nil")")
     }
 
     func getEsploraUrl() {
         self.esploraURL = bdkClient.getEsploraURL()
-        print("SettingsViewModel: Retrieved Esplora URL - \(self.esploraURL ?? "nil")")
     }
 
     private func updateProgressFullScan(inspected: UInt64) {
