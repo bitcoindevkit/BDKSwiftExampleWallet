@@ -41,28 +41,16 @@ class TransactionDetailViewModel {
     }
 
     func getEsploraUrl() {
-        //        do {
-        let savedEsploraURL = bdkClient.getEsploraURL()  //try keyClient.getEsploraURL()
+        let savedEsploraURL = bdkClient.getEsploraURL()
         if network == "Signet" {
             self.esploraURL = "https://mempool.space/signet"
         } else {
             self.esploraURL = savedEsploraURL
         }
-        //        } catch let error as EsploraError {
-        //            DispatchQueue.main.async {
-        //                self.esploraError = error
-        //            }
-        //        } catch {}
     }
 
     func getNetwork() {
-        //        do {
-        self.network = bdkClient.getNetwork().description  //try keyClient.getNetwork()
-        //        } catch {
-        //            DispatchQueue.main.async {
-        //                self.transactionDetailsError = .generic(message: error.localizedDescription)
-        //            }
-        //        }
+        self.network = bdkClient.getNetwork().description
     }
 
     func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {

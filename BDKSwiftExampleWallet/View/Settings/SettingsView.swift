@@ -146,8 +146,7 @@ struct SettingsView: View {
     #Preview {
         SettingsView(
             viewModel: .init(
-                bdkClient: .mock  //,
-                    //            keyClient: .mock
+                bdkClient: .mock
             )
         )
     }

@@ -92,27 +92,6 @@ class SettingsViewModel: ObservableObject {
         print("SettingsViewModel: Retrieved Esplora URL - \(self.esploraURL ?? "nil")")
     }
 
-    //    func getNetwork() {
-    //        do {
-    //            self.network = try keyClient.getNetwork()
-    //        } catch {
-    //            DispatchQueue.main.async {
-    //                self.settingsError = .generic(message: error.localizedDescription)
-    //                self.showingSettingsViewErrorAlert = true
-    //            }
-    //        }
-    //    }
-    //
-    //    func getEsploraUrl() {
-    //        do {
-    //            self.esploraURL = try keyClient.getEsploraURL()
-    //        } catch {
-    //            DispatchQueue.main.async {
-    //                self.settingsError = .generic(message: error.localizedDescription)
-    //            }
-    //        }
-    //    }
-
     private func updateProgressFullScan(inspected: UInt64) {
         DispatchQueue.main.async {
             self.inspectedScripts = inspected
