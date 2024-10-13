@@ -22,14 +22,11 @@ private class BDKService {
 
     init(keyClient: KeyClient = .live) {
         self.keyClient = keyClient
-
         let storedNetworkString = try? keyClient.getNetwork() ?? Network.signet.description
         self.network = Network(stringValue: storedNetworkString ?? "") ?? .signet
-
         self.esploraURL =
             try! keyClient.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
         self.esploraClient = EsploraClient(url: self.esploraURL)
-
     }
 
     func updateNetwork(_ newNetwork: Network) {
