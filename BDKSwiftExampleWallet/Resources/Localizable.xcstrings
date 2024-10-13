@@ -674,7 +674,6 @@
       }
     },
     "Testnet" : {
-      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

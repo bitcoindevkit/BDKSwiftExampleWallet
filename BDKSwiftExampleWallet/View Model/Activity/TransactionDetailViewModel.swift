@@ -13,7 +13,6 @@ import Observation
 @Observable
 class TransactionDetailViewModel {
     let bdkClient: BDKClient
-    let keyClient: KeyClient
 
     var calculateFee: String?
     var calculateFeeError: CalculateFeeError?
@@ -24,11 +23,9 @@ class TransactionDetailViewModel {
     var transactionDetailsError: AppError?
 
     init(
-        bdkClient: BDKClient = .live,
-        keyClient: KeyClient = .live
+        bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-        self.keyClient = keyClient
     }
 
     func getCalulateFee(tx: BitcoinDevKit.Transaction) {
@@ -44,28 +41,28 @@ class TransactionDetailViewModel {
     }
 
     func getEsploraUrl() {
-        do {
-            let savedEsploraURL = try keyClient.getEsploraURL()
-            if network == "Signet" {
+        let savedEsploraURL = bdkClient.getEsploraURL()
+        
+        switch network {
+        case "signet":
+            if savedEsploraURL == Constants.Config.EsploraServerURLNetwork.Signet.bdk {
                 self.esploraURL = "https://mempool.space/signet"
             } else {
-                self.esploraURL = savedEsploraURL
+                self.esploraURL = "https://mutinynet.com"
             }
-        } catch let error as EsploraError {
-            DispatchQueue.main.async {
-                self.esploraError = error
+        case "testnet":
+            if savedEsploraURL == Constants.Config.EsploraServerURLNetwork.Testnet.blockstream {
+                self.esploraURL = "https://blockstream.info/testnet"
+            } else {
+                self.esploraURL = "https://mempool.space/testnet"
             }
-        } catch {}
+        default:
+            self.esploraURL = savedEsploraURL
+        }
     }
 
     func getNetwork() {
-        do {
-            self.network = try keyClient.getNetwork()
-        } catch {
-            DispatchQueue.main.async {
-                self.transactionDetailsError = .generic(message: error.localizedDescription)
-            }
-        }
+        self.network = bdkClient.getNetwork().description
     }
 
     func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {

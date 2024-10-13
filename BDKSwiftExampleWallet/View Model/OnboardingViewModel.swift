@@ -14,7 +14,6 @@ import SwiftUI
 // Feature or Bug?
 class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
-    let keyClient: KeyClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     @Published var createWithPersistError: CreateWithPersistError?
@@ -22,27 +21,14 @@ class OnboardingViewModel: ObservableObject {
     @Published var onboardingViewError: AppError?
     @Published var selectedNetwork: Network = .signet {
         didSet {
-            do {
-                let networkString = selectedNetwork.description
-                try keyClient.saveNetwork(networkString)
-                selectedURL = availableURLs.first ?? ""
-                try keyClient.saveEsploraURL(selectedURL)
-            } catch {
-                DispatchQueue.main.async {
-                    self.onboardingViewError = .generic(message: error.localizedDescription)
-                }
-            }
+            bdkClient.updateNetwork(selectedNetwork)
+            selectedURL = availableURLs.first ?? ""
+            bdkClient.updateEsploraURL(selectedURL)
         }
     }
     @Published var selectedURL: String = "" {
         didSet {
-            do {
-                try keyClient.saveEsploraURL(selectedURL)
-            } catch {
-                DispatchQueue.main.async {
-                    self.onboardingViewError = .generic(message: error.localizedDescription)
-                }
-            }
+            bdkClient.updateEsploraURL(selectedURL)
         }
     }
     @Published var words: String = "" {
@@ -77,27 +63,11 @@ class OnboardingViewModel: ObservableObject {
     }
 
     init(
-        bdkClient: BDKClient = .live,
-        keyClient: KeyClient = .live
+        bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-        self.keyClient = keyClient
-        do {
-            if let networkString = try keyClient.getNetwork() {
-                self.selectedNetwork = Network(stringValue: networkString) ?? .signet
-            } else {
-                self.selectedNetwork = .signet
-            }
-            if let esploraURL = try keyClient.getEsploraURL() {
-                self.selectedURL = esploraURL
-            } else {
-                self.selectedURL = availableURLs.first ?? ""
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.onboardingViewError = .generic(message: error.localizedDescription)
-            }
-        }
+        self.selectedNetwork = bdkClient.getNetwork()
+        self.selectedURL = bdkClient.getEsploraURL()
     }
 
     func createWallet() {

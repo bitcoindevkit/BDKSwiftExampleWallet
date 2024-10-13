@@ -38,7 +38,10 @@ struct TransactionListView: View {
                     let mutinyFaucetURL = URL(string: "https://faucet.mutinynet.com")
                     let signetFaucetURL = URL(string: "https://signetfaucet.com")
 
-                    if let mutinyFaucetURL, let signetFaucetURL {
+                    if let mutinyFaucetURL,
+                        let signetFaucetURL,
+                        viewModel.getNetwork() != Network.testnet.description
+                    {
 
                         Button {
                             UIApplication.shared.open(
@@ -75,7 +78,9 @@ struct TransactionListView: View {
 
                         NavigationLink(
                             destination: TransactionDetailView(
-                                viewModel: .init(bdkClient: .live, keyClient: .live),
+                                viewModel: .init(
+                                    bdkClient: .live
+                                ),
                                 amount: sentAndReceivedValues.sent.toSat() == 0
                                     ? sentAndReceivedValues.received.toSat()
                                     : sentAndReceivedValues.sent.toSat()

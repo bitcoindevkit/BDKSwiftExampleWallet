@@ -144,6 +144,10 @@ struct SettingsView: View {
 
 #if DEBUG
     #Preview {
-        SettingsView(viewModel: .init(bdkClient: .mock, keyClient: .mock))
+        SettingsView(
+            viewModel: .init(
+                bdkClient: .mock
+            )
+        )
     }
 #endif

@@ -12,17 +12,14 @@ import Foundation
 @Observable
 class TransactionListViewModel {
     let bdkClient: BDKClient
-    let keyClient: KeyClient
 
     var showingWalletTransactionsViewErrorAlert = false
     var walletTransactionsViewError: AppError?
 
     init(
-        bdkClient: BDKClient = .live,
-        keyClient: KeyClient = .live
+        bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-        self.keyClient = keyClient
     }
 
     func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {
@@ -38,9 +35,14 @@ class TransactionListViewModel {
         }
     }
 
-    func getEsploraURL() -> String? {
-        let savedEsploraURL = try? keyClient.getEsploraURL()
+    func getEsploraURL() -> String {
+        let savedEsploraURL = bdkClient.getEsploraURL()
         return savedEsploraURL
+    }
+
+    func getNetwork() -> String {
+        let savedNetwork = bdkClient.getNetwork().description
+        return savedNetwork
     }
 
 }
