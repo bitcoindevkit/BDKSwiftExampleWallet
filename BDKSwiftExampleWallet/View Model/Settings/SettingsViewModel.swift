@@ -11,7 +11,6 @@ import SwiftUI
 
 class SettingsViewModel: ObservableObject {
     let bdkClient: BDKClient
-    let keyClient: KeyClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @Published var esploraURL: String?
@@ -22,18 +21,16 @@ class SettingsViewModel: ObservableObject {
     @Published var walletSyncState: WalletSyncState = .notStarted
 
     init(
-         bdkClient: BDKClient = .live,
-         keyClient: KeyClient = .live
-     ) {
-         self.bdkClient = bdkClient
-         self.keyClient = keyClient
-         print("SettingsViewModel: Initializing")
-         self.network = bdkClient.getNetwork().description
-         self.esploraURL = bdkClient.getEsploraURL()
-         print(
-             "SettingsViewModel: Initialized with network \(self.network ?? "nil") and URL \(self.esploraURL ?? "nil")"
-         )
-     }
+        bdkClient: BDKClient = .live
+    ) {
+        self.bdkClient = bdkClient
+        print("SettingsViewModel: Initializing")
+        self.network = bdkClient.getNetwork().description
+        self.esploraURL = bdkClient.getEsploraURL()
+        print(
+            "SettingsViewModel: Initialized with network \(self.network ?? "nil") and URL \(self.esploraURL ?? "nil")"
+        )
+    }
 
     func delete() {
         print("SettingsViewModel: Deleting wallet")

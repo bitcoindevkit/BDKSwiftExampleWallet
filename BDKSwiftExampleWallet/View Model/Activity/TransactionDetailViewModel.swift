@@ -13,7 +13,6 @@ import Observation
 @Observable
 class TransactionDetailViewModel {
     let bdkClient: BDKClient
-    let keyClient: KeyClient
 
     var calculateFee: String?
     var calculateFeeError: CalculateFeeError?
@@ -24,11 +23,9 @@ class TransactionDetailViewModel {
     var transactionDetailsError: AppError?
 
     init(
-        bdkClient: BDKClient = .live,
-        keyClient: KeyClient = .live
+        bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-        self.keyClient = keyClient
     }
 
     func getCalulateFee(tx: BitcoinDevKit.Transaction) {
@@ -44,28 +41,28 @@ class TransactionDetailViewModel {
     }
 
     func getEsploraUrl() {
-        do {
-            let savedEsploraURL = try keyClient.getEsploraURL()
-            if network == "Signet" {
-                self.esploraURL = "https://mempool.space/signet"
-            } else {
-                self.esploraURL = savedEsploraURL
-            }
-        } catch let error as EsploraError {
-            DispatchQueue.main.async {
-                self.esploraError = error
-            }
-        } catch {}
+        //        do {
+        let savedEsploraURL = bdkClient.getEsploraURL()  //try keyClient.getEsploraURL()
+        if network == "Signet" {
+            self.esploraURL = "https://mempool.space/signet"
+        } else {
+            self.esploraURL = savedEsploraURL
+        }
+        //        } catch let error as EsploraError {
+        //            DispatchQueue.main.async {
+        //                self.esploraError = error
+        //            }
+        //        } catch {}
     }
 
     func getNetwork() {
-        do {
-            self.network = try keyClient.getNetwork()
-        } catch {
-            DispatchQueue.main.async {
-                self.transactionDetailsError = .generic(message: error.localizedDescription)
-            }
-        }
+        //        do {
+        self.network = bdkClient.getNetwork().description  //try keyClient.getNetwork()
+        //        } catch {
+        //            DispatchQueue.main.async {
+        //                self.transactionDetailsError = .generic(message: error.localizedDescription)
+        //            }
+        //        }
     }
 
     func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {
