@@ -34,7 +34,6 @@ private class BDKService {
             self.network = newNetwork
             try? keyClient.saveNetwork(newNetwork.description)
             updateEsploraClient()
-        } else {
         }
     }
 
@@ -43,7 +42,6 @@ private class BDKService {
             self.esploraURL = newURL
             try? keyClient.saveEsploraURL(newURL)
             updateEsploraClient()
-        } else {
         }
     }
 
