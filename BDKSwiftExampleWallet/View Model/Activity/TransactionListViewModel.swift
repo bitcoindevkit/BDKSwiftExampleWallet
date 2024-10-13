@@ -43,4 +43,9 @@ class TransactionListViewModel {
         return savedEsploraURL
     }
 
+    func getNetwork() -> String? {
+        let savedNetwork = try? keyClient.getNetwork()
+        return savedNetwork
+    }
+
 }

@@ -38,7 +38,9 @@ struct TransactionListView: View {
                     let mutinyFaucetURL = URL(string: "https://faucet.mutinynet.com")
                     let signetFaucetURL = URL(string: "https://signetfaucet.com")
 
-                    if let mutinyFaucetURL, let signetFaucetURL {
+                    if let mutinyFaucetURL, let signetFaucetURL,
+                        viewModel.getNetwork() != Network.testnet.description
+                    {
 
                         Button {
                             UIApplication.shared.open(

@@ -77,10 +77,16 @@ struct OnboardingView: View {
                 }
                 .padding()
 
-                Text("Signet")
-                    .foregroundStyle(.primary)
-                    .fontWeight(.light)
-                    .accessibilityLabel("Select Bitcoin Network")
+                Picker(
+                    "Network",
+                    selection: $viewModel.selectedNetwork
+                ) {
+                    Text("Signet").tag(Network.signet)
+                    Text("Testnet").tag(Network.testnet)
+                }
+                .pickerStyle(.automatic)
+                .tint(.primary)
+                .accessibilityLabel("Select Bitcoin Network")
 
                 Picker(
                     "Esplora Server",

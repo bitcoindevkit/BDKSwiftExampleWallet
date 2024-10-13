@@ -22,24 +22,29 @@ class SettingsViewModel: ObservableObject {
     @Published var walletSyncState: WalletSyncState = .notStarted
 
     init(
-        bdkClient: BDKClient = .live,
-        keyClient: KeyClient = .live
-    ) {
-        self.bdkClient = bdkClient
-        self.keyClient = keyClient
-    }
+         bdkClient: BDKClient = .live,
+         keyClient: KeyClient = .live
+     ) {
+         self.bdkClient = bdkClient
+         self.keyClient = keyClient
+         print("SettingsViewModel: Initializing")
+         self.network = bdkClient.getNetwork().description
+         self.esploraURL = bdkClient.getEsploraURL()
+         print(
+             "SettingsViewModel: Initialized with network \(self.network ?? "nil") and URL \(self.esploraURL ?? "nil")"
+         )
+     }
 
     func delete() {
+        print("SettingsViewModel: Deleting wallet")
         do {
             try bdkClient.deleteWallet()
-            DispatchQueue.main.async {
-                self.isOnboarding = true
-            }
+            isOnboarding = true
+            print("SettingsViewModel: Wallet deleted successfully")
         } catch {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-                self.showingSettingsViewErrorAlert = true
-            }
+            print("SettingsViewModel: Error deleting wallet - \(error.localizedDescription)")
+            self.settingsError = .generic(message: error.localizedDescription)
+            self.showingSettingsViewErrorAlert = true
         }
     }
 
@@ -81,25 +86,35 @@ class SettingsViewModel: ObservableObject {
     }
 
     func getNetwork() {
-        do {
-            self.network = try keyClient.getNetwork()
-        } catch {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-                self.showingSettingsViewErrorAlert = true
-            }
-        }
+        self.network = bdkClient.getNetwork().description
+        print("SettingsViewModel: Retrieved network - \(self.network ?? "nil")")
     }
 
     func getEsploraUrl() {
-        do {
-            self.esploraURL = try keyClient.getEsploraURL()
-        } catch {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-            }
-        }
+        self.esploraURL = bdkClient.getEsploraURL()
+        print("SettingsViewModel: Retrieved Esplora URL - \(self.esploraURL ?? "nil")")
     }
+
+    //    func getNetwork() {
+    //        do {
+    //            self.network = try keyClient.getNetwork()
+    //        } catch {
+    //            DispatchQueue.main.async {
+    //                self.settingsError = .generic(message: error.localizedDescription)
+    //                self.showingSettingsViewErrorAlert = true
+    //            }
+    //        }
+    //    }
+    //
+    //    func getEsploraUrl() {
+    //        do {
+    //            self.esploraURL = try keyClient.getEsploraURL()
+    //        } catch {
+    //            DispatchQueue.main.async {
+    //                self.settingsError = .generic(message: error.localizedDescription)
+    //            }
+    //        }
+    //    }
 
     private func updateProgressFullScan(inspected: UInt64) {
         DispatchQueue.main.async {
