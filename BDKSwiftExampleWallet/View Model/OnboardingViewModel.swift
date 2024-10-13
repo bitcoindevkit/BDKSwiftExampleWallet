@@ -66,12 +66,8 @@ class OnboardingViewModel: ObservableObject {
         bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-
-        let currentNetwork = bdkClient.getNetwork()
-        let currentURL = bdkClient.getEsploraURL()
-
-        self.selectedNetwork = currentNetwork
-        self.selectedURL = currentURL
+        self.selectedNetwork = bdkClient.getNetwork()
+        self.selectedURL = bdkClient.getEsploraURL()
     }
 
     func createWallet() {

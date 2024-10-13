@@ -435,7 +435,7 @@ extension BDKClient {
             needsFullScan: { true },
             setNeedsFullScan: { _ in },
             getNetwork: { .signet },
-            getEsploraURL: { "https://blockstream.info/api" },
+            getEsploraURL: { Constants.Config.EsploraServerURLNetwork.Signet.mutiny },
             updateNetwork: { _ in },
             updateEsploraURL: { _ in }
         )
