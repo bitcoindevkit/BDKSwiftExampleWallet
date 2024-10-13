@@ -42,9 +42,21 @@ class TransactionDetailViewModel {
 
     func getEsploraUrl() {
         let savedEsploraURL = bdkClient.getEsploraURL()
-        if network == "Signet" {
-            self.esploraURL = "https://mempool.space/signet"
-        } else {
+        
+        switch network {
+        case "signet":
+            if savedEsploraURL == Constants.Config.EsploraServerURLNetwork.Signet.bdk {
+                self.esploraURL = "https://mempool.space/signet"
+            } else {
+                self.esploraURL = "https://mutinynet.com"
+            }
+        case "testnet":
+            if savedEsploraURL == Constants.Config.EsploraServerURLNetwork.Testnet.blockstream {
+                self.esploraURL = "https://blockstream.info/testnet"
+            } else {
+                self.esploraURL = "https://mempool.space/testnet"
+            }
+        default:
             self.esploraURL = savedEsploraURL
         }
     }
