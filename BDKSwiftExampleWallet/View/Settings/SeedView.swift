@@ -20,7 +20,10 @@ struct SeedView: View {
                 .ignoresSafeArea()
 
             VStack {
-                if let backupInfo = viewModel.backupInfo {
+                if let backupInfo = viewModel.backupInfo,
+                    let publicDescriptor = viewModel.publicDescriptor,
+                    let publicChangeDescriptor = viewModel.publicChangeDescriptor
+                {
 
                     SeedPhraseView(
                         words: backupInfo.mnemonic.components(separatedBy: " "),
@@ -44,7 +47,7 @@ struct SeedView: View {
                             UIPasteboard.general.string = backupInfo.mnemonic
                             isCopied = true
                             showCheckmark = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                                 isCopied = false
                                 showCheckmark = false
                             }
@@ -75,9 +78,13 @@ struct SeedView: View {
                         Spacer()
 
                         let formattedDescriptors = """
-                            External: \(backupInfo.descriptor)
+                            External Private: \(backupInfo.descriptor)
 
-                            Internal: \(backupInfo.changeDescriptor)
+                            External Public: \(publicDescriptor)
+
+                            Internal Private: \(backupInfo.changeDescriptor)
+
+                            Internal Public: \(publicChangeDescriptor)
                             """
 
                         ShareLink(item: formattedDescriptors) {
@@ -108,7 +115,8 @@ struct SeedView: View {
             }
             .padding()
             .onAppear {
-                viewModel.getBackupInfo()
+                let network = viewModel.getNetwork()
+                viewModel.getBackupInfo(network: network)
             }
         }
         .alert(isPresented: $viewModel.showingSeedViewErrorAlert) {
@@ -126,6 +134,6 @@ struct SeedView: View {
 
 #if DEBUG
     #Preview {
-        SeedView(viewModel: .init(bdkService: .mock))
+        SeedView(viewModel: .init(bdkClient: .mock))
     }
 #endif

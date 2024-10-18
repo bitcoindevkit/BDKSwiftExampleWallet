@@ -12,41 +12,47 @@ import SwiftUI
 @Observable
 @MainActor
 class SeedViewModel {
-    let bdkService: BDKClient
-    let keyService: KeyClient
+    let bdkClient: BDKClient
 
     var backupInfo: BackupInfo?
+    var publicDescriptor: Descriptor?
+    var publicChangeDescriptor: Descriptor?
     var seedViewError: AppError?
     var showingSeedViewErrorAlert: Bool
 
     init(
-        bdkService: BDKClient = .live,
-        keyService: KeyClient = .live,
+        bdkClient: BDKClient = .live,
         backupInfo: BackupInfo? = nil,
         seedViewError: AppError? = nil,
         showingSeedViewErrorAlert: Bool = false
     ) {
-        self.bdkService = bdkService
-        self.keyService = keyService
+        self.bdkClient = bdkClient
         self.backupInfo = backupInfo
         self.seedViewError = seedViewError
         self.showingSeedViewErrorAlert = showingSeedViewErrorAlert
     }
-    
-    func getNetwork() {
-        
+
+    func getNetwork() -> Network {
+        let savedNetwork = bdkClient.getNetwork()
+        return savedNetwork
     }
 
-    func getBackupInfo() {
+    func getBackupInfo(network: Network) {
         do {
-            let backupInfo = try bdkService.getBackupInfo()
-            
-            let externalPublicDescriptor = try Descriptor.init(descriptor: backupInfo.descriptor, network: .signet)
-            print("externalPublicDescriptor: \(externalPublicDescriptor)")
-            
-            let internalPublicDescriptor = try Descriptor.init(descriptor: backupInfo.changeDescriptor, network: .signet)
-            print("internalPublicDescriptor: \(internalPublicDescriptor)")
-            
+            let backupInfo = try bdkClient.getBackupInfo()
+
+            let externalPublicDescriptor = try Descriptor.init(
+                descriptor: backupInfo.descriptor,
+                network: network
+            )
+            self.publicDescriptor = externalPublicDescriptor
+
+            let internalPublicDescriptor = try Descriptor.init(
+                descriptor: backupInfo.changeDescriptor,
+                network: network
+            )
+            self.publicChangeDescriptor = internalPublicDescriptor
+
             self.backupInfo = backupInfo
         } catch {
             self.seedViewError = .generic(message: error.localizedDescription)

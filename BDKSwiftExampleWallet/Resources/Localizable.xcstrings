@@ -329,7 +329,7 @@
         }
       }
     },
-    "Descriptor" : {
+    "Descriptors" : {
 
     },
     "Destructive Zone" : {
@@ -401,6 +401,9 @@
           }
         }
       }
+    },
+    "Get sats from faucet" : {
+
     },
     "HomeView Error" : {
       "localizations" : {

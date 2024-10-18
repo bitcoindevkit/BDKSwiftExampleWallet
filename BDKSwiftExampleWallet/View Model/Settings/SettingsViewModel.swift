@@ -11,7 +11,6 @@ import SwiftUI
 
 class SettingsViewModel: ObservableObject {
     let bdkClient: BDKClient
-    let keyClient: KeyClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @Published var esploraURL: String?
@@ -22,24 +21,20 @@ class SettingsViewModel: ObservableObject {
     @Published var walletSyncState: WalletSyncState = .notStarted
 
     init(
-        bdkClient: BDKClient = .live,
-        keyClient: KeyClient = .live
+        bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-        self.keyClient = keyClient
+        self.network = bdkClient.getNetwork().description
+        self.esploraURL = bdkClient.getEsploraURL()
     }
 
     func delete() {
         do {
             try bdkClient.deleteWallet()
-            DispatchQueue.main.async {
-                self.isOnboarding = true
-            }
+            isOnboarding = true
         } catch {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-                self.showingSettingsViewErrorAlert = true
-            }
+            self.settingsError = .generic(message: error.localizedDescription)
+            self.showingSettingsViewErrorAlert = true
         }
     }
 
@@ -81,24 +76,11 @@ class SettingsViewModel: ObservableObject {
     }
 
     func getNetwork() {
-        do {
-            self.network = try keyClient.getNetwork()
-        } catch {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-                self.showingSettingsViewErrorAlert = true
-            }
-        }
+        self.network = bdkClient.getNetwork().description
     }
 
     func getEsploraUrl() {
-        do {
-            self.esploraURL = try keyClient.getEsploraURL()
-        } catch {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-            }
-        }
+        self.esploraURL = bdkClient.getEsploraURL()
     }
 
     private func updateProgressFullScan(inspected: UInt64) {

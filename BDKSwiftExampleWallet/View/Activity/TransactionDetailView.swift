@@ -119,10 +119,6 @@ struct TransactionDetailView: View {
                     }
                     Spacer()
                 }
-                Text(canonicalTx.transaction.computeTxid())
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                Spacer()
                 Button {
                     UIPasteboard.general.string = canonicalTx.transaction.computeTxid()
                     isCopied = true
@@ -133,6 +129,9 @@ struct TransactionDetailView: View {
                     }
                 } label: {
                     HStack {
+                        Text(canonicalTx.transaction.computeTxid())
+                            .lineLimit(1)
+                            .truncationMode(.middle)
                         withAnimation {
                             Image(
                                 systemName: showCheckmark
@@ -173,7 +172,9 @@ struct TransactionDetailView: View {
 #if DEBUG
     #Preview {
         TransactionDetailView(
-            viewModel: .init(bdkClient: .mock, keyClient: .mock),
+            viewModel: .init(
+                bdkClient: .mock
+            ),
             amount: UInt64(1_000_000),
             canonicalTx: .mock
         )

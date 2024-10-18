@@ -35,4 +35,14 @@ class TransactionListViewModel {
         }
     }
 
+    func getEsploraURL() -> String {
+        let savedEsploraURL = bdkClient.getEsploraURL()
+        return savedEsploraURL
+    }
+
+    func getNetwork() -> String {
+        let savedNetwork = bdkClient.getNetwork().description
+        return savedNetwork
+    }
+
 }

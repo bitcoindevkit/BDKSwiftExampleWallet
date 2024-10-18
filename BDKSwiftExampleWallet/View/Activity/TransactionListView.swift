@@ -29,10 +29,43 @@ struct TransactionListView: View {
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
             } else if transactions.isEmpty {
-                Text("No Transactions")
-                    .font(.subheadline)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
+
+                VStack(alignment: .leading) {
+
+                    Text("No Transactions")
+                        .font(.subheadline)
+
+                    let mutinyFaucetURL = URL(string: "https://faucet.mutinynet.com")
+                    let signetFaucetURL = URL(string: "https://signetfaucet.com")
+
+                    if let mutinyFaucetURL,
+                        let signetFaucetURL,
+                        viewModel.getNetwork() != Network.testnet.description
+                    {
+
+                        Button {
+                            UIApplication.shared.open(
+                                viewModel.getEsploraURL()
+                                    == Constants.Config.EsploraServerURLNetwork.Signet.mutiny
+                                    ? mutinyFaucetURL : signetFaucetURL
+                            )
+                        } label: {
+                            HStack(spacing: 2) {
+                                Text("Get sats from faucet")
+                                Image(systemName: "arrow.right")
+                            }
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .underline()
+                        }
+                        .buttonStyle(.plain)
+
+                    }
+
+                }
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+
             } else {
 
                 ForEach(
@@ -45,7 +78,9 @@ struct TransactionListView: View {
 
                         NavigationLink(
                             destination: TransactionDetailView(
-                                viewModel: .init(bdkClient: .live, keyClient: .live),
+                                viewModel: .init(
+                                    bdkClient: .live
+                                ),
                                 amount: sentAndReceivedValues.sent.toSat() == 0
                                     ? sentAndReceivedValues.received.toSat()
                                     : sentAndReceivedValues.sent.toSat()
@@ -96,6 +131,15 @@ struct TransactionListView: View {
             transactions: [
                 .mock
             ],
+            walletSyncState: .synced
+        )
+    }
+    #Preview {
+        TransactionListView(
+            viewModel: .init(
+                bdkClient: .mock
+            ),
+            transactions: [],
             walletSyncState: .synced
         )
     }

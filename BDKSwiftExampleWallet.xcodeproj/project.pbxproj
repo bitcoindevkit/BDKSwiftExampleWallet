@@ -1017,7 +1017,7 @@
 			repositoryURL = "https://github.com/bitcoindevkit/bdk-swift.git";
 			requirement = {
 				kind = exactVersion;
-				version = "1.0.0-beta.2";
+				version = "1.0.0-beta.5";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

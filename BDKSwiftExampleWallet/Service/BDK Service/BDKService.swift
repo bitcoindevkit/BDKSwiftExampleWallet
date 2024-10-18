@@ -13,23 +13,40 @@ private class BDKService {
 
     private var balance: Balance?
     private var connection: Connection?
-    private let esploraClient: EsploraClient
-    private let keyService: KeyClient
+    private var esploraClient: EsploraClient
+    private let keyClient: KeyClient
     private var needsFullScan: Bool = false
-    var network: Network
+    private(set) var network: Network
+    private(set) var esploraURL: String
     private var wallet: Wallet?
 
-    init(
-        keyService: KeyClient = .live
-    ) {
-        let storedNetworkString = try! keyService.getNetwork() ?? Network.signet.description
-        let storedEsploraURL =
-            try! keyService.getEsploraURL()
-            ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
+    init(keyClient: KeyClient = .live) {
+        self.keyClient = keyClient
+        let storedNetworkString = try? keyClient.getNetwork() ?? Network.signet.description
+        self.network = Network(stringValue: storedNetworkString ?? "") ?? .signet
+        self.esploraURL =
+            try! keyClient.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
+        self.esploraClient = EsploraClient(url: self.esploraURL)
+    }
 
-        self.network = Network(stringValue: storedNetworkString) ?? .signet
-        self.keyService = keyService
-        self.esploraClient = EsploraClient(url: storedEsploraURL)
+    func updateNetwork(_ newNetwork: Network) {
+        if newNetwork != self.network {
+            self.network = newNetwork
+            try? keyClient.saveNetwork(newNetwork.description)
+            updateEsploraClient()
+        }
+    }
+
+    func updateEsploraURL(_ newURL: String) {
+        if newURL != self.esploraURL {
+            self.esploraURL = newURL
+            try? keyClient.saveEsploraURL(newURL)
+            updateEsploraClient()
+        }
+    }
+
+    private func updateEsploraClient() {
+        self.esploraClient = EsploraClient(url: self.esploraURL)
     }
 
     func getAddress() throws -> String {
@@ -79,7 +96,7 @@ private class BDKService {
         }
 
         let baseUrl =
-            try keyService.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
+            try keyClient.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
 
         var words12: String
         if let words = words, !words.isEmpty {
@@ -112,9 +129,9 @@ private class BDKService {
             changeDescriptor: changeDescriptor.toStringWithSecret()
         )
 
-        try keyService.saveBackupInfo(backupInfo)
-        try keyService.saveNetwork(self.network.description)
-        try keyService.saveEsploraURL(baseUrl)
+        try keyClient.saveBackupInfo(backupInfo)
+        try keyClient.saveNetwork(self.network.description)
+        try keyClient.saveEsploraURL(baseUrl)
 
         try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
@@ -149,7 +166,7 @@ private class BDKService {
     }
 
     func loadWalletFromBackup() throws {
-        let backupInfo = try keyService.getBackupInfo()
+        let backupInfo = try keyClient.getBackupInfo()
         let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
         let changeDescriptor = try Descriptor(
             descriptor: backupInfo.changeDescriptor,
@@ -162,9 +179,9 @@ private class BDKService {
         if let bundleID = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleID)
         }
-        try self.keyService.deleteBackupInfo()
-        try self.keyService.deleteEsplora()
-        try self.keyService.deleteNetwork()
+        try self.keyClient.deleteBackupInfo()
+        try self.keyClient.deleteEsplora()
+        try self.keyClient.deleteNetwork()
 
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
@@ -177,7 +194,7 @@ private class BDKService {
     }
 
     func getBackupInfo() throws -> BackupInfo {
-        let backupInfo = try keyService.getBackupInfo()
+        let backupInfo = try keyClient.getBackupInfo()
         return backupInfo
     }
 
@@ -311,6 +328,10 @@ struct BDKClient {
     let getBackupInfo: () throws -> BackupInfo
     let needsFullScan: () -> Bool
     let setNeedsFullScan: (Bool) -> Void
+    let getNetwork: () -> Network
+    let getEsploraURL: () -> String
+    let updateNetwork: (Network) -> Void
+    let updateEsploraURL: (String) -> Void
 }
 
 extension BDKClient {
@@ -345,7 +366,19 @@ extension BDKClient {
         },
         getBackupInfo: { try BDKService.shared.getBackupInfo() },
         needsFullScan: { BDKService.shared.needsFullScanOfWallet() },
-        setNeedsFullScan: { value in BDKService.shared.setNeedsFullScan(value) }
+        setNeedsFullScan: { value in BDKService.shared.setNeedsFullScan(value) },
+        getNetwork: {
+            BDKService.shared.network
+        },
+        getEsploraURL: {
+            BDKService.shared.esploraURL
+        },
+        updateNetwork: { newNetwork in
+            BDKService.shared.updateNetwork(newNetwork)
+        },
+        updateEsploraURL: { newURL in
+            BDKService.shared.updateEsploraURL(newURL)
+        }
     )
 }
 
@@ -395,7 +428,11 @@ extension BDKClient {
                 )
             },
             needsFullScan: { true },
-            setNeedsFullScan: { _ in }
+            setNeedsFullScan: { _ in },
+            getNetwork: { .signet },
+            getEsploraURL: { Constants.Config.EsploraServerURLNetwork.Signet.mutiny },
+            updateNetwork: { _ in },
+            updateEsploraURL: { _ in }
         )
     }
 #endif
