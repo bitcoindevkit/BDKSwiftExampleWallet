@@ -23,7 +23,6 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
 
             VStack {
-
                 HStack {
                     Spacer()
                     Button {
@@ -48,65 +47,60 @@ struct OnboardingView: View {
                     .padding()
                 }
 
-                Spacer()
-
-                VStack(spacing: 25) {
-                    Image(systemName: "bitcoinsign.circle")
+                VStack {
+                    Image("BDKLogo")
                         .resizable()
-                        .foregroundStyle(
-                            .secondary
-                        )
-                        .frame(width: 100, height: 100, alignment: .center)
-                    Text("powered by Bitcoin Dev Kit")
-                        .foregroundStyle(
-                            LinearGradient(
-                                gradient: Gradient(
-                                    colors: [
-                                        .secondary,
-                                        .primary,
-                                    ]
-                                ),
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .fontWidth(.expanded)
-                        .fontWeight(.medium)
+                        .frame(width: 150, height: 150, alignment: .center)
+                        .padding(40)
+                    Text("BDK Wallet")
+                        .textStyle(BitcoinTitle1())
+                    Text("An example bitcoin wallet\npowered by Bitcoin Dev Kit")
+                        .textStyle(BitcoinBody3())
                         .multilineTextAlignment(.center)
-                        .padding()
                 }
-                .padding()
-
-                Picker(
-                    "Network",
-                    selection: $viewModel.selectedNetwork
-                ) {
-                    Text("Signet").tag(Network.signet)
-                    Text("Testnet").tag(Network.testnet)
-                }
-                .pickerStyle(.automatic)
-                .tint(.primary)
-                .accessibilityLabel("Select Bitcoin Network")
-
-                Picker(
-                    "Esplora Server",
-                    selection: $viewModel.selectedURL
-                ) {
-                    ForEach(viewModel.availableURLs, id: \.self) { url in
-                        Text(
-                            url.replacingOccurrences(
-                                of: "https://",
-                                with: ""
-                            ).replacingOccurrences(
-                                of: "http://",
-                                with: ""
-                            )
-                        )
-                        .tag(url)
+                
+                Spacer()
+                
+                NavigationStack {
+                    HStack {
+                        Text("Network")
+                        Spacer()
+                        Picker(
+                            "Network",
+                            selection: $viewModel.selectedNetwork
+                        ) {
+                            Text("Signet").tag(Network.signet)
+                            Text("Testnet").tag(Network.testnet)
+                        }
+                        .pickerStyle(.automatic)
+                        .tint(.bitcoinOrange)
+                        .accessibilityLabel("Select bitcoin network")
                     }
-                }
-                .pickerStyle(.automatic)
-                .tint(.primary)
+                    HStack{
+                        Text("Server")
+                        Spacer()
+                        Picker(
+                            "Esplora server",
+                            selection: $viewModel.selectedURL
+                        ) {
+                            ForEach(viewModel.availableURLs, id: \.self) { url in
+                                Text(
+                                    url.replacingOccurrences(
+                                        of: "https://",
+                                        with: ""
+                                    ).replacingOccurrences(
+                                        of: "http://",
+                                        with: ""
+                                    )
+                                )
+                                .tag(url)
+                            }
+                        }
+                        .pickerStyle(.automatic)
+                        .tint(.bitcoinOrange)
+                        .accessibilityLabel("Select esplora server")
+                    }
+                }.padding(.horizontal, 50)
 
                 if viewModel.wordArray != [] {
                     SeedPhraseView(
@@ -121,13 +115,12 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                Button("Create Wallet") {
+                Button("Create wallet") {
                     viewModel.createWallet()
                 }
                 .buttonStyle(
                     BitcoinFilled(
-                        tintColor: .primary,
-                        textColor: Color(uiColor: .systemBackground),
+                        tintColor: .bitcoinOrange,
                         isCapsule: true
                     )
                 )
@@ -135,7 +128,7 @@ struct OnboardingView: View {
 
             }
 
-        }
+        }.padding(.bottom, 20)
         .alert(isPresented: $showingOnboardingViewErrorAlert) {
             Alert(
                 title: Text("Onboarding Error"),
