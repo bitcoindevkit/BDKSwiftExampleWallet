@@ -20,10 +20,13 @@ struct SeedView: View {
                 .ignoresSafeArea()
 
             VStack {
-                if let seed = viewModel.seed {
+                if let backupInfo = viewModel.backupInfo,
+                    let publicDescriptor = viewModel.publicDescriptor,
+                    let publicChangeDescriptor = viewModel.publicChangeDescriptor
+                {
 
                     SeedPhraseView(
-                        words: seed.mnemonic.components(separatedBy: " "),
+                        words: backupInfo.mnemonic.components(separatedBy: " "),
                         preferredWordsPerRow: 2,
                         usePaging: true,
                         wordsPerPage: 4
@@ -41,7 +44,7 @@ struct SeedView: View {
                     HStack {
                         Spacer()
                         Button {
-                            UIPasteboard.general.string = seed.mnemonic
+                            UIPasteboard.general.string = backupInfo.mnemonic
                             isCopied = true
                             showCheckmark = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
@@ -55,7 +58,7 @@ struct SeedView: View {
                                         ? "document.on.document.fill" : "document.on.document"
                                 )
                                 .contentTransition(.symbolEffect(.replace))
-                                Text("Copy")
+                                Text("Seed")
                                     .bold()
                             }
                         }
@@ -70,6 +73,39 @@ struct SeedView: View {
                         )
                         Spacer()
                     }
+
+                    HStack {
+                        Spacer()
+
+                        let formattedDescriptors = """
+                            External Private: \(backupInfo.descriptor)
+
+                            External Public: \(publicDescriptor)
+
+                            Internal Private: \(backupInfo.changeDescriptor)
+
+                            Internal Public: \(publicChangeDescriptor)
+                            """
+
+                        ShareLink(item: formattedDescriptors) {
+                            HStack {
+                                Image(systemName: "square.and.arrow.up")
+                                Text("Descriptors")
+                                    .bold()
+                            }
+                        }
+                        .buttonStyle(
+                            BitcoinFilled(
+                                width: 160,
+                                height: 40,
+                                tintColor: .primary,
+                                textColor: Color(uiColor: .systemBackground),
+                                isCapsule: true
+                            )
+                        )
+
+                        Spacer()
+                    }
                     .padding()
                 } else {
                     Text("No seed available")
@@ -79,7 +115,8 @@ struct SeedView: View {
             }
             .padding()
             .onAppear {
-                viewModel.getSeed()
+                let network = viewModel.getNetwork()
+                viewModel.getBackupInfo(network: network)
             }
         }
         .alert(isPresented: $viewModel.showingSeedViewErrorAlert) {

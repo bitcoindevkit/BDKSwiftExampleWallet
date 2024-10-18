@@ -42,7 +42,7 @@ class TransactionDetailViewModel {
 
     func getEsploraUrl() {
         let savedEsploraURL = bdkClient.getEsploraURL()
-        
+
         switch network {
         case "signet":
             if savedEsploraURL == Constants.Config.EsploraServerURLNetwork.Signet.bdk {
