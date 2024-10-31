@@ -6,6 +6,8 @@ A native iOS app example using [Bitcoin Dev Kit](https://github.com/bitcoindevki
 
 <img src="Docs/bitcoin-home-screen.png" alt="Screenshot" width="210.5" height="420">
 
+Download the app on [TestFlight](https://testflight.apple.com/join/A3nAuYvZ).
+
 ## Build
 
 ### BDK 1.0
