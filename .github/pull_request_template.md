@@ -26,6 +26,7 @@ of the PR were done in a specific way -->
 
 * [ ] I've added tests for the new feature
 * [ ] I've added docs for the new feature
+* [ ] UI changes tested on small, medium, and large devices to ensure layout consistency
 
 #### Bugfixes:
 
