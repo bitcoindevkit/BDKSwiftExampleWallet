@@ -12,7 +12,6 @@ import SwiftUI
 struct WalletView: View {
     @Bindable var viewModel: WalletViewModel
     @Binding var sendNavigationPath: NavigationPath
-    @State private var isAnimating: Bool = false
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
     @State private var showAllTransactions = false
@@ -28,16 +27,6 @@ struct WalletView: View {
             VStack(spacing: 20) {
 
                 VStack(spacing: 10) {
-                    Text("Bitcoin".uppercased())
-                        .fontWeight(.semibold)
-                        .fontWidth(.expanded)
-                        .foregroundStyle(Color.bitcoinOrange)
-                        .scaleEffect(isAnimating ? 1.0 : 0.6)
-                        .onAppear {
-                            withAnimation(.easeOut(duration: 0.5)) {
-                                isAnimating = true
-                            }
-                        }
                     withAnimation {
                         HStack(spacing: 15) {
                             Image(systemName: "bitcoinsign")
@@ -89,7 +78,7 @@ struct WalletView: View {
                         value: viewModel.walletSyncState
                     )
                 }
-                .padding(.vertical, 20.0)
+                .padding(.vertical, 35.0)
 
                 VStack {
                     HStack {
