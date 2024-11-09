@@ -109,14 +109,22 @@ struct OnboardingView: View {
                 .tint(.primary)
 
                 if viewModel.wordArray != [] {
-                    SeedPhraseView(
-                        words: viewModel.wordArray,
-                        preferredWordsPerRow: 2,
-                        usePaging: true,
-                        wordsPerPage: 4
-                    )
-                    .frame(height: 200)
-                    .padding()
+                    if viewModel.isDescriptor {
+                        Text(viewModel.words)
+                            .font(.system(.caption, design: .monospaced))
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                            .padding()
+                    } else {
+                        SeedPhraseView(
+                            words: viewModel.wordArray,
+                            preferredWordsPerRow: 2,
+                            usePaging: true,
+                            wordsPerPage: 4
+                        )
+                        .frame(height: 200)
+                        .padding()
+                    }
                 }
 
                 Spacer()

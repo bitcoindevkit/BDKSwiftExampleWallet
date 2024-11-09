@@ -148,6 +148,53 @@ private class BDKService {
         self.wallet = wallet
     }
 
+    func createWallet(descriptor: String?) throws {
+        let documentsDirectoryURL = URL.documentsDirectory
+        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+
+        if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
+            try FileManager.default.removeItem(at: walletDataDirectoryURL)
+        } else {
+        }
+
+        let baseUrl =
+            try keyClient.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
+
+        guard let descriptorString = descriptor, !descriptorString.isEmpty else {
+            throw WalletError.walletNotFound
+        }
+
+        let cleanDescriptor =
+            descriptorString.split(separator: "#").first.map(String.init) ?? descriptorString
+        let descriptor = try Descriptor(descriptor: cleanDescriptor, network: network)
+        let changeDescriptorString = cleanDescriptor.replacingOccurrences(of: "/0/*", with: "/1/*")
+        let changeDescriptor = try Descriptor(descriptor: changeDescriptorString, network: network)
+
+        let backupInfo = BackupInfo(
+            mnemonic: "",
+            descriptor: descriptor.toStringWithSecret(),
+            changeDescriptor: changeDescriptor.toStringWithSecret()
+        )
+
+        try keyClient.saveBackupInfo(backupInfo)
+        try keyClient.saveNetwork(self.network.description)
+        try keyClient.saveEsploraURL(baseUrl)
+
+        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
+        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
+        let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
+            .path
+        let connection = try Connection(path: persistenceBackendPath)
+        self.connection = connection
+        let wallet = try Wallet(
+            descriptor: descriptor,
+            changeDescriptor: changeDescriptor,
+            network: network,
+            connection: connection
+        )
+        self.wallet = wallet
+    }
+
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
@@ -313,7 +360,8 @@ extension BDKService {
 struct BDKClient {
     let loadWallet: () throws -> Void
     let deleteWallet: () throws -> Void
-    let createWallet: (String?) throws -> Void
+    let createWalletFromSeed: (String?) throws -> Void
+    let createWalletFromDescriptor: (String?) throws -> Void
     let getBalance: () throws -> Balance
     let transactions: () throws -> [CanonicalTx]
     let listUnspent: () throws -> [LocalOutput]
@@ -338,7 +386,10 @@ extension BDKClient {
     static let live = Self(
         loadWallet: { try BDKService.shared.loadWalletFromBackup() },
         deleteWallet: { try BDKService.shared.deleteWallet() },
-        createWallet: { words in try BDKService.shared.createWallet(words: words) },
+        createWalletFromSeed: { words in try BDKService.shared.createWallet(words: words) },
+        createWalletFromDescriptor: { descriptor in
+            try BDKService.shared.createWallet(descriptor: descriptor)
+        },
         getBalance: { try BDKService.shared.getBalance() },
         transactions: { try BDKService.shared.transactions() },
         listUnspent: { try BDKService.shared.listUnspent() },
@@ -387,7 +438,8 @@ extension BDKClient {
         static let mock = Self(
             loadWallet: {},
             deleteWallet: {},
-            createWallet: { _ in },
+            createWalletFromSeed: { _ in },
+            createWalletFromDescriptor: { _ in },
             getBalance: { .mock },
             transactions: {
                 return [

@@ -15,6 +15,11 @@ import SwiftUI
 class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
 
+    var isDescriptor: Bool {
+        words.hasPrefix("tr(") || words.hasPrefix("wpkh(") || words.hasPrefix("wsh(")
+            || words.hasPrefix("sh(")
+    }
+
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     @Published var createWithPersistError: CreateWithPersistError?
     @Published var networkColor = Color.gray
@@ -72,7 +77,11 @@ class OnboardingViewModel: ObservableObject {
 
     func createWallet() {
         do {
-            try bdkClient.createWallet(words)
+            if isDescriptor {
+                try bdkClient.createWalletFromDescriptor(words)
+            } else {
+                try bdkClient.createWalletFromSeed(words)
+            }
             DispatchQueue.main.async {
                 self.isOnboarding = false
             }
