@@ -320,6 +320,7 @@
       }
     },
     "Delete Seed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -328,6 +329,9 @@
           }
         }
       }
+    },
+    "Delete Wallet" : {
+
     },
     "Descriptors" : {
 
@@ -640,6 +644,7 @@
       }
     },
     "Show Seed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -648,6 +653,9 @@
           }
         }
       }
+    },
+    "Show Wallet" : {
+
     },
     "Showing Seed Error" : {
       "localizations" : {

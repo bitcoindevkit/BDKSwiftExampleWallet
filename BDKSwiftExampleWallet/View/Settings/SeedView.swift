@@ -24,54 +24,65 @@ struct SeedView: View {
                     let publicDescriptor = viewModel.publicDescriptor,
                     let publicChangeDescriptor = viewModel.publicChangeDescriptor
                 {
-
-                    SeedPhraseView(
-                        words: backupInfo.mnemonic.components(separatedBy: " "),
-                        preferredWordsPerRow: 2,
-                        usePaging: true,
-                        wordsPerPage: 4
-                    )
-
-                    VStack {
-                        Text("Seed is not synced across devices.")
-                        Text("Please make sure to write it down and store it securely.")
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding()
-
-                    HStack {
-                        Spacer()
-                        Button {
-                            UIPasteboard.general.string = backupInfo.mnemonic
-                            isCopied = true
-                            showCheckmark = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                                isCopied = false
-                                showCheckmark = false
-                            }
-                        } label: {
-                            HStack {
-                                Image(
-                                    systemName: showCheckmark
-                                        ? "document.on.document.fill" : "document.on.document"
-                                )
-                                .contentTransition(.symbolEffect(.replace))
-                                Text("Seed")
-                                    .bold()
-                            }
-                        }
-                        .buttonStyle(
-                            BitcoinFilled(
-                                width: 120,
-                                height: 40,
-                                tintColor: .primary,
-                                textColor: Color(uiColor: .systemBackground),
-                                isCapsule: true
-                            )
+                    if backupInfo.mnemonic.isEmpty {
+                        Text(backupInfo.descriptor)
+                            .font(.system(.caption, design: .monospaced))
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                            .padding()
+                    } else {
+                        SeedPhraseView(
+                            words: backupInfo.mnemonic.components(separatedBy: " "),
+                            preferredWordsPerRow: 2,
+                            usePaging: true,
+                            wordsPerPage: 4
                         )
-                        Spacer()
+                    }
+
+                    if !backupInfo.mnemonic.isEmpty {
+                        VStack {
+                            Text("Seed is not synced across devices.")
+                            Text("Please make sure to write it down and store it securely.")
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    }
+
+                    if !backupInfo.mnemonic.isEmpty {
+                        HStack {
+                            Spacer()
+                            Button {
+                                UIPasteboard.general.string = backupInfo.mnemonic
+                                isCopied = true
+                                showCheckmark = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                                    isCopied = false
+                                    showCheckmark = false
+                                }
+                            } label: {
+                                HStack {
+                                    Image(
+                                        systemName: showCheckmark
+                                            ? "document.on.document.fill" : "document.on.document"
+                                    )
+                                    .contentTransition(.symbolEffect(.replace))
+                                    Text("Seed")
+                                        .bold()
+                                }
+                            }
+                            .buttonStyle(
+                                BitcoinFilled(
+                                    width: 120,
+                                    height: 40,
+                                    tintColor: .primary,
+                                    textColor: Color(uiColor: .systemBackground),
+                                    isCapsule: true
+                                )
+                            )
+                            Spacer()
+                        }
                     }
 
                     HStack {
