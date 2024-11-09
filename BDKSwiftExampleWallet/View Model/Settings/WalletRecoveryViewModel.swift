@@ -1,5 +1,5 @@
 //
-//  SeedViewModel.swift
+//  WalletRecoveryViewModel.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 1/31/24.
@@ -11,25 +11,25 @@ import SwiftUI
 
 @Observable
 @MainActor
-class SeedViewModel {
+class WalletRecoveryViewModel {
     let bdkClient: BDKClient
 
     var backupInfo: BackupInfo?
     var publicDescriptor: Descriptor?
     var publicChangeDescriptor: Descriptor?
-    var seedViewError: AppError?
-    var showingSeedViewErrorAlert: Bool
+    var walletRecoveryViewError: AppError?
+    var showingWalletRecoveryViewErrorAlert: Bool
 
     init(
         bdkClient: BDKClient = .live,
         backupInfo: BackupInfo? = nil,
-        seedViewError: AppError? = nil,
-        showingSeedViewErrorAlert: Bool = false
+        walletRecoveryViewError: AppError? = nil,
+        showingWalletRecoveryViewErrorAlert: Bool = false
     ) {
         self.bdkClient = bdkClient
         self.backupInfo = backupInfo
-        self.seedViewError = seedViewError
-        self.showingSeedViewErrorAlert = showingSeedViewErrorAlert
+        self.walletRecoveryViewError = walletRecoveryViewError
+        self.showingWalletRecoveryViewErrorAlert = showingWalletRecoveryViewErrorAlert
     }
 
     func getNetwork() -> Network {
@@ -55,8 +55,8 @@ class SeedViewModel {
 
             self.backupInfo = backupInfo
         } catch {
-            self.seedViewError = .generic(message: error.localizedDescription)
-            self.showingSeedViewErrorAlert = true
+            self.walletRecoveryViewError = .generic(message: error.localizedDescription)
+            self.showingWalletRecoveryViewErrorAlert = true
         }
     }
 

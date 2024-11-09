@@ -107,7 +107,7 @@ struct SettingsView: View {
 
         }
         .sheet(isPresented: $isSeedPresented) {
-            SeedView(viewModel: .init())
+            WalletRecoveryView(viewModel: .init())
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
         }

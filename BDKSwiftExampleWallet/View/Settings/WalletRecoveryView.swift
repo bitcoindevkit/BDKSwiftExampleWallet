@@ -1,5 +1,5 @@
 //
-//  SeedView.swift
+//  WalletRecoveryView.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Matthew Ramsden on 1/31/24.
@@ -8,8 +8,8 @@
 import BitcoinUI
 import SwiftUI
 
-struct SeedView: View {
-    @Bindable var viewModel: SeedViewModel
+struct WalletRecoveryView: View {
+    @Bindable var viewModel: WalletRecoveryViewModel
     @State private var isCopied = false
     @State private var showCheckmark = false
 
@@ -130,12 +130,12 @@ struct SeedView: View {
                 viewModel.getBackupInfo(network: network)
             }
         }
-        .alert(isPresented: $viewModel.showingSeedViewErrorAlert) {
+        .alert(isPresented: $viewModel.showingWalletRecoveryViewErrorAlert) {
             Alert(
                 title: Text("Showing Seed Error"),
-                message: Text(viewModel.seedViewError?.description ?? ""),
+                message: Text(viewModel.walletRecoveryViewError?.description ?? ""),
                 dismissButton: .default(Text("OK")) {
-                    viewModel.seedViewError = nil
+                    viewModel.walletRecoveryViewError = nil
                 }
             )
         }
@@ -145,6 +145,6 @@ struct SeedView: View {
 
 #if DEBUG
     #Preview {
-        SeedView(viewModel: .init(bdkClient: .mock))
+        WalletRecoveryView(viewModel: .init(bdkClient: .mock))
     }
 #endif
