@@ -164,6 +164,18 @@ class WalletSyncScriptInspector: SyncScriptInspector {
     func inspect(script: Script, total: UInt64) {
         totalCount = total
         inspectedCount += 1
+
+        let delay: TimeInterval =
+            if total <= 5 {
+                0.2
+            } else if total < 10 {
+                0.15
+            } else if total < 20 {
+                0.1
+            } else {
+                0
+            }
+        Thread.sleep(forTimeInterval: delay)
         updateProgress(inspectedCount, totalCount)
     }
 }
