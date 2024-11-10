@@ -39,16 +39,14 @@ struct WalletRecoveryView: View {
                         )
                     }
 
-                    if !backupInfo.mnemonic.isEmpty {
-                        VStack {
-                            Text("Seed is not synced across devices.")
-                            Text("Please make sure to write it down and store it securely.")
-                        }
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding()
+                    VStack {
+                        Text("Backup is not synced across devices.")
+                        Text("Please make sure to write it down and store it securely.")
                     }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding()
 
                     if !backupInfo.mnemonic.isEmpty {
                         HStack {
