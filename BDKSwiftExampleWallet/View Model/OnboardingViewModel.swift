@@ -22,7 +22,7 @@ class OnboardingViewModel: ObservableObject {
             || words.hasPrefix("sh(")
     }
     var isXPub: Bool {
-        words.hasPrefix("xpub") || words.hasPrefix("tpub")
+        words.hasPrefix("xpub") || words.hasPrefix("tpub") || words.hasPrefix("vpub")
     }
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: AppError?
@@ -40,7 +40,7 @@ class OnboardingViewModel: ObservableObject {
     }
     @Published var words: String = ""
     var wordArray: [String] {
-        if words.hasPrefix("xpub") || words.hasPrefix("tpub") {
+        if words.hasPrefix("xpub") || words.hasPrefix("tpub") || words.hasPrefix("vpub") {
             return []
         }
         let trimmedWords = words.trimmingCharacters(in: .whitespacesAndNewlines)

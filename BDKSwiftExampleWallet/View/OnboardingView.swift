@@ -14,6 +14,7 @@ struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
     @State private var showingOnboardingViewErrorAlert = false
     @State private var showingImportView = false
+    @State private var showingScanner = false
     let pasteboard = UIPasteboard.general
 
     var body: some View {
@@ -25,7 +26,24 @@ struct OnboardingView: View {
             VStack {
 
                 HStack {
+
                     Spacer()
+
+                    Button {
+                        showingScanner = true
+                    } label: {
+                        Image(
+                            systemName: viewModel.words.isEmpty
+                                ? "qrcode.viewfinder" : "clear"
+                        )
+                        .contentTransition(.symbolEffect(.replace))
+                    }
+                    .tint(
+                        viewModel.words.isEmpty ? .secondary : .primary
+                    )
+                    .font(.title)
+                    .padding()
+
                     Button {
                         if viewModel.words.isEmpty {
                             if let clipboardContent = UIPasteboard.general.string {
@@ -151,6 +169,24 @@ struct OnboardingView: View {
                 dismissButton: .default(Text("OK")) {
                     viewModel.onboardingViewError = nil
                 }
+            )
+        }
+        .sheet(isPresented: $showingScanner) {
+            CustomScannerView(
+                codeTypes: [.qr],
+                completion: { result in
+                    switch result {
+                    case .success(let result):
+                        viewModel.words = result.string
+                        showingScanner = false
+                    case .failure(let error):
+                        viewModel.onboardingViewError = .generic(
+                            message: error.localizedDescription
+                        )
+                        showingScanner = false
+                    }
+                },
+                pasteAction: {}
             )
         }
 

@@ -244,6 +244,9 @@
         }
       }
     },
+    "Backup is not synced across devices." : {
+
+    },
     "BDK Wallet" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -589,9 +592,6 @@
       }
     },
     "Seed" : {
-
-    },
-    "Seed is not synced across devices." : {
 
     },
     "Select Bitcoin Network" : {
