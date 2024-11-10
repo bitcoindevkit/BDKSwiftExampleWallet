@@ -29,41 +29,39 @@ struct OnboardingView: View {
 
                     Spacer()
 
-                    Button {
-                        showingScanner = true
-                    } label: {
-                        Image(
-                            systemName: viewModel.words.isEmpty
-                                ? "qrcode.viewfinder" : "clear"
-                        )
-                        .contentTransition(.symbolEffect(.replace))
-                    }
-                    .tint(
-                        viewModel.words.isEmpty ? .secondary : .primary
-                    )
-                    .font(.title)
-                    .padding()
+                    if viewModel.words.isEmpty {
+                        Button {
+                            showingScanner = true
+                        } label: {
+                            Image(systemName: "qrcode.viewfinder")
+                                .contentTransition(.symbolEffect(.replace))
+                        }
+                        .tint(.secondary)
+                        .font(.title)
+                        .padding()
 
-                    Button {
-                        if viewModel.words.isEmpty {
+                        Button {
                             if let clipboardContent = UIPasteboard.general.string {
                                 viewModel.words = clipboardContent
                             }
-                        } else {
-                            viewModel.words = ""
+                        } label: {
+                            Image(systemName: "arrow.down.square")
+                                .contentTransition(.symbolEffect(.replace))
                         }
-                    } label: {
-                        Image(
-                            systemName: viewModel.words.isEmpty
-                                ? "arrow.down.square" : "clear"
-                        )
-                        .contentTransition(.symbolEffect(.replace))
+                        .tint(.secondary)
+                        .font(.title)
+                        .padding()
+                    } else {
+                        Button {
+                            viewModel.words = ""
+                        } label: {
+                            Image(systemName: "clear")
+                                .contentTransition(.symbolEffect(.replace))
+                        }
+                        .tint(.primary)
+                        .font(.title)
+                        .padding()
                     }
-                    .tint(
-                        viewModel.words.isEmpty ? .secondary : .primary
-                    )
-                    .font(.title)
-                    .padding()
                 }
 
                 Spacer()
