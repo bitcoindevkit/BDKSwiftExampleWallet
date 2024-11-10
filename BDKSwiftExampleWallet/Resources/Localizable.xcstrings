@@ -244,6 +244,9 @@
         }
       }
     },
+    "Backup is not synced across devices." : {
+
+    },
     "BDK Wallet" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -320,6 +323,7 @@
       }
     },
     "Delete Seed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -328,6 +332,9 @@
           }
         }
       }
+    },
+    "Delete Wallet" : {
+
     },
     "Descriptors" : {
 
@@ -587,9 +594,6 @@
     "Seed" : {
 
     },
-    "Seed is not synced across devices." : {
-
-    },
     "Select Bitcoin Network" : {
 
     },
@@ -640,6 +644,7 @@
       }
     },
     "Show Seed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -648,6 +653,9 @@
           }
         }
       }
+    },
+    "Show Wallet" : {
+
     },
     "Showing Seed Error" : {
       "localizations" : {

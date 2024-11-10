@@ -73,7 +73,7 @@ struct SettingsView: View {
                     Button {
                         showingShowSeedConfirmation = true
                     } label: {
-                        Text(String(localized: "Show Seed"))
+                        Text(String(localized: "Show Wallet"))
                             .foregroundStyle(.red)
                     }
                 }
@@ -86,7 +86,7 @@ struct SettingsView: View {
                         showingDeleteSeedConfirmation = true
                     } label: {
                         HStack {
-                            Text(String(localized: "Delete Seed"))
+                            Text(String(localized: "Delete Wallet"))
                                 .foregroundStyle(.red)
                         }
                     }
@@ -107,7 +107,7 @@ struct SettingsView: View {
 
         }
         .sheet(isPresented: $isSeedPresented) {
-            SeedView(viewModel: .init())
+            WalletRecoveryView(viewModel: .init())
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
         }

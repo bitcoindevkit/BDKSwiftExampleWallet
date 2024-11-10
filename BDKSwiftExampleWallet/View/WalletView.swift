@@ -191,8 +191,9 @@ struct WalletView: View {
                         NavigationLink(value: NavigationDestination.address) {
                             Image(systemName: "qrcode.viewfinder")
                                 .font(.title)
-                                .foregroundStyle(.primary)
+                                .foregroundStyle(viewModel.canSend ? .primary : .secondary)
                         }
+                        .disabled(!viewModel.canSend)
                     }
                     .padding([.horizontal, .bottom])
 

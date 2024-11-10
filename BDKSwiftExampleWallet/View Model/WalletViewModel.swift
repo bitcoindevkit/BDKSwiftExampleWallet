@@ -13,9 +13,14 @@ import Observation
 @Observable
 class WalletViewModel {
     let bdkClient: BDKClient
+    let keyClient: KeyClient
     let priceClient: PriceClient
 
     var balanceTotal: UInt64 = 0
+    var canSend: Bool {
+        guard let backupInfo = try? keyClient.getBackupInfo() else { return false }
+        return backupInfo.descriptor.contains("tprv") || backupInfo.descriptor.contains("xprv")
+    }
     var inspectedScripts: UInt64 = 0
     var price: Double = 0.00
     var progress: Float = 0.0
@@ -35,11 +40,13 @@ class WalletViewModel {
 
     init(
         bdkClient: BDKClient = .live,
+        keyClient: KeyClient = .live,
         priceClient: PriceClient = .live,
         transactions: [CanonicalTx] = [],
         walletSyncState: WalletSyncState = .notStarted
     ) {
         self.bdkClient = bdkClient
+        self.keyClient = keyClient
         self.priceClient = priceClient
         self.transactions = transactions
         self.walletSyncState = walletSyncState
