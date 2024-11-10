@@ -34,7 +34,7 @@ struct OnboardingView: View {
                             showingScanner = true
                         } label: {
                             Image(systemName: "qrcode.viewfinder")
-                                .contentTransition(.symbolEffect(.replace))
+                                .transition(.symbolEffect(.disappear))
                         }
                         .tint(.secondary)
                         .font(.title)
