@@ -15,13 +15,15 @@ import SwiftUI
 class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
 
+    @AppStorage("isOnboarding") var isOnboarding: Bool?
+    @Published var createWithPersistError: CreateWithPersistError?
     var isDescriptor: Bool {
         words.hasPrefix("tr(") || words.hasPrefix("wpkh(") || words.hasPrefix("wsh(")
             || words.hasPrefix("sh(")
     }
-
-    @AppStorage("isOnboarding") var isOnboarding: Bool?
-    @Published var createWithPersistError: CreateWithPersistError?
+    var isXPub: Bool {
+        words.hasPrefix("xpub") || words.hasPrefix("tpub")
+    }
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: AppError?
     @Published var selectedNetwork: Network = .signet {
@@ -36,12 +38,14 @@ class OnboardingViewModel: ObservableObject {
             bdkClient.updateEsploraURL(selectedURL)
         }
     }
-    @Published var words: String = "" {
-        didSet {
-            updateWordArray()
+    @Published var words: String = ""
+    var wordArray: [String] {
+        if words.hasPrefix("xpub") || words.hasPrefix("tpub") {
+            return []
         }
+        let trimmedWords = words.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedWords.components(separatedBy: " ")
     }
-    @Published var wordArray: [String] = []
     var availableURLs: [String] {
         switch selectedNetwork {
         case .bitcoin:
@@ -79,6 +83,8 @@ class OnboardingViewModel: ObservableObject {
         do {
             if isDescriptor {
                 try bdkClient.createWalletFromDescriptor(words)
+            } else if isXPub {
+                try bdkClient.createWalletFromXPub(words)
             } else {
                 try bdkClient.createWalletFromSeed(words)
             }
@@ -94,10 +100,5 @@ class OnboardingViewModel: ObservableObject {
                 self.onboardingViewError = .generic(message: error.localizedDescription)
             }
         }
-    }
-
-    private func updateWordArray() {
-        let trimmedWords = words.trimmingCharacters(in: .whitespacesAndNewlines)
-        wordArray = trimmedWords.split(separator: " ").map { String($0) }
     }
 }

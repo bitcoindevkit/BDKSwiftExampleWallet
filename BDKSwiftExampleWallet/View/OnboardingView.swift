@@ -27,7 +27,7 @@ struct OnboardingView: View {
                 HStack {
                     Spacer()
                     Button {
-                        if viewModel.wordArray.isEmpty {
+                        if viewModel.words.isEmpty {
                             if let clipboardContent = UIPasteboard.general.string {
                                 viewModel.words = clipboardContent
                             }
@@ -36,13 +36,13 @@ struct OnboardingView: View {
                         }
                     } label: {
                         Image(
-                            systemName: viewModel.wordArray.isEmpty
+                            systemName: viewModel.words.isEmpty
                                 ? "arrow.down.square" : "clear"
                         )
                         .contentTransition(.symbolEffect(.replace))
                     }
                     .tint(
-                        viewModel.wordArray.isEmpty ? .secondary : .primary
+                        viewModel.words.isEmpty ? .secondary : .primary
                     )
                     .font(.title)
                     .padding()
@@ -108,8 +108,8 @@ struct OnboardingView: View {
                 .pickerStyle(.automatic)
                 .tint(.primary)
 
-                if viewModel.wordArray != [] {
-                    if viewModel.isDescriptor {
+                if !viewModel.words.isEmpty {
+                    if viewModel.isDescriptor || viewModel.isXPub {
                         Text(viewModel.words)
                             .font(.system(.caption, design: .monospaced))
                             .lineLimit(1)
