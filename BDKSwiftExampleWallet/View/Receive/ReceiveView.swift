@@ -6,6 +6,7 @@
 //
 
 import BitcoinUI
+import CoreNFC
 import SwiftUI
 
 struct ReceiveView: View {
@@ -50,6 +51,13 @@ struct ReceiveView: View {
                     gridItemSize: 60.0
                 )
                 .padding()
+
+                Button {
+                    viewModel.startNFCSession()
+                } label: {
+                    Image(systemName: "wave.3.right")
+                        .foregroundColor(.primary)
+                }
 
                 HStack {
                     Button {

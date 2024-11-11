@@ -862,6 +862,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BDKSwiftExampleWallet/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BDK Wallet";
+				INFOPLIST_KEY_NFCReaderUsageDescription = "We need NFC access to verify addresses.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"To scan QR codes\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -895,6 +896,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BDKSwiftExampleWallet/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BDK Wallet";
+				INFOPLIST_KEY_NFCReaderUsageDescription = "We need NFC access to verify addresses.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"To scan QR codes\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
