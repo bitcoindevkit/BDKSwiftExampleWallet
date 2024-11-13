@@ -164,11 +164,35 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
 
-        let cleanDescriptor =
-            descriptorString.split(separator: "#").first.map(String.init) ?? descriptorString
-        let descriptor = try Descriptor(descriptor: cleanDescriptor, network: network)
-        let changeDescriptorString = cleanDescriptor.replacingOccurrences(of: "/0/*", with: "/1/*")
-        let changeDescriptor = try Descriptor(descriptor: changeDescriptorString, network: network)
+        let descriptor: Descriptor
+        let changeDescriptor: Descriptor
+
+        let cleanDescriptorString = descriptorString.components(separatedBy: "\n")
+            .map { $0.split(separator: "#").first?.trimmingCharacters(in: .whitespaces) ?? "" }
+            .filter { !$0.isEmpty }
+            .joined(separator: "\n")
+
+        if let firstDescriptor = try? Descriptor(
+            descriptor: cleanDescriptorString.components(separatedBy: "\n")[0],
+            network: network
+        ),
+            firstDescriptor.isMultipath()
+        {
+            let baseDescriptor = cleanDescriptorString.components(separatedBy: "\n")[0]
+            descriptor = try Descriptor(
+                descriptor: baseDescriptor.replacingOccurrences(of: "<0;1>", with: "0"),
+                network: network
+            )
+            changeDescriptor = try Descriptor(
+                descriptor: baseDescriptor.replacingOccurrences(of: "<0;1>", with: "1"),
+                network: network
+            )
+        } else {
+            let descriptors = cleanDescriptorString.components(separatedBy: "\n")
+            guard descriptors.count == 2 else { throw WalletError.walletNotFound }
+            descriptor = try Descriptor(descriptor: descriptors[0], network: network)
+            changeDescriptor = try Descriptor(descriptor: descriptors[1], network: network)
+        }
 
         let backupInfo = BackupInfo(
             mnemonic: "",
@@ -211,10 +235,20 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
 
-        let descriptorString = "tr(\(xpubString)/0/*)"
-        let changeDescriptorString = "tr(\(xpubString)/1/*)"
-        let descriptor = try Descriptor(descriptor: descriptorString, network: network)
-        let changeDescriptor = try Descriptor(descriptor: changeDescriptorString, network: network)
+        let descriptorPublicKey = try DescriptorPublicKey.fromString(publicKey: xpubString)
+        let fingerprint = descriptorPublicKey.masterFingerprint()
+        let descriptor = Descriptor.newBip86Public(
+            publicKey: descriptorPublicKey,
+            fingerprint: fingerprint,
+            keychain: .external,
+            network: network
+        )
+        let changeDescriptor = Descriptor.newBip86Public(
+            publicKey: descriptorPublicKey,
+            fingerprint: fingerprint,
+            keychain: .internal,
+            network: network
+        )
 
         let backupInfo = BackupInfo(
             mnemonic: "",
