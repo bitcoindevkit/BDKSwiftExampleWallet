@@ -26,7 +26,7 @@ struct SettingsView: View {
                     .padding()
                 Spacer()
             }
-            .padding(.horizontal, 20.0)
+            .padding(.horizontal, 10.0)
             .padding(.top, 40.0)
             .padding(.bottom, -40.0)
             .foregroundStyle(.secondary)

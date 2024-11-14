@@ -40,6 +40,7 @@ struct WalletRecoveryView: View {
                     }
 
                     VStack {
+                        Text("Wallet only supports BIP86.")
                         Text("Backup is not synced across devices.")
                         Text("Please make sure to write it down and store it securely.")
                     }
