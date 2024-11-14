@@ -164,34 +164,27 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
 
-        let descriptor: Descriptor
-        let changeDescriptor: Descriptor
-
-        let cleanDescriptorString = descriptorString.components(separatedBy: "\n")
+        let descriptorStrings = descriptorString.components(separatedBy: "\n")
             .map { $0.split(separator: "#").first?.trimmingCharacters(in: .whitespaces) ?? "" }
             .filter { !$0.isEmpty }
-            .joined(separator: "\n")
-
-        if let firstDescriptor = try? Descriptor(
-            descriptor: cleanDescriptorString.components(separatedBy: "\n")[0],
-            network: network
-        ),
-            firstDescriptor.isMultipath()
-        {
-            let baseDescriptor = cleanDescriptorString.components(separatedBy: "\n")[0]
-            descriptor = try Descriptor(
-                descriptor: baseDescriptor.replacingOccurrences(of: "<0;1>", with: "0"),
+        let descriptor: Descriptor
+        let changeDescriptor: Descriptor
+        if descriptorStrings.count == 1 {
+            let parsedDescriptor = try Descriptor(
+                descriptor: descriptorStrings[0],
                 network: network
             )
-            changeDescriptor = try Descriptor(
-                descriptor: baseDescriptor.replacingOccurrences(of: "<0;1>", with: "1"),
-                network: network
-            )
+            let singleDescriptors = try parsedDescriptor.toSingleDescriptors()
+            guard singleDescriptors.count >= 2 else {
+                throw WalletError.walletNotFound
+            }
+            descriptor = singleDescriptors[0]
+            changeDescriptor = singleDescriptors[1]
+        } else if descriptorStrings.count == 2 {
+            descriptor = try Descriptor(descriptor: descriptorStrings[0], network: network)
+            changeDescriptor = try Descriptor(descriptor: descriptorStrings[1], network: network)
         } else {
-            let descriptors = cleanDescriptorString.components(separatedBy: "\n")
-            guard descriptors.count == 2 else { throw WalletError.walletNotFound }
-            descriptor = try Descriptor(descriptor: descriptors[0], network: network)
-            changeDescriptor = try Descriptor(descriptor: descriptors[1], network: network)
+            throw WalletError.walletNotFound
         }
 
         let backupInfo = BackupInfo(
