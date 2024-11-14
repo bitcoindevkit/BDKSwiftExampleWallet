@@ -50,16 +50,18 @@ extension ReceiveViewModel {
         nfcSession = NFCNDEFReaderSession(
             delegate: self,
             queue: nil,
-            invalidateAfterFirstRead: true
+            invalidateAfterFirstRead: false
         )
-        nfcSession?.alertMessage = "Hold your iPhone near the Coldcard Q to verify the address"
+        nfcSession?.alertMessage = "Hold your iPhone near the Coldcard to verify the address"
         nfcSession?.begin()
     }
 
     // MARK: - NFCNDEFReaderSessionDelegate
 
     func readerSession(_ session: NFCNDEFReaderSession, didDetect tags: [NFCNDEFTag]) {
-        guard let tag = tags.first else { return }
+        guard let tag = tags.first else {
+            return
+        }
 
         session.connect(to: tag) { error in
             if let error = error {
@@ -67,31 +69,34 @@ extension ReceiveViewModel {
                 return
             }
 
-            // Send the address to verify
-            let ndefMessage = NFCNDEFMessage(records: [
-                NFCNDEFPayload(
-                    format: .nfcWellKnown,
-                    type: "T".data(using: .utf8)!,
-                    identifier: Data(),
-                    payload: self.address.data(using: .utf8)!
-                )
-            ])
+            let payload = NFCNDEFPayload(
+                format: .media,
+                type: "text/plain".data(using: .utf8)!,
+                identifier: Data(),
+                payload: self.address.data(using: .utf8)!
+            )
 
-            tag.writeNDEF(ndefMessage) { error in
+            let message = NFCNDEFMessage(records: [payload])
+
+            tag.writeNDEF(message) { error in
                 if let error = error {
-                    session.invalidate(
-                        errorMessage: "Failed to send address: \(error.localizedDescription)"
-                    )
+                    session.invalidate(errorMessage: "Write failed: \(error.localizedDescription)")
                 } else {
-                    session.alertMessage =
-                        "Address sent to Coldcard. Please check the Coldcard screen for verification."
+                    session.alertMessage = "Address passed to Coldcard successfully"
                     session.invalidate()
                 }
             }
+
         }
     }
 
     func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
+        if let nfcError = error as? NFCReaderError,
+            nfcError.code == .readerSessionInvalidationErrorUserCanceled
+        {
+            return
+        }
+
         DispatchQueue.main.async {
             self.receiveViewError = .generic(message: error.localizedDescription)
             self.showingReceiveViewErrorAlert = true
@@ -103,13 +108,11 @@ extension ReceiveViewModel {
     }
 
     func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
-        // Check for response from Coldcard
         if let message = messages.first,
             let record = message.records.first,
             let payload = String(data: record.payload, encoding: .utf8)
         {
-            // Handle response if Coldcard sends one
-            print("Received from Coldcard: \(payload)")
+            // Handle response
         }
         session.invalidate()
     }
