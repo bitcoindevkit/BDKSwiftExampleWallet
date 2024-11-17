@@ -22,6 +22,18 @@ struct ReceiveView: View {
 
             VStack {
 
+                HStack {
+                    Spacer()
+                    Button {
+                        viewModel.startNFCSession()
+                    } label: {
+                        Image(systemName: "wave.3.right")
+                            .foregroundColor(.primary)
+                    }
+                }
+                .padding(.trailing)
+                .padding(.top)
+
                 VStack(spacing: 8) {
                     Image("bitcoinsign.arrow.down")
                         .symbolRenderingMode(.hierarchical)
@@ -52,12 +64,12 @@ struct ReceiveView: View {
                 )
                 .padding()
 
-                Button {
-                    viewModel.startNFCSession()
-                } label: {
-                    Image(systemName: "wave.3.right")
-                        .foregroundColor(.primary)
-                }
+                //                Button {
+                //                    viewModel.startNFCSession()
+                //                } label: {
+                //                    Image(systemName: "wave.3.right")
+                //                        .foregroundColor(.primary)
+                //                }
 
                 HStack {
                     Button {

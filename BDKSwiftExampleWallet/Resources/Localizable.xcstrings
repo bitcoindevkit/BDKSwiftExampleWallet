@@ -810,6 +810,9 @@
         }
       }
     },
+    "Wallet only supports BIP86." : {
+
+    },
     "Wallet Transaction Error" : {
       "localizations" : {
         "fr" : {
