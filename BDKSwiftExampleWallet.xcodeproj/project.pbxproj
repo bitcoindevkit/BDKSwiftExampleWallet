@@ -1014,7 +1014,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/reez/BitcoinUI.git";
 			requirement = {
-				branch = 1.0.6;
+				branch = 1.0.8;
 				kind = branch;
 			};
 		};
