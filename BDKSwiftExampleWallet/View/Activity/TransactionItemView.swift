@@ -44,7 +44,7 @@ struct TransactionItemView: View {
                     .foregroundStyle(
                         {
                             switch canonicalTx.chainPosition {
-                            case .confirmed(_):
+                            case .confirmed(_, _):
                                 Color.bitcoinOrange
                             case .unconfirmed(_):
                                 Color.gray.opacity(0.5)
@@ -63,7 +63,7 @@ struct TransactionItemView: View {
                     .font(.title)
                     .foregroundStyle(.primary)
                 switch canonicalTx.chainPosition {
-                case .confirmed(let confirmationBlockTime):
+                case .confirmed(let confirmationBlockTime, _):
                     Text(
                         confirmationBlockTime.confirmationTime.toDate().formatted(
                             date: .abbreviated,
@@ -74,15 +74,22 @@ struct TransactionItemView: View {
                     .font(.caption2)
                     .fontWidth(.condensed)
                 case .unconfirmed(let timestamp):
-                    Text(
-                        timestamp.toDate().formatted(
-                            date: .abbreviated,
-                            time: .shortened
+                    if let timestamp {
+                        Text(
+                            timestamp.toDate().formatted(
+                                date: .abbreviated,
+                                time: .shortened
+                            )
                         )
-                    )
-                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
-                    .font(.caption2)
-                    .fontWidth(.condensed)
+                        .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+                        .font(.caption2)
+                        .fontWidth(.condensed)
+                    } else {
+                        Text("Pending")
+                            .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+                            .font(.caption2)
+                            .fontWidth(.condensed)
+                    }
                 }
             }
             .foregroundStyle(.secondary)
