@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -87,6 +87,7 @@
 		AEE6C74C2ABCB3E200442ADD /* Transaction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */; };
 		AEE6C74F2ABCBA4600442ADD /* WalletSyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C74E2ABCBA4600442ADD /* WalletSyncState.swift */; };
 		AEE83A492C07F54B00834468 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AEE83A482C07F54B00834468 /* BitcoinDevKit */; };
+		AEEA24572D136898000C1694 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AEEA24562D136898000C1694 /* BitcoinDevKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -187,6 +188,7 @@
 				AE29ED0F2BBE2E7100EB9C4F /* BitcoinDevKit in Frameworks */,
 				AEAF83B62B7BD4D10019B23B /* CodeScanner in Frameworks */,
 				AEA1F6432CE43702004EC538 /* BitcoinDevKit in Frameworks */,
+				AEEA24572D136898000C1694 /* BitcoinDevKit in Frameworks */,
 				AEB735D32B2CC4B900F99DBB /* BitcoinUI in Frameworks */,
 				AEE83A492C07F54B00834468 /* BitcoinDevKit in Frameworks */,
 				AE7D5A0E2A7EE62200EAC8CE /* KeychainAccess in Frameworks */,
@@ -541,6 +543,7 @@
 				AEE83A482C07F54B00834468 /* BitcoinDevKit */,
 				AE187D772C9BB3B50081D0C3 /* BitcoinDevKit */,
 				AEA1F6422CE43702004EC538 /* BitcoinDevKit */,
+				AEEA24562D136898000C1694 /* BitcoinDevKit */,
 			);
 			productName = BDKSwiftExampleWallet;
 			productReference = AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */;
@@ -597,7 +600,7 @@
 				AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				AEB735D12B2CC4B900F99DBB /* XCRemoteSwiftPackageReference "BitcoinUI" */,
 				AEAF83B42B7BD4D10019B23B /* XCRemoteSwiftPackageReference "CodeScanner" */,
-				AEA1F6412CE43702004EC538 /* XCLocalSwiftPackageReference "../bdk-ffi/bdk-swift" */,
+				AEEA24552D136898000C1694 /* XCRemoteSwiftPackageReference "bdk-swift" */,
 			);
 			productRefGroup = AE4984792A1BBBD6009951E2 /* Products */;
 			projectDirPath = "";
@@ -987,13 +990,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		AEA1F6412CE43702004EC538 /* XCLocalSwiftPackageReference "../bdk-ffi/bdk-swift" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../bdk-ffi/bdk-swift";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1017,6 +1013,14 @@
 			requirement = {
 				branch = 1.0.6;
 				kind = branch;
+			};
+		};
+		AEEA24552D136898000C1694 /* XCRemoteSwiftPackageReference "bdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bitcoindevkit/bdk-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = "1.0.0-beta.6";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1051,6 +1055,11 @@
 		};
 		AEE83A482C07F54B00834468 /* BitcoinDevKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = BitcoinDevKit;
+		};
+		AEEA24562D136898000C1694 /* BitcoinDevKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AEEA24552D136898000C1694 /* XCRemoteSwiftPackageReference "bdk-swift" */;
 			productName = BitcoinDevKit;
 		};
 /* End XCSwiftPackageProductDependency section */
