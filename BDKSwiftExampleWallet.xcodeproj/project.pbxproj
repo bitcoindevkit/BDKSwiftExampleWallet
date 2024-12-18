@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -90,6 +90,7 @@
 		AEE6C74C2ABCB3E200442ADD /* Transaction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */; };
 		AEE6C74F2ABCBA4600442ADD /* WalletSyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C74E2ABCBA4600442ADD /* WalletSyncState.swift */; };
 		AEE83A492C07F54B00834468 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AEE83A482C07F54B00834468 /* BitcoinDevKit */; };
+		AEEA24572D136898000C1694 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AEEA24562D136898000C1694 /* BitcoinDevKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1000,13 +1001,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		AEA1F6412CE43702004EC538 /* XCLocalSwiftPackageReference "../bdk-ffi/bdk-swift" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../bdk-ffi/bdk-swift";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		AE52D68D2D1367C80042119D /* XCRemoteSwiftPackageReference "bdk-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1038,6 +1032,14 @@
 			requirement = {
 				branch = 1.0.8;
 				kind = branch;
+			};
+		};
+		AEEA24552D136898000C1694 /* XCRemoteSwiftPackageReference "bdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bitcoindevkit/bdk-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = "1.0.0-beta.6";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1085,6 +1087,11 @@
 		};
 		AEE83A482C07F54B00834468 /* BitcoinDevKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = BitcoinDevKit;
+		};
+		AEEA24562D136898000C1694 /* BitcoinDevKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AEEA24552D136898000C1694 /* XCRemoteSwiftPackageReference "bdk-swift" */;
 			productName = BitcoinDevKit;
 		};
 /* End XCSwiftPackageProductDependency section */
