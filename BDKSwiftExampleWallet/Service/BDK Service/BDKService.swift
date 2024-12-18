@@ -164,11 +164,28 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
 
-        let cleanDescriptor =
-            descriptorString.split(separator: "#").first.map(String.init) ?? descriptorString
-        let descriptor = try Descriptor(descriptor: cleanDescriptor, network: network)
-        let changeDescriptorString = cleanDescriptor.replacingOccurrences(of: "/0/*", with: "/1/*")
-        let changeDescriptor = try Descriptor(descriptor: changeDescriptorString, network: network)
+        let descriptorStrings = descriptorString.components(separatedBy: "\n")
+            .map { $0.split(separator: "#").first?.trimmingCharacters(in: .whitespaces) ?? "" }
+            .filter { !$0.isEmpty }
+        let descriptor: Descriptor
+        let changeDescriptor: Descriptor
+        if descriptorStrings.count == 1 {
+            let parsedDescriptor = try Descriptor(
+                descriptor: descriptorStrings[0],
+                network: network
+            )
+            let singleDescriptors = try parsedDescriptor.toSingleDescriptors()
+            guard singleDescriptors.count >= 2 else {
+                throw WalletError.walletNotFound
+            }
+            descriptor = singleDescriptors[0]
+            changeDescriptor = singleDescriptors[1]
+        } else if descriptorStrings.count == 2 {
+            descriptor = try Descriptor(descriptor: descriptorStrings[0], network: network)
+            changeDescriptor = try Descriptor(descriptor: descriptorStrings[1], network: network)
+        } else {
+            throw WalletError.walletNotFound
+        }
 
         let backupInfo = BackupInfo(
             mnemonic: "",
@@ -211,10 +228,20 @@ private class BDKService {
             throw WalletError.walletNotFound
         }
 
-        let descriptorString = "tr(\(xpubString)/0/*)"
-        let changeDescriptorString = "tr(\(xpubString)/1/*)"
-        let descriptor = try Descriptor(descriptor: descriptorString, network: network)
-        let changeDescriptor = try Descriptor(descriptor: changeDescriptorString, network: network)
+        let descriptorPublicKey = try DescriptorPublicKey.fromString(publicKey: xpubString)
+        let fingerprint = descriptorPublicKey.masterFingerprint()
+        let descriptor = Descriptor.newBip86Public(
+            publicKey: descriptorPublicKey,
+            fingerprint: fingerprint,
+            keychain: .external,
+            network: network
+        )
+        let changeDescriptor = Descriptor.newBip86Public(
+            publicKey: descriptorPublicKey,
+            fingerprint: fingerprint,
+            keychain: .internal,
+            network: network
+        )
 
         let backupInfo = BackupInfo(
             mnemonic: "",
