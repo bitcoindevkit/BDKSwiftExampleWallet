@@ -19,10 +19,16 @@ extension ChainPosition {
             return false
         case (.unconfirmed(let timestamp1), .unconfirmed(let timestamp2)):
             // If both are unconfirmed, compare by timestamp (optional).
-            return timestamp1 < timestamp2
-        case (.confirmed(let blockTime1), .confirmed(let blockTime2)):
-            // If both are confirmed, compare by block height descending.
-            return blockTime1.blockId.height > blockTime2.blockId.height
+            return (timestamp1 ?? 0) < (timestamp2 ?? 0)
+        case (
+            .confirmed(let blockTime1, let transitively1),
+            .confirmed(let blockTime2, let transitively2)
+        ):
+            // Sort by height descending, but note that if transitively is Some,
+            // this block height might not be the "original" confirmation block
+            return blockTime1.blockId.height != blockTime2.blockId.height
+                ? blockTime1.blockId.height > blockTime2.blockId.height
+                : (transitively1 != nil) && (transitively2 == nil)
         }
     }
 }

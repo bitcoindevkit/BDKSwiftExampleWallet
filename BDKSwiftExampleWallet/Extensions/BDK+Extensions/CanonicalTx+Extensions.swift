@@ -19,7 +19,8 @@ extension CanonicalTx {
                     hash: "hash"
                 ),
                 confirmationTime: UInt64(21)
-            )
+            ),
+            transitively: "c1f9fe0d7f97c6490f8360cf71bbef151f2e73302bd06f1690d640b96fb94457"
         )
     )
 }
