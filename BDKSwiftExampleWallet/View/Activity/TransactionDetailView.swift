@@ -50,7 +50,7 @@ struct TransactionDetailView: View {
                 .fontWeight(.semibold)
 
                 switch canonicalTx.chainPosition {
-                case .confirmed(let confirmationBlockTime):
+                case .confirmed(let confirmationBlockTime, _):
                     Text("Block \(confirmationBlockTime.blockId.height.delimiter)")
                         .foregroundStyle(.secondary)
                 case .unconfirmed(_):
@@ -76,7 +76,7 @@ struct TransactionDetailView: View {
                 .fontDesign(.rounded)
                 VStack(spacing: 4) {
                     switch canonicalTx.chainPosition {
-                    case .confirmed(let confirmationBlockTime):
+                    case .confirmed(let confirmationBlockTime, _):
                         Text(
                             confirmationBlockTime.confirmationTime.toDate().formatted(
                                 date: .abbreviated,
@@ -84,12 +84,16 @@ struct TransactionDetailView: View {
                             )
                         )
                     case .unconfirmed(let timestamp):
-                        Text(
-                            timestamp.toDate().formatted(
-                                date: .abbreviated,
-                                time: Date.FormatStyle.TimeStyle.shortened
+                        if let timestamp {
+                            Text(
+                                timestamp.toDate().formatted(
+                                    date: .abbreviated,
+                                    time: Date.FormatStyle.TimeStyle.shortened
+                                )
                             )
-                        )
+                        } else {
+                            Text("Pending")
+                        }
                     }
                     if let fee = viewModel.calculateFee {
                         Text("\(fee.formattedWithSeparator) sats fee")
