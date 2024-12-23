@@ -16,6 +16,9 @@ struct OnboardingView: View {
     @State private var showingImportView = false
     @State private var showingScanner = false
     let pasteboard = UIPasteboard.general
+    var isSmallDevice: Bool {
+        UIScreen.main.isPhoneSE
+    }
 
     var body: some View {
 
@@ -25,7 +28,7 @@ struct OnboardingView: View {
 
             VStack {
 
-                HStack {
+                HStack(alignment: .center, spacing: 40) {
 
                     Spacer()
 
@@ -38,7 +41,6 @@ struct OnboardingView: View {
                         }
                         .tint(.secondary)
                         .font(.title)
-                        .padding()
 
                         Button {
                             if let clipboardContent = UIPasteboard.general.string {
@@ -50,7 +52,6 @@ struct OnboardingView: View {
                         }
                         .tint(.secondary)
                         .font(.title)
-                        .padding()
                     } else {
                         Button {
                             viewModel.words = ""
@@ -60,19 +61,25 @@ struct OnboardingView: View {
                         }
                         .tint(.primary)
                         .font(.title)
-                        .padding()
                     }
                 }
+                .padding()
 
                 Spacer()
 
-                VStack(spacing: 25) {
+                VStack(
+                    spacing: isSmallDevice ? 5 : 25
+                ) {
                     Image(systemName: "bitcoinsign.circle")
                         .resizable()
                         .foregroundStyle(
                             .secondary
                         )
-                        .frame(width: 100, height: 100, alignment: .center)
+                        .frame(
+                            width: isSmallDevice ? 40 : 100,
+                            height: isSmallDevice ? 40 : 100,
+                            alignment: .center
+                        )
                     Text("powered by Bitcoin Dev Kit")
                         .foregroundStyle(
                             LinearGradient(
@@ -138,7 +145,9 @@ struct OnboardingView: View {
                             usePaging: true,
                             wordsPerPage: 4
                         )
-                        .frame(height: 200)
+                        .frame(
+                            height: isSmallDevice ? 150 : 200
+                        )
                         .padding()
                     }
                 }
