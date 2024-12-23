@@ -13,6 +13,9 @@ struct AmountView: View {
     @Binding var navigationPath: NavigationPath
     @State var numpadAmount = "0"
     let address: String
+    var isSmallDevice: Bool {
+        UIScreen.main.isPhoneSE
+    }
 
     var body: some View {
 
@@ -47,8 +50,10 @@ struct AmountView: View {
                 }
 
                 GeometryReader { geometry in
-                    let buttonSize = geometry.size.width / 4
-                    VStack(spacing: buttonSize / 10) {
+                    let buttonDivider: CGFloat = isSmallDevice ? 5 : 4
+                    let buttonSize = geometry.size.width / buttonDivider
+                    let spacingDivider: CGFloat = isSmallDevice ? 12 : 10
+                    VStack(spacing: buttonSize / spacingDivider) {
                         numpadRow(["1", "2", "3"], buttonSize: buttonSize)
                         numpadRow(["4", "5", "6"], buttonSize: buttonSize)
                         numpadRow(["7", "8", "9"], buttonSize: buttonSize)
@@ -56,7 +61,7 @@ struct AmountView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .frame(height: 300)
+                .frame(height: isSmallDevice ? 200 : 300)
 
                 Spacer()
 

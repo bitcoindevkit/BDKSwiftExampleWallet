@@ -15,6 +15,9 @@ struct SettingsView: View {
     @State private var isSeedPresented = false
     @State private var showingDeleteSeedConfirmation = false
     @State private var showingShowSeedConfirmation = false
+    var isSmallDevice: Bool {
+        UIScreen.main.isPhoneSE
+    }
 
     var body: some View {
 
@@ -108,7 +111,7 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $isSeedPresented) {
             WalletRecoveryView(viewModel: .init())
-                .presentationDetents([.medium, .large])
+                .presentationDetents(isSmallDevice ? [.large] : [.medium, .large])
                 .presentationDragIndicator(.visible)
         }
         .alert(

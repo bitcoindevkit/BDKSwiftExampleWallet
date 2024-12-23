@@ -13,6 +13,9 @@ struct ReceiveView: View {
     @Bindable var viewModel: ReceiveViewModel
     @State private var isCopied = false
     @State private var showCheckmark = false
+    var isSmallDevice: Bool {
+        UIScreen.main.isPhoneSE
+    }
 
     var body: some View {
 
@@ -37,12 +40,12 @@ struct ReceiveView: View {
                 VStack(spacing: 8) {
                     Image("bitcoinsign.arrow.down")
                         .symbolRenderingMode(.hierarchical)
-                        .font(.title)
+                        .font(isSmallDevice ? .caption : .title)
                     Text("Receive")
                         .fontWeight(.semibold)
                 }
                 .font(.caption)
-                .padding(.top, 40.0)
+                .padding(.top, isSmallDevice ? 20.0 : 40.0)
 
                 Spacer()
 
@@ -59,17 +62,10 @@ struct ReceiveView: View {
                 AddressFormattedView(
                     address: viewModel.address,
                     columns: 4,
-                    spacing: 20.0,
+                    spacing: isSmallDevice ? 5.0 : 20.0,
                     gridItemSize: 60.0
                 )
                 .padding()
-
-                //                Button {
-                //                    viewModel.startNFCSession()
-                //                } label: {
-                //                    Image(systemName: "wave.3.right")
-                //                        .foregroundColor(.primary)
-                //                }
 
                 HStack {
                     Button {
