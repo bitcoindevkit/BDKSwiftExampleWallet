@@ -366,7 +366,7 @@ private class BDKService {
             .inspectSpks(inspector: inspector)
             .build()
         let update = try esploraClient.sync(
-            syncRequest: syncRequest,
+            request: syncRequest,
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
@@ -383,7 +383,7 @@ private class BDKService {
             .inspectSpksForAllKeychains(inspector: inspector)
             .build()
         let update = try esploraClient.fullScan(
-            fullScanRequest: fullScanRequest,
+            request: fullScanRequest,
             stopGap: UInt64(150),  // should we default value this for folks?
             parallelRequests: UInt64(5)  // should we default value this for folks?
         )
