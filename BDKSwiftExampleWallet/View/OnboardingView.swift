@@ -19,17 +19,15 @@ struct OnboardingView: View {
     var isSmallDevice: Bool {
         UIScreen.main.isPhoneSE
     }
+    @State private var animateContent = false
 
     var body: some View {
-
         ZStack {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
 
             VStack {
-
                 HStack(alignment: .center, spacing: 40) {
-
                     Spacer()
 
                     if viewModel.words.isEmpty {
@@ -41,6 +39,8 @@ struct OnboardingView: View {
                         }
                         .tint(.secondary)
                         .font(.title)
+                        .opacity(animateContent ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5).delay(1.2), value: animateContent)
 
                         Button {
                             if let clipboardContent = UIPasteboard.general.string {
@@ -52,6 +52,8 @@ struct OnboardingView: View {
                         }
                         .tint(.secondary)
                         .font(.title)
+                        .opacity(animateContent ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5).delay(1.2), value: animateContent)
                     } else {
                         Button {
                             viewModel.words = ""
@@ -67,28 +69,23 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                VStack(
-                    spacing: isSmallDevice ? 5 : 25
-                ) {
+                VStack(spacing: isSmallDevice ? 5 : 25) {
                     Image(systemName: "bitcoinsign.circle")
                         .resizable()
-                        .foregroundStyle(
-                            .secondary
-                        )
+                        .foregroundStyle(.secondary)
                         .frame(
                             width: isSmallDevice ? 40 : 100,
                             height: isSmallDevice ? 40 : 100,
                             alignment: .center
                         )
+                        .scaleEffect(animateContent ? 1 : 0)
+                        .opacity(animateContent ? 1 : 0)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.6), value: animateContent)
+                    
                     Text("powered by Bitcoin Dev Kit")
                         .foregroundStyle(
                             LinearGradient(
-                                gradient: Gradient(
-                                    colors: [
-                                        .secondary,
-                                        .primary,
-                                    ]
-                                ),
+                                gradient: Gradient(colors: [.secondary, .primary]),
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
@@ -97,39 +94,41 @@ struct OnboardingView: View {
                         .fontWeight(.medium)
                         .multilineTextAlignment(.center)
                         .padding()
+                        .opacity(animateContent ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5).delay(0.6), value: animateContent)
                 }
                 .padding()
 
-                Picker(
-                    "Network",
-                    selection: $viewModel.selectedNetwork
-                ) {
-                    Text("Signet").tag(Network.signet)
-                    Text("Testnet").tag(Network.testnet)
-                }
-                .pickerStyle(.automatic)
-                .tint(.primary)
-                .accessibilityLabel("Select Bitcoin Network")
-
-                Picker(
-                    "Esplora Server",
-                    selection: $viewModel.selectedURL
-                ) {
-                    ForEach(viewModel.availableURLs, id: \.self) { url in
-                        Text(
-                            url.replacingOccurrences(
-                                of: "https://",
-                                with: ""
-                            ).replacingOccurrences(
-                                of: "http://",
-                                with: ""
-                            )
-                        )
-                        .tag(url)
+                Group {
+                    Picker("Network", selection: $viewModel.selectedNetwork) {
+                        Text("Signet").tag(Network.signet)
+                        Text("Testnet").tag(Network.testnet)
                     }
+                    .pickerStyle(.automatic)
+                    .tint(.primary)
+                    .accessibilityLabel("Select Bitcoin Network")
+                    .opacity(animateContent ? 1 : 0)
+                    .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
+
+                    Picker("Esplora Server", selection: $viewModel.selectedURL) {
+                        ForEach(viewModel.availableURLs, id: \.self) { url in
+                            Text(
+                                url.replacingOccurrences(
+                                    of: "https://",
+                                    with: ""
+                                ).replacingOccurrences(
+                                    of: "http://",
+                                    with: ""
+                                )
+                            )
+                            .tag(url)
+                        }
+                    }
+                    .pickerStyle(.automatic)
+                    .tint(.primary)
+                    .opacity(animateContent ? 1 : 0)
+                    .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
                 }
-                .pickerStyle(.automatic)
-                .tint(.primary)
 
                 if !viewModel.words.isEmpty {
                     if viewModel.isDescriptor || viewModel.isXPub {
@@ -165,9 +164,9 @@ struct OnboardingView: View {
                     )
                 )
                 .padding()
-
+                .opacity(animateContent ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(1.2), value: animateContent)
             }
-
         }
         .alert(isPresented: $showingOnboardingViewErrorAlert) {
             Alert(
@@ -196,7 +195,11 @@ struct OnboardingView: View {
                 pasteAction: {}
             )
         }
-
+        .onAppear {
+            withAnimation {
+                animateContent = true
+            }
+        }
     }
 }
 
