@@ -41,7 +41,10 @@ struct OnboardingView: View {
                         .font(.title)
                         .opacity(animateContent ? 1 : 0)
                         .offset(x: animateContent ? 0 : 100)
-                        .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(1.2), value: animateContent)
+                        .animation(
+                            .spring(response: 0.6, dampingFraction: 0.7).delay(1.2),
+                            value: animateContent
+                        )
 
                         Button {
                             if let clipboardContent = UIPasteboard.general.string {
@@ -55,7 +58,10 @@ struct OnboardingView: View {
                         .font(.title)
                         .opacity(animateContent ? 1 : 0)
                         .offset(x: animateContent ? 0 : 100)
-                        .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(1.3), value: animateContent)
+                        .animation(
+                            .spring(response: 0.6, dampingFraction: 0.7).delay(1.3),
+                            value: animateContent
+                        )
                     } else {
                         Button {
                             viewModel.words = ""
@@ -82,8 +88,11 @@ struct OnboardingView: View {
                         )
                         .scaleEffect(animateContent ? 1 : 0)
                         .opacity(animateContent ? 1 : 0)
-                        .animation(.spring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.6), value: animateContent)
-                    
+                        .animation(
+                            .spring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.6),
+                            value: animateContent
+                        )
+
                     Text("powered by Bitcoin Dev Kit")
                         .foregroundStyle(
                             LinearGradient(
@@ -168,7 +177,10 @@ struct OnboardingView: View {
                 .padding()
                 .opacity(animateContent ? 1 : 0)
                 .offset(y: animateContent ? 0 : 50)
-                .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(1.2), value: animateContent)
+                .animation(
+                    .spring(response: 0.6, dampingFraction: 0.7).delay(1.2),
+                    value: animateContent
+                )
             }
         }
         .alert(isPresented: $showingOnboardingViewErrorAlert) {
