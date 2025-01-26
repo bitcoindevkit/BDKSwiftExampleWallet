@@ -165,7 +165,8 @@ struct OnboardingView: View {
                 )
                 .padding()
                 .opacity(animateContent ? 1 : 0)
-                .animation(.easeOut(duration: 0.5).delay(1.2), value: animateContent)
+                .offset(y: animateContent ? 0 : 50)
+                .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(1.2), value: animateContent)
             }
         }
         .alert(isPresented: $showingOnboardingViewErrorAlert) {
