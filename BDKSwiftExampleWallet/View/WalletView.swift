@@ -301,7 +301,7 @@ extension WalletView {
         case .bitcoin:
             return String(format: "%.8f", Double(viewModel.balanceTotal) / 100_000_000)
         case .fiat:
-            return String(format: "%.2f", viewModel.satsPrice)
+            return viewModel.satsPrice.formatted(.number.precision(.fractionLength(2)))
         }
     }
 

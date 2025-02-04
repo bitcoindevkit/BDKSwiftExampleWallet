@@ -8,9 +8,9 @@
 import Foundation
 
 enum BalanceDisplayFormat: String, CaseIterable, Codable {
-    case sats = "sats"
     case bitcoinSats = "bitcoinSats"
     case bitcoin = "btc"
+    case sats = "sats"
     case fiat = "usd"
 
     var displayText: String {
