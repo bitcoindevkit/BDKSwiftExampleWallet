@@ -32,7 +32,9 @@ struct WalletView: View {
 
                 VStack(spacing: 10) {
                     HStack(spacing: 15) {
-                        currencySymbol
+                        if balanceFormat != .sats && balanceFormat != .bip21q {
+                            currencySymbol
+                        }
                         balanceText
                         unitText
                     }
