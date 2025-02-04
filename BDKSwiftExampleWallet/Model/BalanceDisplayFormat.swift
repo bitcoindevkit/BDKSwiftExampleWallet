@@ -11,12 +11,14 @@ enum BalanceDisplayFormat: String, CaseIterable, Codable {
     case bitcoinSats = "bitcoinSats"
     case bitcoin = "btc"
     case sats = "sats"
+    case bip21q = "bip21q"
     case fiat = "usd"
 
     var displayText: String {
         switch self {
         case .sats, .bitcoinSats: return "sats"
         case .bitcoin: return ""
+        case .bip21q: return "₿"
         case .fiat: return "USD"
         }
     }
