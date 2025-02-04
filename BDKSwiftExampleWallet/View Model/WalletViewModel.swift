@@ -8,6 +8,7 @@
 import BitcoinDevKit
 import Foundation
 import Observation
+import SwiftUI
 
 @MainActor
 @Observable
@@ -25,7 +26,8 @@ class WalletViewModel {
     var price: Double = 0.00
     var progress: Float = 0.0
     var recentTransactions: [CanonicalTx] {
-        Array(transactions.prefix(5))
+        let maxTransactions = UIScreen.main.isPhoneSE ? 4 : 5
+        return Array(transactions.prefix(maxTransactions))
     }
     var satsPrice: Double {
         let usdValue = Double(balanceTotal).valueInUSD(price: price)
