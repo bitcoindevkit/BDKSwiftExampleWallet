@@ -296,10 +296,12 @@ extension WalletView {
         switch balanceFormat {
         case .sats:
             return viewModel.balanceTotal.formatted(.number)
-        case .bitcoinSats:
-            return viewModel.balanceTotal.formattedSatoshis()
         case .bitcoin:
             return String(format: "%.8f", Double(viewModel.balanceTotal) / 100_000_000)
+        case .bitcoinSats:
+            return viewModel.balanceTotal.formattedSatoshis()
+        case .bip21q:
+            return viewModel.balanceTotal.formatted(.number)
         case .fiat:
             return viewModel.satsPrice.formatted(.number.precision(.fractionLength(2)))
         }
@@ -316,7 +318,7 @@ extension WalletView {
                     removal: .move(edge: .trailing).combined(with: .opacity)
                 )
             )
-            .opacity(balanceFormat == .sats ? 0 : 1)
+            .opacity(balanceFormat == .sats || balanceFormat == .bip21q ? 0 : 1)
             .id("symbol-\(balanceFormat)")
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: balanceFormat)
     }
