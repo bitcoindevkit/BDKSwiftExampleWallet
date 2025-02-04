@@ -10,13 +10,17 @@ import BitcoinUI
 import SwiftUI
 
 struct WalletView: View {
+    @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
+        .bitcoinSats
     @Bindable var viewModel: WalletViewModel
     @Binding var sendNavigationPath: NavigationPath
+    @State private var balanceTextPulsingOpacity: Double = 0.7
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
     @State private var showAllTransactions = false
     @State private var showReceiveView = false
     @State private var showSettingsView = false
+    @State private var showingFormatMenu = false
 
     var body: some View {
 
@@ -27,56 +31,41 @@ struct WalletView: View {
             VStack(spacing: 20) {
 
                 VStack(spacing: 10) {
-                    withAnimation {
-                        HStack(spacing: 15) {
-                            Image(systemName: "bitcoinsign")
-                                .foregroundStyle(.secondary)
-                                .font(.title)
-                                .fontWeight(.thin)
-                            Text(viewModel.balanceTotal.formattedSatoshis())
-                                .contentTransition(.numericText())
-                                .fontWeight(.semibold)
-                                .fontDesign(.rounded)
-                            Text("sats")
-                                .foregroundStyle(.secondary)
-                                .fontWeight(.thin)
-                        }
-                        .font(.largeTitle)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
+                    HStack(spacing: 15) {
+                        currencySymbol
+                        balanceText
+                        unitText
                     }
-                    .accessibilityLabel("Bitcoin Balance")
-                    .accessibilityValue("\(viewModel.balanceTotal.formattedSatoshis()) sats")
-                    HStack {
-                        if viewModel.walletSyncState == .syncing {
-                            Image(systemName: "chart.bar.fill")
-                                .symbolEffect(.variableColor.cumulative)
-                                .transition(.symbolEffect(.appear))
-                        }
-                        Text(
-                            viewModel.satsPrice > 0 || viewModel.walletSyncState == .synced
-                                ? viewModel.satsPrice.formatted(.currency(code: "USD")) : ""
-                        )
-                        .fontDesign(.rounded)
-                        .foregroundStyle(
-                            viewModel.walletSyncState == .synced ? .secondary : .tertiary
-                        )
-                        .opacity(
-                            viewModel.walletSyncState == .syncing && viewModel.satsPrice == 0
-                                ? 0.7 : 1
-                        )
-                        .contentTransition(.numericText())
-                        .animation(
-                            .spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5),
-                            value: viewModel.satsPrice
-                        )
+                    .font(.largeTitle)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                }
+                .accessibilityLabel("Bitcoin Balance")
+                .accessibilityValue(formattedBalance)
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        balanceFormat =
+                            BalanceDisplayFormat.allCases[
+                                (balanceFormat.index + 1) % BalanceDisplayFormat.allCases.count
+                            ]
                     }
-                    .foregroundStyle(.secondary)
-                    .font(.subheadline)
-                    .animation(
-                        .spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5),
-                        value: viewModel.walletSyncState
-                    )
+                }
+                .swipeGesture { direction in
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        switch direction {
+                        case .left:
+                            balanceFormat =
+                                BalanceDisplayFormat.allCases[
+                                    (balanceFormat.index + 1) % BalanceDisplayFormat.allCases.count
+                                ]
+                        case .right:
+                            balanceFormat =
+                                BalanceDisplayFormat.allCases[
+                                    (balanceFormat.index - 1 + BalanceDisplayFormat.allCases.count)
+                                        % BalanceDisplayFormat.allCases.count
+                                ]
+                        }
+                    }
                 }
                 .padding(.vertical, 35.0)
 
@@ -296,6 +285,75 @@ struct WalletView: View {
             }
         }
 
+    }
+
+}
+
+extension WalletView {
+
+    @MainActor
+    var formattedBalance: String {
+        switch balanceFormat {
+        case .sats:
+            return viewModel.balanceTotal.formatted(.number)
+        case .bitcoinSats:
+            return viewModel.balanceTotal.formattedSatoshis()
+        case .bitcoin:
+            return String(format: "%.8f", Double(viewModel.balanceTotal) / 100_000_000)
+        case .fiat:
+            return String(format: "%.2f", viewModel.satsPrice)
+        }
+    }
+
+    private var currencySymbol: some View {
+        Image(systemName: balanceFormat == .fiat ? "dollarsign" : "bitcoinsign")
+            .foregroundStyle(.secondary)
+            .font(.title)
+            .fontWeight(.thin)
+            .transition(
+                .asymmetric(
+                    insertion: .move(edge: .leading).combined(with: .opacity),
+                    removal: .move(edge: .trailing).combined(with: .opacity)
+                )
+            )
+            .opacity(balanceFormat == .sats ? 0 : 1)
+            .id("symbol-\(balanceFormat)")
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: balanceFormat)
+    }
+
+    @MainActor
+    var balanceText: some View {
+        Text(balanceFormat == .fiat && viewModel.satsPrice == 0 ? "00.00" : formattedBalance)
+            .contentTransition(.numericText(countsDown: true))
+            .fontWeight(.semibold)
+            .fontDesign(.rounded)
+            .foregroundStyle(
+                balanceFormat == .fiat && viewModel.satsPrice == 0 ? .secondary : .primary
+            )
+            .opacity(
+                balanceFormat == .fiat && viewModel.satsPrice == 0 ? balanceTextPulsingOpacity : 1
+            )
+            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: balanceFormat)
+            .animation(.easeInOut, value: viewModel.satsPrice)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                    balanceTextPulsingOpacity = 0.3
+                }
+            }
+    }
+
+    private var unitText: some View {
+        Text(balanceFormat.displayText)
+            .foregroundStyle(.secondary)
+            .fontWeight(.thin)
+            .transition(
+                .asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                )
+            )
+            .id("format-\(balanceFormat)")
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: balanceFormat)
     }
 
 }
