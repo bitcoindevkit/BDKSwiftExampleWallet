@@ -4,7 +4,7 @@
 
 A native iOS app example using [Bitcoin Dev Kit](https://github.com/bitcoindevkit) via [language bindings](https://github.com/bitcoindevkit/bdk-ffi).
 
-<img src="Docs/bitcoin-walletview.png" alt="Screenshot" width="210.5" height="420">
+<img src="Docs/walletview.png" alt="Screenshot" width="210.5" height="420">
 
 Download the app on [TestFlight](https://testflight.apple.com/join/A3nAuYvZ).
 
