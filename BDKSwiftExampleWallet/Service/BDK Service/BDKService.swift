@@ -384,8 +384,10 @@ private class BDKService {
             .build()
         let update = try esploraClient.fullScan(
             request: fullScanRequest,
-            stopGap: UInt64(150),  // should we default value this for folks?
-            parallelRequests: UInt64(5)  // should we default value this for folks?
+            // using https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#address-gap-limit
+            stopGap: UInt64(20),
+            // using https://github.com/bitcoindevkit/bdk/blob/master/example-crates/example_wallet_esplora_blocking/src/main.rs
+            parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
         guard let connection = self.connection else {
