@@ -52,23 +52,6 @@ struct WalletView: View {
                             ]
                     }
                 }
-                .swipeGesture { direction in
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        switch direction {
-                        case .left:
-                            balanceFormat =
-                                BalanceDisplayFormat.allCases[
-                                    (balanceFormat.index + 1) % BalanceDisplayFormat.allCases.count
-                                ]
-                        case .right:
-                            balanceFormat =
-                                BalanceDisplayFormat.allCases[
-                                    (balanceFormat.index - 1 + BalanceDisplayFormat.allCases.count)
-                                        % BalanceDisplayFormat.allCases.count
-                                ]
-                        }
-                    }
-                }
                 .padding(.vertical, 35.0)
 
                 VStack {
