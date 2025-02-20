@@ -52,6 +52,7 @@ struct WalletView: View {
                             ]
                     }
                 }
+                .sensoryFeedback(.selection, trigger: balanceFormat)
                 .padding(.vertical, 35.0)
 
                 VStack {
