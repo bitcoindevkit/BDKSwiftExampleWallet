@@ -24,10 +24,48 @@ class HomeViewModel: ObservableObject {
         do {
             try bdkClient.loadWallet()
         } catch let error as DescriptorError {
-            self.homeViewError = .generic(message: error.localizedDescription)
+            let errorMessage: String
+            switch error {
+            case .InvalidHdKeyPath:
+                errorMessage = "Invalid HD key path"
+            case .InvalidDescriptorChecksum:
+                errorMessage = "Invalid descriptor checksum"
+            case .HardenedDerivationXpub:
+                errorMessage = "Hardened derivation with xpub"
+            case .MultiPath:
+                errorMessage = "Multi-path descriptor"
+            case .Key(let message):
+                errorMessage = "Key error: \(message)"
+            case .Policy(let message):
+                errorMessage = "Policy error: \(message)"
+            case .InvalidDescriptorCharacter(let char):
+                errorMessage = "Invalid descriptor character: \(char)"
+            case .Bip32(let message):
+                errorMessage = "BIP32 error: \(message)"
+            case .Base58(let message):
+                errorMessage = "Base58 error: \(message)"
+            case .Pk(let message):
+                errorMessage = "Public key error: \(message)"
+            case .Miniscript(let message):
+                errorMessage = "Miniscript error: \(message)"
+            case .Hex(let message):
+                errorMessage = "Hex error: \(message)"
+            case .ExternalAndInternalAreTheSame:
+                errorMessage = "External and internal descriptors are the same"
+            }
+            self.homeViewError = .generic(message: errorMessage)
             self.showingHomeViewErrorAlert = true
         } catch let error as LoadWithPersistError {
-            self.homeViewError = .generic(message: error.localizedDescription)
+            let errorMessage: String
+            switch error {
+            case .Persist(let message):
+                errorMessage = "Persist error: \(message)"
+            case .InvalidChangeSet(let message):
+                errorMessage = "Invalid change set: \(message)"
+            case .CouldNotLoad:
+                errorMessage = "Could not load wallet"
+            }
+            self.homeViewError = .generic(message: errorMessage)
             self.showingHomeViewErrorAlert = true
         } catch let error as KeyServiceError {
             self.homeViewError = .generic(message: error.localizedDescription)
