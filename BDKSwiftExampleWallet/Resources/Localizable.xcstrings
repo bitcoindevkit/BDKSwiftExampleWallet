@@ -422,6 +422,9 @@
         }
       }
     },
+    "Loading wallet..." : {
+
+    },
     "Navigation Title" : {
       "extractionState" : "stale",
       "localizations" : {

@@ -12,22 +12,24 @@ struct HomeView: View {
     @Binding var navigationPath: NavigationPath
 
     var body: some View {
-
         ZStack {
             Color(uiColor: UIColor.systemBackground)
 
-            WalletView(
-                viewModel: .init(
-                    bdkClient: .live,
-                    priceClient: .live
-                ),
-                sendNavigationPath: $navigationPath
-            )
-            .tint(.primary)
-            .onAppear {
-                viewModel.loadWallet()
+            if !viewModel.isWalletLoaded {
+                ProgressView("Loading wallet...")
+            } else {
+                WalletView(
+                    viewModel: .init(
+                        bdkClient: .live,
+                        priceClient: .live
+                    ),
+                    sendNavigationPath: $navigationPath
+                )
+                .tint(.primary)
             }
-
+        }
+        .onAppear {
+            viewModel.loadWallet()
         }
         .alert(isPresented: $viewModel.showingHomeViewErrorAlert) {
             Alert(
