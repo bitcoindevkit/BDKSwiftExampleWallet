@@ -25,18 +25,26 @@ private class BDKService {
         let storedNetworkString = try? keyClient.getNetwork() ?? Network.signet.description
         self.network = Network(stringValue: storedNetworkString ?? "") ?? .signet
 
-        switch self.network {
-        case .bitcoin:
-            self.esploraURL = Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
-        case .testnet:
-            self.esploraURL = Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
-        case .regtest:
-            self.esploraURL = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
-        case .signet:
-            self.esploraURL = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
-        case .testnet4:
-            self.esploraURL =
-                Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+        if let savedURL = try? keyClient.getEsploraURL() {
+            self.esploraURL = savedURL
+        } else {
+            switch self.network {
+            case .bitcoin:
+                self.esploraURL =
+                    Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
+            case .testnet:
+                self.esploraURL =
+                    Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
+            case .regtest:
+                self.esploraURL =
+                    Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
+            case .signet:
+                self.esploraURL =
+                    Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+            case .testnet4:
+                self.esploraURL =
+                    Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+            }
         }
 
         self.esploraClient = EsploraClient(url: self.esploraURL)
@@ -119,6 +127,8 @@ private class BDKService {
     }
 
     func createWallet(words: String?) throws {
+        let savedURL = try? keyClient.getEsploraURL()
+
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
 
@@ -126,19 +136,24 @@ private class BDKService {
             try FileManager.default.removeItem(at: walletDataDirectoryURL)
         }
 
-        let baseUrl: String
-        switch self.network {
-        case .bitcoin:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
-        case .testnet:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
-        case .regtest:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
-        case .signet:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
-        case .testnet4:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
-        }
+        let baseUrl =
+            savedURL
+            ?? {
+                let defaultURL =
+                    switch self.network {
+                    case .bitcoin:
+                        Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
+                    case .testnet:
+                        Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
+                    case .regtest:
+                        Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
+                    case .signet:
+                        Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+                    case .testnet4:
+                        Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+                    }
+                return defaultURL
+            }()
 
         var words12: String
         if let words = words, !words.isEmpty {
@@ -193,27 +208,33 @@ private class BDKService {
     }
 
     func createWallet(descriptor: String?) throws {
+        let savedURL = try? keyClient.getEsploraURL()
+
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
 
         if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
             try FileManager.default.removeItem(at: walletDataDirectoryURL)
-        } else {
         }
 
-        let baseUrl: String
-        switch self.network {
-        case .bitcoin:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
-        case .testnet:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
-        case .regtest:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
-        case .signet:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
-        case .testnet4:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
-        }
+        let baseUrl =
+            savedURL
+            ?? {
+                let defaultURL =
+                    switch self.network {
+                    case .bitcoin:
+                        Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
+                    case .testnet:
+                        Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
+                    case .regtest:
+                        Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
+                    case .signet:
+                        Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+                    case .testnet4:
+                        Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+                    }
+                return defaultURL
+            }()
 
         guard let descriptorString = descriptor, !descriptorString.isEmpty else {
             throw WalletError.walletNotFound
@@ -268,6 +289,8 @@ private class BDKService {
     }
 
     func createWallet(xpub: String?) throws {
+        let savedURL = try? keyClient.getEsploraURL()
+
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
 
@@ -275,19 +298,24 @@ private class BDKService {
             try FileManager.default.removeItem(at: walletDataDirectoryURL)
         }
 
-        let baseUrl: String
-        switch self.network {
-        case .bitcoin:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
-        case .testnet:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
-        case .regtest:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
-        case .signet:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
-        case .testnet4:
-            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
-        }
+        let baseUrl =
+            savedURL
+            ?? {
+                let defaultURL =
+                    switch self.network {
+                    case .bitcoin:
+                        Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
+                    case .testnet:
+                        Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
+                    case .regtest:
+                        Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
+                    case .signet:
+                        Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+                    case .testnet4:
+                        Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+                    }
+                return defaultURL
+            }()
 
         guard let xpubString = xpub, !xpubString.isEmpty else {
             throw WalletError.walletNotFound
@@ -363,18 +391,26 @@ private class BDKService {
     }
 
     func deleteWallet() throws {
+        let savedURL = try? keyClient.getEsploraURL()
+        let savedNetwork = try? keyClient.getNetwork()
+
         if let bundleID = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleID)
         }
+
         try self.keyClient.deleteBackupInfo()
-        try self.keyClient.deleteEsplora()
-        try self.keyClient.deleteNetwork()
 
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-
         if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
             try FileManager.default.removeItem(at: walletDataDirectoryURL)
+        }
+
+        if let savedURL = savedURL {
+            try keyClient.saveEsploraURL(savedURL)
+        }
+        if let savedNetwork = savedNetwork {
+            try keyClient.saveNetwork(savedNetwork)
         }
 
         needsFullScan = true
