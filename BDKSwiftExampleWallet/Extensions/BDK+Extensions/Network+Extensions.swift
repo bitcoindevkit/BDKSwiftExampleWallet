@@ -13,6 +13,7 @@ extension Network {
         switch self {
         case .bitcoin: return "bitcoin"
         case .testnet: return "testnet"
+        case .testnet4: return "testnet4"
         case .signet: return "signet"
         case .regtest: return "regtest"
         }
@@ -22,6 +23,7 @@ extension Network {
         switch stringValue {
         case "bitcoin": self = .bitcoin
         case "testnet": self = .testnet
+        case "testnet4": self = .testnet4
         case "signet": self = .signet
         case "regtest": self = .regtest
         default: return nil
