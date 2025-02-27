@@ -114,6 +114,7 @@ struct OnboardingView: View {
                     Picker("Network", selection: $viewModel.selectedNetwork) {
                         Text("Signet").tag(Network.signet)
                         Text("Testnet").tag(Network.testnet)
+                        Text("Testnet4").tag(Network.testnet4)
                     }
                     .pickerStyle(.automatic)
                     .tint(.primary)

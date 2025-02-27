@@ -24,8 +24,21 @@ private class BDKService {
         self.keyClient = keyClient
         let storedNetworkString = try? keyClient.getNetwork() ?? Network.signet.description
         self.network = Network(stringValue: storedNetworkString ?? "") ?? .signet
-        self.esploraURL =
-            try! keyClient.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
+
+        switch self.network {
+        case .bitcoin:
+            self.esploraURL = Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
+        case .testnet:
+            self.esploraURL = Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
+        case .regtest:
+            self.esploraURL = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
+        case .signet:
+            self.esploraURL = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+        case .testnet4:
+            self.esploraURL =
+                Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+        }
+
         self.esploraClient = EsploraClient(url: self.esploraURL)
     }
 
@@ -188,8 +201,19 @@ private class BDKService {
         } else {
         }
 
-        let baseUrl =
-            try keyClient.getEsploraURL() ?? Constants.Config.EsploraServerURLNetwork.Signet.mutiny
+        let baseUrl: String
+        switch self.network {
+        case .bitcoin:
+            baseUrl = Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
+        case .testnet:
+            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
+        case .regtest:
+            baseUrl = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
+        case .signet:
+            baseUrl = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+        case .testnet4:
+            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+        }
 
         guard let descriptorString = descriptor, !descriptorString.isEmpty else {
             throw WalletError.walletNotFound
