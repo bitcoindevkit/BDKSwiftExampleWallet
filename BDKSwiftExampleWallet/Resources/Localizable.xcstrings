@@ -701,6 +701,9 @@
         }
       }
     },
+    "Testnet4" : {
+
+    },
     "To" : {
       "extractionState" : "stale",
       "localizations" : {
