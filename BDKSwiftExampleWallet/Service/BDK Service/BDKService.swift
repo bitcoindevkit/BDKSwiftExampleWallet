@@ -48,6 +48,8 @@ private class BDKService {
                 newURL = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
             case .signet:
                 newURL = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+            case .testnet4:
+                newURL = Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
             }
             updateEsploraURL(newURL)
 
@@ -121,6 +123,8 @@ private class BDKService {
             baseUrl = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
         case .signet:
             baseUrl = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+        case .testnet4:
+            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
         }
 
         var words12: String
@@ -257,6 +261,8 @@ private class BDKService {
             baseUrl = Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
         case .signet:
             baseUrl = Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+        case .testnet4:
+            baseUrl = Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
         }
 
         guard let xpubString = xpub, !xpubString.isEmpty else {

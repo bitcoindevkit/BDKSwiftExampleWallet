@@ -35,12 +35,16 @@ struct Constants {
             }
             struct Testnet {
                 static let blockstream = "https://blockstream.info/testnet/api/"
-                //static let kuutamo = "https://esplora.testnet.kuutamo.cloud"
                 static let mempoolspace = "https://mempool.space/testnet/api/"
                 static let allValues = [
                     mempoolspace,
                     blockstream,
-                    //kuutamo,
+                ]
+            }
+            struct Testnet4 {
+                static let mempoolspace = "https://mempool.space/testnet4/api/"
+                static let allValues = [
+                    mempoolspace
                 ]
             }
         }
@@ -50,6 +54,7 @@ struct Constants {
         case regtest
         case signet
         case testnet
+        case testnet4
 
         var color: Color {
             switch self {
@@ -65,6 +70,8 @@ struct Constants {
                 return Color.orange
             case .testnet:
                 return Color.red
+            case .testnet4:
+                return Color.cyan
             }
         }
     }

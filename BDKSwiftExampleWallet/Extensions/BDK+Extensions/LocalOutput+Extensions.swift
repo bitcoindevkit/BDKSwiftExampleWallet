@@ -19,7 +19,9 @@ extension LocalOutput {
             scriptPubkey: Script(rawOutputScript: [UInt8(1)])
         ),
         keychain: .external,
-        isSpent: false
+        isSpent: false,
+        derivationIndex: UInt32(32),
+        chainPosition: .unconfirmed(timestamp: nil)
     )
 }
 //#endif

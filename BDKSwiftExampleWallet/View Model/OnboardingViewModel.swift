@@ -56,6 +56,8 @@ class OnboardingViewModel: ObservableObject {
             return Constants.Config.EsploraServerURLNetwork.Regtest.allValues
         case .signet:
             return Constants.Config.EsploraServerURLNetwork.Signet.allValues
+        case .testnet4:
+            return Constants.Config.EsploraServerURLNetwork.Testnet4.allValues
         }
     }
     var buttonColor: Color {
@@ -68,6 +70,8 @@ class OnboardingViewModel: ObservableObject {
             return Constants.BitcoinNetworkColor.signet.color
         case .regtest:
             return Constants.BitcoinNetworkColor.regtest.color
+        case .testnet4:
+            return Constants.BitcoinNetworkColor.testnet4.color
         }
     }
 
