@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -620,7 +620,7 @@
 				AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				AEB735D12B2CC4B900F99DBB /* XCRemoteSwiftPackageReference "BitcoinUI" */,
 				AEAF83B42B7BD4D10019B23B /* XCRemoteSwiftPackageReference "CodeScanner" */,
-				AE2DD83D2D6FEF3600E5F212 /* XCLocalSwiftPackageReference "../bdk-ffi/bdk-swift" */,
+				AEA2DEF12D70F8840067C0EB /* XCRemoteSwiftPackageReference "bdk-swift" */,
 			);
 			productRefGroup = AE4984792A1BBBD6009951E2 /* Products */;
 			projectDirPath = "";
@@ -1017,13 +1017,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		AE2DD83D2D6FEF3600E5F212 /* XCLocalSwiftPackageReference "../bdk-ffi/bdk-swift" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../bdk-ffi/bdk-swift";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1031,6 +1024,14 @@
 			requirement = {
 				kind = exactVersion;
 				version = 4.2.2;
+			};
+		};
+		AEA2DEF12D70F8840067C0EB /* XCRemoteSwiftPackageReference "bdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bitcoindevkit/bdk-swift";
+			requirement = {
+				kind = revision;
+				revision = 4e3783cfaee98e14ed12aee3cf1d63b2fc99705b;
 			};
 		};
 		AEAF83B42B7BD4D10019B23B /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
