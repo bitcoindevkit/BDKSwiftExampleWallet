@@ -14,6 +14,7 @@ class HomeViewModel: ObservableObject {
     let bdkClient: BDKClient
 
     var homeViewError: AppError?
+    var isWalletLoaded = false
     var showingHomeViewErrorAlert = false
 
     init(bdkClient: BDKClient = .live) {
@@ -23,6 +24,7 @@ class HomeViewModel: ObservableObject {
     func loadWallet() {
         do {
             try bdkClient.loadWallet()
+            isWalletLoaded = true
         } catch let error as DescriptorError {
             let errorMessage: String
             switch error {
