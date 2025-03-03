@@ -15,18 +15,14 @@ struct HomeView: View {
         ZStack {
             Color(uiColor: UIColor.systemBackground)
 
-            if !viewModel.isWalletLoaded {
-                ProgressView("Loading wallet...")
-            } else {
-                WalletView(
-                    viewModel: .init(
-                        bdkClient: .live,
-                        priceClient: .live
-                    ),
-                    sendNavigationPath: $navigationPath
-                )
-                .tint(.primary)
-            }
+            WalletView(
+                viewModel: .init(
+                    bdkClient: .live,
+                    priceClient: .live
+                ),
+                sendNavigationPath: $navigationPath
+            )
+            .tint(.primary)
         }
         .onAppear {
             viewModel.loadWallet()
