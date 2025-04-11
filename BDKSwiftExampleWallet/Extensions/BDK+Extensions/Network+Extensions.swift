@@ -31,6 +31,23 @@ extension Network {
     }
 }
 
+extension Network {
+    var url: String {
+        switch self {
+        case .bitcoin:
+            Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues.first ?? ""
+        case .testnet:
+            Constants.Config.EsploraServerURLNetwork.Testnet.allValues.first ?? ""
+        case .signet:
+            Constants.Config.EsploraServerURLNetwork.Signet.allValues.first ?? ""
+        case .regtest:
+            Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
+        case .testnet4:
+            Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+        }
+    }
+}
+
 #if DEBUG
     let mockKeyClientNetwork = Network.regtest
 #endif
