@@ -155,14 +155,6 @@ private class BDKService {
         }
         
         let savedURL = try? keyClient.getEsploraURL()
-
-//        let documentsDirectoryURL = URL.documentsDirectory
-//        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-//
-//        if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
-//            try FileManager.default.removeItem(at: walletDataDirectoryURL)
-//        }
-
         let baseUrl = savedURL ?? network.url
 
         guard let descriptorString = descriptor, !descriptorString.isEmpty else {
@@ -202,12 +194,6 @@ private class BDKService {
         try keyClient.saveNetwork(self.network.description)
         try keyClient.saveEsploraURL(baseUrl)
 
-//        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
-//        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
-//        let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
-//            .path
-//        let connection = try Connection(path: persistenceBackendPath)
-//        self.connection = connection
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
@@ -224,13 +210,6 @@ private class BDKService {
         }
         
         let savedURL = try? keyClient.getEsploraURL()
-
-//        let documentsDirectoryURL = URL.documentsDirectory
-//        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-//
-//        if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
-//            try FileManager.default.removeItem(at: walletDataDirectoryURL)
-//        }
 
         let baseUrl = savedURL ?? network.url
 
@@ -264,13 +243,7 @@ private class BDKService {
         try keyClient.saveEsploraURL(baseUrl)
         self.esploraURL = baseUrl
         updateEsploraClient()
-
-//        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
-//        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
-//        let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
-//            .path
-//        let connection = try Connection(path: persistenceBackendPath)
-//        self.connection = connection
+        
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
