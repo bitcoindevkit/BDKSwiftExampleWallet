@@ -8,6 +8,12 @@
             "state" : "translated",
             "value" : "\nhaute priorité - %lld"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alta Prioridade - %lld"
+          }
         }
       }
     },
@@ -17,6 +23,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Priorité basse  - %lld"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baixa Prioridade - %lld"
           }
         }
       }
@@ -28,6 +40,12 @@
             "state" : "translated",
             "value" : "Priorité moyenne - %lld"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Média Prioridade - %lld"
+          }
         }
       }
     },
@@ -37,6 +55,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune priorité - %lld"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem prioridade - %lld"
           }
         }
       }
@@ -48,12 +72,24 @@
             "state" : "translated",
             "value" : "- %llu sats"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%llu sats"
+          }
         }
       }
     },
     "?" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "?"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "?"
@@ -68,12 +104,24 @@
             "state" : "translated",
             "value" : "..."
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "…"
+          }
         }
       }
     },
     "/" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "/"
@@ -94,12 +142,24 @@
             "state" : "translated",
             "value" : "%1$@ • %2$@"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ • %2$@"
+          }
         }
       }
     },
     "%@ sats" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sats"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ sats"
@@ -113,6 +173,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ frais de sats"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@taxa em sats"
           }
         }
       }
@@ -130,11 +196,24 @@
             "state" : "translated",
             "value" : "%1$lld Sortir %2$@"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld Output%2$@"
+          }
         }
       }
     },
     "%lld satoshis per vbyte" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld satoshis por vbyte"
+          }
+        }
+      }
     },
     "%lld Transaction%@" : {
       "localizations" : {
@@ -149,12 +228,24 @@
             "state" : "translated",
             "value" : "%1$lld Transaction%2$@"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld Transação%2$@"
+          }
         }
       }
     },
     "%llu" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%llu"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%llu"
@@ -169,12 +260,24 @@
             "state" : "translated",
             "value" : "%llu sats"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%llu sats"
+          }
         }
       }
     },
     "+ %llu sats" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+ %llu sats"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "+ %llu sats"
@@ -190,6 +293,12 @@
             "state" : "translated",
             "value" : "Phrase de semence de 12 mots (facultatif)"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frase de recuperação de 12 palavras (Opcional)"
+          }
         }
       }
     },
@@ -201,6 +310,12 @@
             "state" : "translated",
             "value" : "Un portefeuille Bitcoin alimenté par Bitcoin Dev Kit"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carteira bitcoin criada por Bitcoin Dev Kit"
+          }
         }
       }
     },
@@ -210,6 +325,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Activité"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atividades"
           }
         }
       }
@@ -221,6 +342,12 @@
             "state" : "translated",
             "value" : "Erreur de montant"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valor incorreto"
+          }
         }
       }
     },
@@ -230,6 +357,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Êtes-vous sûr de vouloir supprimer la semence ?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você tem certeza que quer deletar a frase de recuperação?"
           }
         }
       }
@@ -241,11 +374,24 @@
             "state" : "translated",
             "value" : "Êtes-vous sûr de vouloir voir la semence ?"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você tem certeza que deseja visualizar a frase de recuperação?"
+          }
         }
       }
     },
     "Backup is not synced across devices." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup não está sincronizado entre os dispositivos"
+          }
+        }
+      }
     },
     "BDK Wallet" : {
       "extractionState" : "stale",
@@ -255,11 +401,24 @@
             "state" : "translated",
             "value" : "BDK Wallet"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BKD Wallet"
+          }
         }
       }
     },
     "Bitcoin Balance" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saldo Bitcoin"
+          }
+        }
+      }
     },
     "Block %@" : {
       "localizations" : {
@@ -267,6 +426,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloc %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloco %@"
           }
         }
       }
@@ -278,6 +443,12 @@
             "state" : "translated",
             "value" : "Erreur de construction de transaction"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro na transação"
+          }
         }
       }
     },
@@ -287,6 +458,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "confirmé"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "confirmado"
           }
         }
       }
@@ -299,6 +476,12 @@
             "state" : "translated",
             "value" : "Copier"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar"
+          }
         }
       }
     },
@@ -309,6 +492,12 @@
             "state" : "translated",
             "value" : "Créer un portefeuille"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar Carteira"
+          }
         }
       }
     },
@@ -318,6 +507,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zone dangereuse"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zone de perigo"
           }
         }
       }
@@ -330,14 +525,34 @@
             "state" : "translated",
             "value" : "Supprimer la semence"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover Frase de recuperação"
+          }
         }
       }
     },
     "Delete Wallet" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover Carteira"
+          }
+        }
+      }
     },
     "Descriptors" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descritores"
+          }
+        }
+      }
     },
     "Destructive Zone" : {
       "localizations" : {
@@ -345,6 +560,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zone destructrice"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zona de destruição"
           }
         }
       }
@@ -356,6 +577,12 @@
             "state" : "translated",
             "value" : "Erreur"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro"
+          }
         }
       }
     },
@@ -365,6 +592,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Serveur Esplora"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esplora Server"
           }
         }
       }
@@ -376,6 +609,12 @@
             "state" : "translated",
             "value" : "\nFrais"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taxa"
+          }
         }
       }
     },
@@ -385,6 +624,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de frais"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro na taxa"
           }
         }
       }
@@ -396,6 +641,12 @@
             "state" : "translated",
             "value" : "\nFrais"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taxas"
+          }
         }
       }
     },
@@ -406,11 +657,24 @@
             "state" : "translated",
             "value" : "Analyse complète"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escaneamento completo"
+          }
         }
       }
     },
     "Get sats from faucet" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obter sats do faucet"
+          }
+        }
+      }
     },
     "HomeView Error" : {
       "localizations" : {
@@ -418,6 +682,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de HomeView"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro na HomeView"
           }
         }
       }
@@ -430,6 +700,12 @@
             "state" : "translated",
             "value" : "Titre de navigation"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Título de navegação"
+          }
         }
       }
     },
@@ -439,6 +715,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réseau"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rede"
           }
         }
       }
@@ -450,6 +732,12 @@
             "state" : "translated",
             "value" : "à côté"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próximo"
+          }
         }
       }
     },
@@ -459,6 +747,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Non"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não"
           }
         }
       }
@@ -470,6 +764,12 @@
             "state" : "translated",
             "value" : "Aucun réseau"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rede indisponível"
+          }
         }
       }
     },
@@ -479,6 +779,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune graine disponible"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frase de recuperação indisponível"
           }
         }
       }
@@ -490,6 +796,12 @@
             "state" : "translated",
             "value" : "Aucune transaction"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem Transações"
+          }
         }
       }
     },
@@ -500,12 +812,24 @@
             "state" : "translated",
             "value" : "Aucun non dépensé"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não Gasto"
+          }
         }
       }
     },
     "OK" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -520,6 +844,12 @@
             "state" : "translated",
             "value" : "Erreur d'intégration"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro de cadastro"
+          }
         }
       }
     },
@@ -530,17 +860,44 @@
             "state" : "translated",
             "value" : "Coller l'adresse"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colar endereço"
+          }
         }
       }
     },
     "Pending" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendente"
+          }
+        }
+      }
     },
     "Please make sure to write it down and store it securely." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor, tenha certeza de escrever e guardar com segurança."
+          }
+        }
+      }
     },
     "powered by Bitcoin Dev Kit" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "criado por Bitcoin Dev Kit"
+          }
+        }
+      }
     },
     "Receive" : {
       "localizations" : {
@@ -548,6 +905,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recevoir"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Receber"
           }
         }
       }
@@ -558,6 +921,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de réception"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao Receber"
           }
         }
       }
@@ -570,12 +939,24 @@
             "state" : "translated",
             "value" : "Regtest"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regtest"
+          }
         }
       }
     },
     "sat/vb" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sat/vb"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "sat/vb"
@@ -591,14 +972,34 @@
             "state" : "translated",
             "value" : "sats"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sats"
+          }
         }
       }
     },
     "Seed" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frase de recuperação"
+          }
+        }
+      }
     },
     "Select Bitcoin Network" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar a Rede Bitcoin"
+          }
+        }
+      }
     },
     "Select Fee" : {
       "localizations" : {
@@ -607,11 +1008,24 @@
             "state" : "translated",
             "value" : "Sélectionnez les frais"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar a taxa"
+          }
         }
       }
     },
     "Select Transaction Fee" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar a taxa de transação"
+          }
+        }
+      }
     },
     "Send" : {
       "localizations" : {
@@ -620,11 +1034,24 @@
             "state" : "translated",
             "value" : "Envoyer"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar"
+          }
         }
       }
     },
     "Send Transaction" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar transação"
+          }
+        }
+      }
     },
     "Settings Error" : {
       "localizations" : {
@@ -632,6 +1059,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur des paramètres"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro de configuração"
           }
         }
       }
@@ -642,6 +1075,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tout afficher"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar todos"
           }
         }
       }
@@ -654,11 +1093,24 @@
             "state" : "translated",
             "value" : "Afficher la graine"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar frase de recuperação"
+          }
         }
       }
     },
     "Show Wallet" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra carteira"
+          }
+        }
+      }
     },
     "Showing Seed Error" : {
       "localizations" : {
@@ -667,12 +1119,24 @@
             "state" : "translated",
             "value" : "Erreur d’affichage de la graine"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrando Erro na frase de recuperação"
+          }
         }
       }
     },
     "Signet" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signet"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Signet"
@@ -688,6 +1152,12 @@
             "state" : "translated",
             "value" : "Synchronisation"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronizando"
+          }
         }
       }
     },
@@ -698,11 +1168,24 @@
             "state" : "translated",
             "value" : "Testnet"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testnet"
+          }
         }
       }
     },
     "Testnet4" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testnet4"
+          }
+        }
+      }
     },
     "To" : {
       "extractionState" : "stale",
@@ -712,12 +1195,24 @@
             "state" : "translated",
             "value" : "\nÀ"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para"
+          }
         }
       }
     },
     "total" : {
       "localizations" : {
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "total"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "total"
@@ -732,6 +1227,12 @@
             "state" : "translated",
             "value" : "Total"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total"
+          }
         }
       }
     },
@@ -742,6 +1243,12 @@
             "state" : "translated",
             "value" : "Transaction"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transação"
+          }
         }
       }
     },
@@ -751,6 +1258,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur dans les détails de la transaction"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro nos detalhes da transação"
           }
         }
       }
@@ -763,6 +1276,12 @@
             "state" : "translated",
             "value" : "Transactions"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transações"
+          }
         }
       }
     },
@@ -772,6 +1291,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "non confirmé"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não confirmada"
           }
         }
       }
@@ -783,6 +1308,12 @@
             "state" : "translated",
             "value" : "Non dépensé"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não gasto"
+          }
         }
       }
     },
@@ -792,6 +1323,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vout: %u"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vout:%u"
           }
         }
       }
@@ -803,6 +1340,12 @@
             "state" : "translated",
             "value" : "Wallet"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carteira"
+          }
         }
       }
     },
@@ -813,11 +1356,24 @@
             "state" : "translated",
             "value" : "Erreur du portefeuille"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro na carteira"
+          }
         }
       }
     },
     "Wallet only supports BIP86." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carteira somente suporta BIP86"
+          }
+        }
+      }
     },
     "Wallet Transaction Error" : {
       "localizations" : {
@@ -825,6 +1381,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de transaction du portefeuille"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro na transação da carteira"
           }
         }
       }
@@ -835,6 +1397,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oui"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sim"
           }
         }
       }
