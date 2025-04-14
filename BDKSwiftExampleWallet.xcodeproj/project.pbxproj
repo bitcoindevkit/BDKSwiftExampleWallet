@@ -617,6 +617,7 @@
 				en,
 				Base,
 				fr,
+				"pt-BR",
 			);
 			mainGroup = AE49846F2A1BBBD6009951E2;
 			packageReferences = (
