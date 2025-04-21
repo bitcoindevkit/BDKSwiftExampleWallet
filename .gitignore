@@ -91,3 +91,6 @@ iOSInjectionProject/
 
 # Other
 .DS_Store
+
+# Xcode Source Packages (SPM)
+SourcePackages/
