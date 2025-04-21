@@ -9,6 +9,7 @@ import BitcoinDevKit
 import Foundation
 import SwiftUI
 
+@MainActor
 class SettingsViewModel: ObservableObject {
     let bdkClient: BDKClient
 
