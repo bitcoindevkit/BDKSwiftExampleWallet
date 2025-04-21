@@ -8,7 +8,7 @@
 import BitcoinDevKit
 import Foundation
 
-extension Balance: Equatable {
+extension Balance: @retroactive Equatable {
     public static func == (lhs: Balance, rhs: Balance) -> Bool {
         return lhs.immature == rhs.immature && lhs.trustedPending == rhs.trustedPending
             && lhs.untrustedPending == rhs.untrustedPending && lhs.confirmed == rhs.confirmed

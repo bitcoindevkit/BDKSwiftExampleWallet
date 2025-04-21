@@ -8,7 +8,7 @@
 import BitcoinDevKit
 import Foundation
 
-extension Amount: Equatable {
+extension Amount: @retroactive Equatable {
     public static func == (lhs: Amount, rhs: Amount) -> Bool {
         return lhs.toSat() == rhs.toSat()
     }

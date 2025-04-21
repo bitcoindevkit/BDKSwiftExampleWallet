@@ -5,9 +5,9 @@
 //  Created by Matthew Ramsden on 6/4/23.
 //
 
+import BitcoinDevKit
 import Foundation
 import SwiftUI
-import BitcoinDevKit
 
 struct Constants {
     struct Config {
