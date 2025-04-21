@@ -92,13 +92,13 @@ private class BDKService {
         let localOutputs = wallet.listUnspent()
         return localOutputs
     }
-    
+
     func createWallet(words: String?) throws {
         self.connection = try Connection.createConnection()
         guard let connection = connection else {
             throw WalletError.dbNotFound
         }
-        
+
         let savedURL = try? keyClient.getEsploraURL()
         let baseUrl = savedURL ?? network.url
 
@@ -138,7 +138,7 @@ private class BDKService {
         try keyClient.saveEsploraURL(baseUrl)
         self.esploraURL = baseUrl
         updateEsploraClient()
-        
+
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
@@ -153,7 +153,7 @@ private class BDKService {
         guard let connection = connection else {
             throw WalletError.dbNotFound
         }
-        
+
         let savedURL = try? keyClient.getEsploraURL()
         let baseUrl = savedURL ?? network.url
 
@@ -208,7 +208,7 @@ private class BDKService {
         guard let connection = connection else {
             throw WalletError.dbNotFound
         }
-        
+
         let savedURL = try? keyClient.getEsploraURL()
 
         let baseUrl = savedURL ?? network.url
@@ -243,7 +243,7 @@ private class BDKService {
         try keyClient.saveEsploraURL(baseUrl)
         self.esploraURL = baseUrl
         updateEsploraClient()
-        
+
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
