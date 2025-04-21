@@ -22,8 +22,8 @@ struct TransactionListView: View {
                     canonicalTx: .mock,
                     isRedacted: true,
                     sentAndReceivedValues: .init(
-                        sent: Amount.fromSat(fromSat: UInt64(0)),
-                        received: Amount.fromSat(fromSat: UInt64(0))
+                        sent: Amount.fromSat(satoshi: UInt64(0)),
+                        received: Amount.fromSat(satoshi: UInt64(0))
                     )
                 )
                 .listRowInsets(EdgeInsets())

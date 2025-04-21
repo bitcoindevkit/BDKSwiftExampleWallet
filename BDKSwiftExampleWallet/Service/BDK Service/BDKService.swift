@@ -333,9 +333,9 @@ private class BDKService {
         let txBuilder = try TxBuilder()
             .addRecipient(
                 script: script,
-                amount: Amount.fromSat(fromSat: amount)
+                amount: Amount.fromSat(satoshi: amount)
             )
-            .feeRate(feeRate: FeeRate.fromSatPerVb(satPerVb: feeRate))
+            .feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
             .finish(wallet: wallet)
         return txBuilder
     }
@@ -527,12 +527,12 @@ extension BDKClient {
             fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
-            calculateFee: { _ in Amount.fromSat(fromSat: UInt64(615)) },
+            calculateFee: { _ in Amount.fromSat(satoshi: UInt64(615)) },
             calculateFeeRate: { _ in return UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(
-                    sent: Amount.fromSat(fromSat: UInt64(20000)),
-                    received: Amount.fromSat(fromSat: UInt64(210))
+                    sent: Amount.fromSat(satoshi: UInt64(20000)),
+                    received: Amount.fromSat(satoshi: UInt64(210))
                 )
             },
             buildTransaction: { _, _, _ in
