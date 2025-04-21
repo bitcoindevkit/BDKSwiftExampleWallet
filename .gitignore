@@ -94,3 +94,6 @@ iOSInjectionProject/
 
 # Xcode Source Packages (SPM)
 SourcePackages/
+
+# VS Code specific
+.vscode/
