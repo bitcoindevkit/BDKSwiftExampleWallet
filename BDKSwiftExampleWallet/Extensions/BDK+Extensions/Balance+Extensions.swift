@@ -19,12 +19,12 @@ extension Balance: Equatable {
 #if DEBUG
     extension Balance {
         static var mock = Self(
-            immature: Amount.fromSat(fromSat: UInt64(100)),
-            trustedPending: Amount.fromSat(fromSat: UInt64(200)),
-            untrustedPending: Amount.fromSat(fromSat: UInt64(300)),
-            confirmed: Amount.fromSat(fromSat: UInt64(21000)),
-            trustedSpendable: Amount.fromSat(fromSat: UInt64(1_000_000)),
-            total: Amount.fromSat(fromSat: UInt64(615_000_000))
+            immature: Amount.fromSat(satoshi: UInt64(100)),
+            trustedPending: Amount.fromSat(satoshi: UInt64(200)),
+            untrustedPending: Amount.fromSat(satoshi: UInt64(300)),
+            confirmed: Amount.fromSat(satoshi: UInt64(21000)),
+            trustedSpendable: Amount.fromSat(satoshi: UInt64(1_000_000)),
+            total: Amount.fromSat(satoshi: UInt64(615_000_000))
         )
     }
 #endif

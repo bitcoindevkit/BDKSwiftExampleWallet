@@ -11,8 +11,8 @@ import Foundation
 #if DEBUG
     extension SentAndReceivedValues {
         static var mock = Self(
-            sent: Amount.fromSat(fromSat: UInt64(0)),
-            received: Amount.fromSat(fromSat: UInt64(1_000_000))
+            sent: Amount.fromSat(satoshi: UInt64(0)),
+            received: Amount.fromSat(satoshi: UInt64(1_000_000))
         )
     }
 #endif
