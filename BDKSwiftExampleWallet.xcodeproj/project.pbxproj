@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */; };
 		A733D6D02A81113000F333B4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A733D6CF2A81113000F333B4 /* Localizable.xcstrings */; };
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
 		AE0C30F72A804A2D008F1EAE /* TransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0C30F62A804A2D008F1EAE /* TransactionListView.swift */; };
@@ -107,6 +108,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Connection+Extensions.swift"; sourceTree = "<group>"; };
 		A733D6CF2A81113000F333B4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		AE0C30F62A804A2D008F1EAE /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 		AEE6C74D2ABCB48600442ADD /* BDK+Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */,
 				AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */,
 				AE83EFDA2C9D07B200B41244 /* ChainPosition+Extensions.swift */,
 				AE2381B02C60690900F6B00C /* LocalOutput+Extensions.swift */,
@@ -708,6 +711,7 @@
 				AE783A012AB4E5E1005F0CBA /* BuildTransactionView.swift in Sources */,
 				AE6F34DA2AA6C1E00087E700 /* Balance+Extensions.swift in Sources */,
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
+				77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */,
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
