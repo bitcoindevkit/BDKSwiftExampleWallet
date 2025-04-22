@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		774586B52DB7B2BC00A631E1 /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774586B42DB7B2BC00A631E1 /* BalanceView.swift */; };
 		77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */; };
 		A733D6D02A81113000F333B4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A733D6CF2A81113000F333B4 /* Localizable.xcstrings */; };
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
@@ -108,6 +109,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		774586B42DB7B2BC00A631E1 /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
 		77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Connection+Extensions.swift"; sourceTree = "<group>"; };
 		A733D6CF2A81113000F333B4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				AE2381B92C61255100F6B00C /* Receive */,
 				AE2381B82C61254B00F6B00C /* Send */,
 				AE2381B72C61254200F6B00C /* Settings */,
+				774586B42DB7B2BC00A631E1 /* BalanceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -668,6 +671,7 @@
 				AEE6C74C2ABCB3E200442ADD /* Transaction+Extensions.swift in Sources */,
 				AE0C30F72A804A2D008F1EAE /* TransactionListView.swift in Sources */,
 				AE29ED152BBE36C500EB9C4F /* TransactionListViewModel.swift in Sources */,
+				774586B52DB7B2BC00A631E1 /* BalanceView.swift in Sources */,
 				AEB905C32A7EEBF000CD0337 /* BackupInfo.swift in Sources */,
 				AE783A072AB4F7C7005F0CBA /* FeeView.swift in Sources */,
 				AE2B8C1D2A9678C900815B2F /* FeeService.swift in Sources */,

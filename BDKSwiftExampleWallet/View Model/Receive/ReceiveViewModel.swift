@@ -110,7 +110,7 @@ extension ReceiveViewModel {
     func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
         if let message = messages.first,
             let record = message.records.first,
-            let _ = String(data: record.payload, encoding: .utf8)
+            String(data: record.payload, encoding: .utf8) != nil
         {
             // Handle response
         }
