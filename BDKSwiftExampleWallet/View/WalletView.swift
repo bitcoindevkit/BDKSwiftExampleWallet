@@ -27,7 +27,7 @@ struct WalletView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {
-                
+
                 BalanceView(
                     format: balanceFormat,
                     balance: viewModel.balanceTotal,

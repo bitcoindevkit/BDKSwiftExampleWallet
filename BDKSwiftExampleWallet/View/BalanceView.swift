@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct BalanceView: View {
-    
+
     @State private var balanceTextPulsingOpacity: Double = 0.7
-    
+
     private var format: BalanceDisplayFormat
     private let balance: UInt64
     private var fiatPrice: Double
@@ -18,7 +18,7 @@ struct BalanceView: View {
         let usdValue = Double(balance).valueInUSD(price: fiatPrice)
         return usdValue
     }
-    
+
     private var currencySymbol: some View {
         Image(systemName: format == .fiat ? "dollarsign" : "bitcoinsign")
             .foregroundStyle(.secondary)
@@ -34,7 +34,7 @@ struct BalanceView: View {
             .id("symbol-\(format)")
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: format)
     }
-    
+
     @MainActor
     private var formattedBalance: String {
         switch format {
@@ -50,7 +50,7 @@ struct BalanceView: View {
             return satsPrice.formatted(.number.precision(.fractionLength(2)))
         }
     }
-    
+
     @MainActor
     var balanceText: some View {
         Text(format == .fiat && satsPrice == 0 ? "00.00" : formattedBalance)
@@ -71,7 +71,7 @@ struct BalanceView: View {
                 }
             }
     }
-    
+
     private var unitText: some View {
         Text(format.displayText)
             .foregroundStyle(.secondary)
@@ -85,17 +85,17 @@ struct BalanceView: View {
             .id("format-\(format)")
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: format)
     }
-    
+
     init(format: BalanceDisplayFormat, balance: UInt64, fiatPrice: Double) {
         self.format = format
         self.balance = balance
         self.fiatPrice = fiatPrice
     }
-    
+
     var body: some View {
         buildBalance()
     }
-    
+
     @ViewBuilder
     private func buildBalance() -> some View {
         VStack(spacing: 10) {
@@ -118,11 +118,11 @@ struct BalanceView: View {
 }
 
 #if DEBUG
-#Preview {
-    BalanceView(
-        format: .bip21q,
-        balance: 5000,
-        fiatPrice: 89000
-    )
-}
+    #Preview {
+        BalanceView(
+            format: .bip21q,
+            balance: 5000,
+            fiatPrice: 89000
+        )
+    }
 #endif
