@@ -5,7 +5,6 @@
 //  Created by Matthew Ramsden on 5/23/23.
 //
 
-import BitcoinDevKit
 import BitcoinUI
 import SwiftUI
 
@@ -14,7 +13,6 @@ struct WalletView: View {
         .bitcoinSats
     @Bindable var viewModel: WalletViewModel
     @Binding var sendNavigationPath: NavigationPath
-    @State private var balanceTextPulsingOpacity: Double = 0.7
     @State private var isFirstAppear = true
     @State private var newTransactionSent = false
     @State private var showAllTransactions = false
@@ -29,22 +27,12 @@ struct WalletView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {
-
-                VStack(spacing: 10) {
-                    HStack(spacing: 15) {
-                        if balanceFormat != .sats && balanceFormat != .bip21q {
-                            currencySymbol
-                        }
-                        balanceText
-                        unitText
-                    }
-                    .font(.largeTitle)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                }
-                .accessibilityLabel("Bitcoin Balance")
-                .accessibilityValue(formattedBalance)
-                .onTapGesture {
+                
+                BalanceView(
+                    format: balanceFormat,
+                    balance: viewModel.balanceTotal,
+                    fiatPrice: viewModel.price
+                ).onTapGesture {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                         balanceFormat =
                             BalanceDisplayFormat.allCases[
@@ -52,8 +40,6 @@ struct WalletView: View {
                             ]
                     }
                 }
-                .sensoryFeedback(.selection, trigger: balanceFormat)
-                .padding(.vertical, 35.0)
 
                 VStack {
                     HStack {
@@ -270,80 +256,7 @@ struct WalletView: View {
                 }
             }
         }
-
     }
-
-}
-
-extension WalletView {
-
-    @MainActor
-    var formattedBalance: String {
-        switch balanceFormat {
-        case .sats:
-            return viewModel.balanceTotal.formatted(.number)
-        case .bitcoin:
-            return String(format: "%.8f", Double(viewModel.balanceTotal) / 100_000_000)
-        case .bitcoinSats:
-            return viewModel.balanceTotal.formattedSatoshis()
-        case .bip21q:
-            return viewModel.balanceTotal.formatted(.number)
-        case .fiat:
-            return viewModel.satsPrice.formatted(.number.precision(.fractionLength(2)))
-        }
-    }
-
-    private var currencySymbol: some View {
-        Image(systemName: balanceFormat == .fiat ? "dollarsign" : "bitcoinsign")
-            .foregroundStyle(.secondary)
-            .font(.title)
-            .fontWeight(.thin)
-            .transition(
-                .asymmetric(
-                    insertion: .move(edge: .leading).combined(with: .opacity),
-                    removal: .move(edge: .trailing).combined(with: .opacity)
-                )
-            )
-            .opacity(balanceFormat == .sats || balanceFormat == .bip21q ? 0 : 1)
-            .id("symbol-\(balanceFormat)")
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: balanceFormat)
-    }
-
-    @MainActor
-    var balanceText: some View {
-        Text(balanceFormat == .fiat && viewModel.satsPrice == 0 ? "00.00" : formattedBalance)
-            .contentTransition(.numericText(countsDown: true))
-            .fontWeight(.semibold)
-            .fontDesign(.rounded)
-            .foregroundStyle(
-                balanceFormat == .fiat && viewModel.satsPrice == 0 ? .secondary : .primary
-            )
-            .opacity(
-                balanceFormat == .fiat && viewModel.satsPrice == 0 ? balanceTextPulsingOpacity : 1
-            )
-            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: balanceFormat)
-            .animation(.easeInOut, value: viewModel.satsPrice)
-            .onAppear {
-                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
-                    balanceTextPulsingOpacity = 0.3
-                }
-            }
-    }
-
-    private var unitText: some View {
-        Text(balanceFormat.displayText)
-            .foregroundStyle(.secondary)
-            .fontWeight(.thin)
-            .transition(
-                .asymmetric(
-                    insertion: .move(edge: .trailing).combined(with: .opacity),
-                    removal: .move(edge: .leading).combined(with: .opacity)
-                )
-            )
-            .id("format-\(balanceFormat)")
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: balanceFormat)
-    }
-
 }
 
 #if DEBUG
