@@ -39,6 +39,24 @@ class WalletViewModel {
     var transactions: [CanonicalTx]
     var walletSyncState: WalletSyncState
     var walletViewError: AppError?
+    
+    private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
+        { [weak self] inspected, total in
+            DispatchQueue.main.async {
+                self?.totalScripts = total
+                self?.inspectedScripts = inspected
+                self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
+            }
+        }
+    }
+
+    private var updateProgressFullScan: @Sendable (UInt64) -> Void {
+        { [weak self] inspected in
+            DispatchQueue.main.async {
+                self?.inspectedScripts = inspected
+            }
+        }
+    }
 
     init(
         bdkClient: BDKClient = .live,
@@ -144,29 +162,14 @@ class WalletViewModel {
             await startSyncWithProgress()
         }
     }
-
-    private func updateProgress(inspected: UInt64, total: UInt64) {
-        DispatchQueue.main.async {
-            self.totalScripts = total
-            self.inspectedScripts = inspected
-            self.progress = total > 0 ? Float(inspected) / Float(total) : 0
-        }
-    }
-
-    private func updateProgressFullScan(inspected: UInt64) {
-        DispatchQueue.main.async {
-            self.inspectedScripts = inspected
-        }
-    }
-
 }
 
-class WalletSyncScriptInspector: SyncScriptInspector {
-    private let updateProgress: (UInt64, UInt64) -> Void
+actor WalletSyncScriptInspector: @preconcurrency SyncScriptInspector {
+    private let updateProgress: @Sendable (UInt64, UInt64) -> Void
     private var inspectedCount: UInt64 = 0
     private var totalCount: UInt64 = 0
 
-    init(updateProgress: @escaping (UInt64, UInt64) -> Void) {
+    init(updateProgress: @escaping @Sendable (UInt64, UInt64) -> Void) {
         self.updateProgress = updateProgress
     }
 
@@ -189,11 +192,11 @@ class WalletSyncScriptInspector: SyncScriptInspector {
     }
 }
 
-class WalletFullScanScriptInspector: FullScanScriptInspector {
-    private let updateProgress: (UInt64) -> Void
+actor WalletFullScanScriptInspector: @preconcurrency FullScanScriptInspector {
+    private let updateProgress: @Sendable (UInt64) -> Void
     private var inspectedCount: UInt64 = 0
 
-    init(updateProgress: @escaping (UInt64) -> Void) {
+    init(updateProgress: @escaping @Sendable (UInt64) -> Void) {
         self.updateProgress = updateProgress
     }
 
