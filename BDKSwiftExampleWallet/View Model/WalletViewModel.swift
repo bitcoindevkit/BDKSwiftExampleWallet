@@ -39,7 +39,7 @@ class WalletViewModel {
     var transactions: [CanonicalTx]
     var walletSyncState: WalletSyncState
     var walletViewError: AppError?
-    
+
     private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
         { [weak self] inspected, total in
             DispatchQueue.main.async {
