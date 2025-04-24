@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		774586B52DB7B2BC00A631E1 /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774586B42DB7B2BC00A631E1 /* BalanceView.swift */; };
+		779E70872DB9C98A006E22D3 /* WalletSyncScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */; };
+		779E70892DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */; };
 		77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */; };
 		A733D6D02A81113000F333B4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A733D6CF2A81113000F333B4 /* Localizable.xcstrings */; };
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
@@ -110,6 +112,8 @@
 
 /* Begin PBXFileReference section */
 		774586B42DB7B2BC00A631E1 /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
+		779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSyncScriptInspector.swift; sourceTree = "<group>"; };
+		779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFullScanScriptInspector.swift; sourceTree = "<group>"; };
 		77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Connection+Extensions.swift"; sourceTree = "<group>"; };
 		A733D6CF2A81113000F333B4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
@@ -222,6 +226,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		779E70832DB9C94C006E22D3 /* Actor */ = {
+			isa = PBXGroup;
+			children = (
+				779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */,
+				779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */,
+			);
+			path = Actor;
+			sourceTree = "<group>";
+		};
 		A7FBCE392A72944C007C960E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -414,6 +427,7 @@
 				AE1C34222A424440008F807A /* App */,
 				AE7F670A2A7451B600CED561 /* Model */,
 				AE1C341F2A424415008F807A /* View */,
+				779E70832DB9C94C006E22D3 /* Actor */,
 				AE0C31002A804C05008F1EAE /* View Model */,
 				AEB905C52A7EECD900CD0337 /* Service */,
 				AE1C341E2A42440A008F807A /* Extensions */,
@@ -708,7 +722,9 @@
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,
 				AE7F67092A7451AA00CED561 /* Price.swift in Sources */,
 				AE184EFC2BFE52C800374362 /* Amount+Extensions.swift in Sources */,
+				779E70892DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift in Sources */,
 				AE2381B12C60690900F6B00C /* LocalOutput+Extensions.swift in Sources */,
+				779E70872DB9C98A006E22D3 /* WalletSyncScriptInspector.swift in Sources */,
 				AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */,
 				A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */,
 				AE7839FD2AB4E18D005F0CBA /* AmountView.swift in Sources */,
