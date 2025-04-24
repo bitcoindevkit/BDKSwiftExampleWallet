@@ -40,6 +40,24 @@ class WalletViewModel {
     var walletSyncState: WalletSyncState
     var walletViewError: AppError?
 
+    private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
+        { [weak self] inspected, total in
+            DispatchQueue.main.async {
+                self?.totalScripts = total
+                self?.inspectedScripts = inspected
+                self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
+            }
+        }
+    }
+
+    private var updateProgressFullScan: @Sendable (UInt64) -> Void {
+        { [weak self] inspected in
+            DispatchQueue.main.async {
+                self?.inspectedScripts = inspected
+            }
+        }
+    }
+
     init(
         bdkClient: BDKClient = .live,
         keyClient: KeyClient = .live,
@@ -143,62 +161,5 @@ class WalletViewModel {
         } else {
             await startSyncWithProgress()
         }
-    }
-
-    private func updateProgress(inspected: UInt64, total: UInt64) {
-        DispatchQueue.main.async {
-            self.totalScripts = total
-            self.inspectedScripts = inspected
-            self.progress = total > 0 ? Float(inspected) / Float(total) : 0
-        }
-    }
-
-    private func updateProgressFullScan(inspected: UInt64) {
-        DispatchQueue.main.async {
-            self.inspectedScripts = inspected
-        }
-    }
-
-}
-
-class WalletSyncScriptInspector: SyncScriptInspector {
-    private let updateProgress: (UInt64, UInt64) -> Void
-    private var inspectedCount: UInt64 = 0
-    private var totalCount: UInt64 = 0
-
-    init(updateProgress: @escaping (UInt64, UInt64) -> Void) {
-        self.updateProgress = updateProgress
-    }
-
-    func inspect(script: Script, total: UInt64) {
-        totalCount = total
-        inspectedCount += 1
-
-        let delay: TimeInterval =
-            if total <= 5 {
-                0.2
-            } else if total < 10 {
-                0.15
-            } else if total < 20 {
-                0.1
-            } else {
-                0
-            }
-        Thread.sleep(forTimeInterval: delay)
-        updateProgress(inspectedCount, totalCount)
-    }
-}
-
-class WalletFullScanScriptInspector: FullScanScriptInspector {
-    private let updateProgress: (UInt64) -> Void
-    private var inspectedCount: UInt64 = 0
-
-    init(updateProgress: @escaping (UInt64) -> Void) {
-        self.updateProgress = updateProgress
-    }
-
-    func inspect(keychain: KeychainKind, index: UInt32, script: Script) {
-        inspectedCount += 1
-        updateProgress(inspectedCount)
     }
 }

@@ -23,6 +23,16 @@ class ActivityListViewModel {
     var walletSyncState: WalletSyncState
     var walletViewError: AppError?
 
+    private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
+        { [weak self] inspected, total in
+            DispatchQueue.main.async {
+                self?.totalScripts = total
+                self?.inspectedScripts = inspected
+                self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
+            }
+        }
+    }
+
     enum DisplayMode {
         case transactions
         case outputs
@@ -90,13 +100,4 @@ class ActivityListViewModel {
     func syncOrFullScan() async {
         await startSyncWithProgress()
     }
-
-    private func updateProgress(inspected: UInt64, total: UInt64) {
-        DispatchQueue.main.async {
-            self.totalScripts = total
-            self.inspectedScripts = inspected
-            self.progress = total > 0 ? Float(inspected) / Float(total) : 0
-        }
-    }
-
 }

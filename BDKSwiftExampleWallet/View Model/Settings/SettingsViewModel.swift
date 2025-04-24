@@ -21,6 +21,14 @@ class SettingsViewModel: ObservableObject {
     @Published var showingSettingsViewErrorAlert = false
     @Published var walletSyncState: WalletSyncState = .notStarted
 
+    private var updateProgressFullScan: @Sendable (UInt64) -> Void {
+        { [weak self] inspected in
+            DispatchQueue.main.async {
+                self?.inspectedScripts = inspected
+            }
+        }
+    }
+
     init(
         bdkClient: BDKClient = .live
     ) {
@@ -83,11 +91,4 @@ class SettingsViewModel: ObservableObject {
     func getEsploraUrl() {
         self.esploraURL = bdkClient.getEsploraURL()
     }
-
-    private func updateProgressFullScan(inspected: UInt64) {
-        DispatchQueue.main.async {
-            self.inspectedScripts = inspected
-        }
-    }
-
 }
