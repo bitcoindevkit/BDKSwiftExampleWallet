@@ -31,7 +31,13 @@ actor WalletSyncScriptInspector: @preconcurrency SyncScriptInspector {
             } else {
                 0
             }
-        Thread.sleep(forTimeInterval: delay)
-        updateProgress(inspectedCount, totalCount)
+        if delay > 0 {
+            Task {
+                try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+                updateProgress(inspectedCount, totalCount)
+            }
+        } else {
+            updateProgress(inspectedCount, totalCount)
+        }
     }
 }
