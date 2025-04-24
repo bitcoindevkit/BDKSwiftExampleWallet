@@ -97,7 +97,7 @@ struct WalletView: View {
                                                 ? .green : .secondary
                                         )
                                 } else if viewModel.walletSyncState == .notStarted {
-                                    Image(systemName: "arrow.trianglehead.clockwise")
+                                    Image(systemName: "arrow.clockwise")
                                 } else {
                                     Image(
                                         systemName: "person.crop.circle.badge.exclamationmark"
