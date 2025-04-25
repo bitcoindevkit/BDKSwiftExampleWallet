@@ -237,6 +237,15 @@
 			path = Actor;
 			sourceTree = "<group>";
 		};
+		77AD9F072DBB0DBE00182E65 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				774586B42DB7B2BC00A631E1 /* BalanceView.swift */,
+				77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		A7FBCE392A72944C007C960E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,7 +294,7 @@
 				AE2381B92C61255100F6B00C /* Receive */,
 				AE2381B82C61254B00F6B00C /* Send */,
 				AE2381B72C61254200F6B00C /* Settings */,
-				774586B42DB7B2BC00A631E1 /* BalanceView.swift */,
+				77AD9F072DBB0DBE00182E65 /* Home */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -327,7 +336,6 @@
 			isa = PBXGroup;
 			children = (
 				AE2381AC2C60578500F6B00C /* ActivityListView.swift */,
-				77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */,
 				AE0C30F62A804A2D008F1EAE /* TransactionListView.swift */,
 				AE29ED102BBE318A00EB9C4F /* TransactionItemView.swift */,
 				AEB130C82A44E4850087785B /* TransactionDetailView.swift */,
