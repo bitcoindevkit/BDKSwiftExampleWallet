@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ActivityHomeHeaderView: View {
     
-    struct DataSource {
-        let walletSyncState: WalletSyncState
-        let progress: Float
-        let inspectedScripts: UInt64
-        let totalScripts: UInt64
-        let needsFullScan: Bool
+    enum State {
+        case synced
+        case fullSyncing(inspectedScripts: UInt64)
+        case syncing(progress: Float, inspectedScripts: UInt64, totalScripts: UInt64)
+        case notStarted
+        case error(Error)
     }
     
-    let dataSource: ActivityHomeHeaderView.DataSource
+    let state: State
     
     let showAllTransactions: () -> Void
     
@@ -25,72 +25,66 @@ struct ActivityHomeHeaderView: View {
         HStack {
             Text("Activity")
             Spacer()
-            if dataSource.walletSyncState == .syncing {
-                HStack {
-                    if dataSource.progress < 1.0 {
-                        Text("\(dataSource.inspectedScripts)")
-                            .padding(.trailing, -5.0)
-                            .fontWeight(.semibold)
-                            .contentTransition(.numericText())
-                            .transition(.opacity)
+            
+            HStack {
+                if case let .fullSyncing(inspectedScripts) = state {
+                    Text("\(inspectedScripts)")
+                        .padding(.trailing, -5.0)
+                        .fontWeight(.semibold)
+                        .contentTransition(.numericText())
+                        .transition(.opacity)
+                        .fontDesign(.monospaced)
+                        .foregroundStyle(.secondary)
+                        .font(.caption2)
+                        .fontWeight(.thin)
+                        .animation(.easeInOut, value: inspectedScripts)
+                }
+                if case let .syncing(progress, inspectedScripts, totalScripts) = state {
+                    HStack {
+                        if progress < 1.0 {
+                            Text("\(inspectedScripts)")
+                                .padding(.trailing, -5.0)
+                                .fontWeight(.semibold)
+                                .contentTransition(.numericText())
+                                .transition(.opacity)
 
-                        if !dataSource.needsFullScan {
                             Text("/")
                                 .padding(.trailing, -5.0)
                                 .transition(.opacity)
-                            Text("\(dataSource.totalScripts)")
+                            Text("\(totalScripts)")
                                 .contentTransition(.numericText())
                                 .transition(.opacity)
                         }
-                    }
 
-                    if !dataSource.needsFullScan {
                         Text(
                             String(
                                 format: "%.0f%%",
-                                dataSource.progress * 100
+                                progress * 100
                             )
                         )
                         .contentTransition(.numericText())
                         .transition(.opacity)
                     }
+                    .fontDesign(.monospaced)
+                    .foregroundStyle(.secondary)
+                    .font(.caption2)
+                    .fontWeight(.thin)
+                    .animation(.easeInOut, value: inspectedScripts)
+                    .animation(.easeInOut, value: totalScripts)
+                    .animation(.easeInOut, value: progress)
                 }
-                .fontDesign(.monospaced)
-                .foregroundStyle(.secondary)
-                .font(.caption2)
-                .fontWeight(.thin)
-                .animation(.easeInOut, value: dataSource.inspectedScripts)
-                .animation(.easeInOut, value: dataSource.totalScripts)
-                .animation(.easeInOut, value: dataSource.progress)
             }
             HStack {
                 HStack(spacing: 5) {
-                    if dataSource.walletSyncState == .syncing {
-                        Image(systemName: "slowmo")
-                            .symbolEffect(
-                                .variableColor.cumulative
-                            )
-                    } else if dataSource.walletSyncState == .synced {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(
-                                dataSource.walletSyncState == .synced
-                                    ? .green : .secondary
-                            )
-                    } else if dataSource.walletSyncState == .notStarted {
-                        Image(systemName: "arrow.clockwise")
-                    } else {
-                        Image(
-                            systemName: "person.crop.circle.badge.exclamationmark"
-                        )
-                    }
+                    state.syncImageIndicator
                 }
                 .contentTransition(.symbolEffect(.replace.offUp))
 
             }
             .foregroundStyle(.secondary)
             .font(.caption)
-
-            if dataSource.walletSyncState == .synced {
+            
+            if case .synced = state {
                 Button {
                     self.showAllTransactions()
                 } label: {
@@ -103,8 +97,40 @@ struct ActivityHomeHeaderView: View {
                     .fontWeight(.regular)
                 }
             }
-
         }
         .fontWeight(.bold)
+    }
+}
+
+
+fileprivate extension ActivityHomeHeaderView.State {
+    
+    var syncImageIndicator: some View {
+        switch self {
+        case .synced:
+            return AnyView(
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(.green)
+            )
+            
+        case .syncing(_, _, _), .fullSyncing(_):
+            return AnyView(
+                Image(systemName: "slowmo")
+                    .symbolEffect(
+                        .variableColor.cumulative
+                    )
+            )
+            
+        case .notStarted:
+            return AnyView(
+                Image(systemName: "arrow.clockwise")
+            )
+        default:
+            return AnyView(
+                Image(
+                    systemName: "person.crop.circle.badge.exclamationmark"
+                )
+            )
+        }
     }
 }

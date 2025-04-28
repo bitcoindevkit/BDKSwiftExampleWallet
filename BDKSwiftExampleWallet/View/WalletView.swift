@@ -43,15 +43,11 @@ struct WalletView: View {
 
                 VStack {
                     ActivityHomeHeaderView(
-                        dataSource: .init(
-                            walletSyncState: $viewModel.walletSyncState.wrappedValue,
-                            progress: $viewModel.progress.wrappedValue,
-                            inspectedScripts: $viewModel.inspectedScripts.wrappedValue,
-                            totalScripts: $viewModel.totalScripts.wrappedValue,
-                            needsFullScan: viewModel.bdkClient.needsFullScan()
-                        )) {
-                            showAllTransactions = true
-                        }
+                        state: viewModel.activityHeaderStateSync
+                    ) {
+                        showAllTransactions = true
+                    }
+                    
                     TransactionListView(
                         viewModel: .init(),
                         transactions: viewModel.recentTransactions,
@@ -181,6 +177,28 @@ struct WalletView: View {
                     Image(systemName: "person.and.background.dotted")
                 }
             }
+        }
+    }
+}
+
+fileprivate extension WalletViewModel {
+    
+    var activityHeaderStateSync: ActivityHomeHeaderView.State {
+        let walletSyncState = walletSyncState
+        let needsFullScan = bdkClient.needsFullScan()
+        
+        if needsFullScan {
+            return .fullSyncing(inspectedScripts: inspectedScripts)
+        } else if walletSyncState == .synced {
+            return .synced
+        } else if walletSyncState == .syncing {
+            return .syncing(
+                progress: progress,
+                inspectedScripts: inspectedScripts,
+                totalScripts: totalScripts
+            )
+        } else {
+            return .notStarted
         }
     }
 }
