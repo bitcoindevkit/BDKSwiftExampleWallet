@@ -42,90 +42,16 @@ struct WalletView: View {
                 }
 
                 VStack {
-                    HStack {
-                        Text("Activity")
-                        Spacer()
-                        if viewModel.walletSyncState == .syncing {
-                            HStack {
-                                if viewModel.progress < 1.0 {
-                                    Text("\(viewModel.inspectedScripts)")
-                                        .padding(.trailing, -5.0)
-                                        .fontWeight(.semibold)
-                                        .contentTransition(.numericText())
-                                        .transition(.opacity)
-
-                                    if !viewModel.bdkClient.needsFullScan() {
-                                        Text("/")
-                                            .padding(.trailing, -5.0)
-                                            .transition(.opacity)
-                                        Text("\(viewModel.totalScripts)")
-                                            .contentTransition(.numericText())
-                                            .transition(.opacity)
-                                    }
-                                }
-
-                                if !viewModel.bdkClient.needsFullScan() {
-                                    Text(
-                                        String(
-                                            format: "%.0f%%",
-                                            viewModel.progress * 100
-                                        )
-                                    )
-                                    .contentTransition(.numericText())
-                                    .transition(.opacity)
-                                }
-                            }
-                            .fontDesign(.monospaced)
-                            .foregroundStyle(.secondary)
-                            .font(.caption2)
-                            .fontWeight(.thin)
-                            .animation(.easeInOut, value: viewModel.inspectedScripts)
-                            .animation(.easeInOut, value: viewModel.totalScripts)
-                            .animation(.easeInOut, value: viewModel.progress)
-                        }
-                        HStack {
-                            HStack(spacing: 5) {
-                                if viewModel.walletSyncState == .syncing {
-                                    Image(systemName: "slowmo")
-                                        .symbolEffect(
-                                            .variableColor.cumulative
-                                        )
-                                } else if viewModel.walletSyncState == .synced {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundStyle(
-                                            viewModel.walletSyncState == .synced
-                                                ? .green : .secondary
-                                        )
-                                } else if viewModel.walletSyncState == .notStarted {
-                                    Image(systemName: "arrow.clockwise")
-                                } else {
-                                    Image(
-                                        systemName: "person.crop.circle.badge.exclamationmark"
-                                    )
-                                }
-                            }
-                            .contentTransition(.symbolEffect(.replace.offUp))
-
-                        }
-                        .foregroundStyle(.secondary)
-                        .font(.caption)
-
-                        if viewModel.walletSyncState == .synced {
-                            Button {
-                                showAllTransactions = true
-                            } label: {
-                                HStack(spacing: 2) {
-                                    Text("Show All")
-                                    Image(systemName: "arrow.right")
-                                }
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .fontWeight(.regular)
-                            }
-                        }
-
+                    ActivityHomeHeaderView(
+                        walletSyncState: viewModel.walletSyncState,
+                        progress: viewModel.progress,
+                        inspectedScripts: viewModel.inspectedScripts,
+                        totalScripts: viewModel.totalScripts,
+                        needsFullScan: viewModel.needsFullScan
+                    ) {
+                        showAllTransactions = true
                     }
-                    .fontWeight(.bold)
+                    
                     TransactionListView(
                         viewModel: .init(),
                         transactions: viewModel.recentTransactions,

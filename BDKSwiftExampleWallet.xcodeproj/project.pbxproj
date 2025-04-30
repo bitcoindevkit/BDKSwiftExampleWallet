@@ -10,6 +10,7 @@
 		774586B52DB7B2BC00A631E1 /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774586B42DB7B2BC00A631E1 /* BalanceView.swift */; };
 		779E70872DB9C98A006E22D3 /* WalletSyncScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */; };
 		779E70892DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */; };
+		77AD9F062DBB031D00182E65 /* ActivityHomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */; };
 		77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */; };
 		A733D6D02A81113000F333B4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A733D6CF2A81113000F333B4 /* Localizable.xcstrings */; };
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
@@ -114,6 +115,7 @@
 		774586B42DB7B2BC00A631E1 /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
 		779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSyncScriptInspector.swift; sourceTree = "<group>"; };
 		779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFullScanScriptInspector.swift; sourceTree = "<group>"; };
+		77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityHomeHeaderView.swift; sourceTree = "<group>"; };
 		77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Connection+Extensions.swift"; sourceTree = "<group>"; };
 		A733D6CF2A81113000F333B4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
@@ -235,6 +237,15 @@
 			path = Actor;
 			sourceTree = "<group>";
 		};
+		77AD9F072DBB0DBE00182E65 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				774586B42DB7B2BC00A631E1 /* BalanceView.swift */,
+				77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		A7FBCE392A72944C007C960E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,7 +294,7 @@
 				AE2381B92C61255100F6B00C /* Receive */,
 				AE2381B82C61254B00F6B00C /* Send */,
 				AE2381B72C61254200F6B00C /* Settings */,
-				774586B42DB7B2BC00A631E1 /* BalanceView.swift */,
+				77AD9F072DBB0DBE00182E65 /* Home */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -733,6 +744,7 @@
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
 				77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */,
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
+				77AD9F062DBB031D00182E65 /* ActivityHomeHeaderView.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
 				AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */,
