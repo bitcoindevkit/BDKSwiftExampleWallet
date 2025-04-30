@@ -23,7 +23,7 @@ struct ActivityHomeHeaderView: View {
             Spacer()
             
             HStack {
-                if case let .fullSyncing(inspectedScripts) = state {
+                if needsFullScan {
                     Text("\(inspectedScripts)")
                         .padding(.trailing, -5.0)
                         .fontWeight(.semibold)
@@ -34,8 +34,7 @@ struct ActivityHomeHeaderView: View {
                         .font(.caption2)
                         .fontWeight(.thin)
                         .animation(.easeInOut, value: inspectedScripts)
-                }
-                if case let .syncing(progress, inspectedScripts, totalScripts) = state {
+                } else if walletSyncState == .syncing {
                     HStack {
                         if progress < 1.0 {
                             Text("\(inspectedScripts)")
@@ -72,7 +71,7 @@ struct ActivityHomeHeaderView: View {
             }
             HStack {
                 HStack(spacing: 5) {
-                    state.syncImageIndicator
+                    self.syncImageIndicator()
                 }
                 .contentTransition(.symbolEffect(.replace.offUp))
 
@@ -80,7 +79,7 @@ struct ActivityHomeHeaderView: View {
             .foregroundStyle(.secondary)
             .font(.caption)
             
-            if case .synced = state {
+            if walletSyncState == .synced {
                 Button {
                     self.showAllTransactions()
                 } label: {
@@ -96,21 +95,18 @@ struct ActivityHomeHeaderView: View {
         }
         .fontWeight(.bold)
     }
-}
-
-
-fileprivate extension ActivityHomeHeaderView.State {
     
-    var syncImageIndicator: some View {
-        switch self {
+    @ViewBuilder
+    private func syncImageIndicator() -> some View {
+        switch walletSyncState {
         case .synced:
-            return AnyView(
+            AnyView(
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundStyle(.green)
             )
             
-        case .syncing(_, _, _), .fullSyncing(_):
-            return AnyView(
+        case .syncing:
+            AnyView(
                 Image(systemName: "slowmo")
                     .symbolEffect(
                         .variableColor.cumulative
@@ -118,11 +114,11 @@ fileprivate extension ActivityHomeHeaderView.State {
             )
             
         case .notStarted:
-            return AnyView(
+            AnyView(
                 Image(systemName: "arrow.clockwise")
             )
         default:
-            return AnyView(
+            AnyView(
                 Image(
                     systemName: "person.crop.circle.badge.exclamationmark"
                 )
