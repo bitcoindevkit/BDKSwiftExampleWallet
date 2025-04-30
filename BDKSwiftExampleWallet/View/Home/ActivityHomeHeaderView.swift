@@ -9,15 +9,11 @@ import SwiftUI
 
 struct ActivityHomeHeaderView: View {
     
-    enum State {
-        case synced
-        case fullSyncing(inspectedScripts: UInt64)
-        case syncing(progress: Float, inspectedScripts: UInt64, totalScripts: UInt64)
-        case notStarted
-        case error(Error)
-    }
-    
-    let state: State
+    let walletSyncState: WalletSyncState
+    let progress: Float
+    let inspectedScripts: UInt64
+    let totalScripts: UInt64
+    let needsFullScan: Bool
     
     let showAllTransactions: () -> Void
     

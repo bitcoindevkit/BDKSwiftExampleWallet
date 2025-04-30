@@ -43,7 +43,11 @@ struct WalletView: View {
 
                 VStack {
                     ActivityHomeHeaderView(
-                        state: viewModel.activityHeaderStateSync
+                        walletSyncState: viewModel.walletSyncState,
+                        progress: viewModel.progress,
+                        inspectedScripts: viewModel.inspectedScripts,
+                        totalScripts: viewModel.totalScripts,
+                        needsFullScan: viewModel.needsFullScan
                     ) {
                         showAllTransactions = true
                     }
