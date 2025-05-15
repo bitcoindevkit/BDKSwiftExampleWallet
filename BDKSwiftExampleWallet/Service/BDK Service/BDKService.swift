@@ -117,12 +117,12 @@ private class BDKService {
             mnemonic: mnemonic,
             password: nil
         )
-        let descriptor = Descriptor.newBip86(
+        let descriptor = Descriptor.newBip84(
             secretKey: secretKey,
             keychain: .external,
             network: network
         )
-        let changeDescriptor = Descriptor.newBip86(
+        let changeDescriptor = Descriptor.newBip84(
             secretKey: secretKey,
             keychain: .internal,
             network: network
