@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		774586B52DB7B2BC00A631E1 /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774586B42DB7B2BC00A631E1 /* BalanceView.swift */; };
+		7745E1912DD7C47F00D52A40 /* BDKSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7745E1902DD7C47600D52A40 /* BDKSyncService.swift */; };
+		7745E1942DD7D2F900D52A40 /* EsploraServeSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7745E1932DD7D2F500D52A40 /* EsploraServeSyncService.swift */; };
+		7745E1962DD7D8FE00D52A40 /* KyotoSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7745E1952DD7D8FD00D52A40 /* KyotoSyncService.swift */; };
 		779E70872DB9C98A006E22D3 /* WalletSyncScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */; };
 		779E70892DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */; };
 		77AD9F062DBB031D00182E65 /* ActivityHomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */; };
@@ -113,6 +116,9 @@
 
 /* Begin PBXFileReference section */
 		774586B42DB7B2BC00A631E1 /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
+		7745E1902DD7C47600D52A40 /* BDKSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSyncService.swift; sourceTree = "<group>"; };
+		7745E1932DD7D2F500D52A40 /* EsploraServeSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsploraServeSyncService.swift; sourceTree = "<group>"; };
+		7745E1952DD7D8FD00D52A40 /* KyotoSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KyotoSyncService.swift; sourceTree = "<group>"; };
 		779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSyncScriptInspector.swift; sourceTree = "<group>"; };
 		779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFullScanScriptInspector.swift; sourceTree = "<group>"; };
 		77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityHomeHeaderView.swift; sourceTree = "<group>"; };
@@ -228,6 +234,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7745E1922DD7D2E600D52A40 /* BDKSyncService */ = {
+			isa = PBXGroup;
+			children = (
+				7745E1952DD7D8FD00D52A40 /* KyotoSyncService.swift */,
+				7745E1932DD7D2F500D52A40 /* EsploraServeSyncService.swift */,
+				7745E1902DD7C47600D52A40 /* BDKSyncService.swift */,
+			);
+			path = BDKSyncService;
+			sourceTree = "<group>";
+		};
 		779E70832DB9C94C006E22D3 /* Actor */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,6 +528,7 @@
 		AEB905C52A7EECD900CD0337 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				7745E1922DD7D2E600D52A40 /* BDKSyncService */,
 				AE1C34212A424434008F807A /* BDK Service */,
 				AEB905C42A7EECAF00CD0337 /* Price Service */,
 				AE6715FB2A9ABF30005C193F /* Fee Service */,
@@ -712,6 +729,7 @@
 				AE7953902A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift in Sources */,
 				AE91CEEF2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift in Sources */,
 				AE2381B52C60878E00F6B00C /* LocalOutputItemView.swift in Sources */,
+				7745E1912DD7C47F00D52A40 /* BDKSyncService.swift in Sources */,
 				AE3646262BEDB01200B04E25 /* FileManager+Extensions.swift in Sources */,
 				AEB6C9D12B7E8529003AD704 /* TransactionDetailViewModel.swift in Sources */,
 				AEB159D32D51A7E00006AE9E /* BalanceDisplayFormat.swift in Sources */,
@@ -751,11 +769,13 @@
 				AE2381AD2C60578500F6B00C /* ActivityListView.swift in Sources */,
 				AE2381B32C60877600F6B00C /* LocalOutputListView.swift in Sources */,
 				AE783A052AB4F51F005F0CBA /* String+Extensions.swift in Sources */,
+				7745E1942DD7D2F900D52A40 /* EsploraServeSyncService.swift in Sources */,
 				AE29ED112BBE318A00EB9C4F /* TransactionItemView.swift in Sources */,
 				AE34DDAE2B6B320F00F04AD4 /* WalletRecoveryViewModel.swift in Sources */,
 				AE0C30F92A804B65008F1EAE /* OnboardingViewModel.swift in Sources */,
 				AE3902A42A3B4CD900BEC318 /* HomeView.swift in Sources */,
 				AE0C30FD2A804BC1008F1EAE /* ReceiveViewModel.swift in Sources */,
+				7745E1962DD7D8FE00D52A40 /* KyotoSyncService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

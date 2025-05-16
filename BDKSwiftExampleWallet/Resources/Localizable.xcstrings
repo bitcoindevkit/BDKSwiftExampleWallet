@@ -692,6 +692,9 @@
         }
       }
     },
+    "Kyoto" : {
+
+    },
     "Main" : {
 
     },
@@ -1146,6 +1149,9 @@
           }
         }
       }
+    },
+    "Sync type" : {
+
     },
     "Syncing" : {
       "extractionState" : "manual",

@@ -99,6 +99,7 @@ private class BDKService {
             throw WalletError.dbNotFound
         }
 
+        
         let savedURL = try? keyClient.getEsploraURL()
         let baseUrl = savedURL ?? network.url
 
@@ -422,6 +423,33 @@ extension BDKService {
     func setNeedsFullScan(_ value: Bool) {
         needsFullScan = value
     }
+}
+
+typealias ThrowingHandler = (() throws -> Void)
+typealias ThrowingStringHandler = (() throws -> Void)
+
+protocol BDKClientProtocol {
+    var loadWallet: ThrowingHandler { get }
+    var deleteWallet: ThrowingHandler { get }
+    var createWallet: ThrowingStringHandler { get }
+    var getBalance: () throws -> Balance { get }
+    var transactions: () throws -> [CanonicalTx] { get }
+    var listUnspent: () throws -> [LocalOutput] { get }
+    var syncWithInspector: (SyncScriptInspector) async throws -> Void { get }
+    var fullScanWithInspector: (FullScanScriptInspector) async throws -> Void { get }
+    var getAddress: () throws -> String { get }
+    var send: (String, UInt64, UInt64) throws -> Void { get }
+    var calculateFee: (Transaction) throws -> Amount { get }
+    var calculateFeeRate: (Transaction) throws -> UInt64 { get }
+    var sentAndReceived: (Transaction) throws -> SentAndReceivedValues { get }
+    var buildTransaction: (String, UInt64, UInt64) throws -> Psbt { get }
+    var getBackupInfo: () throws -> BackupInfo { get }
+    var needsFullScan: () -> Bool { get }
+    var setNeedsFullScan: (Bool) -> Void { get }
+    var getNetwork: () -> Network { get }
+    var getEsploraURL: () -> String { get }
+    var updateNetwork: (Network) -> Void { get }
+    var updateEsploraURL: (String) -> Void { get }
 }
 
 struct BDKClient {

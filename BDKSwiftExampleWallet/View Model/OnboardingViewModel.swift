@@ -9,20 +9,36 @@ import BitcoinDevKit
 import Foundation
 import SwiftUI
 
+enum WalletSyncType: Hashable {
+    case esplora
+    case kyoto
+}
+
 // Can't make @Observable yet
 // https://developer.apple.com/forums/thread/731187
 // Feature or Bug?
 class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
+    
+    private var bdkSyncService: BDKSyncService = EsploraServeSyncService(
+        network: .bitcoin
+    )
 
     @AppStorage("isOnboarding") var isOnboarding: Bool?
+    
+    @Published var walletSyncType: WalletSyncType = .esplora {
+        didSet {
+            updateWalletSyncType()
+        }
+    }
+    
     @Published var createWithPersistError: CreateWithPersistError?
     var isDescriptor: Bool {
         words.hasPrefix("tr(") || words.hasPrefix("wpkh(") || words.hasPrefix("wsh(")
             || words.hasPrefix("sh(")
     }
     var isXPub: Bool {
-        words.hasPrefix("xpub") || words.hasPrefix("tpub") || words.hasPrefix("vpub")
+        words.hasPrefix("xpub") || words.hasPrefix("tpub") || words.hasPrefix("vpub") || words.hasPrefix("zpub")
     }
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: AppError?
@@ -40,7 +56,7 @@ class OnboardingViewModel: ObservableObject {
     }
     @Published var words: String = ""
     var wordArray: [String] {
-        if words.hasPrefix("xpub") || words.hasPrefix("tpub") || words.hasPrefix("vpub") {
+        if words.hasPrefix("xpub") || words.hasPrefix("tpub") || words.hasPrefix("vpub") || words.hasPrefix("zpub") {
             return []
         }
         let trimmedWords = words.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -85,25 +101,55 @@ class OnboardingViewModel: ObservableObject {
 
     func createWallet() {
         do {
-            try bdkClient.deleteWallet()
-            if isDescriptor {
-                try bdkClient.createWalletFromDescriptor(words)
-            } else if isXPub {
-                try bdkClient.createWalletFromXPub(words)
-            } else {
-                try bdkClient.createWalletFromSeed(words)
-            }
+            try bdkSyncService.createWallet(params: words.isEmpty ? nil : words)
+            
             DispatchQueue.main.async {
                 self.isOnboarding = false
             }
+            
         } catch let error as CreateWithPersistError {
             DispatchQueue.main.async {
                 self.createWithPersistError = error
             }
+            
         } catch {
             DispatchQueue.main.async {
                 self.onboardingViewError = .generic(message: error.localizedDescription)
             }
+        }
+//        do {
+//            try bdkClient.deleteWallet()
+//            if isDescriptor {
+//                try bdkClient.createWalletFromDescriptor(words)
+//            } else if isXPub {
+//                try bdkClient.createWalletFromXPub(words)
+//            } else {
+//                try bdkClient.createWalletFromSeed(words)
+//            }
+//            DispatchQueue.main.async {
+//                self.isOnboarding = false
+//            }
+//        } catch let error as CreateWithPersistError {
+//            DispatchQueue.main.async {
+//                self.createWithPersistError = error
+//            }
+//        } catch {
+//            DispatchQueue.main.async {
+//                self.onboardingViewError = .generic(message: error.localizedDescription)
+//            }
+//        }
+    }
+    
+    private func updateWalletSyncType() {
+        switch walletSyncType {
+        case .esplora:
+            bdkSyncService = EsploraServeSyncService(
+                network: selectedNetwork
+            )
+        case .kyoto:
+            bdkSyncService = KyotoSyncService(
+                network: selectedNetwork
+            )
         }
     }
 }
