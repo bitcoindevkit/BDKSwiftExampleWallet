@@ -11,6 +11,7 @@ import SwiftUI
 struct WalletView: View {
     @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
         .bitcoinSats
+    @AppStorage("isNeedFullScan") var isNeedFullScan: Bool?
     @Bindable var viewModel: WalletViewModel
     @Binding var sendNavigationPath: NavigationPath
     @State private var isFirstAppear = true
@@ -47,8 +48,9 @@ struct WalletView: View {
                         progress: viewModel.progress,
                         inspectedScripts: viewModel.inspectedScripts,
                         totalScripts: viewModel.totalScripts,
-                        needsFullScan: viewModel.needsFullScan
+                        needsFullScan: viewModel.isNeedFullScan
                     ) {
+                        isNeedFullScan = false
                         showAllTransactions = true
                     }
                     

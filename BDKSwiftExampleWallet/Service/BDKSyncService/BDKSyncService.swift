@@ -13,7 +13,6 @@ protocol BDKSyncService {
     var keyClient: KeyClient { get }
     var network: Network { get }
     var wallet: Wallet? { get }
-    var needsFullScan: Bool { get }
     
     func createWallet(params: String?) throws
     func loadWallet() throws

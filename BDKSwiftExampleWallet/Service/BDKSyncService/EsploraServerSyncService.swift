@@ -14,7 +14,6 @@ final class EsploraServerSyncService: BDKSyncService {
     var keyClient: KeyClient
     var network: Network
     var wallet: Wallet?
-    var needsFullScan = false
     
     private var esploraClient: EsploraClient
     
@@ -23,7 +22,7 @@ final class EsploraServerSyncService: BDKSyncService {
         network: Network = .signet,
         connection: Connection? = nil
     ) {
-        self.connection = connection// ?? (try? Connection.createConnection())
+        self.connection = connection
         self.keyClient = keyClient
         self.network = network
         
@@ -36,7 +35,6 @@ final class EsploraServerSyncService: BDKSyncService {
     func createWallet(params: String?) throws {
         self.connection = try Connection.createConnection()
         self.wallet = try buildWallet(params: params)
-        needsFullScan = true
     }
     
     func loadWallet() throws {
@@ -47,7 +45,6 @@ final class EsploraServerSyncService: BDKSyncService {
     
     func deleteWallet() throws {
         try deleteData()
-        needsFullScan = true
     }
     
     func updateNetwork(network: Network) {

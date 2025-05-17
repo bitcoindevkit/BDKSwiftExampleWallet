@@ -14,7 +14,6 @@ final class KyotoSyncService: BDKSyncService {
     var keyClient: KeyClient
     var network: Network
     var wallet: Wallet?
-    var needsFullScan = false
     
     private var node: CbfNode?
     private var client: CbfClient?

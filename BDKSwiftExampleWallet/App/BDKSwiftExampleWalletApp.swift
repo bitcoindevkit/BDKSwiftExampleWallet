@@ -11,6 +11,7 @@ import SwiftUI
 @main
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
+    @AppStorage("isNeedFullScan") var isNeedFullScan: Bool = false
     @State private var navigationPath = NavigationPath()
 
     var body: some Scene {
@@ -21,6 +22,7 @@ struct BDKSwiftExampleWalletApp: App {
                     keyClient: keyClient,
                     network: .signet
                 )
+                
                 if let _ = try? KeyClient.live.getBackupInfo() {
                     HomeView(
                         viewModel: .init(
@@ -38,7 +40,8 @@ struct BDKSwiftExampleWalletApp: App {
                 }
             }
             .onChange(of: isOnboarding) { oldValue, newValue in
-                BDKClient.live.setNeedsFullScan(true)
+//                BDKClient.live.setNeedsFullScan(true)
+                isNeedFullScan = true
                 navigationPath = NavigationPath()
             }
         }
