@@ -50,7 +50,6 @@ struct WalletView: View {
                         totalScripts: viewModel.totalScripts,
                         needsFullScan: viewModel.isNeedFullScan
                     ) {
-                        isNeedFullScan = false
                         showAllTransactions = true
                     }
                     
@@ -119,6 +118,7 @@ struct WalletView: View {
                 }
                 viewModel.getTransactions()
                 await viewModel.getPrices()
+//                isNeedFullScan = false
             }
 
         }

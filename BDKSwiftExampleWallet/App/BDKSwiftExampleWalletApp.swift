@@ -40,7 +40,6 @@ struct BDKSwiftExampleWalletApp: App {
                 }
             }
             .onChange(of: isOnboarding) { oldValue, newValue in
-//                BDKClient.live.setNeedsFullScan(true)
                 isNeedFullScan = true
                 navigationPath = NavigationPath()
             }

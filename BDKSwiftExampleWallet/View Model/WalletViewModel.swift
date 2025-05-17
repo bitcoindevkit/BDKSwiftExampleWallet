@@ -101,7 +101,6 @@ class WalletViewModel {
 
     func getBalance() {
         do {
-//            let balance = try bdkClient.getBalance()
             let balance = try bdkSyncService.getBalance()
             self.balanceTotal = balance.total.toSat()
         } catch let error as WalletError {
