@@ -19,7 +19,7 @@ struct BDKSwiftExampleWalletApp: App {
                 let keyClient = KeyClient.live
                 let syncService: BDKSyncService = EsploraServerSyncService(
                     keyClient: keyClient,
-                    network: .bitcoin
+                    network: .signet
                 )
                 if let _ = try? KeyClient.live.getBackupInfo() {
                     HomeView(

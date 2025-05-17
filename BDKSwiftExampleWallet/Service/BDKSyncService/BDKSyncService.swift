@@ -55,13 +55,13 @@ extension BDKSyncService {
         if isXPub(params) {
             let descriptorPublicKey = try DescriptorPublicKey.fromString(publicKey: params)
             let fingerprint = descriptorPublicKey.masterFingerprint()
-            let descriptor = Descriptor.newBip84Public(
+            let descriptor = Descriptor.newBip86Public(
                 publicKey: descriptorPublicKey,
                 fingerprint: fingerprint,
                 keychain: .external,
                 network: network
             )
-            let changeDescriptor = Descriptor.newBip84Public(
+            let changeDescriptor = Descriptor.newBip86Public(
                 publicKey: descriptorPublicKey,
                 fingerprint: fingerprint,
                 keychain: .internal,
@@ -115,12 +115,12 @@ extension BDKSyncService {
             mnemonic: mnemonic,
             password: nil
         )
-        let descriptor = Descriptor.newBip84(
+        let descriptor = Descriptor.newBip86(
             secretKey: secretKey,
             keychain: .external,
             network: network
         )
-        let changeDescriptor = Descriptor.newBip84(
+        let changeDescriptor = Descriptor.newBip86(
             secretKey: secretKey,
             keychain: .internal,
             network: network
