@@ -99,7 +99,6 @@ private class BDKService {
             throw WalletError.dbNotFound
         }
 
-        
         let savedURL = try? keyClient.getEsploraURL()
         let baseUrl = savedURL ?? network.url
 

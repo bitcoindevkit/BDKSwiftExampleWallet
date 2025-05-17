@@ -231,8 +231,8 @@ struct OnboardingView: View {
     }
 }
 
-#if DEBUG
-    #Preview("OnboardingView - en") {
-        OnboardingView(viewModel: .init(bdkClient: .mock))
-    }
-#endif
+//#if DEBUG
+//    #Preview("OnboardingView - en") {
+//        OnboardingView(viewModel: .init(bdkClient: .mock))
+//    }
+//#endif

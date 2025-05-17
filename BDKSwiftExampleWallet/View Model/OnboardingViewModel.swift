@@ -18,11 +18,8 @@ enum WalletSyncType: Hashable {
 // https://developer.apple.com/forums/thread/731187
 // Feature or Bug?
 class OnboardingViewModel: ObservableObject {
-    let bdkClient: BDKClient
     
-    private var bdkSyncService: BDKSyncService = EsploraServerSyncService(
-        network: .bitcoin
-    )
+    private var bdkSyncService: BDKSyncService
 
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     
@@ -42,16 +39,15 @@ class OnboardingViewModel: ObservableObject {
     }
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: AppError?
-    @Published var selectedNetwork: Network = .signet {
+    @Published var selectedNetwork: Network {
         didSet {
-            bdkClient.updateNetwork(selectedNetwork)
             selectedURL = availableURLs.first ?? ""
-            bdkClient.updateEsploraURL(selectedURL)
+            bdkSyncService.updateNetwork(network: selectedNetwork)
         }
     }
     @Published var selectedURL: String = "" {
         didSet {
-            bdkClient.updateEsploraURL(selectedURL)
+            bdkSyncService.updateEsploraURL(selectedURL)
         }
     }
     @Published var words: String = ""
@@ -92,15 +88,16 @@ class OnboardingViewModel: ObservableObject {
     }
 
     init(
-        bdkClient: BDKClient = .live
+        bdkSyncService: BDKSyncService
     ) {
-        self.bdkClient = bdkClient
-        self.selectedNetwork = bdkClient.getNetwork()
-        self.selectedURL = bdkClient.getEsploraURL()
+        self.bdkSyncService = bdkSyncService
+        self.selectedNetwork = bdkSyncService.network
+//        self.selectedURL = bdkSyncService.network.url
     }
 
     func createWallet() {
         do {
+            try bdkSyncService.deleteWallet()
             try bdkSyncService.createWallet(params: words.isEmpty ? nil : words)
             
             DispatchQueue.main.async {
@@ -117,27 +114,6 @@ class OnboardingViewModel: ObservableObject {
                 self.onboardingViewError = .generic(message: error.localizedDescription)
             }
         }
-//        do {
-//            try bdkClient.deleteWallet()
-//            if isDescriptor {
-//                try bdkClient.createWalletFromDescriptor(words)
-//            } else if isXPub {
-//                try bdkClient.createWalletFromXPub(words)
-//            } else {
-//                try bdkClient.createWalletFromSeed(words)
-//            }
-//            DispatchQueue.main.async {
-//                self.isOnboarding = false
-//            }
-//        } catch let error as CreateWithPersistError {
-//            DispatchQueue.main.async {
-//                self.createWithPersistError = error
-//            }
-//        } catch {
-//            DispatchQueue.main.async {
-//                self.onboardingViewError = .generic(message: error.localizedDescription)
-//            }
-//        }
     }
     
     private func updateWalletSyncType() {

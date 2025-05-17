@@ -40,4 +40,8 @@ final class KyotoSyncService: BDKSyncService {
     func deleteWallet() throws {
         
     }
+    
+    func updateNetwork(network: Network) {
+        self.network = network
+    }
 }

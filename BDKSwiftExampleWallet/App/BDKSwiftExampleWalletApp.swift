@@ -19,7 +19,14 @@ struct BDKSwiftExampleWalletApp: App {
                 if let _ = try? KeyClient.live.getBackupInfo() {
                     HomeView(viewModel: .init(bdkClient: .live), navigationPath: $navigationPath)
                 } else {
-                    OnboardingView(viewModel: .init(bdkClient: .live))
+                    OnboardingView(
+                        viewModel: .init(
+                            bdkSyncService: EsploraServerSyncService(
+                                network: .bitcoin
+                            )
+                        )
+                    )
+//                    OnboardingView(viewModel: .init(bdkClient: .live))
                 }
             }
             .onChange(of: isOnboarding) { oldValue, newValue in
