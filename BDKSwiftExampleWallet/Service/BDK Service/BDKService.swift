@@ -255,12 +255,9 @@ private class BDKService {
     }
 
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
-        let documentsDirectoryURL = URL.documentsDirectory
-        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
-        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
-        let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
-            .path
+        try FileManager.default.ensureDirectoryExists(at: URL.walletDataDirectoryURL)
+        try FileManager.default.removeOldFlatFileIfNeeded(at: URL.defaultWalletDirectory)
+        let persistenceBackendPath = URL.persistenceBackendPath
         let connection = try Connection(path: persistenceBackendPath)
         self.connection = connection
         let wallet = try Wallet.load(
@@ -291,8 +288,7 @@ private class BDKService {
 
         try self.keyClient.deleteBackupInfo()
 
-        let documentsDirectoryURL = URL.documentsDirectory
-        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+        let walletDataDirectoryURL = URL.walletDataDirectoryURL
         if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
             try FileManager.default.removeItem(at: walletDataDirectoryURL)
         }

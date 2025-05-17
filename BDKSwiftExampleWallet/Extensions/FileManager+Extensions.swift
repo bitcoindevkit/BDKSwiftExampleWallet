@@ -34,7 +34,7 @@ extension FileManager {
     }
 
     func removeOldFlatFileIfNeeded(at directoryURL: URL) throws {
-        let flatFileURL = directoryURL.appendingPathComponent("wallet_data")
+        let flatFileURL = directoryURL.appendingPathComponent(URL.walletDirectoryName)
         var isDir: ObjCBool = false
         if fileExists(atPath: flatFileURL.path, isDirectory: &isDir) {
             if !isDir.boolValue {
