@@ -20,7 +20,7 @@ enum WalletSyncType: Hashable {
 class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
     
-    private var bdkSyncService: BDKSyncService = EsploraServeSyncService(
+    private var bdkSyncService: BDKSyncService = EsploraServerSyncService(
         network: .bitcoin
     )
 
@@ -143,7 +143,7 @@ class OnboardingViewModel: ObservableObject {
     private func updateWalletSyncType() {
         switch walletSyncType {
         case .esplora:
-            bdkSyncService = EsploraServeSyncService(
+            bdkSyncService = EsploraServerSyncService(
                 network: selectedNetwork
             )
         case .kyoto:

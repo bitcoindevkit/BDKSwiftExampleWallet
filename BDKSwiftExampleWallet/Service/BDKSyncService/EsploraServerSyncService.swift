@@ -8,7 +8,7 @@
 import BitcoinDevKit
 import Foundation
 
-final class EsploraServeSyncService: BDKSyncService {
+final class EsploraServerSyncService: BDKSyncService {
     
     var connection: Connection?
     var keyClient: KeyClient
