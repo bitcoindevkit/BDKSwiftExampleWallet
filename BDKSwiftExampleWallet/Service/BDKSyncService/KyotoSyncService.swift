@@ -52,4 +52,12 @@ final class KyotoSyncService: BDKSyncService {
     func startFullScan(progress: FullScanScriptInspector) async throws {
         
     }
+    
+    func getTransactions() throws -> [CanonicalTx] {
+        []
+    }
+    
+    func getBalance() throws -> Balance {
+        fatalError("Missing implementation")
+    }
 }

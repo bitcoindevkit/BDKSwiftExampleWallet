@@ -23,13 +23,14 @@ protocol BDKSyncService {
     
     func updateNetwork(network: Network)
     func updateEsploraURL(_ url: String)
+    
+    func getTransactions() throws -> [CanonicalTx]
+    func getBalance() throws -> Balance
 }
 
 extension BDKSyncService {
     func buildWallet(params: String?) throws -> Wallet {
-        guard let newConnection = self.connection == nil ?
-                try Connection.createConnection() :
-                    self.connection else {
+        guard let connection = self.connection else {
             throw WalletError.dbNotFound
         }
         
@@ -45,7 +46,7 @@ extension BDKSyncService {
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
-            connection: newConnection
+            connection: connection
         )
         
         return wallet
@@ -151,18 +152,16 @@ extension BDKSyncService {
     }
     
     func loadWalleFromBackup() throws -> Wallet {
+        guard let connection = self.connection else {
+            throw WalletError.dbNotFound
+        }
+        
         let backupInfo = try keyClient.getBackupInfo()
         let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
         let changeDescriptor = try Descriptor(
             descriptor: backupInfo.changeDescriptor,
             network: self.network
         )
-        
-        try FileManager.default.ensureDirectoryExists(at: URL.walletDataDirectoryURL)
-        try FileManager.default.removeOldFlatFileIfNeeded(at: URL.defaultWalletDirectory)
-        let persistenceBackendPath = URL.persistenceBackendPath
-        let connection = try Connection(path: persistenceBackendPath)
-
         let wallet = try Wallet.load(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,

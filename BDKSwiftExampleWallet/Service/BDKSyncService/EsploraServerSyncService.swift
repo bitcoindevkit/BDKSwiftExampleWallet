@@ -34,10 +34,13 @@ final class EsploraServerSyncService: BDKSyncService {
     }
     
     func createWallet(params: String?) throws {
+        self.connection = try Connection.createConnection()
         self.wallet = try buildWallet(params: params)
+        needsFullScan = true
     }
     
     func loadWallet() throws {
+        self.connection = try Connection.loadConnection()
         let wallet = try loadWalleFromBackup()
         self.wallet = wallet
     }
@@ -91,5 +94,22 @@ final class EsploraServerSyncService: BDKSyncService {
             throw WalletError.dbNotFound
         }
         let _ = try wallet.persist(connection: connection)
+    }
+    
+    func getTransactions() throws -> [CanonicalTx] {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let transactions = wallet.transactions()
+        let sortedTransactions = transactions.sorted { (tx1, tx2) in
+            return tx1.chainPosition.isBefore(tx2.chainPosition)
+        }
+        return sortedTransactions
+    }
+    
+    func getBalance() throws -> Balance {
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let balance = wallet.balance()
+        return balance
     }
 }

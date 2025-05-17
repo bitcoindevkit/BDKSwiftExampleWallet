@@ -239,9 +239,9 @@
 		7745E1922DD7D2E600D52A40 /* BDKSyncService */ = {
 			isa = PBXGroup;
 			children = (
+				7745E1902DD7C47600D52A40 /* BDKSyncService.swift */,
 				7745E1952DD7D8FD00D52A40 /* KyotoSyncService.swift */,
 				7745E1932DD7D2F500D52A40 /* EsploraServerSyncService.swift */,
-				7745E1902DD7C47600D52A40 /* BDKSyncService.swift */,
 			);
 			path = BDKSyncService;
 			sourceTree = "<group>";

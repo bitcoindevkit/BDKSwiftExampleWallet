@@ -13,6 +13,7 @@ import SwiftUI
 @MainActor
 @Observable
 class WalletViewModel {
+    private let bdkSyncService: BDKSyncService
     let bdkClient: BDKClient
     let keyClient: KeyClient
     let priceClient: PriceClient
@@ -60,8 +61,6 @@ class WalletViewModel {
             }
         }
     }
-
-    private let bdkSyncService: BDKSyncService
     
     init(
         bdkClient: BDKClient = .live,
@@ -104,7 +103,8 @@ class WalletViewModel {
 
     func getBalance() {
         do {
-            let balance = try bdkClient.getBalance()
+//            let balance = try bdkClient.getBalance()
+            let balance = try bdkSyncService.getBalance()
             self.balanceTotal = balance.total.toSat()
         } catch let error as WalletError {
             self.walletViewError = .generic(message: error.localizedDescription)
@@ -128,7 +128,8 @@ class WalletViewModel {
 
     func getTransactions() {
         do {
-            let transactionDetails = try bdkClient.transactions()
+            let transactionDetails = try bdkSyncService.getTransactions()
+//            let transactionDetails = try bdkClient.transactions()
             self.transactions = transactionDetails
         } catch let error as WalletError {
             self.walletViewError = .generic(message: error.localizedDescription)
