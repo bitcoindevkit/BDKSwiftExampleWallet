@@ -61,25 +61,31 @@ class WalletViewModel {
         }
     }
 
+    private let bdkSyncService: BDKSyncService
+    
     init(
         bdkClient: BDKClient = .live,
         keyClient: KeyClient = .live,
         priceClient: PriceClient = .live,
         transactions: [CanonicalTx] = [],
-        walletSyncState: WalletSyncState = .notStarted
+        walletSyncState: WalletSyncState = .notStarted,
+        bdkSyncService: BDKSyncService
     ) {
         self.bdkClient = bdkClient
         self.keyClient = keyClient
         self.priceClient = priceClient
         self.transactions = transactions
         self.walletSyncState = walletSyncState
+        self.bdkSyncService = bdkSyncService
     }
 
     private func fullScanWithProgress() async {
         self.walletSyncState = .syncing
         do {
             let inspector = WalletFullScanScriptInspector(updateProgress: updateProgressFullScan)
-            try await bdkClient.fullScanWithInspector(inspector)
+            try await bdkSyncService.startFullScan(progress: inspector)
+            
+//            try await bdkClient.fullScanWithInspector(inspector)
             self.walletSyncState = .synced
         } catch let error as CannotConnectError {
             self.walletViewError = .generic(message: error.localizedDescription)
@@ -137,7 +143,9 @@ class WalletViewModel {
         self.walletSyncState = .syncing
         do {
             let inspector = WalletSyncScriptInspector(updateProgress: updateProgress)
-            try await bdkClient.syncWithInspector(inspector)
+            try await bdkSyncService.startSync(progress: inspector)
+            
+//            try await bdkClient.syncWithInspector(inspector)
             self.walletSyncState = .synced
         } catch let error as CannotConnectError {
             self.walletViewError = .generic(message: error.localizedDescription)

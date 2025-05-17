@@ -18,7 +18,8 @@ struct HomeView: View {
             WalletView(
                 viewModel: .init(
                     bdkClient: .live,
-                    priceClient: .live
+                    priceClient: .live,
+                    bdkSyncService: viewModel.bdkSyncService
                 ),
                 sendNavigationPath: $navigationPath
             )

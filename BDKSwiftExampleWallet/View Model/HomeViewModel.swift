@@ -13,7 +13,7 @@ import Foundation
 class HomeViewModel: ObservableObject {
     let bdkClient: BDKClient
     
-    private let bdkSyncService: BDKSyncService
+    let bdkSyncService: BDKSyncService
 
     var homeViewError: AppError?
     var isWalletLoaded = false

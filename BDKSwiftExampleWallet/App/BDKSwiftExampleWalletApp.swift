@@ -17,7 +17,7 @@ struct BDKSwiftExampleWalletApp: App {
         WindowGroup {
             NavigationStack(path: $navigationPath) {
                 let keyClient = KeyClient.live
-                var syncService: BDKSyncService = EsploraServerSyncService(
+                let syncService: BDKSyncService = EsploraServerSyncService(
                     keyClient: keyClient,
                     network: .bitcoin
                 )

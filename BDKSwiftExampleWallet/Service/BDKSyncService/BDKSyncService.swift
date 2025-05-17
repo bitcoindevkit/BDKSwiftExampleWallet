@@ -18,6 +18,8 @@ protocol BDKSyncService {
     func createWallet(params: String?) throws
     func loadWallet() throws
     func deleteWallet() throws
+    func startSync(progress: SyncScriptInspector) async throws
+    func startFullScan(progress: FullScanScriptInspector) async throws
     
     func updateNetwork(network: Network)
     func updateEsploraURL(_ url: String)
