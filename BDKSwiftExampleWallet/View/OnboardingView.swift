@@ -9,7 +9,7 @@ import BitcoinDevKit
 import BitcoinUI
 import SwiftUI
 
-struct OnboardingView: View {
+struct OnboardingView: View {    
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     @ObservedObject var viewModel: OnboardingViewModel
     @State private var showingOnboardingViewErrorAlert = false

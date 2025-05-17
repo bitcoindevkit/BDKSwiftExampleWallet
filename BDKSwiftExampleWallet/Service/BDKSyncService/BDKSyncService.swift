@@ -18,6 +18,9 @@ protocol BDKSyncService {
     func createWallet(params: String?) throws
     func loadWallet() throws
     func deleteWallet() throws
+    
+    func updateNetwork(network: Network)
+    func updateEsploraURL(_ url: String)
 }
 
 extension BDKSyncService {
@@ -28,7 +31,7 @@ extension BDKSyncService {
             throw WalletError.dbNotFound
         }
         
-        let backupInfo = try createBackInfo(params: params ?? Mnemonic(wordCount: WordCount.words12).description)
+        let backupInfo = try buildBackupInfo(params: params ?? Mnemonic(wordCount: WordCount.words12).description)
 
         try keyClient.saveBackupInfo(backupInfo)
         try keyClient.saveNetwork(self.network.description)
@@ -46,7 +49,7 @@ extension BDKSyncService {
         return wallet
     }
     
-    func createBackInfo(params: String) throws -> BackupInfo {
+    func buildBackupInfo(params: String) throws -> BackupInfo {
         if isXPub(params) {
             let descriptorPublicKey = try DescriptorPublicKey.fromString(publicKey: params)
             let fingerprint = descriptorPublicKey.masterFingerprint()
@@ -126,6 +129,54 @@ extension BDKSyncService {
             changeDescriptor: changeDescriptor.description
         )
     }
+    
+    func deleteData() throws {
+        do {
+            try keyClient.deleteAllData()
+            
+            if let bundleID = Bundle.main.bundleIdentifier {
+                UserDefaults.standard.removePersistentDomain(forName: bundleID)
+            }
+            
+            let walletDataDirectoryURL = URL.walletDataDirectoryURL
+            if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
+                try FileManager.default.removeItem(at: walletDataDirectoryURL)
+            }
+            
+        } catch {
+            throw AppError.generic(message: "Failed to remove Keychain data")
+        }
+    }
+    
+    func loadWalleFromBackup() throws -> Wallet {
+        let backupInfo = try keyClient.getBackupInfo()
+        let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
+        let changeDescriptor = try Descriptor(
+            descriptor: backupInfo.changeDescriptor,
+            network: self.network
+        )
+        
+        try FileManager.default.ensureDirectoryExists(at: URL.walletDataDirectoryURL)
+        try FileManager.default.removeOldFlatFileIfNeeded(at: URL.defaultWalletDirectory)
+        let persistenceBackendPath = URL.persistenceBackendPath
+        let connection = try Connection(path: persistenceBackendPath)
+
+        let wallet = try Wallet.load(
+            descriptor: descriptor,
+            changeDescriptor: changeDescriptor,
+            connection: connection
+        )
+        
+        return wallet
+    }
+    
+    // MARK: - Optionals methods
+    
+    func updateEsploraURL(_ url: String) {
+        // Optional implementation
+    }
+    
+    // MARK: - Private
     
     private func isDescriptor(_ param: String) -> Bool {
         param.hasPrefix("tr(") ||

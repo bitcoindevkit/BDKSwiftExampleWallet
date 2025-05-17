@@ -38,10 +38,21 @@ final class EsploraServerSyncService: BDKSyncService {
     }
     
     func loadWallet() throws {
-        
+        let wallet = try loadWalleFromBackup()
+        self.wallet = wallet
     }
     
     func deleteWallet() throws {
-        
+        try deleteData()
+        needsFullScan = true
+    }
+    
+    func updateNetwork(network: Network) {
+        self.network = network
+    }
+    
+    func updateEsploraURL(_ url: String) {
+        try? keyClient.saveEsploraURL(url)
+        self.esploraClient = .init(url: url)
     }
 }

@@ -185,16 +185,16 @@ struct WalletView: View {
     }
 }
 
-#if DEBUG
-    #Preview("WalletView - en") {
-        WalletView(
-            viewModel: .init(
-                bdkClient: .mock,
-                priceClient: .mock,
-                transactions: [.mock],
-                walletSyncState: .synced
-            ),
-            sendNavigationPath: .constant(.init())
-        )
-    }
-#endif
+//#if DEBUG
+//    #Preview("WalletView - en") {
+//        WalletView(
+//            viewModel: .init(
+//                bdkClient: .mock,
+//                priceClient: .mock,
+//                transactions: [.mock],
+//                walletSyncState: .synced
+//            ),
+//            sendNavigationPath: .constant(.init())
+//        )
+//    }
+//#endif

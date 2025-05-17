@@ -48,11 +48,11 @@ enum NavigationDestination: Hashable {
     case buildTransaction(amount: String, address: String, fee: Int)
 }
 
-#if DEBUG
-    #Preview {
-        HomeView(
-            viewModel: .init(bdkClient: .mock),
-            navigationPath: .constant(.init())
-        )
-    }
-#endif
+//#if DEBUG
+//    #Preview {
+//        HomeView(
+//            viewModel: .init(bdkClient: .mock),
+//            navigationPath: .constant(.init())
+//        )
+//    }
+//#endif

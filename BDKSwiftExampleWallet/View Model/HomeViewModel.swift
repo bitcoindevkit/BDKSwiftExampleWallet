@@ -12,17 +12,25 @@ import Foundation
 @Observable
 class HomeViewModel: ObservableObject {
     let bdkClient: BDKClient
+    
+    private let bdkSyncService: BDKSyncService
 
     var homeViewError: AppError?
     var isWalletLoaded = false
     var showingHomeViewErrorAlert = false
 
-    init(bdkClient: BDKClient = .live) {
+    init(
+        bdkClient: BDKClient = .live,
+        bdkSyncService: BDKSyncService
+    ) {
         self.bdkClient = bdkClient
+        self.bdkSyncService = bdkSyncService
     }
 
     func loadWallet() {
         do {
+            try bdkSyncService.loadWallet()
+            
             try bdkClient.loadWallet()
             isWalletLoaded = true
         } catch let error as DescriptorError {

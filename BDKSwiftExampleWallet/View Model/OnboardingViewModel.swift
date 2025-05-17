@@ -47,7 +47,7 @@ class OnboardingViewModel: ObservableObject {
     }
     @Published var selectedURL: String = "" {
         didSet {
-            bdkSyncService.updateEsploraURL(selectedURL)
+//            bdkClient.updateEsploraURL(selectedURL)
         }
     }
     @Published var words: String = ""
@@ -92,7 +92,7 @@ class OnboardingViewModel: ObservableObject {
     ) {
         self.bdkSyncService = bdkSyncService
         self.selectedNetwork = bdkSyncService.network
-//        self.selectedURL = bdkSyncService.network.url
+        self.selectedURL = bdkSyncService.network.url
     }
 
     func createWallet() {
