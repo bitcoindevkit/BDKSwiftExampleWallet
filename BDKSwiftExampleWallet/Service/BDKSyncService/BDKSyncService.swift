@@ -26,6 +26,12 @@ protocol BDKSyncService {
     func getTransactions() throws -> [CanonicalTx]
     func getBalance() throws -> Balance
     func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues
+    func calculateFeeRate(tx: Transaction) throws -> UInt64
+    func calculateFee(tx: Transaction) throws -> Amount
+    func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws -> Psbt
+    func send(address: String, amount: UInt64, feeRate: UInt64) async throws
+    func listUnspent() throws -> [LocalOutput]
+    func getAddress() throws -> String
 }
 
 extension BDKSyncService {

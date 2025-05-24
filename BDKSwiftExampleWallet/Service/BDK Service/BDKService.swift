@@ -59,15 +59,16 @@ private class BDKService {
     }
 
     func getAddress() throws -> String {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        guard let connection = self.connection else {
-            throw WalletError.dbNotFound
-        }
-        let addressInfo = wallet.revealNextAddress(keychain: .external)
-        let _ = try wallet.persist(connection: connection)
-        return addressInfo.address.description
+        try service.getAddress()
+//        guard let wallet = self.wallet else {
+//            throw WalletError.walletNotFound
+//        }
+//        guard let connection = self.connection else {
+//            throw WalletError.dbNotFound
+//        }
+//        let addressInfo = wallet.revealNextAddress(keychain: .external)
+//        let _ = try wallet.persist(connection: connection)
+//        return addressInfo.address.description
     }
 
     func getBalance() throws -> Balance {
@@ -91,11 +92,12 @@ private class BDKService {
     }
 
     func listUnspent() throws -> [LocalOutput] {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let localOutputs = wallet.listUnspent()
-        return localOutputs
+        try service.listUnspent()
+//        guard let wallet = self.wallet else {
+//            throw WalletError.walletNotFound
+//        }
+//        let localOutputs = wallet.listUnspent()
+//        return localOutputs
     }
 
     func createWallet(words: String?) throws {
@@ -327,41 +329,43 @@ private class BDKService {
         amount: UInt64,
         feeRate: UInt64
     ) async throws {
-        let psbt = try buildTransaction(
-            address: address,
-            amount: amount,
-            feeRate: feeRate
-        )
-        try signAndBroadcast(psbt: psbt)
+        try await service.send(address: address, amount: amount, feeRate: feeRate)
+//        let psbt = try buildTransaction(
+//            address: address,
+//            amount: amount,
+//            feeRate: feeRate
+//        )
+//        try signAndBroadcast(psbt: psbt)
     }
 
     func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws
         -> Psbt
     {
-        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let script = try Address(address: address, network: self.network)
-            .scriptPubkey()
-        let txBuilder = try TxBuilder()
-            .addRecipient(
-                script: script,
-                amount: Amount.fromSat(satoshi: amount)
-            )
-            .feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
-            .finish(wallet: wallet)
-        return txBuilder
+        try service.buildTransaction(address: address, amount: amount, feeRate: feeRate)
+//        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+//        let script = try Address(address: address, network: self.network)
+//            .scriptPubkey()
+//        let txBuilder = try TxBuilder()
+//            .addRecipient(
+//                script: script,
+//                amount: Amount.fromSat(satoshi: amount)
+//            )
+//            .feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
+//            .finish(wallet: wallet)
+//        return txBuilder
     }
 
-    private func signAndBroadcast(psbt: Psbt) throws {
-        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let isSigned = try wallet.sign(psbt: psbt)
-        if isSigned {
-            let transaction = try psbt.extractTx()
-            let client = self.esploraClient
-            try client.broadcast(transaction: transaction)
-        } else {
-            throw WalletError.notSigned
-        }
-    }
+//    private func signAndBroadcast(psbt: Psbt) throws {
+//        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+//        let isSigned = try wallet.sign(psbt: psbt)
+//        if isSigned {
+//            let transaction = try psbt.extractTx()
+//            let client = self.esploraClient
+//            try client.broadcast(transaction: transaction)
+//        } else {
+//            throw WalletError.notSigned
+//        }
+//    }
 
     func syncWithInspector(inspector: SyncScriptInspector) async throws {
         try await service.startSync(progress: inspector)
@@ -405,19 +409,21 @@ private class BDKService {
     }
 
     func calculateFee(tx: Transaction) throws -> Amount {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let fee = try wallet.calculateFee(tx: tx)
-        return fee
+        try service.calculateFee(tx: tx)
+//        guard let wallet = self.wallet else {
+//            throw WalletError.walletNotFound
+//        }
+//        let fee = try wallet.calculateFee(tx: tx)
+//        return fee
     }
 
     func calculateFeeRate(tx: Transaction) throws -> UInt64 {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let feeRate = try wallet.calculateFeeRate(tx: tx)
-        return feeRate.toSatPerVbCeil()
+        try service.calculateFeeRate(tx: tx)
+//        guard let wallet = self.wallet else {
+//            throw WalletError.walletNotFound
+//        }
+//        let feeRate = try wallet.calculateFeeRate(tx: tx)
+//        return feeRate.toSatPerVbCeil()
     }
 
     func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
