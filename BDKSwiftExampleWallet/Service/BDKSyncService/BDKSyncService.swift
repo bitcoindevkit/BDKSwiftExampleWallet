@@ -114,7 +114,8 @@ extension BDKSyncService {
             )
         }
         
-        guard let mnemonic = try? Mnemonic.fromString(mnemonic: params) else {
+        let words = !params.isEmpty ? params : Mnemonic(wordCount: WordCount.words12).description
+        guard let mnemonic = try? Mnemonic.fromString(mnemonic: words) else {
             throw AppError.generic(message: "Invalid mnemonic")
         }
         let secretKey = DescriptorSecretKey(
