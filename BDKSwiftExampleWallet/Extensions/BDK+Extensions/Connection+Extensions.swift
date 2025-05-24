@@ -2,6 +2,12 @@ import BitcoinDevKit
 import Foundation
 
 extension Connection {
+    static var dataDir: String {
+        let documentsDirectoryURL = URL.documentsDirectory
+        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
+        return walletDataDirectoryURL.path()
+    }
+    
     static func createConnection() throws -> Connection {
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")

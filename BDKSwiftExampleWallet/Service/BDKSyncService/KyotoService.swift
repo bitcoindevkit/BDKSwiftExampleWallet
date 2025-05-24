@@ -17,6 +17,10 @@ final class KyotoService: BDKSyncService {
     var network: Network
     var wallet: Wallet?
     
+    private var client: CbfClient?
+    private var node: CbfNode?
+    private var connected = false
+    
     init(
         keyClient: KeyClient = .live,
         network: Network = .signet,
@@ -28,11 +32,19 @@ final class KyotoService: BDKSyncService {
     }
     
     func createWallet(params: String?) throws {
-        
+        self.connection = try Connection.createConnection()
+        self.wallet = try buildWallet(params: params)
     }
     
     func loadWallet() throws {
+        self.connection = try Connection.loadConnection()
+        let wallet = try loadWalleFromBackup()
+        self.wallet = wallet
         
+        let nodeComponents = try buildNode(from: wallet)
+        self.client = nodeComponents.client
+        self.node = nodeComponents.node
+        startListen()
     }
     
     func deleteWallet() throws {
@@ -81,5 +93,67 @@ final class KyotoService: BDKSyncService {
     
     func getAddress() throws -> String {
         ""
+    }
+    
+    // MARK: - Private
+    
+    private func buildNode(from wallet: Wallet) throws -> CbfComponents {
+        try CbfBuilder()
+            .dataDir(dataDir: Connection.dataDir)
+            .logLevel(logLevel: .debug)
+            .scanType(scanType: .recovery(fromHeight: 200_000))
+            .build(wallet: wallet)
+    }
+    
+    private func startListen() {
+        node?.run()
+        continuallyUpdate()
+        printLogs()
+        updateWarn()
+    }
+    
+    private func continuallyUpdate() {
+        Task {
+            while true {
+                guard let update = await self.client?.update() else { return }
+                try self.wallet?.applyUpdate(update: update)
+                let _ = try self.wallet?.persist(connection: self.connection ?? Connection.loadConnection())
+                print("######### walletUpdated")
+//                DispatchQueue.main.async {
+//                    NotificationCenter.default.post(name: .walletUpdated, object: nil)
+//                }
+            }
+        }
+    }
+    
+    private func printLogs() {
+        Task {
+            while true {
+                if let log = try? await self.client?.nextLog() {
+                    print("\(log)")
+                }
+            }
+        }
+    }
+    
+    private func updateWarn() {
+        Task {
+            while true {
+                if let warn = try? await self.client!.nextWarning() {
+                    switch warn {
+                    case .needConnections:
+                        print("######### connectionsChanged")
+                        self.connected = false
+//                        DispatchQueue.main.async {
+//                            NotificationCenter.default.post(name: .connectionsChanged, object: nil)
+//                        }
+                    default:
+#if DEBUG
+                        print(warn)
+#endif
+                    }
+                }
+            }
+        }
     }
 }
