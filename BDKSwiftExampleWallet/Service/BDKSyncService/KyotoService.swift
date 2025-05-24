@@ -40,68 +40,43 @@ final class KyotoService: BDKSyncService {
         self.connection = try Connection.loadConnection()
         let wallet = try loadWalleFromBackup()
         self.wallet = wallet
-        
-        let nodeComponents = try buildNode(from: wallet)
+    }
+    
+    func startSync(progress: any SyncScriptInspector) async throws {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let nodeComponents = try buildNode(
+            from: wallet, scanType: .sync
+        )
         self.client = nodeComponents.client
         self.node = nodeComponents.node
         startListen()
     }
     
-    func deleteWallet() throws {
-        
-    }
-    
-    func startSync(progress: any SyncScriptInspector) async throws {
-        
-    }
-    
     func startFullScan(progress: any FullScanScriptInspector) async throws {
-        
-    }
-    
-    func getTransactions() throws -> [CanonicalTx] {
-        []
-    }
-    
-    func getBalance() throws -> Balance {
-        .mock
-    }
-    
-    func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
-        .mock
-    }
-    
-    func calculateFeeRate(tx: Transaction) throws -> UInt64 {
-        .zero
-    }
-    
-    func calculateFee(tx: Transaction) throws -> Amount {
-        try .fromBtc(btc: .zero)
-    }
-    
-    func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws -> Psbt {
-        .init(noPointer: .init())
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let nodeComponents = try buildNode(
+            from: wallet, scanType: .recovery(fromHeight: 200_000)
+        )
+        self.client = nodeComponents.client
+        self.node = nodeComponents.node
+        startListen()
     }
     
     func send(address: String, amount: UInt64, feeRate: UInt64) async throws {
         
     }
     
-    func listUnspent() throws -> [LocalOutput] {
-        []
-    }
-    
-    func getAddress() throws -> String {
-        ""
-    }
-    
     // MARK: - Private
     
-    private func buildNode(from wallet: Wallet) throws -> CbfComponents {
+    private func buildNode(from wallet: Wallet, scanType: ScanType) throws -> CbfComponents {
         try CbfBuilder()
             .dataDir(dataDir: Connection.dataDir)
             .logLevel(logLevel: .debug)
-            .scanType(scanType: .recovery(fromHeight: 200_000))
+            .scanType(scanType: scanType)
             .build(wallet: wallet)
     }
     

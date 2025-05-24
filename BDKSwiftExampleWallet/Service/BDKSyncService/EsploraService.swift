@@ -45,10 +45,6 @@ final class EsploraService: BDKSyncService {
         self.wallet = wallet
     }
     
-    func deleteWallet() throws {
-        try deleteData()
-    }
-    
     func updateNetwork(network: Network) {
         self.network = network
     }
@@ -95,65 +91,6 @@ final class EsploraService: BDKSyncService {
         let _ = try wallet.persist(connection: connection)
     }
     
-    func getTransactions() throws -> [CanonicalTx] {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let transactions = wallet.transactions()
-        let sortedTransactions = transactions.sorted { (tx1, tx2) in
-            return tx1.chainPosition.isBefore(tx2.chainPosition)
-        }
-        return sortedTransactions
-    }
-    
-    func getBalance() throws -> Balance {
-        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let balance = wallet.balance()
-        return balance
-    }
-    
-    func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let values = wallet.sentAndReceived(tx: tx)
-        return values
-    }
-    
-    func calculateFeeRate(tx: Transaction) throws -> UInt64 {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let feeRate = try wallet.calculateFeeRate(tx: tx)
-        return feeRate.toSatPerVbCeil()
-    }
-    
-    func calculateFee(tx: Transaction) throws -> Amount {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let fee = try wallet.calculateFee(tx: tx)
-        return fee
-    }
-    
-    func buildTransaction(
-        address: String,
-        amount: UInt64,
-        feeRate: UInt64
-    ) throws -> Psbt {
-        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let script = try Address(address: address, network: self.network)
-            .scriptPubkey()
-        let txBuilder = try TxBuilder()
-            .addRecipient(
-                script: script,
-                amount: Amount.fromSat(satoshi: amount)
-            )
-            .feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
-            .finish(wallet: wallet)
-        return txBuilder
-    }
-    
     func send(
         address: String,
         amount: UInt64,
@@ -165,26 +102,6 @@ final class EsploraService: BDKSyncService {
             feeRate: feeRate
         )
         try signAndBroadcast(psbt: psbt)
-    }
-    
-    func listUnspent() throws -> [LocalOutput] {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let localOutputs = wallet.listUnspent()
-        return localOutputs
-    }
-    
-    func getAddress() throws -> String {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        guard let connection = self.connection else {
-            throw WalletError.dbNotFound
-        }
-        let addressInfo = wallet.revealNextAddress(keychain: .external)
-        let _ = try wallet.persist(connection: connection)
-        return addressInfo.address.description
     }
     
     // MARK: - Private
