@@ -25,6 +25,7 @@ protocol BDKSyncService {
     
     func getTransactions() throws -> [CanonicalTx]
     func getBalance() throws -> Balance
+    func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues
 }
 
 extension BDKSyncService {

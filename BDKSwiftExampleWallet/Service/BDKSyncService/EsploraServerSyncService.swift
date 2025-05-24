@@ -111,4 +111,12 @@ final class EsploraServerSyncService: BDKSyncService {
         let balance = wallet.balance()
         return balance
     }
+    
+    func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let values = wallet.sentAndReceived(tx: tx)
+        return values
+    }
 }
