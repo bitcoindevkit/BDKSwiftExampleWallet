@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
-    @AppStorage("isNeedFullScan") var isNeedFullScan: Bool?
-    
+struct HomeView: View {    
     @Bindable var viewModel: HomeViewModel
     @Binding var navigationPath: NavigationPath
 
@@ -21,7 +19,7 @@ struct HomeView: View {
                 viewModel: .init(
                     priceClient: .live,
                     bdkSyncService: viewModel.bdkSyncService,
-                    isNeedFullScan: isNeedFullScan ?? false
+                    isNeedFullScan: StorageUtil.shared.isNeedFullScan ?? false
                 ),
                 sendNavigationPath: $navigationPath
             )

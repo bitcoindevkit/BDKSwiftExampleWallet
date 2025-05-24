@@ -9,9 +9,7 @@ import BitcoinUI
 import SwiftUI
 
 struct WalletView: View {
-    @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
-        .bitcoinSats
-    @AppStorage("isNeedFullScan") var isNeedFullScan: Bool?
+    
     @Bindable var viewModel: WalletViewModel
     @Binding var sendNavigationPath: NavigationPath
     @State private var isFirstAppear = true
@@ -30,14 +28,14 @@ struct WalletView: View {
             VStack(spacing: 20) {
 
                 BalanceView(
-                    format: balanceFormat,
+                    format: StorageUtil.shared.balanceFormat,
                     balance: viewModel.balanceTotal,
                     fiatPrice: viewModel.price
                 ).onTapGesture {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        balanceFormat =
+                        StorageUtil.shared.balanceFormat =
                             BalanceDisplayFormat.allCases[
-                                (balanceFormat.index + 1) % BalanceDisplayFormat.allCases.count
+                                (StorageUtil.shared.balanceFormat.index + 1) % BalanceDisplayFormat.allCases.count
                             ]
                     }
                 }
@@ -51,7 +49,7 @@ struct WalletView: View {
                         needsFullScan: viewModel.isNeedFullScan
                     ) {
                         // TODO: fix bug
-                        isNeedFullScan = false
+                        StorageUtil.shared.isNeedFullScan = false
                         showAllTransactions = true
                     }
                     

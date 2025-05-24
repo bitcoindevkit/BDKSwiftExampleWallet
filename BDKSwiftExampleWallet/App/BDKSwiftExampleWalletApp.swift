@@ -11,7 +11,6 @@ import SwiftUI
 @main
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
-    @AppStorage("isNeedFullScan") var isNeedFullScan: Bool = false
     @State private var navigationPath = NavigationPath()
 
     var body: some Scene {
@@ -40,7 +39,7 @@ struct BDKSwiftExampleWalletApp: App {
                 }
             }
             .onChange(of: isOnboarding) { oldValue, newValue in
-                isNeedFullScan = true
+                StorageUtil.shared.isNeedFullScan = true
                 navigationPath = NavigationPath()
             }
         }

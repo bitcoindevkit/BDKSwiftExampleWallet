@@ -13,7 +13,6 @@ import SwiftUI
 class SettingsViewModel: ObservableObject {
     let bdkClient: BDKClient
 
-    @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @Published var esploraURL: String?
     @Published var inspectedScripts: UInt64 = 0
     @Published var network: String?
@@ -40,7 +39,7 @@ class SettingsViewModel: ObservableObject {
     func delete() {
         do {
             try bdkClient.deleteWallet()
-            isOnboarding = true
+            StorageUtil.shared.isOnboarding = true
         } catch {
             self.settingsError = .generic(message: error.localizedDescription)
             self.showingSettingsViewErrorAlert = true

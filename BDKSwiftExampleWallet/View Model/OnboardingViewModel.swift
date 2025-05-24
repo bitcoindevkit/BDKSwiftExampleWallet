@@ -20,9 +20,6 @@ enum WalletSyncType: Hashable {
 class OnboardingViewModel: ObservableObject {
     
     private var bdkSyncService: BDKSyncService
-
-    @AppStorage("isOnboarding") var isOnboarding: Bool?
-    @AppStorage("isNeedFullScan") var isNeedFullScan: Bool?
     
     @Published var walletSyncType: WalletSyncType = .esplora {
         didSet {
@@ -100,10 +97,10 @@ class OnboardingViewModel: ObservableObject {
         do {
             try bdkSyncService.deleteWallet()
             try bdkSyncService.createWallet(params: words.isEmpty ? nil : words)
-            isNeedFullScan = true
+            StorageUtil.shared.isNeedFullScan = true
             
             DispatchQueue.main.async {
-                self.isOnboarding = false
+                StorageUtil.shared.isOnboarding = false
             }
             
         } catch let error as CreateWithPersistError {
