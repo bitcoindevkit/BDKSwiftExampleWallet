@@ -182,6 +182,10 @@ extension BDKSyncService {
         // Optional implementation
     }
     
+    func updateNetwork(network: Network) {
+        // Optional implementation
+    }
+    
     // MARK: - Private
     
     private func isDescriptor(_ param: String) -> Bool {

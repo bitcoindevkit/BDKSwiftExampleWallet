@@ -8,9 +8,9 @@
 import BitcoinDevKit
 import Foundation
 
-final class EsploraServerSyncService: BDKSyncService {
+final class EsploraService: BDKSyncService {
     
-    static let shared = EsploraServerSyncService()
+    static let shared = EsploraService()
     
     var connection: Connection?
     var keyClient: KeyClient
