@@ -75,7 +75,6 @@ extension BDKSyncService {
                 network: network
             )
             return .init(
-                mnemonic: "",
                 descriptor: descriptor.description,
                 changeDescriptor: changeDescriptor.description
             )
@@ -108,7 +107,6 @@ extension BDKSyncService {
             }
             
             return .init(
-                mnemonic: "",
                 descriptor: descriptor.toStringWithSecret(),
                 changeDescriptor: changeDescriptor.toStringWithSecret()
             )
