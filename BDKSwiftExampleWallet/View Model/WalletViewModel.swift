@@ -15,7 +15,11 @@ import SwiftUI
 class WalletViewModel {
     
     private let bdkSyncService: BDKSyncService
-    private(set) var isNeedFullScan: Bool
+    private(set) var isNeedFullScan: Bool {
+        didSet {
+            StorageUtil.shared.isNeedFullScan = isNeedFullScan
+        }
+    }
     let keyClient: KeyClient
     let priceClient: PriceClient
 
