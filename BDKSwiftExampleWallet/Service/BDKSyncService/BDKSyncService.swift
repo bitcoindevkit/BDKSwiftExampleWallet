@@ -109,8 +109,8 @@ extension BDKSyncService {
             
             return .init(
                 mnemonic: "",
-                descriptor: descriptor.description,
-                changeDescriptor: changeDescriptor.description
+                descriptor: descriptor.toStringWithSecret(),
+                changeDescriptor: changeDescriptor.toStringWithSecret()
             )
         }
         
@@ -134,8 +134,8 @@ extension BDKSyncService {
         )
         return .init(
             mnemonic: mnemonic.description,
-            descriptor: descriptor.description,
-            changeDescriptor: changeDescriptor.description
+            descriptor: descriptor.toStringWithSecret(),
+            changeDescriptor: changeDescriptor.toStringWithSecret()
         )
     }
     
