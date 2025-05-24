@@ -17,4 +17,10 @@ extension Connection {
         let connection = try Connection(path: persistenceBackendPath)
         return connection
     }
+    
+    static func loadConnection() throws -> Connection {
+        let persistenceBackendPath = URL.persistenceBackendPath
+        let connection = try Connection(path: persistenceBackendPath)
+        return connection
+    }
 }

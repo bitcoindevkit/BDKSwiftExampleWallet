@@ -62,6 +62,12 @@ private struct KeyService {
     func saveNetwork(network: String) throws {
         keychain[string: "SelectedNetwork"] = network
     }
+    
+    func deletaAllData() throws {
+        try deleteNetwork()
+        try deleteBackupInfo()
+        try deleteEsploraURL()
+    }
 }
 
 struct KeyClient {
@@ -74,6 +80,7 @@ struct KeyClient {
     let saveEsploraURL: (String) throws -> Void
     let saveBackupInfo: (BackupInfo) throws -> Void
     let saveNetwork: (String) throws -> Void
+    let deleteAllData: () throws -> Void
 
     private init(
         deleteBackupInfo: @escaping () throws -> Void,
@@ -84,7 +91,8 @@ struct KeyClient {
         getNetwork: @escaping () throws -> String?,
         saveBackupInfo: @escaping (BackupInfo) throws -> Void,
         saveEsploraURL: @escaping (String) throws -> Void,
-        saveNetwork: @escaping (String) throws -> Void
+        saveNetwork: @escaping (String) throws -> Void,
+        deleteAllData: @escaping () throws -> Void
     ) {
         self.deleteBackupInfo = deleteBackupInfo
         self.deleteEsplora = deleteEsplora
@@ -95,6 +103,7 @@ struct KeyClient {
         self.saveBackupInfo = saveBackupInfo
         self.saveEsploraURL = saveEsploraURL
         self.saveNetwork = saveNetwork
+        self.deleteAllData = deleteAllData
     }
 }
 
@@ -108,7 +117,8 @@ extension KeyClient {
         getNetwork: { try KeyService().getNetwork() },
         saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
         saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
-        saveNetwork: { network in try KeyService().saveNetwork(network: network) }
+        saveNetwork: { network in try KeyService().saveNetwork(network: network) },
+        deleteAllData: { try KeyService().deletaAllData() }
     )
 }
 
@@ -148,7 +158,8 @@ extension KeyClient {
             getNetwork: { nil },
             saveBackupInfo: { _ in },
             saveEsploraURL: { _ in },
-            saveNetwork: { _ in }
+            saveNetwork: { _ in },
+            deleteAllData: { }
         )
     }
 #endif
