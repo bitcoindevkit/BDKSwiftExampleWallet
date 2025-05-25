@@ -10,7 +10,7 @@ import Foundation
 
 final class KyotoService: BDKSyncService {
         
-    private static let nodeHeight: UInt32 = 253_000
+    private static let nodeHeight: UInt32 = 300_000
     
     static let shared = KyotoService()
     
@@ -23,7 +23,7 @@ final class KyotoService: BDKSyncService {
     private var node: CbfNode?
     private var connected = false
     
-    private var fullScanProgress2: FullScanProgress?
+    private var fullScanProgress: FullScanProgress?
     private var syncProgress: SyncScanProgress?
     
     init(
@@ -67,7 +67,7 @@ final class KyotoService: BDKSyncService {
         let nodeComponents = try buildNode(
             from: wallet, scanType: .recovery(fromHeight: KyotoService.nodeHeight)
         )
-        self.fullScanProgress2 = progress
+        self.fullScanProgress = progress
         self.client = nodeComponents.client
         self.node = nodeComponents.node
         try await startListen()
@@ -108,20 +108,6 @@ final class KyotoService: BDKSyncService {
         return true
     }
     
-//    private func continuallyUpdate() async {
-//        Task {
-//            while true {
-//                guard let update = await self.client?.update() else { return }
-//                try self.wallet?.applyUpdate(update: update)
-//                let _ = try self.wallet?.persist(connection: self.connection ?? Connection.loadConnection())
-//                print("######### walletUpdated")
-////                DispatchQueue.main.async {
-////                    NotificationCenter.default.post(name: .walletUpdated, object: nil)
-////                }
-//            }
-//        }
-//    }
-    
     private func printLogs() {
         Task {
             while true {
@@ -132,7 +118,7 @@ final class KyotoService: BDKSyncService {
                         print("######### connected")
                         self.connected = true
                     case .progress(let progress):
-                        if let fullScanProgress = self.fullScanProgress2 {
+                        if let fullScanProgress = self.fullScanProgress {
                             let _progress = UInt64(progress * 100.0)
                             fullScanProgress(_progress)
                         }
@@ -152,9 +138,6 @@ final class KyotoService: BDKSyncService {
                     case .needConnections:
                         print("######### disconnected")
                         self.connected = false
-//                        DispatchQueue.main.async {
-//                            NotificationCenter.default.post(name: .connectionsChanged, object: nil)
-//                        }
                     default:
 #if DEBUG
                         print(warn)
