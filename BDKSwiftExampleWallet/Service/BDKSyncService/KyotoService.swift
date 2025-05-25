@@ -8,9 +8,13 @@
 import BitcoinDevKit
 import Foundation
 
+extension KyotoService {
+    static var live: BDKSyncService = KyotoService()
+}
+
 final class KyotoService: BDKSyncService {
         
-    private static let nodeHeight: UInt32 = 200_000
+    private static let nodeHeight: UInt32 = 250_000
     
     static let shared = KyotoService()
     

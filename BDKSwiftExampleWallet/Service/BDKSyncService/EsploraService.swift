@@ -8,6 +8,10 @@
 import BitcoinDevKit
 import Foundation
 
+extension EsploraService {
+    static var live: BDKSyncService = EsploraService()
+}
+
 final class EsploraService: BDKSyncService {
     
     static let shared = EsploraService()
