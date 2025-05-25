@@ -43,24 +43,6 @@ class WalletViewModel {
         bdkClient.needsFullScan()
     }
 
-//    private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
-//        { [weak self] inspected, total in
-//            DispatchQueue.main.async {
-//                self?.totalScripts = total
-//                self?.inspectedScripts = inspected
-//                self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
-//            }
-//        }
-//    }
-//
-//    private var updateProgressFullScan: @Sendable (UInt64) -> Void {
-//        { [weak self] inspected in
-//            DispatchQueue.main.async {
-//                self?.inspectedScripts = inspected
-//            }
-//        }
-//    }
-
     init(
         bdkClient: BDKClient = .live,
         keyClient: KeyClient = .live,
@@ -125,11 +107,7 @@ class WalletViewModel {
         self.walletSyncState = .syncing
         do {
             try await bdkClient.syncScanWithSyncScanProgress { [weak self] inspected, total in
-                DispatchQueue.main.async {
-                    self?.totalScripts = total
-                    self?.inspectedScripts = inspected
-                    self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
-                }
+                self?.updateSyncProgress(inspected, total)
             }
             self.walletSyncState = .synced
         } catch let error as CannotConnectError {
@@ -154,9 +132,7 @@ class WalletViewModel {
         self.walletSyncState = .syncing
         do {
             try await bdkClient.fullScanWithFullScanProgress { [weak self] progress in
-                DispatchQueue.main.async {
-                    self?.inspectedScripts = progress
-                }
+                self?.updateFullProgress(progress)
             }
             self.walletSyncState = .synced
         } catch let error as CannotConnectError {
@@ -173,4 +149,19 @@ class WalletViewModel {
             self.showingWalletViewErrorAlert = true
         }
     }
+    
+    private func updateFullProgress(_ progress: UInt64) {
+        DispatchQueue.main.async { [weak self] in
+            self?.inspectedScripts = progress
+        }
+    }
+    
+    private func updateSyncProgress(_ inspected: UInt64, _ total: UInt64) {
+        DispatchQueue.main.async { [weak self] in
+            self?.totalScripts = total
+            self?.inspectedScripts = inspected
+            self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
+        }
+    }
+    
 }
