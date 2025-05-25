@@ -23,9 +23,8 @@ final class KyotoService: BDKSyncService {
     private var node: CbfNode?
     private var connected = false
     
-    private var fullScanProgress: FullScanScriptInspector?
     private var fullScanProgress2: FullScanProgress?
-    private var syncProgress: SyncScriptInspector?
+    private var syncProgress: SyncScanProgress?
     
     init(
         keyClient: KeyClient = .live,
@@ -48,34 +47,17 @@ final class KyotoService: BDKSyncService {
         self.wallet = wallet
     }
     
-    func startSync(progress: SyncScriptInspector) async throws {
-//        guard let wallet = self.wallet else {
-//            throw WalletError.walletNotFound
-//        }
-//        let nodeComponents = try buildNode(
-//            from: wallet, scanType: .sync
-//        )
-//        self.syncProgress = progress
-//        self.client = nodeComponents.client
-//        self.node = nodeComponents.node
-//        await startListen()
-    }
-    
-    func startFullScan(progress: FullScanScriptInspector) async throws {
-//        guard let wallet = self.wallet else {
-//            throw WalletError.walletNotFound
-//        }
-//        let nodeComponents = try buildNode(
-//            from: wallet, scanType: .recovery(fromHeight: 200_000)
-//        )
-//        self.fullScanProgress = progress
-//        self.client = nodeComponents.client
-//        self.node = nodeComponents.node
-//        await startListen()
-    }
-    
     func startSync2(progress: @escaping SyncScanProgress) async throws {
-        
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let nodeComponents = try buildNode(
+            from: wallet, scanType: .sync
+        )
+        self.syncProgress = progress
+        self.client = nodeComponents.client
+        self.node = nodeComponents.node
+        try await startListen()
     }
     
     func startFullScan2(progress: @escaping FullScanProgress) async throws {

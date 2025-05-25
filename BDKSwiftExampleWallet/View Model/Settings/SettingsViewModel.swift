@@ -52,8 +52,11 @@ class SettingsViewModel: ObservableObject {
             self.walletSyncState = .syncing
         }
         do {
-            let inspector = WalletFullScanScriptInspector(updateProgress: updateProgressFullScan)
-            try await bdkClient.fullScanWithInspector(inspector)
+            try await bdkClient.fullScanWithFullScanProgress { [weak self] progress in
+                DispatchQueue.main.async {
+                    self?.inspectedScripts = progress
+                }
+            }
             DispatchQueue.main.async {
                 NotificationCenter.default.post(
                     name: Notification.Name("TransactionSent"),

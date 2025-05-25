@@ -124,9 +124,6 @@ class WalletViewModel {
     private func startSyncWithProgress() async {
         self.walletSyncState = .syncing
         do {
-//            let inspector = WalletSyncScriptInspector(updateProgress: updateProgress)
-//            try await bdkClient.syncWithInspector(inspector)
-            
             try await bdkClient.syncScanWithSyncScanProgress { [weak self] inspected, total in
                 DispatchQueue.main.async {
                     self?.totalScripts = total
@@ -156,8 +153,6 @@ class WalletViewModel {
     private func fullScanWithProgress() async {
         self.walletSyncState = .syncing
         do {
-//            let inspector = WalletFullScanScriptInspector(updateProgress: updateProgressFullScan)
-//            try await bdkClient.fullScanWithInspector(inspector)
             try await bdkClient.fullScanWithFullScanProgress { [weak self] progress in
                 DispatchQueue.main.async {
                     self?.inspectedScripts = progress

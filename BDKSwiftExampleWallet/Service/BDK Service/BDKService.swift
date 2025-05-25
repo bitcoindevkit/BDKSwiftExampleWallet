@@ -114,14 +114,6 @@ private class BDKService {
     {
         try service.buildTransaction(address: address, amount: amount, feeRate: feeRate)
     }
-
-    func syncWithInspector(inspector: SyncScriptInspector) async throws {
-        try await service.startSync(progress: inspector)
-    }
-
-    func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
-        try await service.startFullScan(progress: inspector)
-    }
     
     func syncWithInspector2(progress: @escaping SyncScanProgress) async throws {
         try await service.startSync2(progress: progress)
@@ -163,8 +155,6 @@ struct BDKClient {
     let getBalance: () throws -> Balance
     let transactions: () throws -> [CanonicalTx]
     let listUnspent: () throws -> [LocalOutput]
-    let syncWithInspector: (SyncScriptInspector) async throws -> Void
-    let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
     let syncScanWithSyncScanProgress: (@escaping SyncScanProgress) async throws -> Void
     let fullScanWithFullScanProgress: (@escaping FullScanProgress) async throws -> Void
     let getAddress: () throws -> String
@@ -196,12 +186,6 @@ extension BDKClient {
         getBalance: { try BDKService.shared.getBalance() },
         transactions: { try BDKService.shared.transactions() },
         listUnspent: { try BDKService.shared.listUnspent() },
-        syncWithInspector: { inspector in
-            try await BDKService.shared.syncWithInspector(inspector: inspector)
-        },
-        fullScanWithInspector: { inspector in
-            try await BDKService.shared.fullScanWithInspector(inspector: inspector)
-        },
         syncScanWithSyncScanProgress: { progress in
             try await BDKService.shared.syncWithInspector2(progress: progress)
         },
@@ -261,8 +245,6 @@ extension BDKClient {
                     .mock
                 ]
             },
-            syncWithInspector: { _ in },
-            fullScanWithInspector: { _ in },
             syncScanWithSyncScanProgress: { _ in },
             fullScanWithFullScanProgress: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
