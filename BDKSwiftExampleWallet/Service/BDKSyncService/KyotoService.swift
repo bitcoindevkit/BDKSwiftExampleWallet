@@ -47,7 +47,7 @@ final class KyotoService: BDKSyncService {
         self.wallet = wallet
     }
     
-    func startSync2(progress: @escaping SyncScanProgress) async throws {
+    func startSync(progress: @escaping SyncScanProgress) async throws {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
@@ -60,7 +60,7 @@ final class KyotoService: BDKSyncService {
         try await startListen()
     }
     
-    func startFullScan2(progress: @escaping FullScanProgress) async throws {
+    func startFullScan(progress: @escaping FullScanProgress) async throws {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }

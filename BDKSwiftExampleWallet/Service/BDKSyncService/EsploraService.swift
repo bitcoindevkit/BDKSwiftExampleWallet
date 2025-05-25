@@ -54,7 +54,7 @@ final class EsploraService: BDKSyncService {
         self.esploraClient = .init(url: url)
     }
     
-    func startSync2(progress: @escaping SyncScanProgress) async throws {
+    func startSync(progress: @escaping SyncScanProgress) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let syncScanInspector = WalletSyncScriptInspector { scripts, total in
             progress(scripts, total)
@@ -74,7 +74,7 @@ final class EsploraService: BDKSyncService {
         let _ = try wallet.persist(connection: connection)
     }
     
-    func startFullScan2(progress: @escaping FullScanProgress) async throws {
+    func startFullScan(progress: @escaping FullScanProgress) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let fullScanInspector = WalletFullScanScriptInspector { inspected in
             progress(inspected)

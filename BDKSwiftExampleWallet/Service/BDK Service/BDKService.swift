@@ -115,12 +115,12 @@ private class BDKService {
         try service.buildTransaction(address: address, amount: amount, feeRate: feeRate)
     }
     
-    func syncWithInspector2(progress: @escaping SyncScanProgress) async throws {
-        try await service.startSync2(progress: progress)
+    func syncWithInspector(progress: @escaping SyncScanProgress) async throws {
+        try await service.startSync(progress: progress)
     }
     
-    func fullScanWithInspector2(progress: @escaping FullScanProgress) async throws {
-        try await service.startFullScan2(progress: progress)
+    func fullScanWithInspector(progress: @escaping FullScanProgress) async throws {
+        try await service.startFullScan(progress: progress)
     }
 
     func calculateFee(tx: Transaction) throws -> Amount {
@@ -187,10 +187,10 @@ extension BDKClient {
         transactions: { try BDKService.shared.transactions() },
         listUnspent: { try BDKService.shared.listUnspent() },
         syncScanWithSyncScanProgress: { progress in
-            try await BDKService.shared.syncWithInspector2(progress: progress)
+            try await BDKService.shared.syncWithInspector(progress: progress)
         },
         fullScanWithFullScanProgress: { progress in
-            try await BDKService.shared.fullScanWithInspector2(progress: progress)
+            try await BDKService.shared.fullScanWithInspector(progress: progress)
         },
         getAddress: { try BDKService.shared.getAddress() },
         send: { (address, amount, feeRate) in
