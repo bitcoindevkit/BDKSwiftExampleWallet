@@ -11,8 +11,8 @@ import Foundation
 private class BDKService {
     static var shared: BDKService = BDKService()
     
-    private let service: BDKSyncService = KyotoService.live
-//    private let service: BDKSyncService = EsploraService.live
+//    private let service: BDKSyncService = KyotoService.live
+    private let service: BDKSyncService = EsploraService.live
     private let keyClient: KeyClient
     private var needsFullScan: Bool = false
     private(set) var network: Network

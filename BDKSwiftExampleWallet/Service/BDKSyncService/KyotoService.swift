@@ -14,7 +14,8 @@ extension KyotoService {
 
 final class KyotoService: BDKSyncService {
         
-    private static let nodeHeight: UInt32 = 250_000
+//    private static let nodeHeight: UInt32 = 250_000
+    private static let nodeHeight: UInt32 = 800_000
     
     static let shared = KyotoService()
     
