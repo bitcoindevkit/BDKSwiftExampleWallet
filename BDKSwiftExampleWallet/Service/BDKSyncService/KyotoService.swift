@@ -10,6 +10,8 @@ import Foundation
 
 final class KyotoService: BDKSyncService {
     
+    private static let nodeHeight: UInt32 = 251_000
+    
     static let shared = KyotoService()
     
     var connection: Connection?
@@ -20,6 +22,10 @@ final class KyotoService: BDKSyncService {
     private var client: CbfClient?
     private var node: CbfNode?
     private var connected = false
+    
+    private var fullScanProgress: FullScanScriptInspector?
+    private var fullScanProgress2: FullScanProgress?
+    private var syncProgress: SyncScriptInspector?
     
     init(
         keyClient: KeyClient = .live,
@@ -42,28 +48,47 @@ final class KyotoService: BDKSyncService {
         self.wallet = wallet
     }
     
-    func startSync(progress: any SyncScriptInspector) async throws {
-        guard let wallet = self.wallet else {
-            throw WalletError.walletNotFound
-        }
-        let nodeComponents = try buildNode(
-            from: wallet, scanType: .sync
-        )
-        self.client = nodeComponents.client
-        self.node = nodeComponents.node
-        startListen()
+    func startSync(progress: SyncScriptInspector) async throws {
+//        guard let wallet = self.wallet else {
+//            throw WalletError.walletNotFound
+//        }
+//        let nodeComponents = try buildNode(
+//            from: wallet, scanType: .sync
+//        )
+//        self.syncProgress = progress
+//        self.client = nodeComponents.client
+//        self.node = nodeComponents.node
+//        await startListen()
     }
     
-    func startFullScan(progress: any FullScanScriptInspector) async throws {
+    func startFullScan(progress: FullScanScriptInspector) async throws {
+//        guard let wallet = self.wallet else {
+//            throw WalletError.walletNotFound
+//        }
+//        let nodeComponents = try buildNode(
+//            from: wallet, scanType: .recovery(fromHeight: 200_000)
+//        )
+//        self.fullScanProgress = progress
+//        self.client = nodeComponents.client
+//        self.node = nodeComponents.node
+//        await startListen()
+    }
+    
+    func startSync2(progress: @escaping SyncScanProgress) async throws {
+        
+    }
+    
+    func startFullScan2(progress: @escaping FullScanProgress) async throws {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
         let nodeComponents = try buildNode(
-            from: wallet, scanType: .recovery(fromHeight: 200_000)
+            from: wallet, scanType: .recovery(fromHeight: KyotoService.nodeHeight)
         )
+        self.fullScanProgress2 = progress
         self.client = nodeComponents.client
         self.node = nodeComponents.node
-        startListen()
+        try await startListen()
     }
     
     func send(address: String, amount: UInt64, feeRate: UInt64) async throws {
@@ -80,14 +105,25 @@ final class KyotoService: BDKSyncService {
             .build(wallet: wallet)
     }
     
-    private func startListen() {
+    private func startListen() async throws {
         node?.run()
-        continuallyUpdate()
         printLogs()
         updateWarn()
+//        await continuallyUpdate()
+        try await startUpdating()
     }
     
-    private func continuallyUpdate() {
+    @discardableResult
+    func startUpdating() async throws -> Bool {
+        guard let update = await self.client?.update() else { return false }
+        try self.wallet?.applyUpdate(update: update)
+        let _ = try self.wallet?.persist(connection: self.connection ?? Connection.loadConnection())
+        print("######### walletUpdated")
+        
+        return true
+    }
+    
+    private func continuallyUpdate() async {
         Task {
             while true {
                 guard let update = await self.client?.update() else { return }
@@ -106,6 +142,18 @@ final class KyotoService: BDKSyncService {
             while true {
                 if let log = try? await self.client?.nextLog() {
                     print("\(log)")
+                    switch log {
+                    case .connectionsMet:
+                        print("######### connected")
+                        self.connected = true
+                    case .progress(let progress):
+                        if let fullScanProgress = self.fullScanProgress2 {
+                            let _progress = UInt64(progress * 100.0)
+                            fullScanProgress(_progress)
+                        }
+                    default:
+                        break
+                    }
                 }
             }
         }
@@ -117,7 +165,7 @@ final class KyotoService: BDKSyncService {
                 if let warn = try? await self.client!.nextWarning() {
                     switch warn {
                     case .needConnections:
-                        print("######### connectionsChanged")
+                        print("######### disconnected")
                         self.connected = false
 //                        DispatchQueue.main.async {
 //                            NotificationCenter.default.post(name: .connectionsChanged, object: nil)

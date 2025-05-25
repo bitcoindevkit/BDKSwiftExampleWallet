@@ -8,6 +8,9 @@
 import BitcoinDevKit
 import Foundation
 
+typealias FullScanProgress = (UInt64) -> Void
+typealias SyncScanProgress = (UInt64, UInt64) -> Void
+
 protocol BDKSyncService {
     var connection: Connection? { get }
     var keyClient: KeyClient { get }
@@ -19,6 +22,9 @@ protocol BDKSyncService {
     func deleteWallet() throws
     func startSync(progress: SyncScriptInspector) async throws
     func startFullScan(progress: FullScanScriptInspector) async throws
+    
+    func startSync2(progress: @escaping SyncScanProgress) async throws
+    func startFullScan2(progress: @escaping FullScanProgress) async throws
     
     func updateNetwork(network: Network)
     func updateEsploraURL(_ url: String)

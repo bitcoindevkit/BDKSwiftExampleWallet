@@ -11,7 +11,8 @@ import Foundation
 private class BDKService {
     static var shared: BDKService = BDKService()
     
-    private let service: BDKSyncService = KyotoService()
+//    private let service: BDKSyncService = KyotoService()
+    private let service: BDKSyncService = EsploraService()
 
     private var balance: Balance?
     private var connection: Connection?
@@ -121,6 +122,14 @@ private class BDKService {
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
         try await service.startFullScan(progress: inspector)
     }
+    
+    func syncWithInspector2(progress: @escaping SyncScanProgress) async throws {
+        try await service.startSync2(progress: progress)
+    }
+    
+    func fullScanWithInspector2(progress: @escaping FullScanProgress) async throws {
+        try await service.startFullScan2(progress: progress)
+    }
 
     func calculateFee(tx: Transaction) throws -> Amount {
         try service.calculateFee(tx: tx)
@@ -156,6 +165,8 @@ struct BDKClient {
     let listUnspent: () throws -> [LocalOutput]
     let syncWithInspector: (SyncScriptInspector) async throws -> Void
     let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
+    let syncScanWithSyncScanProgress: (@escaping SyncScanProgress) async throws -> Void
+    let fullScanWithFullScanProgress: (@escaping FullScanProgress) async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, UInt64) throws -> Void
     let calculateFee: (Transaction) throws -> Amount
@@ -190,6 +201,12 @@ extension BDKClient {
         },
         fullScanWithInspector: { inspector in
             try await BDKService.shared.fullScanWithInspector(inspector: inspector)
+        },
+        syncScanWithSyncScanProgress: { progress in
+            try await BDKService.shared.syncWithInspector2(progress: progress)
+        },
+        fullScanWithFullScanProgress: { progress in
+            try await BDKService.shared.fullScanWithInspector2(progress: progress)
         },
         getAddress: { try BDKService.shared.getAddress() },
         send: { (address, amount, feeRate) in
@@ -246,6 +263,8 @@ extension BDKClient {
             },
             syncWithInspector: { _ in },
             fullScanWithInspector: { _ in },
+            syncScanWithSyncScanProgress: { _ in },
+            fullScanWithFullScanProgress: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
             calculateFee: { _ in Amount.fromSat(satoshi: UInt64(615)) },

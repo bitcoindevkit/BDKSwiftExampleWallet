@@ -71,6 +71,49 @@ final class EsploraService: BDKSyncService {
         let _ = try wallet.persist(connection: connection)
     }
     
+    func startSync2(progress: @escaping SyncScanProgress) async throws {
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let syncScanInspector = WalletSyncScriptInspector { scripts, total in
+            progress(scripts, total)
+        }
+        let esploraClient = self.esploraClient
+        let syncRequest = try wallet.startSyncWithRevealedSpks()
+            .inspectSpks(inspector: syncScanInspector)
+            .build()
+        let update = try esploraClient.sync(
+            request: syncRequest,
+            parallelRequests: UInt64(5)
+        )
+        let _ = try wallet.applyUpdate(update: update)
+        guard let connection = self.connection else {
+            throw WalletError.dbNotFound
+        }
+        let _ = try wallet.persist(connection: connection)
+    }
+    
+    func startFullScan2(progress: @escaping FullScanProgress) async throws {
+        guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        let fullScanInspector = WalletFullScanScriptInspector { inspected in
+            progress(inspected)
+        }
+        let esploraClient = esploraClient
+        let fullScanRequest = try wallet.startFullScan()
+            .inspectSpksForAllKeychains(inspector: fullScanInspector)
+            .build()
+        let update = try esploraClient.fullScan(
+            request: fullScanRequest,
+            // using https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#address-gap-limit
+            stopGap: UInt64(20),
+            // using https://github.com/bitcoindevkit/bdk/blob/master/example-crates/example_wallet_esplora_blocking/src/main.rs
+            parallelRequests: UInt64(5)
+        )
+        let _ = try wallet.applyUpdate(update: update)
+        guard let connection = self.connection else {
+            throw WalletError.dbNotFound
+        }
+        let _ = try wallet.persist(connection: connection)
+    }
+    
     func startFullScan(progress: FullScanScriptInspector) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let esploraClient = esploraClient
