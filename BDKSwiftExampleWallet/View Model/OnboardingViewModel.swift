@@ -26,7 +26,7 @@ class OnboardingViewModel: ObservableObject {
     }
     @Published var networkColor = Color.gray
     @Published var onboardingViewError: AppError?
-    @Published var selectedNetwork: Network = .signet {
+    @Published var selectedNetwork: Network = .bitcoin {
         didSet {
             bdkClient.updateNetwork(selectedNetwork)
             selectedURL = availableURLs.first ?? ""

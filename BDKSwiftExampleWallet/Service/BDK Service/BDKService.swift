@@ -11,8 +11,8 @@ import Foundation
 private class BDKService {
     static var shared: BDKService = BDKService()
     
-//    private let service: BDKSyncService = KyotoService.live
-    private let service: BDKSyncService = EsploraService.live
+    private let service: BDKSyncService = KyotoService.live
+//    private let service: BDKSyncService = EsploraService.live
     private let keyClient: KeyClient
     private var needsFullScan: Bool = false
     private(set) var network: Network
@@ -20,8 +20,8 @@ private class BDKService {
 
     init(keyClient: KeyClient = .live) {
         self.keyClient = keyClient
-        let storedNetworkString = try? keyClient.getNetwork() ?? Network.signet.description
-        self.network = Network(stringValue: storedNetworkString ?? "") ?? .signet
+        let storedNetworkString = try? keyClient.getNetwork() ?? Network.bitcoin.description
+        self.network = Network(stringValue: storedNetworkString ?? "") ?? .bitcoin
 
         self.esploraURL = (try? keyClient.getEsploraURL()) ?? self.network.url
     }

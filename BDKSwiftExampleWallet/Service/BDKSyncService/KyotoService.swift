@@ -34,7 +34,7 @@ final class KyotoService: BDKSyncService {
     
     init(
         keyClient: KeyClient = .live,
-        network: Network = .signet,
+        network: Network = .bitcoin,
         connection: Connection? = nil
     ) {
         self.connection = connection
