@@ -10,7 +10,7 @@ import Foundation
 
 final class KyotoService: BDKSyncService {
     
-    private static let nodeHeight: UInt32 = 251_000
+    private static let nodeHeight: UInt32 = 253_000
     
     static let shared = KyotoService()
     
@@ -91,7 +91,6 @@ final class KyotoService: BDKSyncService {
         node?.run()
         printLogs()
         updateWarn()
-//        await continuallyUpdate()
         try await startUpdating()
     }
     
@@ -105,19 +104,19 @@ final class KyotoService: BDKSyncService {
         return true
     }
     
-    private func continuallyUpdate() async {
-        Task {
-            while true {
-                guard let update = await self.client?.update() else { return }
-                try self.wallet?.applyUpdate(update: update)
-                let _ = try self.wallet?.persist(connection: self.connection ?? Connection.loadConnection())
-                print("######### walletUpdated")
-//                DispatchQueue.main.async {
-//                    NotificationCenter.default.post(name: .walletUpdated, object: nil)
-//                }
-            }
-        }
-    }
+//    private func continuallyUpdate() async {
+//        Task {
+//            while true {
+//                guard let update = await self.client?.update() else { return }
+//                try self.wallet?.applyUpdate(update: update)
+//                let _ = try self.wallet?.persist(connection: self.connection ?? Connection.loadConnection())
+//                print("######### walletUpdated")
+////                DispatchQueue.main.async {
+////                    NotificationCenter.default.post(name: .walletUpdated, object: nil)
+////                }
+//            }
+//        }
+//    }
     
     private func printLogs() {
         Task {

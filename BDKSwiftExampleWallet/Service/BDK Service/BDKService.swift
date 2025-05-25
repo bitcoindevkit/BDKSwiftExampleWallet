@@ -11,8 +11,8 @@ import Foundation
 private class BDKService {
     static var shared: BDKService = BDKService()
     
-//    private let service: BDKSyncService = KyotoService()
-    private let service: BDKSyncService = EsploraService()
+    private let service: BDKSyncService = KyotoService()
+//    private let service: BDKSyncService = EsploraService()
 
     private var balance: Balance?
     private var connection: Connection?
