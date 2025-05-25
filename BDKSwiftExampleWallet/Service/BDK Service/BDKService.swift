@@ -13,15 +13,10 @@ private class BDKService {
     
 //    private let service: BDKSyncService = KyotoService()
     private let service: BDKSyncService = EsploraService()
-
-    private var balance: Balance?
-    private var connection: Connection?
-    private var esploraClient: EsploraClient
     private let keyClient: KeyClient
     private var needsFullScan: Bool = false
     private(set) var network: Network
     private(set) var esploraURL: String
-    private var wallet: Wallet?
 
     init(keyClient: KeyClient = .live) {
         self.keyClient = keyClient
@@ -29,8 +24,6 @@ private class BDKService {
         self.network = Network(stringValue: storedNetworkString ?? "") ?? .signet
 
         self.esploraURL = (try? keyClient.getEsploraURL()) ?? self.network.url
-
-        self.esploraClient = EsploraClient(url: self.esploraURL)
     }
 
     func updateNetwork(_ newNetwork: Network) {
@@ -51,12 +44,7 @@ private class BDKService {
         if newURL != self.esploraURL {
             self.esploraURL = newURL
             try? keyClient.saveEsploraURL(newURL)
-            updateEsploraClient()
         }
-    }
-
-    private func updateEsploraClient() {
-        self.esploraClient = EsploraClient(url: self.esploraURL)
     }
 
     func getAddress() throws -> String {
