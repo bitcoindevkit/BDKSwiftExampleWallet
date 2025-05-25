@@ -11,8 +11,8 @@ import Foundation
 private class BDKService {
     static var shared: BDKService = BDKService()
     
-    private let service: BDKSyncService = KyotoService()
-//    private let service: BDKSyncService = EsploraService()
+//    private let service: BDKSyncService = KyotoService()
+    private let service: BDKSyncService = EsploraService()
 
     private var balance: Balance?
     private var connection: Connection?
@@ -92,6 +92,9 @@ private class BDKService {
     }
 
     func deleteWallet() throws {
+        Task {
+            try await service.stopService()
+        }
         try service.deleteWallet()
         needsFullScan = true
     }

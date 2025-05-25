@@ -29,9 +29,11 @@ struct Constants {
             struct Signet {
                 static let bdk = "http://signet.bitcoindevkit.net"
                 static let mutiny = "https://mutinynet.com/api"
+                static let mempoolspace = "https://mempool.space/signet/api"
                 static let allValues = [
                     mutiny,
                     bdk,
+                    mempoolspace,
                 ]
             }
             struct Testnet {
