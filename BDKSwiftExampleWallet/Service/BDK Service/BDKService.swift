@@ -134,6 +134,10 @@ private class BDKService {
     func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
         try service.sentAndReceived(tx: tx)
     }
+    
+    func stop() async throws {
+        try await service.stopService()
+    }
 }
 
 extension BDKService {
@@ -170,6 +174,7 @@ struct BDKClient {
     let getEsploraURL: () -> String
     let updateNetwork: (Network) -> Void
     let updateEsploraURL: (String) -> Void
+    let stop: () async throws -> Void
 }
 
 extension BDKClient {
@@ -222,6 +227,9 @@ extension BDKClient {
         },
         updateEsploraURL: { newURL in
             BDKService.shared.updateEsploraURL(newURL)
+        },
+        stop: {
+            try await BDKService.shared.stop()
         }
     )
 }
@@ -278,7 +286,8 @@ extension BDKClient {
             getNetwork: { .signet },
             getEsploraURL: { Constants.Config.EsploraServerURLNetwork.Signet.mutiny },
             updateNetwork: { _ in },
-            updateEsploraURL: { _ in }
+            updateEsploraURL: { _ in },
+            stop: { }
         )
     }
 #endif

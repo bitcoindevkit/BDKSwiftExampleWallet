@@ -35,6 +35,7 @@ protocol BDKSyncService {
     func send(address: String, amount: UInt64, feeRate: UInt64) async throws
     func listUnspent() throws -> [LocalOutput]
     func getAddress() throws -> String
+    func stopService() async throws
 }
 
 extension BDKSyncService {
@@ -264,13 +265,11 @@ extension BDKSyncService {
     
     // MARK: - Optionals methods
     
-    func updateEsploraURL(_ url: String) {
-        // Optional implementation
-    }
+    func updateEsploraURL(_ url: String) { }
     
-    func updateNetwork(network: Network) {
-        // Optional implementation
-    }
+    func updateNetwork(network: Network) { }
+    
+    func stopService() async throws { }
     
     // MARK: - Private
     

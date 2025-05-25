@@ -9,7 +9,7 @@ import BitcoinDevKit
 import Foundation
 
 final class KyotoService: BDKSyncService {
-    
+        
     private static let nodeHeight: UInt32 = 253_000
     
     static let shared = KyotoService()
@@ -75,6 +75,10 @@ final class KyotoService: BDKSyncService {
     
     func send(address: String, amount: UInt64, feeRate: UInt64) async throws {
         
+    }
+    
+    func stopService() async throws {
+        try await client?.shutdown()
     }
     
     // MARK: - Private
