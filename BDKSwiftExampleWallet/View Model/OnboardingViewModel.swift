@@ -16,6 +16,11 @@ class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool?
+    @Published var syncMode: SyncMode? {
+        didSet {
+            bdkClient.upateSyncMode(syncMode ?? .esplora)
+        }
+    }
     @Published var createWithPersistError: CreateWithPersistError?
     var isDescriptor: Bool {
         words.hasPrefix("tr(") || words.hasPrefix("wpkh(") || words.hasPrefix("wsh(")

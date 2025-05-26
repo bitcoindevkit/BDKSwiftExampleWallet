@@ -11,6 +11,10 @@ import Foundation
 typealias FullScanProgress = (UInt64) -> Void
 typealias SyncScanProgress = (UInt64, UInt64) -> Void
 
+enum SyncMode: String {
+    case esplora, kyoto
+}
+
 protocol BDKSyncService {
     var connection: Connection? { get }
     var keyClient: KeyClient { get }

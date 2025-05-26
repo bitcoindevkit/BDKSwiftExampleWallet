@@ -68,6 +68,17 @@ private struct KeyService {
         try deleteBackupInfo()
         try deleteEsploraURL()
     }
+    
+    func saveSyncMode(_ mode: SyncMode) throws {
+        keychain[string: "SyncMode"] = mode.rawValue
+    }
+    
+    func getSyncMode() throws -> SyncMode? {
+        guard let mode = keychain[string: "SyncMode"] else {
+            return nil
+        }
+        return SyncMode(rawValue: mode)
+    }
 }
 
 struct KeyClient {
@@ -81,6 +92,8 @@ struct KeyClient {
     let saveBackupInfo: (BackupInfo) throws -> Void
     let saveNetwork: (String) throws -> Void
     let deleteAllData: () throws -> Void
+    let saveSyncMode: (SyncMode) throws -> Void
+    let getSyncMode: () throws -> SyncMode?
 
     private init(
         deleteBackupInfo: @escaping () throws -> Void,
@@ -92,7 +105,9 @@ struct KeyClient {
         saveBackupInfo: @escaping (BackupInfo) throws -> Void,
         saveEsploraURL: @escaping (String) throws -> Void,
         saveNetwork: @escaping (String) throws -> Void,
-        deleteAllData: @escaping () throws -> Void
+        deleteAllData: @escaping () throws -> Void,
+        saveSyncMode: @escaping (SyncMode) throws -> Void,
+        getSyncMode: @escaping () throws -> SyncMode?
     ) {
         self.deleteBackupInfo = deleteBackupInfo
         self.deleteEsplora = deleteEsplora
@@ -104,6 +119,8 @@ struct KeyClient {
         self.saveEsploraURL = saveEsploraURL
         self.saveNetwork = saveNetwork
         self.deleteAllData = deleteAllData
+        self.saveSyncMode = saveSyncMode
+        self.getSyncMode = getSyncMode
     }
 }
 
@@ -118,7 +135,9 @@ extension KeyClient {
         saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
         saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
         saveNetwork: { network in try KeyService().saveNetwork(network: network) },
-        deleteAllData: { try KeyService().deletaAllData() }
+        deleteAllData: { try KeyService().deletaAllData() },
+        saveSyncMode: { mode in try KeyService().saveSyncMode(mode) },
+        getSyncMode: { try KeyService().getSyncMode() }
     )
 }
 
@@ -159,7 +178,9 @@ extension KeyClient {
             saveBackupInfo: { _ in },
             saveEsploraURL: { _ in },
             saveNetwork: { _ in },
-            deleteAllData: { }
+            deleteAllData: { },
+            saveSyncMode: { _ in },
+            getSyncMode: { .esplora }
         )
     }
 #endif

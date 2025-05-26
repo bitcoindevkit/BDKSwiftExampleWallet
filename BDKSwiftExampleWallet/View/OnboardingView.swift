@@ -122,24 +122,35 @@ struct OnboardingView: View {
                     .opacity(animateContent ? 1 : 0)
                     .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
 
-                    Picker("Esplora Server", selection: $viewModel.selectedURL) {
-                        ForEach(viewModel.availableURLs, id: \.self) { url in
-                            Text(
-                                url.replacingOccurrences(
-                                    of: "https://",
-                                    with: ""
-                                ).replacingOccurrences(
-                                    of: "http://",
-                                    with: ""
-                                )
-                            )
-                            .tag(url)
-                        }
+                    Picker("Sync type", selection: $viewModel.syncMode) {
+                        Text("Esplora Server").tag(SyncMode.esplora)
+                        Text("Kyoto").tag(SyncMode.kyoto)
                     }
                     .pickerStyle(.automatic)
                     .tint(.primary)
                     .opacity(animateContent ? 1 : 0)
                     .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
+                    
+                    if viewModel.syncMode == nil || viewModel.syncMode == .esplora {
+                        Picker("Esplora Server", selection: $viewModel.selectedURL) {
+                            ForEach(viewModel.availableURLs, id: \.self) { url in
+                                Text(
+                                    url.replacingOccurrences(
+                                        of: "https://",
+                                        with: ""
+                                    ).replacingOccurrences(
+                                        of: "http://",
+                                        with: ""
+                                    )
+                                )
+                                .tag(url)
+                            }
+                        }
+                        .pickerStyle(.automatic)
+                        .tint(.primary)
+                        .opacity(animateContent ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
+                    }
                 }
 
                 if !viewModel.words.isEmpty {

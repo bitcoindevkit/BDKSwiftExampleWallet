@@ -11,8 +11,15 @@ import Foundation
 private class BDKService {
     static var shared: BDKService = BDKService()
     
-//    private let service: BDKSyncService = KyotoService.live
-    private let service: BDKSyncService = EsploraService.live
+    private var syncMode: SyncMode?
+    private var service: BDKSyncService {
+        switch try? keyClient.getSyncMode() {
+        case .kyoto:
+            return KyotoService.live
+        default:
+            return EsploraService.live
+        }
+    }
     private let keyClient: KeyClient
     private var needsFullScan: Bool = false
     private(set) var network: Network
@@ -44,6 +51,13 @@ private class BDKService {
         if newURL != self.esploraURL {
             self.esploraURL = newURL
             try? keyClient.saveEsploraURL(newURL)
+        }
+    }
+    
+    func updateSyncMode(_ mode: SyncMode) {
+        if syncMode != mode {
+            self.syncMode = mode
+            try? keyClient.saveSyncMode(mode)
         }
     }
 
@@ -114,15 +128,15 @@ private class BDKService {
         try await service.startFullScan(progress: progress)
     }
 
-    func calculateFee(tx: Transaction) throws -> Amount {
+    func calculateFee(tx: BitcoinDevKit.Transaction) throws -> Amount {
         try service.calculateFee(tx: tx)
     }
 
-    func calculateFeeRate(tx: Transaction) throws -> UInt64 {
+    func calculateFeeRate(tx: BitcoinDevKit.Transaction) throws -> UInt64 {
         try service.calculateFeeRate(tx: tx)
     }
 
-    func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
+    func sentAndReceived(tx: BitcoinDevKit.Transaction) throws -> SentAndReceivedValues {
         try service.sentAndReceived(tx: tx)
     }
     
@@ -154,9 +168,9 @@ struct BDKClient {
     let fullScanWithFullScanProgress: (@escaping FullScanProgress) async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, UInt64) throws -> Void
-    let calculateFee: (Transaction) throws -> Amount
-    let calculateFeeRate: (Transaction) throws -> UInt64
-    let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
+    let calculateFee: (BitcoinDevKit.Transaction) throws -> Amount
+    let calculateFeeRate: (BitcoinDevKit.Transaction) throws -> UInt64
+    let sentAndReceived: (BitcoinDevKit.Transaction) throws -> SentAndReceivedValues
     let buildTransaction: (String, UInt64, UInt64) throws -> Psbt
     let getBackupInfo: () throws -> BackupInfo
     let needsFullScan: () -> Bool
@@ -166,6 +180,7 @@ struct BDKClient {
     let updateNetwork: (Network) -> Void
     let updateEsploraURL: (String) -> Void
     let stop: () async throws -> Void
+    let upateSyncMode: (SyncMode) -> Void
 }
 
 extension BDKClient {
@@ -221,6 +236,9 @@ extension BDKClient {
         },
         stop: {
             try await BDKService.shared.stop()
+        },
+        upateSyncMode: { mode in
+            BDKService.shared.updateSyncMode(mode)
         }
     )
 }
@@ -278,7 +296,8 @@ extension BDKClient {
             getEsploraURL: { Constants.Config.EsploraServerURLNetwork.Signet.mutiny },
             updateNetwork: { _ in },
             updateEsploraURL: { _ in },
-            stop: { }
+            stop: { },
+            upateSyncMode: { _ in }
         )
     }
 #endif
