@@ -21,13 +21,7 @@ class SettingsViewModel: ObservableObject {
     @Published var showingSettingsViewErrorAlert = false
     @Published var walletSyncState: WalletSyncState = .notStarted
 
-    private var updateProgressFullScan: @Sendable (UInt64) -> Void {
-        { [weak self] inspected in
-            DispatchQueue.main.async {
-                self?.inspectedScripts = inspected
-            }
-        }
-    }
+    let syncMode: SyncMode
 
     init(
         bdkClient: BDKClient = .live
@@ -35,6 +29,7 @@ class SettingsViewModel: ObservableObject {
         self.bdkClient = bdkClient
         self.network = bdkClient.getNetwork().description
         self.esploraURL = bdkClient.getEsploraURL()
+        self.syncMode = bdkClient.getSyncMode() ?? .esplora
     }
 
     func delete() {
@@ -46,7 +41,7 @@ class SettingsViewModel: ObservableObject {
             self.showingSettingsViewErrorAlert = true
         }
     }
-
+    
     func fullScanWithProgress() async {
         DispatchQueue.main.async {
             self.walletSyncState = .syncing

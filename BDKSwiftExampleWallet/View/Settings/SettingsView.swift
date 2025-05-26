@@ -35,16 +35,24 @@ struct SettingsView: View {
             .foregroundStyle(.secondary)
 
             Form {
-
-                Section(header: Text("Network")) {
-                    if let network = viewModel.network, let url = viewModel.esploraURL {
-                        Text(
-                            "\(network.capitalized) • \(url.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: ""))"
-                        )
-                        .foregroundStyle(.primary)
+                Group {
+                    if viewModel.syncMode == .kyoto {
+                        Section(header: Text("Network")) {
+                            Text("Using Kyoto")
+                            .foregroundStyle(.primary)
+                        }
                     } else {
-                        HStack {
-                            Text("No Network")
+                        Section(header: Text("Network")) {
+                            if let network = viewModel.network, let url = viewModel.esploraURL {
+                                Text(
+                                    "\(network.capitalized) • \(url.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "http://", with: ""))"
+                                )
+                                .foregroundStyle(.primary)
+                            } else {
+                                HStack {
+                                    Text("No Network")
+                                }
+                            }
                         }
                     }
                 }
