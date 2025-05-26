@@ -23,12 +23,12 @@ final class BDKSwiftExampleWalletKeyServiceTests: XCTestCase {
             mnemonic: mnemonic,
             password: nil
         )
-        let descriptor = Descriptor.newBip84(
+        let descriptor = Descriptor.newBip86(
             secretKey: secretKey,
             keychain: .external,
             network: mockKeyClientNetwork
         )
-        let changeDescriptor = Descriptor.newBip84(
+        let changeDescriptor = Descriptor.newBip86(
             secretKey: secretKey,
             keychain: .internal,
             network: mockKeyClientNetwork

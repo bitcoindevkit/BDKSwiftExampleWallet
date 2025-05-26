@@ -112,7 +112,6 @@ struct OnboardingView: View {
 
                 Group {
                     Picker("Network", selection: $viewModel.selectedNetwork) {
-                        Text("Bitcoin").tag(Network.bitcoin)
                         Text("Signet").tag(Network.signet)
                         Text("Testnet").tag(Network.testnet)
                         Text("Testnet4").tag(Network.testnet4)

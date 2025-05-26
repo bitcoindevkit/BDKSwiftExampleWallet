@@ -36,7 +36,8 @@ struct TransactionListView: View {
                         .font(.subheadline)
 
                     let mutinyFaucetURL = URL(string: "https://faucet.mutinynet.com")
-                    let signetFaucetURL = URL(string: "https://signetfaucet.com")
+//                    let signetFaucetURL = URL(string: "https://signetfaucet.com")
+                    let signetFaucetURL = URL(string: "https://signet25.bublina.eu.org/")
 
                     if let mutinyFaucetURL,
                         let signetFaucetURL,

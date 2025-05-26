@@ -34,7 +34,7 @@ final class KyotoService: BDKSyncService {
     
     init(
         keyClient: KeyClient = .live,
-        network: Network = .bitcoin,
+        network: Network = .signet,
         connection: Connection? = nil
     ) {
         self.connection = connection
@@ -74,8 +74,9 @@ final class KyotoService: BDKSyncService {
             throw WalletError.walletNotFound
         }
         let nodeComponents = try buildNode(
-            from: wallet, scanType: .recovery(fromHeight: KyotoService.nodeHeight)
+            from: wallet, scanType: .recovery(fromHeight: network.taprootHeight)
         )
+        
         self.fullScanProgress = progress
         self.client = nodeComponents.client
         self.node = nodeComponents.node

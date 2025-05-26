@@ -31,9 +31,9 @@ struct Constants {
                 static let mutiny = "https://mutinynet.com/api"
                 static let mempoolspace = "https://mempool.space/signet/api"
                 static let allValues = [
+                    mempoolspace,
                     mutiny,
                     bdk,
-                    mempoolspace,
                 ]
             }
             struct Testnet {
@@ -93,6 +93,15 @@ extension Network {
             Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
         case .testnet4:
             Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+        }
+    }
+    
+    var taprootHeight: UInt32 {
+        switch self {
+        case .bitcoin:
+            return 700_000
+        default:
+            return 250_000
         }
     }
 }

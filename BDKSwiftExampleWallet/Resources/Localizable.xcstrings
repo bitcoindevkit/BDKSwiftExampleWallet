@@ -410,9 +410,6 @@
         }
       }
     },
-    "Bitcoin" : {
-
-    },
     "Bitcoin Balance" : {
       "localizations" : {
         "pt-BR" : {

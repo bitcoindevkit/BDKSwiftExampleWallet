@@ -25,7 +25,7 @@ final class EsploraService: BDKSyncService {
     
     init(
         keyClient: KeyClient = .live,
-        network: Network = .bitcoin,
+        network: Network = .signet,
         connection: Connection? = nil
     ) {
         self.connection = connection
