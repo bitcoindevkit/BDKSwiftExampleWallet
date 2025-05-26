@@ -72,32 +72,4 @@ class ActivityListViewModel {
             self.showingWalletViewErrorAlert = true
         }
     }
-
-//    private func startSyncWithProgress() async {
-//        self.walletSyncState = .syncing
-//        do {
-//            let inspector = WalletSyncScriptInspector(updateProgress: updateProgress)
-//            try await bdkClient.syncWithInspector(inspector)
-//            self.walletSyncState = .synced
-//        } catch let error as CannotConnectError {
-//            self.walletViewError = .generic(message: error.localizedDescription)
-//            self.showingWalletViewErrorAlert = true
-//        } catch let error as EsploraError {
-//            self.walletViewError = .generic(message: error.localizedDescription)
-//            self.showingWalletViewErrorAlert = true
-//        } catch let error as RequestBuilderError {
-//            self.walletViewError = .generic(message: error.localizedDescription)
-//            self.showingWalletViewErrorAlert = true
-//        } catch let error as PersistenceError {
-//            self.walletViewError = .generic(message: error.localizedDescription)
-//            self.showingWalletViewErrorAlert = true
-//        } catch {
-//            self.walletSyncState = .error(error)
-//            self.showingWalletViewErrorAlert = true
-//        }
-//    }
-
-//    func syncOrFullScan() async {
-//        await startSyncWithProgress()
-//    }
 }
