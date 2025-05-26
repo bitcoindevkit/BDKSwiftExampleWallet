@@ -12,17 +12,24 @@ import SwiftUI
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @State private var navigationPath = NavigationPath()
-
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $navigationPath) {
                 let value = try? KeyClient.live.getBackupInfo()
-                if isOnboarding && (value == nil) {
-                    OnboardingView(viewModel: .init(bdkClient: .live))
-                } else if !isOnboarding && (value == nil) {
-                    OnboardingView(viewModel: .init(bdkClient: .live))
+                if value != nil && !isOnboarding {
+                    HomeView(
+                        viewModel: .init(
+                            bdkClient: .live
+                        ),
+                        navigationPath: $navigationPath
+                    )
                 } else {
-                    HomeView(viewModel: .init(bdkClient: .live), navigationPath: $navigationPath)
+                    OnboardingView(
+                        viewModel: .init(
+                            bdkClient: .live
+                        )
+                    )
                 }
             }
             .onChange(of: isOnboarding) { oldValue, newValue in
