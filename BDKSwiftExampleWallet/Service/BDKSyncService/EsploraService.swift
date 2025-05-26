@@ -13,14 +13,14 @@ extension EsploraService {
 }
 
 final class EsploraService: BDKSyncService {
-    
+
     var connection: Connection?
     var keyClient: KeyClient
     var network: Network
     var wallet: Wallet?
-    
+
     private var esploraClient: EsploraClient
-    
+
     init(
         keyClient: KeyClient = .live,
         network: Network = .signet,
@@ -29,33 +29,33 @@ final class EsploraService: BDKSyncService {
         self.connection = connection
         self.keyClient = keyClient
         self.network = network
-        
+
         let url = (try? keyClient.getEsploraURL()) ?? network.url
         self.esploraClient = .init(
             url: url
         )
     }
-    
+
     func createWallet(params: String?) throws {
         self.connection = try Connection.createConnection()
         self.wallet = try buildWallet(params: params)
     }
-    
+
     func loadWallet() throws {
         self.connection = try Connection.loadConnection()
         let wallet = try loadWalleFromBackup()
         self.wallet = wallet
     }
-    
+
     func updateNetwork(network: Network) {
         self.network = network
     }
-    
+
     func updateEsploraURL(_ url: String) {
         try? keyClient.saveEsploraURL(url)
         self.esploraClient = .init(url: url)
     }
-    
+
     func startSync(progress: @escaping SyncScanProgress) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let syncScanInspector = WalletSyncScriptInspector { scripts, total in
@@ -75,7 +75,7 @@ final class EsploraService: BDKSyncService {
         }
         let _ = try wallet.persist(connection: connection)
     }
-    
+
     func startFullScan(progress: @escaping FullScanProgress) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let fullScanInspector = WalletFullScanScriptInspector { inspected in
@@ -98,7 +98,7 @@ final class EsploraService: BDKSyncService {
         }
         let _ = try wallet.persist(connection: connection)
     }
-    
+
     func send(
         address: String,
         amount: UInt64,
@@ -111,9 +111,9 @@ final class EsploraService: BDKSyncService {
         )
         try signAndBroadcast(psbt: psbt)
     }
-    
+
     // MARK: - Private
-    
+
     private func signAndBroadcast(psbt: Psbt) throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let isSigned = try wallet.sign(psbt: psbt)

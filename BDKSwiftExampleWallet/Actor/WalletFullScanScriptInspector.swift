@@ -5,7 +5,6 @@
 //  Created by Rubens Machion on 23/04/25.
 //
 
-
 import BitcoinDevKit
 
 actor WalletFullScanScriptInspector: @preconcurrency FullScanScriptInspector {

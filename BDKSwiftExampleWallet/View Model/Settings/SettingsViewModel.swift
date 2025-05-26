@@ -41,7 +41,7 @@ class SettingsViewModel: ObservableObject {
             self.showingSettingsViewErrorAlert = true
         }
     }
-    
+
     func fullScanWithProgress() async {
         DispatchQueue.main.async {
             self.walletSyncState = .syncing

@@ -10,7 +10,7 @@ import Foundation
 
 private class BDKService {
     static var shared: BDKService = BDKService()
-    
+
     private var syncMode: SyncMode?
     private var service: BDKSyncService {
         switch try? keyClient.getSyncMode() {
@@ -53,14 +53,14 @@ private class BDKService {
             try? keyClient.saveEsploraURL(newURL)
         }
     }
-    
+
     func updateSyncMode(_ mode: SyncMode) {
         if syncMode != mode {
             self.syncMode = mode
             try? keyClient.saveSyncMode(mode)
         }
     }
-    
+
     func getSyncMode() -> SyncMode? {
         try? keyClient.getSyncMode()
     }
@@ -123,11 +123,11 @@ private class BDKService {
     {
         try service.buildTransaction(address: address, amount: amount, feeRate: feeRate)
     }
-    
+
     func syncWithInspector(progress: @escaping SyncScanProgress) async throws {
         try await service.startSync(progress: progress)
     }
-    
+
     func fullScanWithInspector(progress: @escaping FullScanProgress) async throws {
         try await service.startFullScan(progress: progress)
     }
@@ -143,7 +143,7 @@ private class BDKService {
     func sentAndReceived(tx: BitcoinDevKit.Transaction) throws -> SentAndReceivedValues {
         try service.sentAndReceived(tx: tx)
     }
-    
+
     func stop() async throws {
         try await service.stopService()
     }
@@ -304,7 +304,7 @@ extension BDKClient {
             getEsploraURL: { Constants.Config.EsploraServerURLNetwork.Signet.mutiny },
             updateNetwork: { _ in },
             updateEsploraURL: { _ in },
-            stop: { },
+            stop: {},
             upateSyncMode: { _ in },
             getSyncMode: { .esplora }
         )

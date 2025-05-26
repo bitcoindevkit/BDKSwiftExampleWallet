@@ -102,7 +102,7 @@ class WalletViewModel {
             await startSyncWithProgress()
         }
     }
-    
+
     private func startSyncWithProgress() async {
         self.walletSyncState = .syncing
         do {
@@ -127,7 +127,7 @@ class WalletViewModel {
             self.showingWalletViewErrorAlert = true
         }
     }
-    
+
     private func fullScanWithProgress() async {
         self.walletSyncState = .syncing
         do {
@@ -149,13 +149,13 @@ class WalletViewModel {
             self.showingWalletViewErrorAlert = true
         }
     }
-    
+
     private func updateFullProgress(_ progress: UInt64) {
         DispatchQueue.main.async { [weak self] in
             self?.inspectedScripts = progress
         }
     }
-    
+
     private func updateSyncProgress(_ inspected: UInt64, _ total: UInt64) {
         DispatchQueue.main.async { [weak self] in
             self?.totalScripts = total
@@ -163,5 +163,5 @@ class WalletViewModel {
             self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
         }
     }
-    
+
 }

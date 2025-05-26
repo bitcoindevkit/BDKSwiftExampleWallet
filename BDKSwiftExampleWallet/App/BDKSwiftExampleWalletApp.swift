@@ -12,7 +12,7 @@ import SwiftUI
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @State private var navigationPath = NavigationPath()
-    
+
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $navigationPath) {

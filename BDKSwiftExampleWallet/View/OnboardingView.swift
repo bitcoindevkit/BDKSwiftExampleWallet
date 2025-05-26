@@ -130,7 +130,7 @@ struct OnboardingView: View {
                     .tint(.primary)
                     .opacity(animateContent ? 1 : 0)
                     .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
-                    
+
                     if viewModel.syncMode == nil || viewModel.syncMode == .esplora {
                         Picker("Esplora Server", selection: $viewModel.selectedURL) {
                             ForEach(viewModel.availableURLs, id: \.self) { url in

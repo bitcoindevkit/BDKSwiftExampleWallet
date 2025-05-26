@@ -20,16 +20,16 @@ protocol BDKSyncService {
     var keyClient: KeyClient { get }
     var network: Network { get }
     var wallet: Wallet? { get }
-    
+
     func createWallet(params: String?) throws
     func loadWallet() throws
-    func deleteWallet() throws    
+    func deleteWallet() throws
     func startSync(progress: @escaping SyncScanProgress) async throws
     func startFullScan(progress: @escaping FullScanProgress) async throws
-    
+
     func updateNetwork(network: Network)
     func updateEsploraURL(_ url: String)
-    
+
     func getTransactions() throws -> [CanonicalTx]
     func getBalance() throws -> Balance
     func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues
@@ -47,25 +47,30 @@ extension BDKSyncService {
         guard let connection = self.connection else {
             throw WalletError.dbNotFound
         }
-        
-        let backupInfo = try buildBackupInfo(params: params ?? Mnemonic(wordCount: WordCount.words12).description)
+
+        let backupInfo = try buildBackupInfo(
+            params: params ?? Mnemonic(wordCount: WordCount.words12).description
+        )
 
         try keyClient.saveBackupInfo(backupInfo)
         try keyClient.saveNetwork(self.network.description)
 
         let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: network)
-        let changeDescriptor = try Descriptor(descriptor: backupInfo.changeDescriptor, network: network)
-        
+        let changeDescriptor = try Descriptor(
+            descriptor: backupInfo.changeDescriptor,
+            network: network
+        )
+
         let wallet = try Wallet(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
             connection: connection
         )
-        
+
         return wallet
     }
-    
+
     func buildBackupInfo(params: String) throws -> BackupInfo {
         if isXPub(params) {
             let descriptorPublicKey = try DescriptorPublicKey.fromString(publicKey: params)
@@ -87,15 +92,15 @@ extension BDKSyncService {
                 changeDescriptor: changeDescriptor.description
             )
         }
-        
-        if isDescriptor(params) { // is a descriptor?
-            
+
+        if isDescriptor(params) {  // is a descriptor?
+
             let descriptorStrings = params.components(separatedBy: "\n")
                 .map { $0.split(separator: "#").first?.trimmingCharacters(in: .whitespaces) ?? "" }
                 .filter { !$0.isEmpty }
             let descriptor: Descriptor
             let changeDescriptor: Descriptor
-            
+
             if descriptorStrings.count == 1 {
                 let parsedDescriptor = try Descriptor(
                     descriptor: descriptorStrings[0],
@@ -109,17 +114,20 @@ extension BDKSyncService {
                 changeDescriptor = singleDescriptors[1]
             } else if descriptorStrings.count == 2 {
                 descriptor = try Descriptor(descriptor: descriptorStrings[0], network: network)
-                changeDescriptor = try Descriptor(descriptor: descriptorStrings[1], network: network)
+                changeDescriptor = try Descriptor(
+                    descriptor: descriptorStrings[1],
+                    network: network
+                )
             } else {
                 throw AppError.generic(message: "Descriptor parsing failed")
             }
-            
+
             return .init(
                 descriptor: descriptor.toStringWithSecret(),
                 changeDescriptor: changeDescriptor.toStringWithSecret()
             )
         }
-        
+
         let words = !params.isEmpty ? params : Mnemonic(wordCount: WordCount.words12).description
         guard let mnemonic = try? Mnemonic.fromString(mnemonic: words) else {
             throw AppError.generic(message: "Invalid mnemonic")
@@ -145,34 +153,34 @@ extension BDKSyncService {
             changeDescriptor: changeDescriptor.toStringWithSecret()
         )
     }
-    
+
     func deleteWallet() throws {
         try deleteData()
     }
-    
+
     func deleteData() throws {
         do {
             try keyClient.deleteAllData()
-            
+
             if let bundleID = Bundle.main.bundleIdentifier {
                 UserDefaults.standard.removePersistentDomain(forName: bundleID)
             }
-            
+
             let walletDataDirectoryURL = URL.walletDataDirectoryURL
             if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
                 try FileManager.default.removeItem(at: walletDataDirectoryURL)
             }
-            
+
         } catch {
             throw AppError.generic(message: "Failed to remove Keychain data")
         }
     }
-    
+
     func loadWalleFromBackup() throws -> Wallet {
         guard let connection = self.connection else {
             throw WalletError.dbNotFound
         }
-        
+
         let backupInfo = try keyClient.getBackupInfo()
         let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
         let changeDescriptor = try Descriptor(
@@ -184,16 +192,16 @@ extension BDKSyncService {
             changeDescriptor: changeDescriptor,
             connection: connection
         )
-        
+
         return wallet
     }
-    
+
     func getBalance() throws -> Balance {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let balance = wallet.balance()
         return balance
     }
-    
+
     func sentAndReceived(tx: Transaction) throws -> SentAndReceivedValues {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
@@ -201,7 +209,7 @@ extension BDKSyncService {
         let values = wallet.sentAndReceived(tx: tx)
         return values
     }
-    
+
     func calculateFeeRate(tx: Transaction) throws -> UInt64 {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
@@ -209,7 +217,7 @@ extension BDKSyncService {
         let feeRate = try wallet.calculateFeeRate(tx: tx)
         return feeRate.toSatPerVbCeil()
     }
-    
+
     func calculateFee(tx: Transaction) throws -> Amount {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
@@ -217,7 +225,7 @@ extension BDKSyncService {
         let fee = try wallet.calculateFee(tx: tx)
         return fee
     }
-    
+
     func buildTransaction(
         address: String,
         amount: UInt64,
@@ -235,7 +243,7 @@ extension BDKSyncService {
             .finish(wallet: wallet)
         return txBuilder
     }
-    
+
     func listUnspent() throws -> [LocalOutput] {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
@@ -243,7 +251,7 @@ extension BDKSyncService {
         let localOutputs = wallet.listUnspent()
         return localOutputs
     }
-    
+
     func getAddress() throws -> String {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
@@ -255,7 +263,7 @@ extension BDKSyncService {
         let _ = try wallet.persist(connection: connection)
         return addressInfo.address.description
     }
-    
+
     func getTransactions() throws -> [CanonicalTx] {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
@@ -266,25 +274,24 @@ extension BDKSyncService {
         }
         return sortedTransactions
     }
-    
+
     // MARK: - Optionals methods
-    
-    func updateEsploraURL(_ url: String) { }
-    
-    func updateNetwork(network: Network) { }
-    
-    func stopService() async throws { }
-    
+
+    func updateEsploraURL(_ url: String) {}
+
+    func updateNetwork(network: Network) {}
+
+    func stopService() async throws {}
+
     // MARK: - Private
-    
+
     private func isDescriptor(_ param: String) -> Bool {
-        param.hasPrefix("tr(") ||
-        param.hasPrefix("wpkh(") ||
-        param.hasPrefix("wsh(") ||
-        param.hasPrefix("sh(")
+        param.hasPrefix("tr(") || param.hasPrefix("wpkh(") || param.hasPrefix("wsh(")
+            || param.hasPrefix("sh(")
     }
-    
+
     private func isXPub(_ param: String) -> Bool {
-        param.hasPrefix("xpub") || param.hasPrefix("tpub") || param.hasPrefix("vpub") || param.hasPrefix("zpub")
+        param.hasPrefix("xpub") || param.hasPrefix("tpub") || param.hasPrefix("vpub")
+            || param.hasPrefix("zpub")
     }
 }

@@ -9,6 +9,6 @@ import SwiftUI
 
 struct StorageUtil {
     @AppStorage("isNeedFullScan") var isNeedFullScan: Bool?
-    
+
     static var shared = StorageUtil()
 }

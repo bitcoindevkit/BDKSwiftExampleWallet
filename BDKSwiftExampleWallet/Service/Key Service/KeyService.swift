@@ -62,17 +62,17 @@ private struct KeyService {
     func saveNetwork(network: String) throws {
         keychain[string: "SelectedNetwork"] = network
     }
-    
+
     func deletaAllData() throws {
         try deleteNetwork()
         try deleteBackupInfo()
         try deleteEsploraURL()
     }
-    
+
     func saveSyncMode(_ mode: SyncMode) throws {
         keychain[string: "SyncMode"] = mode.rawValue
     }
-    
+
     func getSyncMode() throws -> SyncMode? {
         guard let mode = keychain[string: "SyncMode"] else {
             return nil
@@ -178,7 +178,7 @@ extension KeyClient {
             saveBackupInfo: { _ in },
             saveEsploraURL: { _ in },
             saveNetwork: { _ in },
-            deleteAllData: { },
+            deleteAllData: {},
             saveSyncMode: { _ in },
             getSyncMode: { .esplora }
         )
