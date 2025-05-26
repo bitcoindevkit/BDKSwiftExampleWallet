@@ -151,11 +151,11 @@ private class BDKService {
 
 extension BDKService {
     func needsFullScanOfWallet() -> Bool {
-        return needsFullScan
+        return StorageUtil.shared.isNeedFullScan ?? true
     }
 
     func setNeedsFullScan(_ value: Bool) {
-        needsFullScan = value
+        StorageUtil.shared.isNeedFullScan = value
     }
 }
 

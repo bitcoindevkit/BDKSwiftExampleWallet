@@ -16,6 +16,7 @@
 		77F6A9E52DE24841003568F0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F6A9E42DE24837003568F0 /* URL+Extensions.swift */; };
 		77F6A9E72DE248A2003568F0 /* EsploraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F6A9E62DE248A1003568F0 /* EsploraService.swift */; };
 		77F6A9E92DE25C9C003568F0 /* KyotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F6A9E82DE25C98003568F0 /* KyotoService.swift */; };
+		77F6A9EB2DE5072E003568F0 /* AppStorageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F6A9EA2DE50727003568F0 /* AppStorageUtil.swift */; };
 		A733D6D02A81113000F333B4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A733D6CF2A81113000F333B4 /* Localizable.xcstrings */; };
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
 		AE0C30F72A804A2D008F1EAE /* TransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0C30F62A804A2D008F1EAE /* TransactionListView.swift */; };
@@ -125,6 +126,7 @@
 		77F6A9E42DE24837003568F0 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		77F6A9E62DE248A1003568F0 /* EsploraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsploraService.swift; sourceTree = "<group>"; };
 		77F6A9E82DE25C98003568F0 /* KyotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KyotoService.swift; sourceTree = "<group>"; };
+		77F6A9EA2DE50727003568F0 /* AppStorageUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageUtil.swift; sourceTree = "<group>"; };
 		A733D6CF2A81113000F333B4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		AE0C30F62A804A2D008F1EAE /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 		AE1C34202A42441F008F807A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				77F6A9EA2DE50727003568F0 /* AppStorageUtil.swift */,
 				AE79538D2A2D59F000CCB277 /* Constants.swift */,
 				AE2F255C2BED0BFB002A9AC6 /* AppError.swift */,
 			);
@@ -769,6 +772,7 @@
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
 				77AD9F062DBB031D00182E65 /* ActivityHomeHeaderView.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
+				77F6A9EB2DE5072E003568F0 /* AppStorageUtil.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
 				AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */,
 				AE2381AD2C60578500F6B00C /* ActivityListView.swift in Sources */,
