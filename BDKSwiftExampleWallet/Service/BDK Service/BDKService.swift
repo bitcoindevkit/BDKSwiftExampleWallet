@@ -60,6 +60,10 @@ private class BDKService {
             try? keyClient.saveSyncMode(mode)
         }
     }
+    
+    func getSyncMode() -> SyncMode? {
+        try? keyClient.getSyncMode()
+    }
 
     func getAddress() throws -> String {
         try service.getAddress()
@@ -181,6 +185,7 @@ struct BDKClient {
     let updateEsploraURL: (String) -> Void
     let stop: () async throws -> Void
     let upateSyncMode: (SyncMode) -> Void
+    let getSyncMode: () -> SyncMode?
 }
 
 extension BDKClient {
@@ -239,6 +244,9 @@ extension BDKClient {
         },
         upateSyncMode: { mode in
             BDKService.shared.updateSyncMode(mode)
+        },
+        getSyncMode: {
+            BDKService.shared.getSyncMode()
         }
     )
 }
@@ -297,7 +305,8 @@ extension BDKClient {
             updateNetwork: { _ in },
             updateEsploraURL: { _ in },
             stop: { },
-            upateSyncMode: { _ in }
+            upateSyncMode: { _ in },
+            getSyncMode: { .esplora }
         )
     }
 #endif
