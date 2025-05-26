@@ -21,7 +21,7 @@ extension Network {
 
     init?(stringValue: String) {
         switch stringValue {
-        case "bitcoin": self = .bitcoin
+        case "bitcoin": self = .signet
         case "testnet": self = .testnet
         case "testnet4": self = .testnet4
         case "signet": self = .signet

@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct ActivityHomeHeaderView: View {
-    
+
     let walletSyncState: WalletSyncState
     let progress: Float
     let inspectedScripts: UInt64
     let totalScripts: UInt64
     let needsFullScan: Bool
-    
+
     let showAllTransactions: () -> Void
-    
+
     var body: some View {
         HStack {
             Text("Activity")
             Spacer()
-            
+
             HStack {
                 if needsFullScan {
                     Text("\(inspectedScripts)")
@@ -78,7 +78,7 @@ struct ActivityHomeHeaderView: View {
             }
             .foregroundStyle(.secondary)
             .font(.caption)
-            
+
             if walletSyncState == .synced {
                 Button {
                     self.showAllTransactions()
@@ -95,7 +95,7 @@ struct ActivityHomeHeaderView: View {
         }
         .fontWeight(.bold)
     }
-    
+
     @ViewBuilder
     private func syncImageIndicator() -> some View {
         switch walletSyncState {
@@ -104,7 +104,7 @@ struct ActivityHomeHeaderView: View {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundStyle(.green)
             )
-            
+
         case .syncing:
             AnyView(
                 Image(systemName: "slowmo")
@@ -112,7 +112,7 @@ struct ActivityHomeHeaderView: View {
                         .variableColor.cumulative
                     )
             )
-            
+
         case .notStarted:
             AnyView(
                 Image(systemName: "arrow.clockwise")
