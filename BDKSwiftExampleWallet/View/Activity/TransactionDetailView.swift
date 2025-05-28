@@ -124,7 +124,7 @@ struct TransactionDetailView: View {
                     Spacer()
                 }
                 Button {
-                    UIPasteboard.general.string = canonicalTx.transaction.computeTxid()
+                    UIPasteboard.general.string = "\(canonicalTx.transaction.computeTxid())"
                     isCopied = true
                     showCheckmark = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -133,7 +133,7 @@ struct TransactionDetailView: View {
                     }
                 } label: {
                     HStack {
-                        Text(canonicalTx.transaction.computeTxid())
+                        Text("\(canonicalTx.transaction.computeTxid())")
                             .lineLimit(1)
                             .truncationMode(.middle)
                         withAnimation {
