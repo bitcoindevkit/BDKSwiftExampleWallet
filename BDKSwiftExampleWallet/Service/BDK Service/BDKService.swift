@@ -119,12 +119,12 @@ private class BDKService {
         )
         let descriptor = Descriptor.newBip86(
             secretKey: secretKey,
-            keychain: .external,
+            keychainKind: .external,
             network: network
         )
         let changeDescriptor = Descriptor.newBip86(
             secretKey: secretKey,
-            keychain: .internal,
+            keychainKind: .internal,
             network: network
         )
         let backupInfo = BackupInfo(
@@ -222,13 +222,13 @@ private class BDKService {
         let descriptor = Descriptor.newBip86Public(
             publicKey: descriptorPublicKey,
             fingerprint: fingerprint,
-            keychain: .external,
+            keychainKind: .external,
             network: network
         )
         let changeDescriptor = Descriptor.newBip86Public(
             publicKey: descriptorPublicKey,
             fingerprint: fingerprint,
-            keychain: .internal,
+            keychainKind: .internal,
             network: network
         )
 
@@ -539,7 +539,7 @@ extension BDKClient {
                 let pb64 = """
                     cHNidP8BAIkBAAAAAeaWcxp4/+xSRJ2rhkpUJ+jQclqocoyuJ/ulSZEgEkaoAQAAAAD+////Ak/cDgAAAAAAIlEgqxShDO8ifAouGyRHTFxWnTjpY69Cssr3IoNQvMYOKG/OVgAAAAAAACJRIGnlvMwBz4Ylb6xLTe5g4ZeZCxmVH/XWG+CDlcPzzaoT8qoGAAABAStAQg8AAAAAACJRIFGGvSoLWt3hRAIwYa8KEyawiFTXoOCVWFxYtSofZuAsIRZ2b8YiEpzexWYGt8B5EqLM8BE4qxJY3pkiGw/8zOZGYxkAvh7sj1YAAIABAACAAAAAgAAAAAAEAAAAARcgdm/GIhKc3sVmBrfAeRKizPAROKsSWN6ZIhsP/MzmRmMAAQUge7cvJMsJmR56NzObGOGkm8vNqaAIJdnBXLZD2PvrinIhB3u3LyTLCZkeejczmxjhpJvLzamgCCXZwVy2Q9j764pyGQC+HuyPVgAAgAEAAIAAAACAAQAAAAYAAAAAAQUgtIFPrI2EW/+PJiAmYdmux88p0KgeAxDFLMoeQoS66hIhB7SBT6yNhFv/jyYgJmHZrsfPKdCoHgMQxSzKHkKEuuoSGQC+HuyPVgAAgAEAAIAAAACAAAAAAAIAAAAA
                     """
-                return try! Psbt(psbtBase64: pb64)
+                return try Psbt(psbtBase64: pb64)
             },
             getBackupInfo: {
                 BackupInfo(

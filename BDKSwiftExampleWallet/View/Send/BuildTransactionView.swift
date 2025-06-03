@@ -169,12 +169,12 @@ struct BuildTransactionView: View {
                                 .foregroundStyle(.green)
                             if let transaction = viewModel.extractTransaction() {
                                 HStack {
-                                    Text(transaction.computeTxid())
+                                    Text("\(transaction.computeTxid())")
                                         .lineLimit(1)
                                         .truncationMode(.middle)
                                     Spacer()
                                     Button {
-                                        UIPasteboard.general.string = transaction.computeTxid()
+                                        UIPasteboard.general.string = "\(transaction.computeTxid())"
                                         isCopied = true
                                         showCheckmark = true
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

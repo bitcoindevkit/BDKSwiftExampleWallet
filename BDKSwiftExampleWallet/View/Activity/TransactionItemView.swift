@@ -55,7 +55,7 @@ struct TransactionItemView: View {
             }
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(canonicalTx.transaction.computeTxid())
+                Text(canonicalTx.transaction.computeTxid().description)
                     .truncationMode(.middle)
                     .lineLimit(1)
                     .fontDesign(.monospaced)

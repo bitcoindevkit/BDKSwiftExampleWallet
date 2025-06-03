@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -59,6 +59,7 @@
 		AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6716002A9AC089005C193F /* KeyServiceError.swift */; };
 		AE6F34D82AA6C1800087E700 /* Network+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */; };
 		AE6F34DA2AA6C1E00087E700 /* Balance+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F34D92AA6C1E00087E700 /* Balance+Extensions.swift */; };
+		AE7053262DE79AA30091DD78 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AE7053252DE79AA30091DD78 /* BitcoinDevKit */; };
 		AE7839FD2AB4E18D005F0CBA /* AmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7839FC2AB4E18D005F0CBA /* AmountView.swift */; };
 		AE783A012AB4E5E1005F0CBA /* BuildTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE783A002AB4E5E1005F0CBA /* BuildTransactionView.swift */; };
 		AE783A032AB4ECC2005F0CBA /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE783A022AB4ECC2005F0CBA /* AddressView.swift */; };
@@ -99,6 +100,7 @@
 		AEE6C74C2ABCB3E200442ADD /* Transaction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */; };
 		AEE6C74F2ABCBA4600442ADD /* WalletSyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C74E2ABCBA4600442ADD /* WalletSyncState.swift */; };
 		AEE83A492C07F54B00834468 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AEE83A482C07F54B00834468 /* BitcoinDevKit */; };
+		AEEA0E402DEF80B600C83255 /* Outpoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA0E3F2DEF80B600C83255 /* Outpoint+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,6 +199,7 @@
 		AED79FC42A97D47D00FD3C7D /* BDKSwiftExampleWalletSendViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletSendViewModelTests.swift; sourceTree = "<group>"; };
 		AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+Extensions.swift"; sourceTree = "<group>"; };
 		AEE6C74E2ABCBA4600442ADD /* WalletSyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSyncState.swift; sourceTree = "<group>"; };
+		AEEA0E3F2DEF80B600C83255 /* Outpoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Outpoint+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +207,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE7053262DE79AA30091DD78 /* BitcoinDevKit in Frameworks */,
 				AE2DD83F2D6FEF3600E5F212 /* BitcoinDevKit in Frameworks */,
 				AE187D782C9BB3B50081D0C3 /* BitcoinDevKit in Frameworks */,
 				AE29ED0F2BBE2E7100EB9C4F /* BitcoinDevKit in Frameworks */,
@@ -563,6 +567,7 @@
 				AE184EFB2BFE52C800374362 /* Amount+Extensions.swift */,
 				AE91CEEC2C0FDB70000AAD20 /* SentAndReceivedValues+Extensions.swift */,
 				AE91CEEE2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift */,
+				AEEA0E3F2DEF80B600C83255 /* Outpoint+Extensions.swift */,
 			);
 			path = "BDK+Extensions";
 			sourceTree = "<group>";
@@ -595,6 +600,7 @@
 				AE2DD8382D6FE9B000E5F212 /* BitcoinDevKit */,
 				AE2DD83B2D6FEC3100E5F212 /* BitcoinDevKit */,
 				AE2DD83E2D6FEF3600E5F212 /* BitcoinDevKit */,
+				AE7053252DE79AA30091DD78 /* BitcoinDevKit */,
 			);
 			productName = BDKSwiftExampleWallet;
 			productReference = AE4984782A1BBBD6009951E2 /* BDKSwiftExampleWallet.app */;
@@ -652,7 +658,7 @@
 				AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				AEB735D12B2CC4B900F99DBB /* XCRemoteSwiftPackageReference "BitcoinUI" */,
 				AEAF83B42B7BD4D10019B23B /* XCRemoteSwiftPackageReference "CodeScanner" */,
-				AEA2DEF12D70F8840067C0EB /* XCRemoteSwiftPackageReference "bdk-swift" */,
+				AE7053242DE79AA30091DD78 /* XCLocalSwiftPackageReference "../bdk-ffi/bdk-swift" */,
 			);
 			productRefGroup = AE4984792A1BBBD6009951E2 /* Products */;
 			projectDirPath = "";
@@ -734,6 +740,7 @@
 				AE7F67092A7451AA00CED561 /* Price.swift in Sources */,
 				AE184EFC2BFE52C800374362 /* Amount+Extensions.swift in Sources */,
 				779E70892DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift in Sources */,
+				AEEA0E402DEF80B600C83255 /* Outpoint+Extensions.swift in Sources */,
 				AE2381B12C60690900F6B00C /* LocalOutput+Extensions.swift in Sources */,
 				779E70872DB9C98A006E22D3 /* WalletSyncScriptInspector.swift in Sources */,
 				AE7F67072A744CE200CED561 /* Double+Extensions.swift in Sources */,
@@ -1054,6 +1061,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		AE7053242DE79AA30091DD78 /* XCLocalSwiftPackageReference "../bdk-ffi/bdk-swift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../bdk-ffi/bdk-swift";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		AE7D5A0C2A7EE62200EAC8CE /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1061,14 +1075,6 @@
 			requirement = {
 				kind = exactVersion;
 				version = 4.2.2;
-			};
-		};
-		AEA2DEF12D70F8840067C0EB /* XCRemoteSwiftPackageReference "bdk-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/bitcoindevkit/bdk-swift";
-			requirement = {
-				kind = exactVersion;
-				version = 1.2.0;
 			};
 		};
 		AEAF83B42B7BD4D10019B23B /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
@@ -1115,6 +1121,10 @@
 			productName = BitcoinDevKit;
 		};
 		AE4135642D0CC1AD00605103 /* BitcoinDevKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BitcoinDevKit;
+		};
+		AE7053252DE79AA30091DD78 /* BitcoinDevKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BitcoinDevKit;
 		};
