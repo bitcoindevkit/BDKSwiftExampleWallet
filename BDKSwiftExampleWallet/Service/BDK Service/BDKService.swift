@@ -12,7 +12,7 @@ private class BDKService {
     static var shared: BDKService = BDKService()
 
     private var balance: Balance?
-    private var connection: Connection?
+    private var persister: Persister?
     private var esploraClient: EsploraClient
     private let keyClient: KeyClient
     private var needsFullScan: Bool = false
@@ -60,11 +60,11 @@ private class BDKService {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        guard let connection = self.connection else {
+        guard let persister = self.persister else {
             throw WalletError.dbNotFound
         }
         let addressInfo = wallet.revealNextAddress(keychain: .external)
-        let _ = try wallet.persist(connection: connection)
+        let _ = try wallet.persist(persister: persister)
         return addressInfo.address.description
     }
 
@@ -94,8 +94,8 @@ private class BDKService {
     }
 
     func createWallet(words: String?) throws {
-        self.connection = try Connection.createConnection()
-        guard let connection = connection else {
+        self.persister = try Persister.createConnection()
+        guard let persister = persister else {
             throw WalletError.dbNotFound
         }
 
@@ -143,14 +143,14 @@ private class BDKService {
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
-            connection: connection
+            persister: persister
         )
         self.wallet = wallet
     }
 
     func createWallet(descriptor: String?) throws {
-        self.connection = try Connection.createConnection()
-        guard let connection = connection else {
+        self.persister = try Persister.createConnection()
+        guard let persister = persister else {
             throw WalletError.dbNotFound
         }
 
@@ -198,14 +198,14 @@ private class BDKService {
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
-            connection: connection
+            persister: persister
         )
         self.wallet = wallet
     }
 
     func createWallet(xpub: String?) throws {
-        self.connection = try Connection.createConnection()
-        guard let connection = connection else {
+        self.persister = try Persister.createConnection()
+        guard let persister = persister else {
             throw WalletError.dbNotFound
         }
 
@@ -248,7 +248,7 @@ private class BDKService {
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
-            connection: connection
+            persister: persister
         )
         self.wallet = wallet
     }
@@ -260,12 +260,12 @@ private class BDKService {
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
-        let connection = try Connection(path: persistenceBackendPath)
-        self.connection = connection
+        let persister = try Persister.newSqlite(path: persistenceBackendPath)
+        self.persister = persister
         let wallet = try Wallet.load(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
-            connection: connection
+            persister: persister
         )
         self.wallet = wallet
     }
@@ -363,10 +363,10 @@ private class BDKService {
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
-        guard let connection = self.connection else {
+        guard let persister = self.persister else {
             throw WalletError.dbNotFound
         }
-        let _ = try wallet.persist(connection: connection)
+        let _ = try wallet.persist(persister: persister)
     }
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
@@ -383,10 +383,10 @@ private class BDKService {
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
-        guard let connection = self.connection else {
+        guard let persister = self.persister else {
             throw WalletError.dbNotFound
         }
-        let _ = try wallet.persist(connection: connection)
+        let _ = try wallet.persist(persister: persister)
     }
 
     func calculateFee(tx: Transaction) throws -> Amount {
