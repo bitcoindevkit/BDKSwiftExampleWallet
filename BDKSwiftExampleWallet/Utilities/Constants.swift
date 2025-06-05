@@ -16,8 +16,8 @@ struct Constants {
                 private static let blockstream = "https://blockstream.info/api"
                 private static let mempoolspace = "https://mempool.space/api"
                 static let allValues = [
-                    mempoolspace,
                     blockstream,
+                    mempoolspace,
                 ]
             }
             struct Regtest {
@@ -29,7 +29,9 @@ struct Constants {
             struct Signet {
                 static let bdk = "http://signet.bitcoindevkit.net"
                 static let mutiny = "https://mutinynet.com/api"
+                static let mempoolspace = "https://mempool.space/signet/api"
                 static let allValues = [
+                    mempoolspace,
                     mutiny,
                     bdk,
                 ]
@@ -91,6 +93,15 @@ extension Network {
             Constants.Config.EsploraServerURLNetwork.Regtest.allValues.first ?? ""
         case .testnet4:
             Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
+        }
+    }
+
+    var taprootHeight: UInt32 {
+        switch self {
+        case .bitcoin:
+            return 700_000
+        default:
+            return 250_000
         }
     }
 }

@@ -12,7 +12,7 @@ struct BackupInfo: Codable, Equatable {
     var descriptor: String
     var changeDescriptor: String
 
-    init(mnemonic: String, descriptor: String, changeDescriptor: String) {
+    init(mnemonic: String = "", descriptor: String, changeDescriptor: String) {
         self.mnemonic = mnemonic
         self.descriptor = descriptor
         self.changeDescriptor = changeDescriptor

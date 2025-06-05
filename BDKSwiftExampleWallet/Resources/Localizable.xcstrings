@@ -692,6 +692,9 @@
         }
       }
     },
+    "Kyoto" : {
+
+    },
     "Navigation Title" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1143,6 +1146,9 @@
           }
         }
       }
+    },
+    "Sync type" : {
+
     },
     "Syncing" : {
       "extractionState" : "manual",
