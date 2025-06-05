@@ -18,7 +18,7 @@ class AmountViewModel {
     var balanceTotal: UInt64?
     var showingAmountViewErrorAlert = false
 
-    init(bdkClient: BDKClient = .live) {
+    init(bdkClient: BDKClient = .esplora) {
         self.bdkClient = bdkClient
     }
 

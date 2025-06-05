@@ -44,7 +44,7 @@ class WalletViewModel {
     }
 
     init(
-        bdkClient: BDKClient = .live,
+        bdkClient: BDKClient = .esplora,
         keyClient: KeyClient = .live,
         priceClient: PriceClient = .live,
         transactions: [CanonicalTx] = [],

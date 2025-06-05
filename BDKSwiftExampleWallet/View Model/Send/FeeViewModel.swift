@@ -37,7 +37,7 @@ class FeeViewModel {
     var recommendedFees: RecommendedFees?
     var showingFeeViewErrorAlert = false
 
-    init(feeClient: FeeClient = .live, bdkClient: BDKClient = .live) {
+    init(feeClient: FeeClient = .live, bdkClient: BDKClient = .esplora) {
         self.feeClient = feeClient
         self.bdkClient = bdkClient
     }

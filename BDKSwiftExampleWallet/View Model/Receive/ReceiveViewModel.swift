@@ -20,7 +20,7 @@ class ReceiveViewModel: NSObject, NFCNDEFReaderSessionDelegate {
     var receiveViewError: AppError?
     var showingReceiveViewErrorAlert = false
 
-    init(bdkClient: BDKClient = .live) {
+    init(bdkClient: BDKClient = .esplora) {
         self.bdkClient = bdkClient
     }
 

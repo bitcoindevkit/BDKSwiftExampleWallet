@@ -8,16 +8,16 @@
 import BitcoinDevKit
 import Foundation
 
-private class BDKService {
+class BDKService {
     static var shared: BDKService = BDKService()
 
     private var syncMode: SyncMode?
-    private var service: BDKSyncService {
+    private var service: BDKClient {
         switch try? keyClient.getSyncMode() {
         case .kyoto:
-            return KyotoService.live
+            return .kyoto
         default:
-            return EsploraService.live
+            return .esplora
         }
     }
     private let keyClient: KeyClient
@@ -65,87 +65,9 @@ private class BDKService {
         try? keyClient.getSyncMode()
     }
 
-    func getAddress() throws -> String {
-        try service.getAddress()
-    }
-
-    func getBalance() throws -> Balance {
-        try service.getBalance()
-    }
-
-    func transactions() throws -> [CanonicalTx] {
-        try service.getTransactions()
-    }
-
-    func listUnspent() throws -> [LocalOutput] {
-        try service.listUnspent()
-    }
-
-    func createWallet(words: String?) throws {
-        try service.createWallet(params: words)
-    }
-
-    func createWallet(descriptor: String?) throws {
-        try service.createWallet(params: descriptor)
-    }
-
-    func createWallet(xpub: String?) throws {
-        try service.createWallet(params: xpub)
-    }
-
-    func loadWalletFromBackup() throws {
-        try service.loadWallet()
-    }
-
-    func deleteWallet() throws {
-        Task {
-            try await service.stopService()
-        }
-        try service.deleteWallet()
-        needsFullScan = true
-    }
-
     func getBackupInfo() throws -> BackupInfo {
         let backupInfo = try keyClient.getBackupInfo()
         return backupInfo
-    }
-
-    func send(
-        address: String,
-        amount: UInt64,
-        feeRate: UInt64
-    ) async throws {
-        try await service.send(address: address, amount: amount, feeRate: feeRate)
-    }
-
-    func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws
-        -> Psbt
-    {
-        try service.buildTransaction(address: address, amount: amount, feeRate: feeRate)
-    }
-
-    func syncWithInspector(progress: @escaping SyncScanProgress) async throws {
-        try await service.startSync(progress: progress)
-    }
-
-    func fullScanWithInspector(progress: @escaping FullScanProgress) async throws {
-        try await service.startFullScan(progress: progress)
-    }
-
-    func calculateFee(tx: BitcoinDevKit.Transaction) throws -> Amount {
-        try service.calculateFee(tx: tx)
-    }
-
-    func calculateFeeRate(tx: BitcoinDevKit.Transaction) throws -> UInt64 {
-        try service.calculateFeeRate(tx: tx)
-    }
-
-    func sentAndReceived(tx: BitcoinDevKit.Transaction) throws -> SentAndReceivedValues {
-        try service.sentAndReceived(tx: tx)
-    }
-
-    func stop() async throws {
-        try await service.stopService()
     }
 }
 
@@ -189,66 +111,67 @@ struct BDKClient {
 }
 
 extension BDKClient {
-    static let live = Self(
-        loadWallet: { try BDKService.shared.loadWalletFromBackup() },
-        deleteWallet: { try BDKService.shared.deleteWallet() },
-        createWalletFromSeed: { words in try BDKService.shared.createWallet(words: words) },
-        createWalletFromDescriptor: { descriptor in
-            try BDKService.shared.createWallet(descriptor: descriptor)
-        },
-        createWalletFromXPub: { xpub in
-            try BDKService.shared.createWallet(xpub: xpub)
-        },
-        getBalance: { try BDKService.shared.getBalance() },
-        transactions: { try BDKService.shared.transactions() },
-        listUnspent: { try BDKService.shared.listUnspent() },
-        syncScanWithSyncScanProgress: { progress in
-            try await BDKService.shared.syncWithInspector(progress: progress)
-        },
-        fullScanWithFullScanProgress: { progress in
-            try await BDKService.shared.fullScanWithInspector(progress: progress)
-        },
-        getAddress: { try BDKService.shared.getAddress() },
-        send: { (address, amount, feeRate) in
-            Task {
-                try await BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
-            }
-        },
-        calculateFee: { tx in try BDKService.shared.calculateFee(tx: tx) },
-        calculateFeeRate: { tx in try BDKService.shared.calculateFeeRate(tx: tx) },
-        sentAndReceived: { tx in try BDKService.shared.sentAndReceived(tx: tx) },
-        buildTransaction: { (address, amount, feeRate) in
-            try BDKService.shared.buildTransaction(
-                address: address,
-                amount: amount,
-                feeRate: feeRate
-            )
-        },
-        getBackupInfo: { try BDKService.shared.getBackupInfo() },
-        needsFullScan: { BDKService.shared.needsFullScanOfWallet() },
-        setNeedsFullScan: { value in BDKService.shared.setNeedsFullScan(value) },
-        getNetwork: {
-            BDKService.shared.network
-        },
-        getEsploraURL: {
-            BDKService.shared.esploraURL
-        },
-        updateNetwork: { newNetwork in
-            BDKService.shared.updateNetwork(newNetwork)
-        },
-        updateEsploraURL: { newURL in
-            BDKService.shared.updateEsploraURL(newURL)
-        },
-        stop: {
-            try await BDKService.shared.stop()
-        },
-        upateSyncMode: { mode in
-            BDKService.shared.updateSyncMode(mode)
-        },
-        getSyncMode: {
-            BDKService.shared.getSyncMode()
-        }
-    )
+    // MARK: - live
+//    static let live = Self(
+//        loadWallet: { try BDKService.shared.loadWalletFromBackup() },
+//        deleteWallet: { try BDKService.shared.deleteWallet() },
+//        createWalletFromSeed: { words in try BDKService.shared.createWallet(words: words) },
+//        createWalletFromDescriptor: { descriptor in
+//            try BDKService.shared.createWallet(descriptor: descriptor)
+//        },
+//        createWalletFromXPub: { xpub in
+//            try BDKService.shared.createWallet(xpub: xpub)
+//        },
+//        getBalance: { try BDKService.shared.getBalance() },
+//        transactions: { try BDKService.shared.transactions() },
+//        listUnspent: { try BDKService.shared.listUnspent() },
+//        syncScanWithSyncScanProgress: { progress in
+//            try await BDKService.shared.syncWithInspector(progress: progress)
+//        },
+//        fullScanWithFullScanProgress: { progress in
+//            try await BDKService.shared.fullScanWithInspector(progress: progress)
+//        },
+//        getAddress: { try BDKService.shared.getAddress() },
+//        send: { (address, amount, feeRate) in
+//            Task {
+//                try await BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+//            }
+//        },
+//        calculateFee: { tx in try BDKService.shared.calculateFee(tx: tx) },
+//        calculateFeeRate: { tx in try BDKService.shared.calculateFeeRate(tx: tx) },
+//        sentAndReceived: { tx in try BDKService.shared.sentAndReceived(tx: tx) },
+//        buildTransaction: { (address, amount, feeRate) in
+//            try BDKService.shared.buildTransaction(
+//                address: address,
+//                amount: amount,
+//                feeRate: feeRate
+//            )
+//        },
+//        getBackupInfo: { try BDKService.shared.getBackupInfo() },
+//        needsFullScan: { BDKService.shared.needsFullScanOfWallet() },
+//        setNeedsFullScan: { value in BDKService.shared.setNeedsFullScan(value) },
+//        getNetwork: {
+//            BDKService.shared.network
+//        },
+//        getEsploraURL: {
+//            BDKService.shared.esploraURL
+//        },
+//        updateNetwork: { newNetwork in
+//            BDKService.shared.updateNetwork(newNetwork)
+//        },
+//        updateEsploraURL: { newURL in
+//            BDKService.shared.updateEsploraURL(newURL)
+//        },
+//        stop: {
+//            try await BDKService.shared.stop()
+//        },
+//        upateSyncMode: { mode in
+//            BDKService.shared.updateSyncMode(mode)
+//        },
+//        getSyncMode: {
+//            BDKService.shared.getSyncMode()
+//        }
+//    )
 }
 
 #if DEBUG

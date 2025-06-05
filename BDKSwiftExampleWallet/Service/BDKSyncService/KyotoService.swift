@@ -14,6 +14,8 @@ extension KyotoService {
 
 final class KyotoService: BDKSyncService {
 
+    static let shared: KyotoService = .init()
+    
     var connection: Connection?
     var keyClient: KeyClient
     var network: Network

@@ -81,7 +81,7 @@ class OnboardingViewModel: ObservableObject {
     }
 
     init(
-        bdkClient: BDKClient = .live
+        bdkClient: BDKClient = .esplora
     ) {
         self.bdkClient = bdkClient
         self.selectedNetwork = bdkClient.getNetwork()

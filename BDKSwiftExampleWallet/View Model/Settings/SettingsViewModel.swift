@@ -24,7 +24,7 @@ class SettingsViewModel: ObservableObject {
     let syncMode: SyncMode
 
     init(
-        bdkClient: BDKClient = .live
+        bdkClient: BDKClient = .esplora
     ) {
         self.bdkClient = bdkClient
         self.network = bdkClient.getNetwork().description

@@ -17,7 +17,7 @@ class HomeViewModel: ObservableObject {
     var isWalletLoaded = false
     var showingHomeViewErrorAlert = false
 
-    init(bdkClient: BDKClient = .live) {
+    init(bdkClient: BDKClient = .esplora) {
         self.bdkClient = bdkClient
     }
 

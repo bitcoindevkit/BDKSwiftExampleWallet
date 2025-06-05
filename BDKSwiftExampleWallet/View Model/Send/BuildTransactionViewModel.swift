@@ -19,7 +19,7 @@ class BuildTransactionViewModel {
     var showingBuildTransactionViewErrorAlert = false
 
     init(
-        bdkClient: BDKClient = .live
+        bdkClient: BDKClient = .esplora
     ) {
         self.bdkClient = bdkClient
     }

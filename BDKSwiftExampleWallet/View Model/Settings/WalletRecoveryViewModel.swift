@@ -21,7 +21,7 @@ class WalletRecoveryViewModel {
     var showingWalletRecoveryViewErrorAlert: Bool
 
     init(
-        bdkClient: BDKClient = .live,
+        bdkClient: BDKClient = .esplora,
         backupInfo: BackupInfo? = nil,
         walletRecoveryViewError: AppError? = nil,
         showingWalletRecoveryViewErrorAlert: Bool = false

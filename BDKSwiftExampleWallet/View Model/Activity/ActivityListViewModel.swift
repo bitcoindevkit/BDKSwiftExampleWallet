@@ -39,7 +39,7 @@ class ActivityListViewModel {
     }
 
     init(
-        bdkClient: BDKClient = .live,
+        bdkClient: BDKClient = .esplora,
         transactions: [CanonicalTx] = [],
         walletSyncState: WalletSyncState = .notStarted
     ) {

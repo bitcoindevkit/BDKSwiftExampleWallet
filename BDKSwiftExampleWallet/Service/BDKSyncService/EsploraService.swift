@@ -14,6 +14,8 @@ extension EsploraService {
 
 final class EsploraService: BDKSyncService {
 
+    static let shared: EsploraService = .init()
+    
     var connection: Connection?
     var keyClient: KeyClient
     var network: Network

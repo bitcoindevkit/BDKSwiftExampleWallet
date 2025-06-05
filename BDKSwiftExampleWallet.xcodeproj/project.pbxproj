@@ -11,6 +11,8 @@
 		779E70872DB9C98A006E22D3 /* WalletSyncScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */; };
 		779E70892DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */; };
 		77AD9F062DBB031D00182E65 /* ActivityHomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */; };
+		77DB13092DEBB4AC004B735D /* BDKClient+Kyoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DB13082DEBB4A9004B735D /* BDKClient+Kyoto.swift */; };
+		77DB130B2DEBB553004B735D /* BDKClient+Esplora.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DB130A2DEBB550004B735D /* BDKClient+Esplora.swift */; };
 		77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */; };
 		77F6A9E32DE247B2003568F0 /* BDKSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F6A9E22DE247AD003568F0 /* BDKSyncService.swift */; };
 		77F6A9E52DE24841003568F0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F6A9E42DE24837003568F0 /* URL+Extensions.swift */; };
@@ -121,6 +123,8 @@
 		779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSyncScriptInspector.swift; sourceTree = "<group>"; };
 		779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFullScanScriptInspector.swift; sourceTree = "<group>"; };
 		77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityHomeHeaderView.swift; sourceTree = "<group>"; };
+		77DB13082DEBB4A9004B735D /* BDKClient+Kyoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKClient+Kyoto.swift"; sourceTree = "<group>"; };
+		77DB130A2DEBB550004B735D /* BDKClient+Esplora.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BDKClient+Esplora.swift"; sourceTree = "<group>"; };
 		77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Connection+Extensions.swift"; sourceTree = "<group>"; };
 		77F6A9E22DE247AD003568F0 /* BDKSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSyncService.swift; sourceTree = "<group>"; };
 		77F6A9E42DE24837003568F0 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
@@ -333,6 +337,8 @@
 		AE1C34212A424434008F807A /* BDK Service */ = {
 			isa = PBXGroup;
 			children = (
+				77DB130A2DEBB550004B735D /* BDKClient+Esplora.swift */,
+				77DB13082DEBB4A9004B735D /* BDKClient+Kyoto.swift */,
 				AED4CC092A1D297600CE1831 /* BDKService.swift */,
 				AE79538F2A2D5B4400CCB277 /* BDKSwiftExampleWalletError.swift */,
 			);
@@ -772,9 +778,11 @@
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
 				77AD9F062DBB031D00182E65 /* ActivityHomeHeaderView.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
+				77DB130B2DEBB553004B735D /* BDKClient+Esplora.swift in Sources */,
 				77F6A9EB2DE5072E003568F0 /* AppStorageUtil.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
 				AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */,
+				77DB13092DEBB4AC004B735D /* BDKClient+Kyoto.swift in Sources */,
 				AE2381AD2C60578500F6B00C /* ActivityListView.swift in Sources */,
 				AE2381B32C60877600F6B00C /* LocalOutputListView.swift in Sources */,
 				AE783A052AB4F51F005F0CBA /* String+Extensions.swift in Sources */,
