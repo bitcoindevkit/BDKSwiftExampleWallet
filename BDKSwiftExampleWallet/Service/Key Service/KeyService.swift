@@ -63,7 +63,7 @@ private struct KeyService {
         keychain[string: "SelectedNetwork"] = network
     }
 
-    func deletaAllData() throws {
+    func deleteAllData() throws {
         try deleteNetwork()
         try deleteBackupInfo()
         try deleteEsploraURL()
@@ -135,7 +135,7 @@ extension KeyClient {
         saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
         saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
         saveNetwork: { network in try KeyService().saveNetwork(network: network) },
-        deleteAllData: { try KeyService().deletaAllData() },
+        deleteAllData: { try KeyService().deleteAllData() },
         saveSyncMode: { mode in try KeyService().saveSyncMode(mode) },
         getSyncMode: { try KeyService().getSyncMode() }
     )
