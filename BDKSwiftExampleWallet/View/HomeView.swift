@@ -17,7 +17,7 @@ struct HomeView: View {
 
             WalletView(
                 viewModel: .init(
-                    bdkClient: .esplora,
+                    bdkClient: .live,
                     priceClient: .live
                 ),
                 sendNavigationPath: $navigationPath

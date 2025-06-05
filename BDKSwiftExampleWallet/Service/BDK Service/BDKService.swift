@@ -12,15 +12,7 @@ class BDKService {
     static var shared: BDKService = BDKService()
 
     private var syncMode: SyncMode?
-    private var service: BDKClient {
-        switch try? keyClient.getSyncMode() {
-        case .kyoto:
-            return .kyoto
-        default:
-            return .esplora
-        }
-    }
-    private let keyClient: KeyClient
+    let keyClient: KeyClient
     private var needsFullScan: Bool = false
     private(set) var network: Network
     private(set) var esploraURL: String
@@ -111,67 +103,18 @@ struct BDKClient {
 }
 
 extension BDKClient {
-    // MARK: - live
-//    static let live = Self(
-//        loadWallet: { try BDKService.shared.loadWalletFromBackup() },
-//        deleteWallet: { try BDKService.shared.deleteWallet() },
-//        createWalletFromSeed: { words in try BDKService.shared.createWallet(words: words) },
-//        createWalletFromDescriptor: { descriptor in
-//            try BDKService.shared.createWallet(descriptor: descriptor)
-//        },
-//        createWalletFromXPub: { xpub in
-//            try BDKService.shared.createWallet(xpub: xpub)
-//        },
-//        getBalance: { try BDKService.shared.getBalance() },
-//        transactions: { try BDKService.shared.transactions() },
-//        listUnspent: { try BDKService.shared.listUnspent() },
-//        syncScanWithSyncScanProgress: { progress in
-//            try await BDKService.shared.syncWithInspector(progress: progress)
-//        },
-//        fullScanWithFullScanProgress: { progress in
-//            try await BDKService.shared.fullScanWithInspector(progress: progress)
-//        },
-//        getAddress: { try BDKService.shared.getAddress() },
-//        send: { (address, amount, feeRate) in
-//            Task {
-//                try await BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
-//            }
-//        },
-//        calculateFee: { tx in try BDKService.shared.calculateFee(tx: tx) },
-//        calculateFeeRate: { tx in try BDKService.shared.calculateFeeRate(tx: tx) },
-//        sentAndReceived: { tx in try BDKService.shared.sentAndReceived(tx: tx) },
-//        buildTransaction: { (address, amount, feeRate) in
-//            try BDKService.shared.buildTransaction(
-//                address: address,
-//                amount: amount,
-//                feeRate: feeRate
-//            )
-//        },
-//        getBackupInfo: { try BDKService.shared.getBackupInfo() },
-//        needsFullScan: { BDKService.shared.needsFullScanOfWallet() },
-//        setNeedsFullScan: { value in BDKService.shared.setNeedsFullScan(value) },
-//        getNetwork: {
-//            BDKService.shared.network
-//        },
-//        getEsploraURL: {
-//            BDKService.shared.esploraURL
-//        },
-//        updateNetwork: { newNetwork in
-//            BDKService.shared.updateNetwork(newNetwork)
-//        },
-//        updateEsploraURL: { newURL in
-//            BDKService.shared.updateEsploraURL(newURL)
-//        },
-//        stop: {
-//            try await BDKService.shared.stop()
-//        },
-//        upateSyncMode: { mode in
-//            BDKService.shared.updateSyncMode(mode)
-//        },
-//        getSyncMode: {
-//            BDKService.shared.getSyncMode()
-//        }
-//    )
+    static var live: BDKClient {
+        do {
+            let syncMode = try BDKService.shared.keyClient.getSyncMode()
+            if syncMode == .kyoto {
+                return .kyoto
+            } else {
+                return .esplora
+            }
+        } catch {
+            return .esplora
+        }
+    }
 }
 
 #if DEBUG

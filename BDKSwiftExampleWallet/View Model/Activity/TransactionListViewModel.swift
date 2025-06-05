@@ -17,7 +17,7 @@ class TransactionListViewModel {
     var walletTransactionsViewError: AppError?
 
     init(
-        bdkClient: BDKClient = .esplora
+        bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
     }

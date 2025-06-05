@@ -23,7 +23,7 @@ class TransactionDetailViewModel {
     var transactionDetailsError: AppError?
 
     init(
-        bdkClient: BDKClient = .esplora
+        bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
     }

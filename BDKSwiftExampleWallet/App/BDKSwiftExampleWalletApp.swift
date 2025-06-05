@@ -20,20 +20,20 @@ struct BDKSwiftExampleWalletApp: App {
                 if value != nil && !isOnboarding {
                     HomeView(
                         viewModel: .init(
-                            bdkClient: .esplora
+                            bdkClient: .live
                         ),
                         navigationPath: $navigationPath
                     )
                 } else {
                     OnboardingView(
                         viewModel: .init(
-                            bdkClient: .esplora
+                            bdkClient: .live
                         )
                     )
                 }
             }
             .onChange(of: isOnboarding) { oldValue, newValue in
-                BDKClient.esplora.setNeedsFullScan(true)
+                BDKClient.live.setNeedsFullScan(true)
                 navigationPath = NavigationPath()
             }
         }

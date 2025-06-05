@@ -100,7 +100,7 @@ struct TransactionListView: View {
                         NavigationLink(
                             destination: TransactionDetailView(
                                 viewModel: .init(
-                                    bdkClient: .esplora
+                                    bdkClient: .live
                                 ),
                                 amount: sentAndReceivedValues.sent.toSat() == 0
                                     ? sentAndReceivedValues.received.toSat()
