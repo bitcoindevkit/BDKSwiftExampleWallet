@@ -38,7 +38,7 @@ struct SettingsView: View {
                 Group {
                     if viewModel.syncMode == .kyoto {
                         Section(header: Text("Network")) {
-                            Text("Using Kyoto")
+                            Text("Kyoto")
                                 .foregroundStyle(.primary)
                         }
                     } else {
