@@ -23,7 +23,7 @@ extension LocalOutput {
             vout: UInt32(1)
         ),
         txout: TxOut(
-            value: UInt64(1),
+            value: .fromSat(satoshi: 1),
             scriptPubkey: Script.init(rawOutputScript: Data([0x51]))
         ),
         keychain: .external,
