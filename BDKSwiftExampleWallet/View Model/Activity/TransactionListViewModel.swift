@@ -22,10 +22,10 @@ class TransactionListViewModel {
         self.bdkClient = bdkClient
     }
 
-    func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {
+    func getTxDetails(txid: Txid) -> TxDetails? {
         do {
-            let sentAndReceived = try bdkClient.sentAndReceived(tx)
-            return sentAndReceived
+            let txDetails = try bdkClient.txDetails(txid)
+            return txDetails
         } catch {
             self.walletTransactionsViewError = .generic(
                 message: error.localizedDescription

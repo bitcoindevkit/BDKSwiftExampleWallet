@@ -11,9 +11,8 @@ import SwiftUI
 
 struct TransactionItemView: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
-    let canonicalTx: CanonicalTx
+    let txDetails: TxDetails
     let isRedacted: Bool
-    let sentAndReceivedValues: SentAndReceivedValues
 
     var body: some View {
 
@@ -36,14 +35,13 @@ struct TransactionItemView: View {
                         .foregroundStyle(Color.gray.opacity(0.25))
                     Image(
                         systemName:
-                            sentAndReceivedValues.sent.toSat() == 0
-                            && sentAndReceivedValues.received.toSat() > 0
+                            txDetails.balanceDelta >= 0
                             ? "arrow.down" : "arrow.up"
                     )
                     .font(.callout)
                     .foregroundStyle(
                         {
-                            switch canonicalTx.chainPosition {
+                            switch txDetails.chainPosition {
                             case .confirmed(_, _):
                                 Color.bitcoinOrange
                             case .unconfirmed(_):
@@ -55,14 +53,14 @@ struct TransactionItemView: View {
             }
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(canonicalTx.transaction.computeTxid().description)
+                Text(txDetails.txid.description)
                     .truncationMode(.middle)
                     .lineLimit(1)
                     .fontDesign(.monospaced)
                     .fontWeight(.semibold)
                     .font(.title)
                     .foregroundStyle(.primary)
-                switch canonicalTx.chainPosition {
+                switch txDetails.chainPosition {
                 case .confirmed(let confirmationBlockTime, _):
                     Text(
                         confirmationBlockTime.confirmationTime.toDate().formatted(
@@ -99,17 +97,16 @@ struct TransactionItemView: View {
 
             Spacer()
 
-            Text(
-                sentAndReceivedValues.sent.toSat() == 0
-                    && sentAndReceivedValues.received.toSat() > 0
-                    ? "+ \(sentAndReceivedValues.received.toSat()) sats"
-                    : "- \(sentAndReceivedValues.sent.toSat() - sentAndReceivedValues.received.toSat()) sats"
-            )
-            .font(.subheadline)
-            .fontWeight(.semibold)
-            .fontDesign(.rounded)
-            .lineLimit(1)
-            .redacted(reason: isRedacted ? .placeholder : [])
+            let delta = txDetails.balanceDelta
+            let prefix = delta >= 0 ? "+ " : "- "
+            let amount = abs(delta)
+
+            Text("\(prefix)\(amount) sats")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .fontDesign(.rounded)
+                .lineLimit(1)
+                .redacted(reason: isRedacted ? .placeholder : [])
 
         }
         .padding(.vertical, 15.0)
@@ -122,9 +119,8 @@ struct TransactionItemView: View {
 #if DEBUG
     #Preview {
         TransactionItemView(
-            canonicalTx: .mock,
-            isRedacted: false,
-            sentAndReceivedValues: .mock
+            txDetails: .mock,
+            isRedacted: false
         )
     }
 #endif

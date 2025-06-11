@@ -14,8 +14,6 @@ import Observation
 class TransactionDetailViewModel {
     let bdkClient: BDKClient
 
-    var calculateFee: String?
-    var calculateFeeError: CalculateFeeError?
     var esploraError: EsploraError?
     var esploraURL: String?
     var network: String?
@@ -26,18 +24,6 @@ class TransactionDetailViewModel {
         bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
-    }
-
-    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
-        do {
-            let calculateFee = try bdkClient.calculateFee(tx)
-            let feeString = String(calculateFee.toSat())
-            self.calculateFee = feeString
-        } catch let error as CalculateFeeError {
-            DispatchQueue.main.async {
-                self.calculateFeeError = error
-            }
-        } catch {}
     }
 
     func getEsploraUrl() {
@@ -63,18 +49,6 @@ class TransactionDetailViewModel {
 
     func getNetwork() {
         self.network = bdkClient.getNetwork().description
-    }
-
-    func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {
-        do {
-            let sentAndReceived = try bdkClient.sentAndReceived(tx)
-            return sentAndReceived
-        } catch {
-            DispatchQueue.main.async {
-                self.transactionDetailsError = .generic(message: error.localizedDescription)
-            }
-            return nil
-        }
     }
 
 }
