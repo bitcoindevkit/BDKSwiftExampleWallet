@@ -13,3 +13,7 @@ extension Amount: @retroactive Equatable {
         return lhs.toSat() == rhs.toSat()
     }
 }
+
+extension Amount {
+    static let mock = Amount.fromSat(satoshi: 100_000)
+}

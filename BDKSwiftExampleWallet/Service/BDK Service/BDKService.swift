@@ -412,6 +412,14 @@ private class BDKService {
         let values = wallet.sentAndReceived(tx: tx)
         return values
     }
+    
+    func txDetails(txid: Txid) throws -> TxDetails? {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let txDetails = wallet.txDetails(txid: txid)
+        return txDetails
+    }
 }
 
 extension BDKService {
@@ -440,6 +448,7 @@ struct BDKClient {
     let calculateFee: (Transaction) throws -> Amount
     let calculateFeeRate: (Transaction) throws -> UInt64
     let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
+    let txDetails: (Txid) throws -> TxDetails?
     let buildTransaction: (String, UInt64, UInt64) throws -> Psbt
     let getBackupInfo: () throws -> BackupInfo
     let needsFullScan: () -> Bool
@@ -479,6 +488,7 @@ extension BDKClient {
         calculateFee: { tx in try BDKService.shared.calculateFee(tx: tx) },
         calculateFeeRate: { tx in try BDKService.shared.calculateFeeRate(tx: tx) },
         sentAndReceived: { tx in try BDKService.shared.sentAndReceived(tx: tx) },
+        txDetails: { txid in try BDKService.shared.txDetails(txid: txid) },
         buildTransaction: { (address, amount, feeRate) in
             try BDKService.shared.buildTransaction(
                 address: address,
@@ -527,14 +537,15 @@ extension BDKClient {
             fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
-            calculateFee: { _ in Amount.fromSat(satoshi: UInt64(615)) },
-            calculateFeeRate: { _ in return UInt64(6.15) },
+            calculateFee: { _ in Amount.mock },
+            calculateFeeRate: { _ in UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(
-                    sent: Amount.fromSat(satoshi: UInt64(20000)),
-                    received: Amount.fromSat(satoshi: UInt64(210))
+                    sent: .mock,
+                    received: .mock
                 )
             },
+            txDetails: { _ in .mock },
             buildTransaction: { _, _, _ in
                 let pb64 = """
                     cHNidP8BAIkBAAAAAeaWcxp4/+xSRJ2rhkpUJ+jQclqocoyuJ/ulSZEgEkaoAQAAAAD+////Ak/cDgAAAAAAIlEgqxShDO8ifAouGyRHTFxWnTjpY69Cssr3IoNQvMYOKG/OVgAAAAAAACJRIGnlvMwBz4Ylb6xLTe5g4ZeZCxmVH/XWG+CDlcPzzaoT8qoGAAABAStAQg8AAAAAACJRIFGGvSoLWt3hRAIwYa8KEyawiFTXoOCVWFxYtSofZuAsIRZ2b8YiEpzexWYGt8B5EqLM8BE4qxJY3pkiGw/8zOZGYxkAvh7sj1YAAIABAACAAAAAgAAAAAAEAAAAARcgdm/GIhKc3sVmBrfAeRKizPAROKsSWN6ZIhsP/MzmRmMAAQUge7cvJMsJmR56NzObGOGkm8vNqaAIJdnBXLZD2PvrinIhB3u3LyTLCZkeejczmxjhpJvLzamgCCXZwVy2Q9j764pyGQC+HuyPVgAAgAEAAIAAAACAAQAAAAYAAAAAAQUgtIFPrI2EW/+PJiAmYdmux88p0KgeAxDFLMoeQoS66hIhB7SBT6yNhFv/jyYgJmHZrsfPKdCoHgMQxSzKHkKEuuoSGQC+HuyPVgAAgAEAAIAAAACAAAAAAAIAAAAA

@@ -32,3 +32,7 @@ extension ChainPosition {
         }
     }
 }
+
+extension ChainPosition {
+    static let mock = ChainPosition.unconfirmed(timestamp: nil)
+}

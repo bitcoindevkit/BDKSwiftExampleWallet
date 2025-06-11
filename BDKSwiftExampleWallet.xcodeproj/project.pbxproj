@@ -60,6 +60,8 @@
 		AE6F34D82AA6C1800087E700 /* Network+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */; };
 		AE6F34DA2AA6C1E00087E700 /* Balance+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F34D92AA6C1E00087E700 /* Balance+Extensions.swift */; };
 		AE7053262DE79AA30091DD78 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AE7053252DE79AA30091DD78 /* BitcoinDevKit */; };
+		AE7323992DF9BF9700D9BAE2 /* TxDetails+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7323982DF9BF9700D9BAE2 /* TxDetails+Extensions.swift */; };
+		AE73239B2DF9C00F00D9BAE2 /* TxId+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE73239A2DF9C00F00D9BAE2 /* TxId+Extensions.swift */; };
 		AE7839FD2AB4E18D005F0CBA /* AmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7839FC2AB4E18D005F0CBA /* AmountView.swift */; };
 		AE783A012AB4E5E1005F0CBA /* BuildTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE783A002AB4E5E1005F0CBA /* BuildTransactionView.swift */; };
 		AE783A032AB4ECC2005F0CBA /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE783A022AB4ECC2005F0CBA /* AddressView.swift */; };
@@ -163,6 +165,8 @@
 		AE6716002A9AC089005C193F /* KeyServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyServiceError.swift; sourceTree = "<group>"; };
 		AE6F34D72AA6C1800087E700 /* Network+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Extensions.swift"; sourceTree = "<group>"; };
 		AE6F34D92AA6C1E00087E700 /* Balance+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Balance+Extensions.swift"; sourceTree = "<group>"; };
+		AE7323982DF9BF9700D9BAE2 /* TxDetails+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TxDetails+Extensions.swift"; sourceTree = "<group>"; };
+		AE73239A2DF9C00F00D9BAE2 /* TxId+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TxId+Extensions.swift"; sourceTree = "<group>"; };
 		AE7839FC2AB4E18D005F0CBA /* AmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountView.swift; sourceTree = "<group>"; };
 		AE783A002AB4E5E1005F0CBA /* BuildTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildTransactionView.swift; sourceTree = "<group>"; };
 		AE783A022AB4ECC2005F0CBA /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
@@ -568,6 +572,8 @@
 				AE91CEEC2C0FDB70000AAD20 /* SentAndReceivedValues+Extensions.swift */,
 				AE91CEEE2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift */,
 				AEEA0E3F2DEF80B600C83255 /* Outpoint+Extensions.swift */,
+				AE7323982DF9BF9700D9BAE2 /* TxDetails+Extensions.swift */,
+				AE73239A2DF9C00F00D9BAE2 /* TxId+Extensions.swift */,
 			);
 			path = "BDK+Extensions";
 			sourceTree = "<group>";
@@ -734,6 +740,7 @@
 				AE2ADD742B61E8F500C2A823 /* SettingsView.swift in Sources */,
 				AE2381AF2C605B1D00F6B00C /* ActivityListViewModel.swift in Sources */,
 				AE6F34D82AA6C1800087E700 /* Network+Extensions.swift in Sources */,
+				AE73239B2DF9C00F00D9BAE2 /* TxId+Extensions.swift in Sources */,
 				AE1390C72A7DB0AF0098127A /* KeyService.swift in Sources */,
 				AED4CC0A2A1D297600CE1831 /* BDKService.swift in Sources */,
 				AED4CC102A1D522100CE1831 /* WalletView.swift in Sources */,
@@ -762,6 +769,7 @@
 				AE34DDAE2B6B320F00F04AD4 /* WalletRecoveryViewModel.swift in Sources */,
 				AE0C30F92A804B65008F1EAE /* OnboardingViewModel.swift in Sources */,
 				AE3902A42A3B4CD900BEC318 /* HomeView.swift in Sources */,
+				AE7323992DF9BF9700D9BAE2 /* TxDetails+Extensions.swift in Sources */,
 				AE0C30FD2A804BC1008F1EAE /* ReceiveViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
