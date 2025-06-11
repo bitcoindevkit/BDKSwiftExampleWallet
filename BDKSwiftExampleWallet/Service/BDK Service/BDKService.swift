@@ -412,7 +412,7 @@ private class BDKService {
         let values = wallet.sentAndReceived(tx: tx)
         return values
     }
-    
+
     func txDetails(txid: Txid) throws -> TxDetails? {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound

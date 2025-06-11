@@ -51,7 +51,7 @@ struct WalletView: View {
                     ) {
                         showAllTransactions = true
                     }
-                    
+
                     TransactionListView(
                         viewModel: .init(),
                         transactions: viewModel.recentTransactions,

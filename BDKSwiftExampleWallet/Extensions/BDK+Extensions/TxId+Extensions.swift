@@ -5,8 +5,8 @@
 //  Created by Matthew Ramsden on 6/11/25.
 //
 
-import Foundation
 import BitcoinDevKit
+import Foundation
 
 extension Txid {
     static let mock = try? Txid.fromBytes(
