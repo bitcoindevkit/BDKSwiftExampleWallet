@@ -16,6 +16,11 @@ class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool?
+    @Published var syncMode: SyncMode? {
+        didSet {
+            bdkClient.upateSyncMode(syncMode ?? .esplora)
+        }
+    }
     @Published var createWithPersistError: CreateWithPersistError?
     var isDescriptor: Bool {
         words.hasPrefix("tr(") || words.hasPrefix("wpkh(") || words.hasPrefix("wsh(")
@@ -76,11 +81,12 @@ class OnboardingViewModel: ObservableObject {
     }
 
     init(
-        bdkClient: BDKClient = .live
+        bdkClient: BDKClient = .esplora
     ) {
         self.bdkClient = bdkClient
         self.selectedNetwork = bdkClient.getNetwork()
         self.selectedURL = bdkClient.getEsploraURL()
+        self.syncMode = bdkClient.getSyncMode()
     }
 
     func createWallet() {

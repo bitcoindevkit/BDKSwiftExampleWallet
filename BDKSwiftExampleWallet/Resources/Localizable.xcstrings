@@ -237,6 +237,9 @@
         }
       }
     },
+    "%lld%%" : {
+
+    },
     "%llu" : {
       "localizations" : {
         "fr" : {
@@ -451,6 +454,9 @@
           }
         }
       }
+    },
+    "Conecting" : {
+
     },
     "confirmed" : {
       "localizations" : {
@@ -691,6 +697,9 @@
           }
         }
       }
+    },
+    "Kyoto" : {
+
     },
     "Navigation Title" : {
       "extractionState" : "stale",
@@ -1143,6 +1152,9 @@
           }
         }
       }
+    },
+    "Sync type" : {
+
     },
     "Syncing" : {
       "extractionState" : "manual",
