@@ -60,25 +60,27 @@ struct SettingsView: View {
                     colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
                 )
 
-                Section(header: Text("Wallet")) {
-                    Button {
-                        Task {
-                            await viewModel.fullScanWithProgress()
+                if viewModel.syncMode == .esplora {
+                    Section(header: Text("Wallet")) {
+                        Button {
+                            Task {
+                                await viewModel.fullScanWithProgress()
+                            }
+                        } label: {
+                            Text("Full Scan")
                         }
-                    } label: {
-                        Text("Full Scan")
+                        .foregroundStyle(Color.bitcoinOrange)
+                        if viewModel.walletSyncState == .syncing {
+                            Text("\(viewModel.inspectedScripts)")
+                                .contentTransition(.numericText())
+                                .foregroundStyle(.primary)
+                                .animation(.easeInOut, value: viewModel.inspectedScripts)
+                        }
                     }
-                    .foregroundStyle(Color.bitcoinOrange)
-                    if viewModel.walletSyncState == .syncing {
-                        Text("\(viewModel.inspectedScripts)")
-                            .contentTransition(.numericText())
-                            .foregroundStyle(.primary)
-                            .animation(.easeInOut, value: viewModel.inspectedScripts)
-                    }
+                    .listRowBackground(
+                        colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
+                    )
                 }
-                .listRowBackground(
-                    colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
-                )
 
                 Section(header: Text("Danger Zone")) {
                     Button {

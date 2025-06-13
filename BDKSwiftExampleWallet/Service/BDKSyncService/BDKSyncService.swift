@@ -1,5 +1,5 @@
 //
-//  BDKService2.swift
+//  BDKSyncService.swift
 //  BDKSwiftExampleWallet
 //
 //  Created by Rubens Machion on 16/05/25.
