@@ -237,6 +237,9 @@
         }
       }
     },
+    "%lld%%" : {
+
+    },
     "%llu" : {
       "localizations" : {
         "fr" : {
@@ -451,6 +454,9 @@
           }
         }
       }
+    },
+    "Conecting" : {
+
     },
     "confirmed" : {
       "localizations" : {

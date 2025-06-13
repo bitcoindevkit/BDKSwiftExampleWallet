@@ -42,6 +42,9 @@ class WalletViewModel {
     var needsFullScan: Bool {
         bdkClient.needsFullScan()
     }
+    var syncMode: SyncMode {
+        bdkClient.getSyncMode() ?? .esplora
+    }
 
     init(
         bdkClient: BDKClient = .live,

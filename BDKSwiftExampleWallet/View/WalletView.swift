@@ -47,7 +47,8 @@ struct WalletView: View {
                         progress: viewModel.progress,
                         inspectedScripts: viewModel.inspectedScripts,
                         totalScripts: viewModel.totalScripts,
-                        needsFullScan: viewModel.needsFullScan
+                        needsFullScan: viewModel.needsFullScan,
+                        syncMode: viewModel.syncMode
                     ) {
                         showAllTransactions = true
                     }
