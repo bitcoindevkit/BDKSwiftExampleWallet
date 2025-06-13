@@ -111,17 +111,6 @@ struct OnboardingView: View {
                 .padding()
 
                 Group {
-                    Picker("Network", selection: $viewModel.selectedNetwork) {
-                        Text("Signet").tag(Network.signet)
-                        Text("Testnet").tag(Network.testnet)
-                        Text("Testnet4").tag(Network.testnet4)
-                    }
-                    .pickerStyle(.automatic)
-                    .tint(.primary)
-                    .accessibilityLabel("Select Bitcoin Network")
-                    .opacity(animateContent ? 1 : 0)
-                    .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
-
                     Picker("Sync type", selection: $viewModel.syncMode) {
                         Text("Esplora Server").tag(SyncMode.esplora)
                         Text("Kyoto").tag(SyncMode.kyoto)
@@ -130,7 +119,7 @@ struct OnboardingView: View {
                     .tint(.primary)
                     .opacity(animateContent ? 1 : 0)
                     .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
-
+                    
                     if viewModel.syncMode == nil || viewModel.syncMode == .esplora {
                         Picker("Esplora Server", selection: $viewModel.selectedURL) {
                             ForEach(viewModel.availableURLs, id: \.self) { url in
@@ -150,7 +139,18 @@ struct OnboardingView: View {
                         .tint(.primary)
                         .opacity(animateContent ? 1 : 0)
                         .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
-                    }
+                        
+                        Picker("Network", selection: $viewModel.selectedNetwork) {
+                            Text("Signet").tag(Network.signet)
+                            Text("Testnet").tag(Network.testnet)
+                            Text("Testnet4").tag(Network.testnet4)
+                        }
+                        .pickerStyle(.automatic)
+                        .tint(.primary)
+                        .accessibilityLabel("Select Bitcoin Network")
+                        .opacity(animateContent ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
+                    }                    
                 }
 
                 if !viewModel.words.isEmpty {
