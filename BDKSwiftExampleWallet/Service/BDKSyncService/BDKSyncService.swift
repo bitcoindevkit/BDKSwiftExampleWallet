@@ -155,6 +155,9 @@ extension BDKSyncService {
     }
 
     func deleteWallet() throws {
+        Task {
+            try await stopService()
+        }
         try deleteData()
     }
 
