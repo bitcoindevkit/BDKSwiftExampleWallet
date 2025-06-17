@@ -132,7 +132,7 @@ final class KyotoService: BDKSyncService {
 
     private func startNode() async throws {
         node?.run()
-        printLogs()
+        getNextLog()
         updateWarn()
         try await updateWallet()
         startRealTimeWalletUpdate()
@@ -142,44 +142,42 @@ final class KyotoService: BDKSyncService {
     private func updateWallet() async throws -> Bool {
         guard let update = await self.client?.update() else {
             isScanRunning = false
-            print("Nothing to update")
             return false
         }
         try self.wallet?.applyUpdate(update: update)
         let _ = try self.wallet?.persist(connection: self.connection ?? Connection.loadConnection())
-        print("######### walletUpdated")
         isScanRunning = false
         return true
     }
     
     private func startRealTimeWalletUpdate() {
-        print(#function)
         Task {
             while true {
-                print("Updating: \(Date())")
-                if let update = await client?.update() {
-                    do {
-                        try wallet?.applyUpdate(update: update)
+                do {
+                    if try await updateWallet() {
                         NotificationCenter.default.post(name: .walletDidUpdate, object: nil)
-                        print("Updated wallet")
-                    } catch {
-                        print(error)
                     }
-                } else {
-                    print("Nothing to update")
+                } catch {
+                    print(error)
                 }
+//                if let update = await client?.update() {
+//                    do {
+//                        try wallet?.applyUpdate(update: update)
+//                        NotificationCenter.default.post(name: .walletDidUpdate, object: nil)
+//                    } catch {
+//                        print(error)
+//                    }
+//                }
             }
         }
     }
     
-    private func printLogs() {
+    private func getNextLog() {
         Task {
             while true {
                 if let log = try? await self.client?.nextLog() {
-                    print("\(log)")
                     switch log {
                     case .connectionsMet:
-                        print("######### connected")
                         self.isConnected = true
                     case .progress(let progress):
                         if let fullScanProgress = self.fullScanProgress {
@@ -200,7 +198,6 @@ final class KyotoService: BDKSyncService {
                 if let warn = try? await self.client?.nextWarning() {
                     switch warn {
                     case .needConnections:
-                        print("######### disconnected")
                         self.isConnected = false
                     default:
                         #if DEBUG
