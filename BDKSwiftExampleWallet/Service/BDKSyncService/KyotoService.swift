@@ -61,7 +61,7 @@ final class KyotoService: BDKSyncService {
         let wallet = try loadWalleFromBackup()
         self.wallet = wallet
     }
-
+    
     func startSync(progress: @escaping SyncScanProgress) async throws {
         if isScanRunning { return }
         guard let wallet = self.wallet else {
@@ -85,7 +85,7 @@ final class KyotoService: BDKSyncService {
         }
         let nodeComponents = try buildNode(
             from: wallet,
-            scanType: .recovery(fromHeight: network.taprootHeight)
+            scanType: .new
         )
 
         self.fullScanProgress = progress
@@ -160,14 +160,6 @@ final class KyotoService: BDKSyncService {
                 } catch {
                     print(error)
                 }
-//                if let update = await client?.update() {
-//                    do {
-//                        try wallet?.applyUpdate(update: update)
-//                        NotificationCenter.default.post(name: .walletDidUpdate, object: nil)
-//                    } catch {
-//                        print(error)
-//                    }
-//                }
             }
         }
     }
@@ -184,6 +176,7 @@ final class KyotoService: BDKSyncService {
                             let _progress = UInt64(progress * 100.0)
                             fullScanProgress(_progress)
                         }
+                        print("Progress: \(progress)")
                     default:
                         break
                     }

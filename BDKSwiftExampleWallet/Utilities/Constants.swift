@@ -95,13 +95,4 @@ extension Network {
             Constants.Config.EsploraServerURLNetwork.Testnet4.allValues.first ?? ""
         }
     }
-
-    var taprootHeight: UInt32 {
-        switch self {
-        case .bitcoin:
-            return 700_000
-        default:
-            return 250_000
-        }
-    }
 }
