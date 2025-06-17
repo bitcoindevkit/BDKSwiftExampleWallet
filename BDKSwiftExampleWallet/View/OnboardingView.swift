@@ -119,7 +119,7 @@ struct OnboardingView: View {
                     .tint(.primary)
                     .opacity(animateContent ? 1 : 0)
                     .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
-                    
+
                     if viewModel.syncMode == .esplora {
                         Picker("Esplora Server", selection: $viewModel.selectedURL) {
                             ForEach(viewModel.availableURLs, id: \.self) { url in
@@ -139,7 +139,7 @@ struct OnboardingView: View {
                         .tint(.primary)
                         .opacity(animateContent ? 1 : 0)
                         .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
-                        
+
                         Picker("Network", selection: $viewModel.selectedNetwork) {
                             Text("Signet").tag(Network.signet)
                             Text("Testnet").tag(Network.testnet)
@@ -150,7 +150,7 @@ struct OnboardingView: View {
                         .accessibilityLabel("Select Bitcoin Network")
                         .opacity(animateContent ? 1 : 0)
                         .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
-                    }                    
+                    }
                 }
 
                 if !viewModel.words.isEmpty {

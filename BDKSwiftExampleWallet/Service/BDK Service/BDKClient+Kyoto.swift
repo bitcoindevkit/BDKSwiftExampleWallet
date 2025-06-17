@@ -42,7 +42,11 @@ extension BDKClient {
         },
         send: { (address, amount, feeRate) in
             Task {
-                try await KyotoService.shared.send(address: address, amount: amount, feeRate: feeRate)
+                try await KyotoService.shared.send(
+                    address: address,
+                    amount: amount,
+                    feeRate: feeRate
+                )
             }
         },
         calculateFee: { tx in
@@ -55,7 +59,11 @@ extension BDKClient {
             try KyotoService.shared.sentAndReceived(tx: tx)
         },
         buildTransaction: { (address, amount, feeRate) in
-            try KyotoService.shared.buildTransaction(address: address, amount: amount, feeRate: feeRate)
+            try KyotoService.shared.buildTransaction(
+                address: address,
+                amount: amount,
+                feeRate: feeRate
+            )
         },
         getBackupInfo: {
             try BDKService.shared.getBackupInfo()

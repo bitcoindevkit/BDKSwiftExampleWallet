@@ -42,7 +42,7 @@ struct ActivityHomeHeaderView: View {
                         )
                         .frame(width: 30.0, height: 30.0)
                     }
-                    
+
                 } else if walletSyncState == .syncing {
                     if syncMode == .esplora {
                         HStack {
@@ -95,7 +95,7 @@ struct ActivityHomeHeaderView: View {
                 }
                 .foregroundStyle(.secondary)
                 .font(.caption)
-                
+
             case .kyoto:
                 EmptyView()
             }

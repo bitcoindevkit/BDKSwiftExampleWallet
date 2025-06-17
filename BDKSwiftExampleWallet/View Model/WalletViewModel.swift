@@ -61,19 +61,38 @@ class WalletViewModel {
         self.walletSyncState = walletSyncState
         addNotifications()
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     private func addNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidUpdate, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidConnect, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidConnect, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: UIApplication.willEnterForegroundNotification, object: nil
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(receiveNotification(_:)),
+            name: .walletDidUpdate,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(receiveNotification(_:)),
+            name: .walletDidConnect,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(receiveNotification(_:)),
+            name: .walletDidConnect,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(receiveNotification(_:)),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
         )
     }
-    
+
     @objc private func receiveNotification(_ notification: Notification) {
         switch notification.name {
         case .walletDidUpdate, UIApplication.willEnterForegroundNotification:
@@ -81,10 +100,10 @@ class WalletViewModel {
             getTransactions()
         case .walletDidConnect:
             isConnected = true
-            
+
         case .walletDidDisconnect:
             isConnected = false
-            
+
         default: break
         }
     }

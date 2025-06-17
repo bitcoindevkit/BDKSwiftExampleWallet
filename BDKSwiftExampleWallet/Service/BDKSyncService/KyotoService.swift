@@ -21,7 +21,7 @@ extension Notification.Name {
 final class KyotoService: BDKSyncService {
 
     static let shared: KyotoService = .init()
-    
+
     var connection: Connection?
     var keyClient: KeyClient
     var network: Network
@@ -31,9 +31,9 @@ final class KyotoService: BDKSyncService {
     private var node: CbfNode?
     private var isConnected = false {
         didSet {
-            isConnected ?
-            NotificationCenter.default.post(name: .walletDidConnect, object: nil) :
-            NotificationCenter.default.post(name: .walletDidDisconnect, object: nil)
+            isConnected
+                ? NotificationCenter.default.post(name: .walletDidConnect, object: nil)
+                : NotificationCenter.default.post(name: .walletDidDisconnect, object: nil)
         }
     }
     private var isScanRunning = false
@@ -61,7 +61,7 @@ final class KyotoService: BDKSyncService {
         let wallet = try loadWalleFromBackup()
         self.wallet = wallet
     }
-    
+
     func startSync(progress: @escaping SyncScanProgress) async throws {
         if isScanRunning { return }
         guard let wallet = self.wallet else {
@@ -149,7 +149,7 @@ final class KyotoService: BDKSyncService {
         isScanRunning = false
         return true
     }
-    
+
     private func startRealTimeWalletUpdate() {
         Task {
             while true {
@@ -163,7 +163,7 @@ final class KyotoService: BDKSyncService {
             }
         }
     }
-    
+
     private func getNextLog() {
         Task {
             while true {
