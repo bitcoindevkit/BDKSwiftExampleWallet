@@ -182,6 +182,12 @@ struct WalletView: View {
             )
         }
         .toolbar {
+            if viewModel.syncMode == .kyoto {
+                ToolbarItem(placement: .topBarLeading) {
+                    Image(systemName: viewModel.isConnected ? "network" : "network.slash")
+                        .foregroundStyle(viewModel.isConnected ? .blue : .red)
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     showSettingsView = true

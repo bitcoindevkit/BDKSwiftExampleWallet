@@ -13,7 +13,9 @@ extension KyotoService {
 }
 
 extension Notification.Name {
-    static let shouldUpdateWallet = Notification.Name("ShouldUpdateWallet")
+    static let walletDidUpdate = Notification.Name("walletDidUpdate")
+    static let walletDidConnect = Notification.Name("walletDidConnect")
+    static let walletDidDisconnect = Notification.Name("walletDidDisconnect")
 }
 
 final class KyotoService: BDKSyncService {
@@ -27,7 +29,13 @@ final class KyotoService: BDKSyncService {
 
     private var client: CbfClient?
     private var node: CbfNode?
-    private var isConnected = false
+    private var isConnected = false {
+        didSet {
+            isConnected ?
+            NotificationCenter.default.post(name: .walletDidConnect, object: nil) :
+            NotificationCenter.default.post(name: .walletDidDisconnect, object: nil)
+        }
+    }
     private var isScanRunning = false
 
     private var fullScanProgress: FullScanProgress?
@@ -152,7 +160,7 @@ final class KyotoService: BDKSyncService {
                 if let update = await client?.update() {
                     do {
                         try wallet?.applyUpdate(update: update)
-                        NotificationCenter.default.post(name: .shouldUpdateWallet, object: nil)
+                        NotificationCenter.default.post(name: .walletDidUpdate, object: nil)
                         print("Updated wallet")
                     } catch {
                         print(error)

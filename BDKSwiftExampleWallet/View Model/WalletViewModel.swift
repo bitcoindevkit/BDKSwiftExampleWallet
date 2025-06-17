@@ -45,6 +45,7 @@ class WalletViewModel {
     var syncMode: SyncMode {
         bdkClient.getSyncMode() ?? .esplora
     }
+    var isConnected: Bool = false
 
     init(
         bdkClient: BDKClient = .live,
@@ -58,13 +59,31 @@ class WalletViewModel {
         self.priceClient = priceClient
         self.transactions = transactions
         self.walletSyncState = walletSyncState
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .shouldUpdateWallet, object: nil)
+        addNotifications()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func addNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidConnect, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidConnect, object: nil)
     }
     
     @objc private func receiveNotification(_ notification: Notification) {
-        if notification.name == .shouldUpdateWallet {
+        switch notification.name {
+        case .walletDidUpdate:
             getBalance()
             getTransactions()
+        case .walletDidConnect:
+            isConnected = true
+            
+        case .walletDidDisconnect:
+            isConnected = false
+            
+        default: break
         }
     }
 
