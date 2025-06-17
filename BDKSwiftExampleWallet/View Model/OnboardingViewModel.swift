@@ -16,9 +16,9 @@ class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
 
     @AppStorage("isOnboarding") var isOnboarding: Bool?
-    @Published var syncMode: SyncMode? {
+    @Published var syncMode: SyncMode = .esplora {
         didSet {
-            bdkClient.upateSyncMode(syncMode ?? .esplora)
+            bdkClient.upateSyncMode(syncMode)
         }
     }
     @Published var createWithPersistError: CreateWithPersistError?
@@ -86,7 +86,7 @@ class OnboardingViewModel: ObservableObject {
         self.bdkClient = bdkClient
         self.selectedNetwork = bdkClient.getNetwork()
         self.selectedURL = bdkClient.getEsploraURL()
-        self.syncMode = bdkClient.getSyncMode()
+        self.syncMode = bdkClient.getSyncMode() ?? .esplora
     }
 
     func createWallet() {
