@@ -70,11 +70,13 @@ class WalletViewModel {
         NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidUpdate, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidConnect, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .walletDidConnect, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: UIApplication.willEnterForegroundNotification, object: nil
+        )
     }
     
     @objc private func receiveNotification(_ notification: Notification) {
         switch notification.name {
-        case .walletDidUpdate:
+        case .walletDidUpdate, UIApplication.willEnterForegroundNotification:
             getBalance()
             getTransactions()
         case .walletDidConnect:
@@ -193,5 +195,4 @@ class WalletViewModel {
             self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
         }
     }
-
 }
