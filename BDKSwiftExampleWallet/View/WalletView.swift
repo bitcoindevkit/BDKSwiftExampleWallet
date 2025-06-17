@@ -52,17 +52,24 @@ struct WalletView: View {
                     ) {
                         showAllTransactions = true
                     }
-
-                    TransactionListView(
-                        viewModel: .init(),
-                        transactions: viewModel.recentTransactions,
-                        walletSyncState: viewModel.walletSyncState
-                    )
-                    .refreshable {
-                        await viewModel.syncOrFullScan()
-                        viewModel.getBalance()
-                        viewModel.getTransactions()
-                        await viewModel.getPrices()
+                    if viewModel.syncMode == .esplora {
+                        TransactionListView(
+                            viewModel: .init(),
+                            transactions: viewModel.recentTransactions,
+                            walletSyncState: viewModel.walletSyncState
+                        )
+                        .refreshable {
+                            await viewModel.syncOrFullScan()
+                            viewModel.getBalance()
+                            viewModel.getTransactions()
+                            await viewModel.getPrices()
+                        }
+                    } else {
+                        TransactionListView(
+                            viewModel: .init(),
+                            transactions: viewModel.recentTransactions,
+                            walletSyncState: viewModel.walletSyncState
+                        )
                     }
 
                     HStack {

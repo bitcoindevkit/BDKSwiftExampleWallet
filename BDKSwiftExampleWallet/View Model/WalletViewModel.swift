@@ -58,6 +58,14 @@ class WalletViewModel {
         self.priceClient = priceClient
         self.transactions = transactions
         self.walletSyncState = walletSyncState
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: .shouldUpdateWallet, object: nil)
+    }
+    
+    @objc private func receiveNotification(_ notification: Notification) {
+        if notification.name == .shouldUpdateWallet {
+            getBalance()
+            getTransactions()
+        }
     }
 
     func getBalance() {

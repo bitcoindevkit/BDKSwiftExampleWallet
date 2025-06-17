@@ -12,6 +12,10 @@ extension KyotoService {
     static var live: BDKSyncService = KyotoService()
 }
 
+extension Notification.Name {
+    static let shouldUpdateWallet = Notification.Name("ShouldUpdateWallet")
+}
+
 final class KyotoService: BDKSyncService {
 
     static let shared: KyotoService = .init()
@@ -23,7 +27,7 @@ final class KyotoService: BDKSyncService {
 
     private var client: CbfClient?
     private var node: CbfNode?
-    private var connected = false
+    private var isConnected = false
     private var isScanRunning = false
 
     private var fullScanProgress: FullScanProgress?
@@ -63,7 +67,7 @@ final class KyotoService: BDKSyncService {
         self.client = nodeComponents.client
         self.node = nodeComponents.node
         isScanRunning = true
-        try await startListen()
+        try await startNode()
     }
 
     func startFullScan(progress: @escaping FullScanProgress) async throws {
@@ -80,7 +84,7 @@ final class KyotoService: BDKSyncService {
         self.client = nodeComponents.client
         self.node = nodeComponents.node
         isScanRunning = true
-        try await startListen()
+        try await startNode()
     }
 
     func send(address: String, amount: UInt64, feeRate: UInt64) async throws {
@@ -118,17 +122,19 @@ final class KyotoService: BDKSyncService {
             .build(wallet: wallet)
     }
 
-    private func startListen() async throws {
+    private func startNode() async throws {
         node?.run()
         printLogs()
         updateWarn()
-        try await startUpdating()
+        try await updateWallet()
+        startRealTimeWalletUpdate()
     }
 
     @discardableResult
-    func startUpdating() async throws -> Bool {
+    private func updateWallet() async throws -> Bool {
         guard let update = await self.client?.update() else {
             isScanRunning = false
+            print("Nothing to update")
             return false
         }
         try self.wallet?.applyUpdate(update: update)
@@ -137,7 +143,27 @@ final class KyotoService: BDKSyncService {
         isScanRunning = false
         return true
     }
-
+    
+    private func startRealTimeWalletUpdate() {
+        print(#function)
+        Task {
+            while true {
+                print("Updating: \(Date())")
+                if let update = await client?.update() {
+                    do {
+                        try wallet?.applyUpdate(update: update)
+                        NotificationCenter.default.post(name: .shouldUpdateWallet, object: nil)
+                        print("Updated wallet")
+                    } catch {
+                        print(error)
+                    }
+                } else {
+                    print("Nothing to update")
+                }
+            }
+        }
+    }
+    
     private func printLogs() {
         Task {
             while true {
@@ -146,7 +172,7 @@ final class KyotoService: BDKSyncService {
                     switch log {
                     case .connectionsMet:
                         print("######### connected")
-                        self.connected = true
+                        self.isConnected = true
                     case .progress(let progress):
                         if let fullScanProgress = self.fullScanProgress {
                             let _progress = UInt64(progress * 100.0)
@@ -167,7 +193,7 @@ final class KyotoService: BDKSyncService {
                     switch warn {
                     case .needConnections:
                         print("######### disconnected")
-                        self.connected = false
+                        self.isConnected = false
                     default:
                         #if DEBUG
                             print(warn)
