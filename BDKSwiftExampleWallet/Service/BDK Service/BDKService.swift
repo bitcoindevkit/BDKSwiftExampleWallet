@@ -65,11 +65,11 @@ class BDKService {
 
 extension BDKService {
     func needsFullScanOfWallet() -> Bool {
-        return StorageUtil.shared.isNeedFullScan ?? true
+        return AppStorageUtil.shared.isNeedFullScan ?? true
     }
 
     func setNeedsFullScan(_ value: Bool) {
-        StorageUtil.shared.isNeedFullScan = value
+        AppStorageUtil.shared.isNeedFullScan = value
     }
 }
 

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct StorageUtil {
+struct AppStorageUtil {
     @AppStorage("isNeedFullScan") var isNeedFullScan: Bool?
 
-    static var shared = StorageUtil()
+    static var shared = AppStorageUtil()
 }
