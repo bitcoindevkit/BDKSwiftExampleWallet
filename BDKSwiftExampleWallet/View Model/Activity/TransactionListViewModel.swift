@@ -22,7 +22,7 @@ class TransactionListViewModel {
         self.bdkClient = bdkClient
     }
 
-    func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {
+    func getSentAndReceived(tx: Transaction) -> SentAndReceivedValues? {
         do {
             let sentAndReceived = try bdkClient.sentAndReceived(tx)
             return sentAndReceived

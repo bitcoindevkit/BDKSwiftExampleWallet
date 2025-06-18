@@ -86,9 +86,9 @@ struct BDKClient {
     let fullScanWithFullScanProgress: (@escaping FullScanProgress) async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, UInt64) throws -> Void
-    let calculateFee: (BitcoinDevKit.Transaction) throws -> Amount
-    let calculateFeeRate: (BitcoinDevKit.Transaction) throws -> UInt64
-    let sentAndReceived: (BitcoinDevKit.Transaction) throws -> SentAndReceivedValues
+    let calculateFee: (Transaction) throws -> Amount
+    let calculateFeeRate: (Transaction) throws -> UInt64
+    let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
     let buildTransaction: (String, UInt64, UInt64) throws -> Psbt
     let getBackupInfo: () throws -> BackupInfo
     let needsFullScan: () -> Bool

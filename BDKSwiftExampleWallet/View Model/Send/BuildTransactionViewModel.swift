@@ -40,7 +40,7 @@ class BuildTransactionViewModel {
         }
     }
 
-    func extractTransaction() -> BitcoinDevKit.Transaction? {
+    func extractTransaction() -> Transaction? {
         guard let psbt = self.psbt else {
             return nil
         }
@@ -56,7 +56,7 @@ class BuildTransactionViewModel {
         }
     }
 
-    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
+    func getCalulateFee(tx: Transaction) {
         do {
             let calculateFee = try bdkClient.calculateFee(tx)
             let feeString = String(calculateFee.toSat())

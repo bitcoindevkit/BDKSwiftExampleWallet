@@ -28,7 +28,7 @@ class TransactionDetailViewModel {
         self.bdkClient = bdkClient
     }
 
-    func getCalulateFee(tx: BitcoinDevKit.Transaction) {
+    func getCalulateFee(tx: Transaction) {
         do {
             let calculateFee = try bdkClient.calculateFee(tx)
             let feeString = String(calculateFee.toSat())
@@ -61,7 +61,7 @@ class TransactionDetailViewModel {
         self.network = bdkClient.getNetwork().description
     }
 
-    func getSentAndReceived(tx: BitcoinDevKit.Transaction) -> SentAndReceivedValues? {
+    func getSentAndReceived(tx: Transaction) -> SentAndReceivedValues? {
         do {
             let sentAndReceived = try bdkClient.sentAndReceived(tx)
             return sentAndReceived
