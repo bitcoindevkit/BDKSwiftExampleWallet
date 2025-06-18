@@ -16,8 +16,8 @@ struct Constants {
                 private static let blockstream = "https://blockstream.info/api"
                 private static let mempoolspace = "https://mempool.space/api"
                 static let allValues = [
-                    blockstream,
                     mempoolspace,
+                    blockstream,
                 ]
             }
             struct Regtest {
