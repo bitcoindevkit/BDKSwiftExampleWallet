@@ -256,18 +256,51 @@ private class BDKService {
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
-        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
-        let connection = try Connection(path: persistenceBackendPath)
-        self.connection = connection
-        let wallet = try Wallet.load(
-            descriptor: descriptor,
-            changeDescriptor: changeDescriptor,
-            connection: connection
-        )
-        self.wallet = wallet
+        
+        // Ensure the directory exists, but don't delete it
+        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
+        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
+        
+        // If database doesn't exist, create it from the descriptors
+        if !FileManager.default.fileExists(atPath: persistenceBackendPath) {
+            let connection = try Connection(path: persistenceBackendPath)
+            self.connection = connection
+            let wallet = try Wallet(
+                descriptor: descriptor,
+                changeDescriptor: changeDescriptor,
+                network: self.network,
+                connection: connection
+            )
+            self.wallet = wallet
+        } else {
+            // Database exists, try to load the wallet
+            do {
+                let connection = try Connection(path: persistenceBackendPath)
+                self.connection = connection
+                let wallet = try Wallet.load(
+                    descriptor: descriptor,
+                    changeDescriptor: changeDescriptor,
+                    connection: connection
+                )
+                self.wallet = wallet
+            } catch is LoadWithPersistError {
+                // Database is corrupted or incompatible, delete and recreate
+                print("Wallet database is corrupted, recreating...")
+                try FileManager.default.removeItem(atPath: persistenceBackendPath)
+                
+                let connection = try Connection(path: persistenceBackendPath)
+                self.connection = connection
+                let wallet = try Wallet(
+                    descriptor: descriptor,
+                    changeDescriptor: changeDescriptor,
+                    network: self.network,
+                    connection: connection
+                )
+                self.wallet = wallet
+            }
+        }
     }
 
     func loadWalletFromBackup() throws {
