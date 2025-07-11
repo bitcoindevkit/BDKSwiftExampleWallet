@@ -253,15 +253,47 @@ private class BDKService {
         self.wallet = wallet
     }
 
-    private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
-        let persister = try Persister.loadConnection()
-        self.persister = persister
-        let wallet = try Wallet.load(
-            descriptor: descriptor,
-            changeDescriptor: changeDescriptor,
-            persister: persister
-        )
-        self.wallet = wallet
+    private func loadWallet(descriptor: Descriptor, changeDescriptor:
+    Descriptor) throws {
+        // If database doesn't exist, create it from the descriptors
+        if !FileManager.default.fileExists(atPath:
+    URL.persistenceBackendPath) {
+            let persister = try Persister.createConnection()
+            self.persister = persister
+            let wallet = try Wallet(
+                descriptor: descriptor,
+                changeDescriptor: changeDescriptor,
+                network: self.network,
+                persister: persister
+            )
+            self.wallet = wallet
+        } else {
+            // Database exists, try to load the wallet
+            do {
+                let persister = try Persister.loadConnection()
+                self.persister = persister
+                let wallet = try Wallet.load(
+                    descriptor: descriptor,
+                    changeDescriptor: changeDescriptor,
+                    persister: persister
+                )
+                self.wallet = wallet
+            } catch is LoadWithPersistError {
+                // Database is corrupted or incompatible, delete and recreate
+                print("Wallet database is corrupted, recreating...")
+                try Persister.deleteConnection()
+
+                let persister = try Persister.createConnection()
+                self.persister = persister
+                let wallet = try Wallet(
+                    descriptor: descriptor,
+                    changeDescriptor: changeDescriptor,
+                    network: self.network,
+                    persister: persister
+                )
+                self.wallet = wallet
+            }
+        }
     }
 
     func loadWalletFromBackup() throws {
