@@ -58,6 +58,22 @@ extension UInt64 {
             return formattedBalance
         }
     }
+    
+    func formattedBip177() -> String {
+        if self >= 1_000_000 && self % 1_000_000 == .zero {
+            return "\(self / 1_000_000)M"
+        } else if self % 1_000 == 0 {
+            return "\(self / 1_000)K"
+        }
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.usesGroupingSeparator = true
+        numberFormatter.groupingSeparator = ","
+        numberFormatter.generatesDecimalNumbers = false
+        
+        return numberFormatter.string(from: NSNumber(value: self)) ?? "0"
+    }
 }
 
 extension Int {
