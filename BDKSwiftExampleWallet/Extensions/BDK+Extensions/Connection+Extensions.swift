@@ -1,8 +1,8 @@
 import BitcoinDevKit
 import Foundation
 
-extension Connection {
-    static func createConnection() throws -> Connection {
+extension Persister {
+    static func createConnection() throws -> Persister {
         let documentsDirectoryURL = URL.documentsDirectory
         let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
 
@@ -14,7 +14,7 @@ extension Connection {
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
-        let connection = try Connection(path: persistenceBackendPath)
-        return connection
+        let persister = try Persister.newSqlite(path: persistenceBackendPath)
+        return persister
     }
 }

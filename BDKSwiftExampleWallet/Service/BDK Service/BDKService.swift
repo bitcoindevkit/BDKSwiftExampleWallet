@@ -12,7 +12,7 @@ private class BDKService {
     static var shared: BDKService = BDKService()
 
     private var balance: Balance?
-    private var connection: Connection?
+    private var persister: Persister?
     private var esploraClient: EsploraClient
     private let keyClient: KeyClient
     private var needsFullScan: Bool = false
@@ -60,11 +60,11 @@ private class BDKService {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
         }
-        guard let connection = self.connection else {
+        guard let persister = self.persister else {
             throw WalletError.dbNotFound
         }
         let addressInfo = wallet.revealNextAddress(keychain: .external)
-        let _ = try wallet.persist(connection: connection)
+        let _ = try wallet.persist(persister: persister)
         return addressInfo.address.description
     }
 
@@ -94,8 +94,8 @@ private class BDKService {
     }
 
     func createWallet(words: String?) throws {
-        self.connection = try Connection.createConnection()
-        guard let connection = connection else {
+        self.persister = try Persister.createConnection()
+        guard let persister = persister else {
             throw WalletError.dbNotFound
         }
 
@@ -119,12 +119,12 @@ private class BDKService {
         )
         let descriptor = Descriptor.newBip86(
             secretKey: secretKey,
-            keychain: .external,
+            keychainKind: .external,
             network: network
         )
         let changeDescriptor = Descriptor.newBip86(
             secretKey: secretKey,
-            keychain: .internal,
+            keychainKind: .internal,
             network: network
         )
         let backupInfo = BackupInfo(
@@ -143,14 +143,14 @@ private class BDKService {
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
-            connection: connection
+            persister: persister
         )
         self.wallet = wallet
     }
 
     func createWallet(descriptor: String?) throws {
-        self.connection = try Connection.createConnection()
-        guard let connection = connection else {
+        self.persister = try Persister.createConnection()
+        guard let persister = persister else {
             throw WalletError.dbNotFound
         }
 
@@ -198,14 +198,14 @@ private class BDKService {
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
-            connection: connection
+            persister: persister
         )
         self.wallet = wallet
     }
 
     func createWallet(xpub: String?) throws {
-        self.connection = try Connection.createConnection()
-        guard let connection = connection else {
+        self.persister = try Persister.createConnection()
+        guard let persister = persister else {
             throw WalletError.dbNotFound
         }
 
@@ -222,13 +222,13 @@ private class BDKService {
         let descriptor = Descriptor.newBip86Public(
             publicKey: descriptorPublicKey,
             fingerprint: fingerprint,
-            keychain: .external,
+            keychainKind: .external,
             network: network
         )
         let changeDescriptor = Descriptor.newBip86Public(
             publicKey: descriptorPublicKey,
             fingerprint: fingerprint,
-            keychain: .internal,
+            keychainKind: .internal,
             network: network
         )
 
@@ -248,7 +248,7 @@ private class BDKService {
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
             network: network,
-            connection: connection
+            persister: persister
         )
         self.wallet = wallet
     }
@@ -260,12 +260,12 @@ private class BDKService {
         try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
         let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
             .path
-        let connection = try Connection(path: persistenceBackendPath)
-        self.connection = connection
+        let persister = try Persister.newSqlite(path: persistenceBackendPath)
+        self.persister = persister
         let wallet = try Wallet.load(
             descriptor: descriptor,
             changeDescriptor: changeDescriptor,
-            connection: connection
+            persister: persister
         )
         self.wallet = wallet
     }
@@ -363,10 +363,10 @@ private class BDKService {
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
-        guard let connection = self.connection else {
+        guard let persister = self.persister else {
             throw WalletError.dbNotFound
         }
-        let _ = try wallet.persist(connection: connection)
+        let _ = try wallet.persist(persister: persister)
     }
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
@@ -383,10 +383,10 @@ private class BDKService {
             parallelRequests: UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
-        guard let connection = self.connection else {
+        guard let persister = self.persister else {
             throw WalletError.dbNotFound
         }
-        let _ = try wallet.persist(connection: connection)
+        let _ = try wallet.persist(persister: persister)
     }
 
     func calculateFee(tx: Transaction) throws -> Amount {
@@ -411,6 +411,14 @@ private class BDKService {
         }
         let values = wallet.sentAndReceived(tx: tx)
         return values
+    }
+
+    func txDetails(txid: Txid) throws -> TxDetails? {
+        guard let wallet = self.wallet else {
+            throw WalletError.walletNotFound
+        }
+        let txDetails = wallet.txDetails(txid: txid)
+        return txDetails
     }
 }
 
@@ -440,6 +448,7 @@ struct BDKClient {
     let calculateFee: (Transaction) throws -> Amount
     let calculateFeeRate: (Transaction) throws -> UInt64
     let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
+    let txDetails: (Txid) throws -> TxDetails?
     let buildTransaction: (String, UInt64, UInt64) throws -> Psbt
     let getBackupInfo: () throws -> BackupInfo
     let needsFullScan: () -> Bool
@@ -479,6 +488,7 @@ extension BDKClient {
         calculateFee: { tx in try BDKService.shared.calculateFee(tx: tx) },
         calculateFeeRate: { tx in try BDKService.shared.calculateFeeRate(tx: tx) },
         sentAndReceived: { tx in try BDKService.shared.sentAndReceived(tx: tx) },
+        txDetails: { txid in try BDKService.shared.txDetails(txid: txid) },
         buildTransaction: { (address, amount, feeRate) in
             try BDKService.shared.buildTransaction(
                 address: address,
@@ -527,19 +537,20 @@ extension BDKClient {
             fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
-            calculateFee: { _ in Amount.fromSat(satoshi: UInt64(615)) },
-            calculateFeeRate: { _ in return UInt64(6.15) },
+            calculateFee: { _ in Amount.mock },
+            calculateFeeRate: { _ in UInt64(6.15) },
             sentAndReceived: { _ in
                 return SentAndReceivedValues(
-                    sent: Amount.fromSat(satoshi: UInt64(20000)),
-                    received: Amount.fromSat(satoshi: UInt64(210))
+                    sent: .mock,
+                    received: .mock
                 )
             },
+            txDetails: { _ in .mock },
             buildTransaction: { _, _, _ in
                 let pb64 = """
                     cHNidP8BAIkBAAAAAeaWcxp4/+xSRJ2rhkpUJ+jQclqocoyuJ/ulSZEgEkaoAQAAAAD+////Ak/cDgAAAAAAIlEgqxShDO8ifAouGyRHTFxWnTjpY69Cssr3IoNQvMYOKG/OVgAAAAAAACJRIGnlvMwBz4Ylb6xLTe5g4ZeZCxmVH/XWG+CDlcPzzaoT8qoGAAABAStAQg8AAAAAACJRIFGGvSoLWt3hRAIwYa8KEyawiFTXoOCVWFxYtSofZuAsIRZ2b8YiEpzexWYGt8B5EqLM8BE4qxJY3pkiGw/8zOZGYxkAvh7sj1YAAIABAACAAAAAgAAAAAAEAAAAARcgdm/GIhKc3sVmBrfAeRKizPAROKsSWN6ZIhsP/MzmRmMAAQUge7cvJMsJmR56NzObGOGkm8vNqaAIJdnBXLZD2PvrinIhB3u3LyTLCZkeejczmxjhpJvLzamgCCXZwVy2Q9j764pyGQC+HuyPVgAAgAEAAIAAAACAAQAAAAYAAAAAAQUgtIFPrI2EW/+PJiAmYdmux88p0KgeAxDFLMoeQoS66hIhB7SBT6yNhFv/jyYgJmHZrsfPKdCoHgMQxSzKHkKEuuoSGQC+HuyPVgAAgAEAAIAAAACAAAAAAAIAAAAA
                     """
-                return try! Psbt(psbtBase64: pb64)
+                return try Psbt(psbtBase64: pb64)
             },
             getBackupInfo: {
                 BackupInfo(

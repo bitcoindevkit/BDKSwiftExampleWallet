@@ -33,7 +33,7 @@ struct LocalOutputItemView: View {
 
             VStack(alignment: .leading, spacing: 5) {
 
-                Text(output.outpoint.txid)
+                Text(output.outpoint.txid.description)
                     .truncationMode(.middle)
                     .lineLimit(1)
                     .fontDesign(.monospaced)

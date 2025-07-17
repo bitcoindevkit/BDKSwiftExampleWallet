@@ -19,12 +19,8 @@ struct TransactionListView: View {
         List {
             if transactions.isEmpty && walletSyncState == .syncing {
                 TransactionItemView(
-                    canonicalTx: .mock,
-                    isRedacted: true,
-                    sentAndReceivedValues: .init(
-                        sent: Amount.fromSat(satoshi: UInt64(0)),
-                        received: Amount.fromSat(satoshi: UInt64(0))
-                    )
+                    txDetails: .mock,
+                    isRedacted: true
                 )
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
@@ -94,24 +90,19 @@ struct TransactionListView: View {
                 ) { item in
                     let canonicalTx = item
                     let tx = canonicalTx.transaction
-                    if let sentAndReceivedValues = viewModel.getSentAndReceived(tx: tx) {
+                    if let txDetails = viewModel.getTxDetails(txid: tx.computeTxid()) {
 
                         NavigationLink(
                             destination: TransactionDetailView(
                                 viewModel: .init(
                                     bdkClient: .live
                                 ),
-                                amount: sentAndReceivedValues.sent.toSat() == 0
-                                    ? sentAndReceivedValues.received.toSat()
-                                    : sentAndReceivedValues.sent.toSat()
-                                        - sentAndReceivedValues.received.toSat(),
-                                canonicalTx: canonicalTx
+                                txDetails: txDetails
                             )
                         ) {
                             TransactionItemView(
-                                canonicalTx: canonicalTx,
-                                isRedacted: false,
-                                sentAndReceivedValues: sentAndReceivedValues
+                                txDetails: txDetails,
+                                isRedacted: false
                             )
                         }
 

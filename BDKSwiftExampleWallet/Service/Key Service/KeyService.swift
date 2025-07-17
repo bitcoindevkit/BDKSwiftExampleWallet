@@ -129,12 +129,12 @@ extension KeyClient {
                 )
                 let descriptor = Descriptor.newBip86(
                     secretKey: secretKey,
-                    keychain: .external,
+                    keychainKind: .external,
                     network: mockKeyClientNetwork
                 )
                 let changeDescriptor = Descriptor.newBip86(
                     secretKey: secretKey,
-                    keychain: .internal,
+                    keychainKind: .internal,
                     network: mockKeyClientNetwork
                 )
                 let backupInfo = BackupInfo(

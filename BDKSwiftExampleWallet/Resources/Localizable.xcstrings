@@ -66,6 +66,7 @@
       }
     },
     "- %llu sats" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -82,6 +83,7 @@
       }
     },
     "?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -183,6 +185,16 @@
         }
       }
     },
+    "%@%lld sats" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$lld sats"
+          }
+        }
+      }
+    },
     "%lld Output%@" : {
       "localizations" : {
         "en" : {
@@ -254,6 +266,7 @@
       }
     },
     "%llu sats" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -270,6 +283,7 @@
       }
     },
     "+ %llu sats" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

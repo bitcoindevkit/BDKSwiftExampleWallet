@@ -6,17 +6,18 @@
 //
 
 import BitcoinDevKit
+import Foundation
 
 extension Transaction {
     var transactionID: String {
-        return self.computeTxid()
+        return "\(self.computeTxid())"
     }
 }
 
 //#if DEBUG
 extension Transaction {
     static var mock = try? Transaction(
-        transactionBytes: String.mockTransactionHex.hexStringToByteArray()
+        transactionBytes: Data(String.mockTransactionHex.hexStringToByteArray())
     )
 }
 //#endif

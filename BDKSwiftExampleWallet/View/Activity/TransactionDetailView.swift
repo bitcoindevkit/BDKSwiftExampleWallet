@@ -13,8 +13,7 @@ struct TransactionDetailView: View {
     @Bindable var viewModel: TransactionDetailViewModel
     @State private var isCopied = false
     @State private var showCheckmark = false
-    let amount: UInt64
-    let canonicalTx: CanonicalTx
+    let txDetails: TxDetails
 
     var body: some View {
 
@@ -22,34 +21,25 @@ struct TransactionDetailView: View {
 
             VStack(spacing: 8) {
                 HStack(spacing: 3) {
-                    let sentAndReceivedValues = viewModel.getSentAndReceived(
-                        tx: canonicalTx.transaction
-                    )
-                    if let value = sentAndReceivedValues {
-                        let sent = value.sent
-                        let received = value.received
-                        if sent.toSat() == 0 && received.toSat() > 0 {
-                            VStack {
-                                Image("bitcoinsign.arrow.down")
-                                    .symbolRenderingMode(.hierarchical)
-                                    .font(.title)
-                                Text("Receive")
-                            }
-                        } else if sent.toSat() > 0 && received.toSat() >= 0 {
-                            VStack {
-                                Image("bitcoinsign.arrow.up")
-                                    .symbolRenderingMode(.hierarchical)
-                                    .font(.title)
-                                Text("Send")
-                            }
-                        } else {
-                            Text("?")
+                    if txDetails.balanceDelta >= 0 {
+                        VStack {
+                            Image("bitcoinsign.arrow.down")
+                                .symbolRenderingMode(.hierarchical)
+                                .font(.title)
+                            Text("Receive")
+                        }
+                    } else {
+                        VStack {
+                            Image("bitcoinsign.arrow.up")
+                                .symbolRenderingMode(.hierarchical)
+                                .font(.title)
+                            Text("Send")
                         }
                     }
                 }
                 .fontWeight(.semibold)
 
-                switch canonicalTx.chainPosition {
+                switch txDetails.chainPosition {
                 case .confirmed(let confirmationBlockTime, _):
                     Text("Block \(confirmationBlockTime.blockId.height.delimiter)")
                         .foregroundStyle(.secondary)
@@ -65,7 +55,7 @@ struct TransactionDetailView: View {
 
             VStack(spacing: 8) {
                 HStack {
-                    Text(amount.delimiter)
+                    Text(abs(txDetails.balanceDelta).delimiter)
                     Text("sats")
                 }
                 .lineLimit(1)
@@ -75,7 +65,7 @@ struct TransactionDetailView: View {
                 .fontWeight(.bold)
                 .fontDesign(.rounded)
                 VStack(spacing: 4) {
-                    switch canonicalTx.chainPosition {
+                    switch txDetails.chainPosition {
                     case .confirmed(let confirmationBlockTime, _):
                         Text(
                             confirmationBlockTime.confirmationTime.toDate().formatted(
@@ -95,8 +85,8 @@ struct TransactionDetailView: View {
                             Text("Pending")
                         }
                     }
-                    if let fee = viewModel.calculateFee {
-                        Text("\(fee.formattedWithSeparator) sats fee")
+                    if let fee = txDetails.fee {
+                        Text("\(fee.toSat().delimiter) sats fee")
                     }
                 }
                 .foregroundStyle(.secondary)
@@ -110,7 +100,7 @@ struct TransactionDetailView: View {
                     Button {
                         if let esploraURL = viewModel.esploraURL {
                             let urlString =
-                                "\(esploraURL)/tx/\(canonicalTx.transaction.computeTxid())"
+                                "\(esploraURL)/tx/\(txDetails.txid)"
                                 .replacingOccurrences(of: "/api", with: "")
                             if let url = URL(string: urlString) {
                                 UIApplication.shared.open(url)
@@ -124,7 +114,7 @@ struct TransactionDetailView: View {
                     Spacer()
                 }
                 Button {
-                    UIPasteboard.general.string = canonicalTx.transaction.computeTxid()
+                    UIPasteboard.general.string = "\(txDetails.txid)"
                     isCopied = true
                     showCheckmark = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -133,7 +123,7 @@ struct TransactionDetailView: View {
                     }
                 } label: {
                     HStack {
-                        Text(canonicalTx.transaction.computeTxid())
+                        Text("\(txDetails.txid)")
                             .lineLimit(1)
                             .truncationMode(.middle)
                         withAnimation {
@@ -154,7 +144,6 @@ struct TransactionDetailView: View {
             .task {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
-                viewModel.getCalulateFee(tx: canonicalTx.transaction)
             }
 
         }
@@ -179,8 +168,7 @@ struct TransactionDetailView: View {
             viewModel: .init(
                 bdkClient: .mock
             ),
-            amount: UInt64(1_000_000),
-            canonicalTx: .mock
+            txDetails: .mock
         )
     }
 #endif
