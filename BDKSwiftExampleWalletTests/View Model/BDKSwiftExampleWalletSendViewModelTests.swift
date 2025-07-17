@@ -51,5 +51,5 @@ final class BDKSwiftExampleWalletSendViewModelTests: XCTestCase {
             "cab34ffffbde93c6a91d1ae755f6e256bad7c7e480a8c7d64caf3c2afc848ca4"
         )
     }
-    
+
 }
