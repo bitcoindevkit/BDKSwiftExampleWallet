@@ -48,6 +48,8 @@ struct BalanceView: View {
             return balance.formatted(.number)
         case .fiat:
             return satsPrice.formatted(.number.precision(.fractionLength(2)))
+        case .bip177:
+            return balance.formattedBip177()
         }
     }
 

@@ -34,6 +34,16 @@ extension UInt64 {
 }
 
 extension UInt64 {
+    private var numberFormatter: NumberFormatter {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.usesGroupingSeparator = true
+        numberFormatter.groupingSeparator = ","
+        numberFormatter.generatesDecimalNumbers = false
+        
+        return numberFormatter
+    }
+    
     func formattedSatoshis() -> String {
         if self == 0 {
             return "0.00 000 000"
@@ -57,6 +67,17 @@ extension UInt64 {
 
             return formattedBalance
         }
+    }
+    
+    func formattedBip177() -> String {
+        if self != .zero && self >= 1_000_000 && self % 1_000_000 == .zero {
+            return "\(self / 1_000_000)M"
+            
+        } else if self != .zero && self % 1_000 == 0 {
+            return "\(self / 1_000)K"
+        }
+        
+        return numberFormatter.string(from: NSNumber(value: self)) ?? "0"
     }
 }
 
