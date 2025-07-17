@@ -70,10 +70,10 @@ extension UInt64 {
     }
     
     func formattedBip177() -> String {
-        if self >= 1_000_000 && self % 1_000_000 == .zero {
+        if self != .zero && self >= 1_000_000 && self % 1_000_000 == .zero {
             return "\(self / 1_000_000)M"
             
-        } else if self % 1_000 == 0 {
+        } else if self != .zero && self % 1_000 == 0 {
             return "\(self / 1_000)K"
         }
         
