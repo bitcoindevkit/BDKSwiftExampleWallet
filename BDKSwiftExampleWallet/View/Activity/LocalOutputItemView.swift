@@ -54,7 +54,7 @@ struct LocalOutputItemView: View {
 
             Spacer()
 
-            Text("\(output.txout.value) sats")
+            Text("\(output.txout.value.toSat()) sats")
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .fontDesign(.rounded)
