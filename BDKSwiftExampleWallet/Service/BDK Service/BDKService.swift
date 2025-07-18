@@ -254,13 +254,7 @@ private class BDKService {
     }
 
     private func loadWallet(descriptor: Descriptor, changeDescriptor: Descriptor) throws {
-        let documentsDirectoryURL = URL.documentsDirectory
-        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-        try FileManager.default.ensureDirectoryExists(at: walletDataDirectoryURL)
-        try FileManager.default.removeOldFlatFileIfNeeded(at: documentsDirectoryURL)
-        let persistenceBackendPath = walletDataDirectoryURL.appendingPathComponent("wallet.sqlite")
-            .path
-        let persister = try Persister.newSqlite(path: persistenceBackendPath)
+        let persister = try Persister.loadConnection()
         self.persister = persister
         let wallet = try Wallet.load(
             descriptor: descriptor,
@@ -287,15 +281,8 @@ private class BDKService {
         if let bundleID = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleID)
         }
-
         try self.keyClient.deleteBackupInfo()
-
-        let documentsDirectoryURL = URL.documentsDirectory
-        let walletDataDirectoryURL = documentsDirectoryURL.appendingPathComponent("wallet_data")
-        if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
-            try FileManager.default.removeItem(at: walletDataDirectoryURL)
-        }
-
+        try Persister.deleteConnection()
         if let savedURL = savedURL {
             try keyClient.saveEsploraURL(savedURL)
         }
