@@ -204,12 +204,12 @@
         }
       }
     },
-    "%@%lld sats" : {
+    "%@%@ %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$@%2$lld sats"
+            "value" : "%1$@%2$@ %3$@"
           }
         }
       }

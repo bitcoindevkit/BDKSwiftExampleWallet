@@ -13,6 +13,20 @@ struct TransactionItemView: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     let txDetails: TxDetails
     let isRedacted: Bool
+    private let format: BalanceDisplayFormat
+    private var fiatPrice: Double
+    
+    init(
+        txDetails: TxDetails,
+        isRedacted: Bool,
+        format: BalanceDisplayFormat,
+        fiatPrice: Double
+    ) {
+        self.txDetails = txDetails
+        self.isRedacted = isRedacted
+        self.format = format
+        self.fiatPrice = fiatPrice
+    }
 
     var body: some View {
 
@@ -98,10 +112,11 @@ struct TransactionItemView: View {
             Spacer()
 
             let delta = txDetails.balanceDelta
-            let prefix = delta >= 0 ? "+ " : "- "
-            let amount = abs(delta)
+            let prefix = (delta >= 0 ? "+ " : "- ").appending("\(format.displayPrefix) ")
+            let amount = format.formatted(UInt64(abs(delta)), fiatPrice: fiatPrice)
+            let suffix = format.displayText
 
-            Text("\(prefix)\(amount) sats")
+            Text("\(prefix)\(amount) \(suffix)")
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .fontDesign(.rounded)
@@ -120,7 +135,9 @@ struct TransactionItemView: View {
     #Preview {
         TransactionItemView(
             txDetails: .mock,
-            isRedacted: false
+            isRedacted: false,
+            format: .bip177,
+            fiatPrice: 714.23
         )
     }
 #endif

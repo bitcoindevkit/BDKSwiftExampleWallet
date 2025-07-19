@@ -9,6 +9,8 @@ import BitcoinDevKit
 import SwiftUI
 
 struct ActivityListView: View {
+    @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
+        .bitcoinSats
     @Bindable var viewModel: ActivityListViewModel
 
     var body: some View {
@@ -26,7 +28,9 @@ struct ActivityListView: View {
                     TransactionListView(
                         viewModel: .init(),
                         transactions: viewModel.transactions,
-                        walletSyncState: viewModel.walletSyncState
+                        walletSyncState: viewModel.walletSyncState,
+                        format: balanceFormat,
+                        fiatPrice: viewModel.fiatPrice
                     )
                     .transition(.blurReplace)
                 } else {
@@ -80,5 +84,5 @@ struct CustomSegmentedControl: View {
 }
 
 #Preview {
-    ActivityListView(viewModel: .init())
+    ActivityListView(viewModel: .init(fiatPrice: 714.23))
 }
