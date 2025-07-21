@@ -85,7 +85,6 @@ class OnboardingViewModel: ObservableObject {
 
     func createWallet() {
         do {
-            try bdkClient.deleteWallet()
             if isDescriptor {
                 try bdkClient.createWalletFromDescriptor(words)
             } else if isXPub {

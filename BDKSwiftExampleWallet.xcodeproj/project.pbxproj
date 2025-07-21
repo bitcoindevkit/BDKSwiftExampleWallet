@@ -11,7 +11,8 @@
 		779E70872DB9C98A006E22D3 /* WalletSyncScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */; };
 		779E70892DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */; };
 		77AD9F062DBB031D00182E65 /* ActivityHomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */; };
-		77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */; };
+		77EDA65B2E2A5B4000A5E3AD /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EDA65A2E2A5B3800A5E3AD /* URL+Extensions.swift */; };
+		77F0FDC92DA9A93D00B30E4F /* Persister+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F0FDC82DA9A93700B30E4F /* Persister+Extensions.swift */; };
 		A733D6D02A81113000F333B4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A733D6CF2A81113000F333B4 /* Localizable.xcstrings */; };
 		A73F7A362A3B778E00B87FC6 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */; };
 		AE0C30F72A804A2D008F1EAE /* TransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0C30F62A804A2D008F1EAE /* TransactionListView.swift */; };
@@ -121,7 +122,8 @@
 		779E70862DB9C98A006E22D3 /* WalletSyncScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSyncScriptInspector.swift; sourceTree = "<group>"; };
 		779E70882DB9C9AB006E22D3 /* WalletFullScanScriptInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFullScanScriptInspector.swift; sourceTree = "<group>"; };
 		77AD9F052DBB031D00182E65 /* ActivityHomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityHomeHeaderView.swift; sourceTree = "<group>"; };
-		77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Connection+Extensions.swift"; sourceTree = "<group>"; };
+		77EDA65A2E2A5B3800A5E3AD /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
+		77F0FDC82DA9A93700B30E4F /* Persister+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Persister+Extensions.swift"; sourceTree = "<group>"; };
 		A733D6CF2A81113000F333B4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A73F7A352A3B778E00B87FC6 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		AE0C30F62A804A2D008F1EAE /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
@@ -564,7 +566,8 @@
 		AEE6C74D2ABCB48600442ADD /* BDK+Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				77F0FDC82DA9A93700B30E4F /* Connection+Extensions.swift */,
+				77EDA65A2E2A5B3800A5E3AD /* URL+Extensions.swift */,
+				77F0FDC82DA9A93700B30E4F /* Persister+Extensions.swift */,
 				AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */,
 				AE83EFDA2C9D07B200B41244 /* ChainPosition+Extensions.swift */,
 				AE2381B02C60690900F6B00C /* LocalOutput+Extensions.swift */,
@@ -759,9 +762,10 @@
 				AE783A012AB4E5E1005F0CBA /* BuildTransactionView.swift in Sources */,
 				AE6F34DA2AA6C1E00087E700 /* Balance+Extensions.swift in Sources */,
 				AED4CC0C2A1D3A9400CE1831 /* OnboardingView.swift in Sources */,
-				77F0FDC92DA9A93D00B30E4F /* Connection+Extensions.swift in Sources */,
+				77F0FDC92DA9A93D00B30E4F /* Persister+Extensions.swift in Sources */,
 				AE6716012A9AC089005C193F /* KeyServiceError.swift in Sources */,
 				77AD9F062DBB031D00182E65 /* ActivityHomeHeaderView.swift in Sources */,
+				77EDA65B2E2A5B4000A5E3AD /* URL+Extensions.swift in Sources */,
 				AE0C30FB2A804B95008F1EAE /* WalletViewModel.swift in Sources */,
 				AE49847C2A1BBBD6009951E2 /* BDKSwiftExampleWalletApp.swift in Sources */,
 				AE6715FF2A9AC066005C193F /* FeeServiceError.swift in Sources */,
