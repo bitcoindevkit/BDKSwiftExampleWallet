@@ -253,11 +253,16 @@ private class BDKService {
         self.wallet = wallet
     }
 
-    private func loadWallet(descriptor: Descriptor, changeDescriptor:
-    Descriptor) throws {
+    private func loadWallet(
+        descriptor: Descriptor,
+        changeDescriptor:
+            Descriptor
+    ) throws {
         // If database doesn't exist, create it from the descriptors
-        if !FileManager.default.fileExists(atPath:
-    URL.persistenceBackendPath) {
+        if !FileManager.default.fileExists(
+            atPath:
+                URL.persistenceBackendPath
+        ) {
             let persister = try Persister.createConnection()
             self.persister = persister
             let wallet = try Wallet(
