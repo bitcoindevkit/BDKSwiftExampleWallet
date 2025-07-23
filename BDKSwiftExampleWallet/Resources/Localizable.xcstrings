@@ -468,6 +468,9 @@
         }
       }
     },
+    "Coldcard Verify Address" : {
+
+    },
     "confirmed" : {
       "localizations" : {
         "fr" : {

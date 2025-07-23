@@ -27,10 +27,12 @@ struct ReceiveView: View {
 
                 HStack {
                     Spacer()
-                    Button {
-                        viewModel.startNFCSession()
+                    Menu {
+                        Button("Coldcard Verify Address") {
+                            viewModel.startNFCSession()
+                        }
                     } label: {
-                        Image(systemName: "wave.3.right")
+                        Image(systemName: "ellipsis")
                             .foregroundColor(.primary)
                     }
                 }
