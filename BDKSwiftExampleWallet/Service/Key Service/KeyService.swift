@@ -124,7 +124,8 @@ extension KeyClient {
         saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
         saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
         saveNetwork: { network in try KeyService().saveNetwork(network: network) },
-        saveAddressType: { addressType in try KeyService().saveAddressType(addressType: addressType) }
+        saveAddressType: { addressType in try KeyService().saveAddressType(addressType: addressType)
+        }
     )
 }
 

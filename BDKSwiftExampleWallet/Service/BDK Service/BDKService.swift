@@ -57,7 +57,8 @@ private class BDKService {
     }
 
     private func getCurrentAddressType() -> AddressType {
-        let storedAddressTypeString = try? keyClient.getAddressType() ?? AddressType.bip86.description
+        let storedAddressTypeString =
+            try? keyClient.getAddressType() ?? AddressType.bip86.description
         return AddressType(stringValue: storedAddressTypeString ?? "") ?? .bip86
     }
 
