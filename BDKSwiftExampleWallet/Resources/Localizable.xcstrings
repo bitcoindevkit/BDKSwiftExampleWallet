@@ -18,7 +18,7 @@
         }
       }
     },
-    " High Priority: %lld" : {
+    " High: %lld" : {
 
     },
     " Low Priority - %lld" : {
@@ -38,7 +38,7 @@
         }
       }
     },
-    " Low Priority: %lld" : {
+    " Low: %lld" : {
 
     },
     " Med Priority - %lld" : {
@@ -58,9 +58,6 @@
         }
       }
     },
-    " Med Priority: %lld" : {
-
-    },
     " No Priority - %lld" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -78,7 +75,7 @@
         }
       }
     },
-    " No Priority: %lld" : {
+    " None: %lld" : {
 
     },
     "- %llu sats" : {
@@ -726,6 +723,9 @@
           }
         }
       }
+    },
+    "Med: %lld" : {
+
     },
     "Navigation Title" : {
       "extractionState" : "stale",
