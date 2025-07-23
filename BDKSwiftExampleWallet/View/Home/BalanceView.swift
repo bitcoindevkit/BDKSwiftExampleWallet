@@ -125,32 +125,32 @@ struct BalanceView: View {
             fiatPrice: 89000
         )
     }
-#Preview("bitcoin") {
-    BalanceView(
-        format: .bitcoin,
-        balance: 5000,
-        fiatPrice: 89000
-    )
-}
-#Preview("sats") {
-    BalanceView(
-        format: .sats,
-        balance: 5000,
-        fiatPrice: 89000
-    )
-}
-#Preview("bitcoinSats") {
-    BalanceView(
-        format: .bitcoinSats,
-        balance: 5000,
-        fiatPrice: 89000
-    )
-}
-#Preview("fiat") {
-    BalanceView(
-        format: .fiat,
-        balance: 5000,
-        fiatPrice: 89000
-    )
-}
+    #Preview("bitcoin") {
+        BalanceView(
+            format: .bitcoin,
+            balance: 5000,
+            fiatPrice: 89000
+        )
+    }
+    #Preview("sats") {
+        BalanceView(
+            format: .sats,
+            balance: 5000,
+            fiatPrice: 89000
+        )
+    }
+    #Preview("bitcoinSats") {
+        BalanceView(
+            format: .bitcoinSats,
+            balance: 5000,
+            fiatPrice: 89000
+        )
+    }
+    #Preview("fiat") {
+        BalanceView(
+            format: .fiat,
+            balance: 5000,
+            fiatPrice: 89000
+        )
+    }
 #endif
