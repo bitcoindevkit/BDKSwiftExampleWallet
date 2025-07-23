@@ -56,6 +56,82 @@ private class BDKService {
         self.esploraClient = EsploraClient(url: self.esploraURL)
     }
 
+    private func getCurrentAddressType() -> AddressType {
+        let storedAddressTypeString = try? keyClient.getAddressType() ?? AddressType.bip86.description
+        return AddressType(stringValue: storedAddressTypeString ?? "") ?? .bip86
+    }
+
+    private func createDescriptors(
+        for addressType: AddressType,
+        secretKey: DescriptorSecretKey,
+        network: Network
+    ) -> (descriptor: Descriptor, changeDescriptor: Descriptor) {
+        switch addressType {
+        case .bip86:
+            let descriptor = Descriptor.newBip86(
+                secretKey: secretKey,
+                keychainKind: .external,
+                network: network
+            )
+            let changeDescriptor = Descriptor.newBip86(
+                secretKey: secretKey,
+                keychainKind: .internal,
+                network: network
+            )
+            return (descriptor, changeDescriptor)
+        case .bip84:
+            let descriptor = Descriptor.newBip84(
+                secretKey: secretKey,
+                keychainKind: .external,
+                network: network
+            )
+            let changeDescriptor = Descriptor.newBip84(
+                secretKey: secretKey,
+                keychainKind: .internal,
+                network: network
+            )
+            return (descriptor, changeDescriptor)
+        }
+    }
+
+    private func createPublicDescriptors(
+        for addressType: AddressType,
+        publicKey: DescriptorPublicKey,
+        fingerprint: String,
+        network: Network
+    ) -> (descriptor: Descriptor, changeDescriptor: Descriptor) {
+        switch addressType {
+        case .bip86:
+            let descriptor = Descriptor.newBip86Public(
+                publicKey: publicKey,
+                fingerprint: fingerprint,
+                keychainKind: .external,
+                network: network
+            )
+            let changeDescriptor = Descriptor.newBip86Public(
+                publicKey: publicKey,
+                fingerprint: fingerprint,
+                keychainKind: .internal,
+                network: network
+            )
+            return (descriptor, changeDescriptor)
+        case .bip84:
+            let descriptor = Descriptor.newBip84Public(
+                publicKey: publicKey,
+                fingerprint: fingerprint,
+                keychainKind: .external,
+                network: network
+            )
+            let changeDescriptor = Descriptor.newBip84Public(
+                publicKey: publicKey,
+                fingerprint: fingerprint,
+                keychainKind: .internal,
+                network: network
+            )
+            return (descriptor, changeDescriptor)
+        }
+    }
+
     func getAddress() throws -> String {
         guard let wallet = self.wallet else {
             throw WalletError.walletNotFound
@@ -117,16 +193,14 @@ private class BDKService {
             mnemonic: mnemonic,
             password: nil
         )
-        let descriptor = Descriptor.newBip86(
+        let currentAddressType = getCurrentAddressType()
+        let descriptors = createDescriptors(
+            for: currentAddressType,
             secretKey: secretKey,
-            keychainKind: .external,
             network: network
         )
-        let changeDescriptor = Descriptor.newBip86(
-            secretKey: secretKey,
-            keychainKind: .internal,
-            network: network
-        )
+        let descriptor = descriptors.descriptor
+        let changeDescriptor = descriptors.changeDescriptor
         let backupInfo = BackupInfo(
             mnemonic: mnemonic.description,
             descriptor: descriptor.toStringWithSecret(),
@@ -219,18 +293,15 @@ private class BDKService {
 
         let descriptorPublicKey = try DescriptorPublicKey.fromString(publicKey: xpubString)
         let fingerprint = descriptorPublicKey.masterFingerprint()
-        let descriptor = Descriptor.newBip86Public(
+        let currentAddressType = getCurrentAddressType()
+        let descriptors = createPublicDescriptors(
+            for: currentAddressType,
             publicKey: descriptorPublicKey,
             fingerprint: fingerprint,
-            keychainKind: .external,
             network: network
         )
-        let changeDescriptor = Descriptor.newBip86Public(
-            publicKey: descriptorPublicKey,
-            fingerprint: fingerprint,
-            keychainKind: .internal,
-            network: network
-        )
+        let descriptor = descriptors.descriptor
+        let changeDescriptor = descriptors.changeDescriptor
 
         let backupInfo = BackupInfo(
             mnemonic: "",
@@ -454,6 +525,14 @@ extension BDKService {
     func setNeedsFullScan(_ value: Bool) {
         needsFullScan = value
     }
+
+    func getAddressType() -> AddressType {
+        return getCurrentAddressType()
+    }
+
+    func updateAddressType(_ newAddressType: AddressType) {
+        try? keyClient.saveAddressType(newAddressType.description)
+    }
 }
 
 struct BDKClient {
@@ -481,6 +560,8 @@ struct BDKClient {
     let getEsploraURL: () -> String
     let updateNetwork: (Network) -> Void
     let updateEsploraURL: (String) -> Void
+    let getAddressType: () -> AddressType
+    let updateAddressType: (AddressType) -> Void
 }
 
 extension BDKClient {
@@ -534,6 +615,12 @@ extension BDKClient {
         },
         updateEsploraURL: { newURL in
             BDKService.shared.updateEsploraURL(newURL)
+        },
+        getAddressType: {
+            BDKService.shared.getAddressType()
+        },
+        updateAddressType: { newAddressType in
+            BDKService.shared.updateAddressType(newAddressType)
         }
     )
 }
@@ -591,7 +678,9 @@ extension BDKClient {
             getNetwork: { .signet },
             getEsploraURL: { Constants.Config.EsploraServerURLNetwork.Signet.mutiny },
             updateNetwork: { _ in },
-            updateEsploraURL: { _ in }
+            updateEsploraURL: { _ in },
+            getAddressType: { .bip86 },
+            updateAddressType: { _ in }
         )
     }
 #endif

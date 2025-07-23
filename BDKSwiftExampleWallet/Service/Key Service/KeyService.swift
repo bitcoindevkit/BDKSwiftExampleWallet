@@ -62,6 +62,14 @@ private struct KeyService {
     func saveNetwork(network: String) throws {
         keychain[string: "SelectedNetwork"] = network
     }
+
+    func getAddressType() throws -> String? {
+        return keychain[string: "SelectedAddressType"]
+    }
+
+    func saveAddressType(addressType: String) throws {
+        keychain[string: "SelectedAddressType"] = addressType
+    }
 }
 
 struct KeyClient {
@@ -71,9 +79,11 @@ struct KeyClient {
     let getBackupInfo: () throws -> BackupInfo
     let getEsploraURL: () throws -> String?
     let getNetwork: () throws -> String?
+    let getAddressType: () throws -> String?
     let saveEsploraURL: (String) throws -> Void
     let saveBackupInfo: (BackupInfo) throws -> Void
     let saveNetwork: (String) throws -> Void
+    let saveAddressType: (String) throws -> Void
 
     private init(
         deleteBackupInfo: @escaping () throws -> Void,
@@ -82,9 +92,11 @@ struct KeyClient {
         getBackupInfo: @escaping () throws -> BackupInfo,
         getEsploraURL: @escaping () throws -> String?,
         getNetwork: @escaping () throws -> String?,
+        getAddressType: @escaping () throws -> String?,
         saveBackupInfo: @escaping (BackupInfo) throws -> Void,
         saveEsploraURL: @escaping (String) throws -> Void,
-        saveNetwork: @escaping (String) throws -> Void
+        saveNetwork: @escaping (String) throws -> Void,
+        saveAddressType: @escaping (String) throws -> Void
     ) {
         self.deleteBackupInfo = deleteBackupInfo
         self.deleteEsplora = deleteEsplora
@@ -92,9 +104,11 @@ struct KeyClient {
         self.getBackupInfo = getBackupInfo
         self.getEsploraURL = getEsploraURL
         self.getNetwork = getNetwork
+        self.getAddressType = getAddressType
         self.saveBackupInfo = saveBackupInfo
         self.saveEsploraURL = saveEsploraURL
         self.saveNetwork = saveNetwork
+        self.saveAddressType = saveAddressType
     }
 }
 
@@ -106,9 +120,11 @@ extension KeyClient {
         getBackupInfo: { try KeyService().getBackupInfo() },
         getEsploraURL: { try KeyService().getEsploraURL() },
         getNetwork: { try KeyService().getNetwork() },
+        getAddressType: { try KeyService().getAddressType() },
         saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
         saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
-        saveNetwork: { network in try KeyService().saveNetwork(network: network) }
+        saveNetwork: { network in try KeyService().saveNetwork(network: network) },
+        saveAddressType: { addressType in try KeyService().saveAddressType(addressType: addressType) }
     )
 }
 
@@ -146,9 +162,11 @@ extension KeyClient {
             },
             getEsploraURL: { nil },
             getNetwork: { nil },
+            getAddressType: { nil },
             saveBackupInfo: { _ in },
             saveEsploraURL: { _ in },
-            saveNetwork: { _ in }
+            saveNetwork: { _ in },
+            saveAddressType: { _ in }
         )
     }
 #endif

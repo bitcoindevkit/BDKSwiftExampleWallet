@@ -140,6 +140,17 @@ struct OnboardingView: View {
                     .tint(.primary)
                     .opacity(animateContent ? 1 : 0)
                     .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
+
+                    Picker("Address Type", selection: $viewModel.selectedAddressType) {
+                        ForEach(AddressType.allCases, id: \.self) { type in
+                            Text(type.displayName).tag(type)
+                        }
+                    }
+                    .pickerStyle(.automatic)
+                    .tint(.primary)
+                    .accessibilityLabel("Select Address Type")
+                    .opacity(animateContent ? 1 : 0)
+                    .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
                 }
 
                 if !viewModel.words.isEmpty {

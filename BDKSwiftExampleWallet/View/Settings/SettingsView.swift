@@ -52,6 +52,19 @@ struct SettingsView: View {
                     colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
                 )
 
+                Section(header: Text("Address Type")) {
+                    if let addressType = viewModel.addressType {
+                        Text(addressType.displayName)
+                            .foregroundStyle(.primary)
+                    } else {
+                        Text("Unknown")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .listRowBackground(
+                    colorScheme == .light ? Color.gray.opacity(0.1) : Color.black.opacity(0.2)
+                )
+
                 Section(header: Text("Wallet")) {
                     Button {
                         Task {
@@ -105,6 +118,7 @@ struct SettingsView: View {
             .onAppear {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
+                viewModel.getAddressType()
             }
             .padding(.top, 40.0)
 

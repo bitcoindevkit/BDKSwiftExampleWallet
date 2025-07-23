@@ -17,6 +17,7 @@ class SettingsViewModel: ObservableObject {
     @Published var esploraURL: String?
     @Published var inspectedScripts: UInt64 = 0
     @Published var network: String?
+    @Published var addressType: AddressType?
     @Published var settingsError: AppError?
     @Published var showingSettingsViewErrorAlert = false
     @Published var walletSyncState: WalletSyncState = .notStarted
@@ -35,6 +36,10 @@ class SettingsViewModel: ObservableObject {
         self.bdkClient = bdkClient
         self.network = bdkClient.getNetwork().description
         self.esploraURL = bdkClient.getEsploraURL()
+    }
+
+    func getAddressType() {
+        self.addressType = bdkClient.getAddressType()
     }
 
     func delete() {

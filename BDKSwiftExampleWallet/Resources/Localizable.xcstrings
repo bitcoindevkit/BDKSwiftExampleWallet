@@ -348,6 +348,9 @@
         }
       }
     },
+    "Address Type" : {
+
+    },
     "Amount Error" : {
       "localizations" : {
         "fr" : {
@@ -1004,6 +1007,9 @@
         }
       }
     },
+    "Select Address Type" : {
+
+    },
     "Select Bitcoin Network" : {
       "localizations" : {
         "pt-BR" : {
@@ -1313,6 +1319,9 @@
           }
         }
       }
+    },
+    "Unknown" : {
+
     },
     "Unspent" : {
       "localizations" : {
