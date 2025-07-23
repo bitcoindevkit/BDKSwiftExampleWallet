@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     " High Priority - %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -17,7 +18,11 @@
         }
       }
     },
+    " High Priority: %lld" : {
+
+    },
     " Low Priority - %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -33,7 +38,11 @@
         }
       }
     },
+    " Low Priority: %lld" : {
+
+    },
     " Med Priority - %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -49,7 +58,11 @@
         }
       }
     },
+    " Med Priority: %lld" : {
+
+    },
     " No Priority - %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -64,6 +77,9 @@
           }
         }
       }
+    },
+    " No Priority: %lld" : {
+
     },
     "- %llu sats" : {
       "extractionState" : "stale",

@@ -34,7 +34,7 @@ struct FeeView: View {
                                 variableValue: 0.0
                             )
                             Text(
-                                " No Priority - \(viewModel.recommendedFees?.minimumFee ?? 1)"
+                                " No Priority: \(viewModel.recommendedFees?.minimumFee ?? 1)"
                             )
                         }
                         .tag(0)
@@ -44,7 +44,7 @@ struct FeeView: View {
                                 variableValue: 0.33
                             )
                             Text(
-                                " Low Priority - \(viewModel.recommendedFees?.hourFee ?? 1)"
+                                " Low Priority: \(viewModel.recommendedFees?.hourFee ?? 1)"
                             )
                         }
                         .tag(1)
@@ -54,7 +54,7 @@ struct FeeView: View {
                                 variableValue: 0.66
                             )
                             Text(
-                                " Med Priority - \(viewModel.recommendedFees?.halfHourFee ?? 1)"
+                                "Med Priority: \(viewModel.recommendedFees?.halfHourFee ?? 1)"
                             )
                         }
                         .tag(2)
@@ -64,7 +64,7 @@ struct FeeView: View {
                                 variableValue: 1.0
                             )
                             Text(
-                                " High Priority - \(viewModel.recommendedFees?.fastestFee ?? 1)"
+                                " High Priority: \(viewModel.recommendedFees?.fastestFee ?? 1)"
                             )
                         }
                         .tag(3)
