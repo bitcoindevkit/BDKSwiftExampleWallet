@@ -30,7 +30,7 @@ struct BalanceView: View {
                     removal: .move(edge: .trailing).combined(with: .opacity)
                 )
             )
-            .opacity(format == .sats || format == .bip21q ? 0 : 1)
+            .opacity(format == .sats ? 0 : 1)
             .id("symbol-\(format)")
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: format)
     }
@@ -44,8 +44,6 @@ struct BalanceView: View {
             return String(format: "%.8f", Double(balance) / 100_000_000)
         case .bitcoinSats:
             return balance.formattedSatoshis()
-        case .bip21q:
-            return balance.formatted(.number)
         case .fiat:
             return satsPrice.formatted(.number.precision(.fractionLength(2)))
         case .bip177:
@@ -102,7 +100,7 @@ struct BalanceView: View {
     private func buildBalance() -> some View {
         VStack(spacing: 10) {
             HStack(spacing: 15) {
-                if format != .sats && format != .bip21q {
+                if format != .sats {
                     currencySymbol
                 }
                 balanceText
@@ -120,11 +118,39 @@ struct BalanceView: View {
 }
 
 #if DEBUG
-    #Preview {
+    #Preview("bip177") {
         BalanceView(
-            format: .bip21q,
+            format: .bip177,
             balance: 5000,
             fiatPrice: 89000
         )
     }
+#Preview("bitcoin") {
+    BalanceView(
+        format: .bitcoin,
+        balance: 5000,
+        fiatPrice: 89000
+    )
+}
+#Preview("sats") {
+    BalanceView(
+        format: .sats,
+        balance: 5000,
+        fiatPrice: 89000
+    )
+}
+#Preview("bitcoinSats") {
+    BalanceView(
+        format: .bitcoinSats,
+        balance: 5000,
+        fiatPrice: 89000
+    )
+}
+#Preview("fiat") {
+    BalanceView(
+        format: .fiat,
+        balance: 5000,
+        fiatPrice: 89000
+    )
+}
 #endif

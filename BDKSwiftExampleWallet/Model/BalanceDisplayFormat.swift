@@ -11,7 +11,7 @@ enum BalanceDisplayFormat: String, CaseIterable, Codable {
     case bitcoinSats = "bitcoinSats"
     case bitcoin = "btc"
     case sats = "sats"
-    case bip21q = "bip21q"
+//    case bip21q = "bip21q"
     case fiat = "usd"
     case bip177 = "bip177"
 
@@ -19,7 +19,7 @@ enum BalanceDisplayFormat: String, CaseIterable, Codable {
         switch self {
         case .sats, .bitcoinSats: return "sats"
         case .bitcoin, .bip177: return ""
-        case .bip21q: return "₿"
+//        case .bip21q: return "₿"
         case .fiat: return "USD"
         }
     }
