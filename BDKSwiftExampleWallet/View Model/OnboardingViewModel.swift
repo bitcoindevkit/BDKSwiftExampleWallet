@@ -38,6 +38,11 @@ class OnboardingViewModel: ObservableObject {
             bdkClient.updateEsploraURL(selectedURL)
         }
     }
+    @Published var selectedAddressType: AddressType = .bip86 {
+        didSet {
+            bdkClient.updateAddressType(selectedAddressType)
+        }
+    }
     @Published var words: String = ""
     var wordArray: [String] {
         if words.hasPrefix("xpub") || words.hasPrefix("tpub") || words.hasPrefix("vpub") {
@@ -81,6 +86,7 @@ class OnboardingViewModel: ObservableObject {
         self.bdkClient = bdkClient
         self.selectedNetwork = bdkClient.getNetwork()
         self.selectedURL = bdkClient.getEsploraURL()
+        self.selectedAddressType = bdkClient.getAddressType()
     }
 
     func createWallet() {
