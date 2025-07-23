@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     " High Priority - %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -17,7 +18,11 @@
         }
       }
     },
+    " High: %lld" : {
+
+    },
     " Low Priority - %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -33,7 +38,11 @@
         }
       }
     },
+    " Low: %lld" : {
+
+    },
     " Med Priority - %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -50,6 +59,7 @@
       }
     },
     " No Priority - %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -64,6 +74,9 @@
           }
         }
       }
+    },
+    " None: %lld" : {
+
     },
     "- %llu sats" : {
       "extractionState" : "stale",
@@ -710,6 +723,9 @@
           }
         }
       }
+    },
+    "Med: %lld" : {
+
     },
     "Navigation Title" : {
       "extractionState" : "stale",
