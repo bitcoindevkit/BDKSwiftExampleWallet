@@ -9,13 +9,13 @@ extension Persister {
         let persister = try Persister.newSqlite(path: URL.persistenceBackendPath)
         return persister
     }
-    
+
     static func loadConnection() throws -> Persister {
         let persistenceBackendPath = URL.persistenceBackendPath
         let persister = try Persister.newSqlite(path: persistenceBackendPath)
         return persister
     }
-    
+
     static func deleteConnection() throws {
         let walletDataDirectoryURL = URL.walletDataDirectoryURL
         if FileManager.default.fileExists(atPath: walletDataDirectoryURL.path) {
