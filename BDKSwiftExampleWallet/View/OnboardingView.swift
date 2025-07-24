@@ -93,7 +93,7 @@ struct OnboardingView: View {
                             value: animateContent
                         )
 
-                    Text("powered by Bitcoin Dev Kit")
+                    Text("powered by BDK")
                         .foregroundStyle(
                             LinearGradient(
                                 gradient: Gradient(colors: [.secondary, .primary]),
