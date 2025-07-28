@@ -13,13 +13,6 @@ struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @State private var navigationPath = NavigationPath()
     @State private var refreshTrigger = UUID()
-    
-    private var walletExists: Bool {
-        // Force re-evaluation by reading refreshTrigger and isOnboarding
-        let _ = refreshTrigger
-        let _ = isOnboarding
-        return (try? KeyClient.live.getBackupInfo()) != nil
-    }
 
     var body: some Scene {
         WindowGroup {
@@ -38,5 +31,14 @@ struct BDKSwiftExampleWalletApp: App {
                 navigationPath = NavigationPath()
             }
         }
+    }
+}
+
+extension BDKSwiftExampleWalletApp {
+    private var walletExists: Bool {
+        // Force re-evaluation by reading refreshTrigger and isOnboarding
+        let _ = refreshTrigger
+        let _ = isOnboarding
+        return (try? KeyClient.live.getBackupInfo()) != nil
     }
 }

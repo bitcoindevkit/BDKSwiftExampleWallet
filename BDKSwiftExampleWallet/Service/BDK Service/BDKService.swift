@@ -584,7 +584,7 @@ extension BDKService {
     func updateAddressType(_ newAddressType: AddressType) {
         let currentType = getCurrentAddressType()
         try? keyClient.saveAddressType(newAddressType.description)
-        
+
         // If address type changed, we need a full scan to find transactions with new derivation paths
         if currentType != newAddressType {
             needsFullScan = true

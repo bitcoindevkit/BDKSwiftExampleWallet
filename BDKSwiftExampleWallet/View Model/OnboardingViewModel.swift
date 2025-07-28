@@ -16,12 +16,12 @@ func withTimeout<T>(seconds: TimeInterval, operation: @escaping () throws -> T) 
         group.addTask {
             return try operation()
         }
-        
+
         group.addTask {
             try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
             throw TimeoutError()
         }
-        
+
         let result = try await group.next()!
         group.cancelAll()
         return result
@@ -117,15 +117,15 @@ class OnboardingViewModel: ObservableObject {
             }
             return
         }
-        
+
         guard !isCreatingWallet else {
             return
         }
-        
+
         DispatchQueue.main.async {
             self.isCreatingWallet = true
         }
-        
+
         Task {
             do {
                 try await withTimeout(seconds: 30) {
@@ -150,7 +150,9 @@ class OnboardingViewModel: ObservableObject {
             } catch is TimeoutError {
                 DispatchQueue.main.async {
                     self.isCreatingWallet = false
-                    self.onboardingViewError = .generic(message: "Wallet creation timed out. Please try again.")
+                    self.onboardingViewError = .generic(
+                        message: "Wallet creation timed out. Please try again."
+                    )
                 }
             } catch {
                 DispatchQueue.main.async {
