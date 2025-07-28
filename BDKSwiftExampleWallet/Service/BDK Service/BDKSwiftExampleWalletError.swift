@@ -12,4 +12,6 @@ enum WalletError: Error {
     case dbNotFound
     case notSigned
     case walletNotFound
+    case fullScanUnsupported
+    case backendNotImplemented
 }

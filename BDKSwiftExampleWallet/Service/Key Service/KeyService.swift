@@ -70,6 +70,14 @@ private struct KeyService {
     func saveAddressType(addressType: String) throws {
         keychain[string: "SelectedAddressType"] = addressType
     }
+    
+    func getClientType() throws -> String? {
+        return keychain[string: "SelectedClientType"]
+    }
+    
+    func saveClientType(_ clientType: String) throws {
+        keychain[string: "SelectedClientType"] = clientType
+    }
 }
 
 struct KeyClient {
@@ -84,6 +92,8 @@ struct KeyClient {
     let saveBackupInfo: (BackupInfo) throws -> Void
     let saveNetwork: (String) throws -> Void
     let saveAddressType: (String) throws -> Void
+    let getClientType: () throws -> BlockchainClientType
+    let saveClientType: (BlockchainClientType) throws -> Void
 
     private init(
         deleteBackupInfo: @escaping () throws -> Void,
@@ -96,7 +106,9 @@ struct KeyClient {
         saveBackupInfo: @escaping (BackupInfo) throws -> Void,
         saveEsploraURL: @escaping (String) throws -> Void,
         saveNetwork: @escaping (String) throws -> Void,
-        saveAddressType: @escaping (String) throws -> Void
+        saveAddressType: @escaping (String) throws -> Void,
+        getClientType: @escaping () throws -> BlockchainClientType,
+        saveClientType: @escaping (BlockchainClientType) throws -> Void
     ) {
         self.deleteBackupInfo = deleteBackupInfo
         self.deleteEsplora = deleteEsplora
@@ -109,6 +121,8 @@ struct KeyClient {
         self.saveEsploraURL = saveEsploraURL
         self.saveNetwork = saveNetwork
         self.saveAddressType = saveAddressType
+        self.getClientType = getClientType
+        self.saveClientType = saveClientType
     }
 }
 
@@ -124,7 +138,13 @@ extension KeyClient {
         saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
         saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
         saveNetwork: { network in try KeyService().saveNetwork(network: network) },
-        saveAddressType: { addressType in try KeyService().saveAddressType(addressType: addressType)
+        saveAddressType: { addressType in try KeyService().saveAddressType(addressType: addressType) },
+        getClientType: {
+            let raw = try KeyService().getClientType()
+            return BlockchainClientType(rawValue: raw ?? "") ?? .esplora
+        },
+        saveClientType: { type in
+            try KeyService().saveClientType(type.rawValue)
         }
     )
 }
@@ -167,7 +187,9 @@ extension KeyClient {
             saveBackupInfo: { _ in },
             saveEsploraURL: { _ in },
             saveNetwork: { _ in },
-            saveAddressType: { _ in }
+            saveAddressType: { _ in },
+            getClientType: { .esplora },
+            saveClientType: { _ in }
         )
     }
 #endif
