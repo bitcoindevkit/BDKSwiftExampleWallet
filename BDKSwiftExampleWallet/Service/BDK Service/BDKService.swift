@@ -43,7 +43,7 @@ extension BlockchainClient {
 }
 
 private class BDKService {
-    static var shared: BDKService = BDKService()
+    static let shared: BDKService = BDKService()
 
     private var balance: Balance?
     private var persister: Persister?
