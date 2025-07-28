@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    " High • %lld" : {
+
+    },
     " High Priority - %lld" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -18,7 +21,7 @@
         }
       }
     },
-    " High: %lld" : {
+    " Low • %lld" : {
 
     },
     " Low Priority - %lld" : {
@@ -38,9 +41,6 @@
         }
       }
     },
-    " Low: %lld" : {
-
-    },
     " Med Priority - %lld" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -57,6 +57,9 @@
           }
         }
       }
+    },
+    " Medium • %lld" : {
+
     },
     " No Priority - %lld" : {
       "extractionState" : "stale",
@@ -75,7 +78,7 @@
         }
       }
     },
-    " None: %lld" : {
+    " None • %lld" : {
 
     },
     "- %llu sats" : {
@@ -666,7 +669,11 @@
         }
       }
     },
+    "Fee Priority" : {
+
+    },
     "Fees" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {
@@ -723,9 +730,6 @@
           }
         }
       }
-    },
-    "Med: %lld" : {
-
     },
     "Navigation Title" : {
       "extractionState" : "stale",
@@ -924,7 +928,11 @@
         }
       }
     },
+    "powered by BDK" : {
+
+    },
     "powered by Bitcoin Dev Kit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
