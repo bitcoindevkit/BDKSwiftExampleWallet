@@ -9,24 +9,6 @@ import BitcoinDevKit
 import Foundation
 import SwiftUI
 
-struct TimeoutError: Error {}
-
-func withTimeout<T>(seconds: TimeInterval, operation: @escaping () throws -> T) async throws -> T {
-    try await withThrowingTaskGroup(of: T.self) { group in
-        group.addTask {
-            return try operation()
-        }
-
-        group.addTask {
-            try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
-            throw TimeoutError()
-        }
-
-        let result = try await group.next()!
-        group.cancelAll()
-        return result
-    }
-}
 
 // Can't make @Observable yet
 // https://developer.apple.com/forums/thread/731187
@@ -128,14 +110,12 @@ class OnboardingViewModel: ObservableObject {
 
         Task {
             do {
-                try await withTimeout(seconds: 30) {
-                    if self.isDescriptor {
-                        try self.bdkClient.createWalletFromDescriptor(self.words)
-                    } else if self.isXPub {
-                        try self.bdkClient.createWalletFromXPub(self.words)
-                    } else {
-                        try self.bdkClient.createWalletFromSeed(self.words)
-                    }
+                if self.isDescriptor {
+                    try self.bdkClient.createWalletFromDescriptor(self.words)
+                } else if self.isXPub {
+                    try self.bdkClient.createWalletFromXPub(self.words)
+                } else {
+                    try self.bdkClient.createWalletFromSeed(self.words)
                 }
                 DispatchQueue.main.async {
                     self.isCreatingWallet = false
@@ -146,13 +126,6 @@ class OnboardingViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.isCreatingWallet = false
                     self.createWithPersistError = error
-                }
-            } catch is TimeoutError {
-                DispatchQueue.main.async {
-                    self.isCreatingWallet = false
-                    self.onboardingViewError = .generic(
-                        message: "Wallet creation timed out. Please try again."
-                    )
                 }
             } catch {
                 DispatchQueue.main.async {
