@@ -8,10 +8,6 @@
 import BitcoinDevKit
 import SwiftUI
 
-extension Notification.Name {
-    static let walletCreated = Notification.Name("walletCreated")
-}
-
 @main
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
