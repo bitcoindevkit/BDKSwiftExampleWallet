@@ -34,7 +34,7 @@ func withTimeout<T>(seconds: TimeInterval, operation: @escaping () throws -> T) 
 class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
 
-    @AppStorage("isOnboarding") var isOnboarding: Bool = true
+    @AppStorage("isOnboarding") var isOnboarding: Bool?
     @Published var createWithPersistError: CreateWithPersistError?
     @Published var isCreatingWallet = false
     var isDescriptor: Bool {
