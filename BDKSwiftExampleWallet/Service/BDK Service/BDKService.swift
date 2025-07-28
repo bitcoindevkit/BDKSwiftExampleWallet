@@ -408,7 +408,6 @@ private class BDKService {
                 self.wallet = wallet
             } catch is LoadWithPersistError {
                 // Database is corrupted or incompatible, delete and recreate
-                print("Wallet database is corrupted, recreating...")
                 try Persister.deleteConnection()
 
                 let persister = try Persister.createConnection()
@@ -583,7 +582,13 @@ extension BDKService {
     }
 
     func updateAddressType(_ newAddressType: AddressType) {
+        let currentType = getCurrentAddressType()
         try? keyClient.saveAddressType(newAddressType.description)
+        
+        // If address type changed, we need a full scan to find transactions with new derivation paths
+        if currentType != newAddressType {
+            needsFullScan = true
+        }
     }
 
     func updateClientType(_ newType: BlockchainClientType) {

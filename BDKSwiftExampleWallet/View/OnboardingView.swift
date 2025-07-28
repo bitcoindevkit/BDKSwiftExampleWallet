@@ -10,7 +10,7 @@ import BitcoinUI
 import SwiftUI
 
 struct OnboardingView: View {
-    @AppStorage("isOnboarding") var isOnboarding: Bool?
+    @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @ObservedObject var viewModel: OnboardingViewModel
     @State private var showingOnboardingViewErrorAlert = false
     @State private var showingImportView = false
@@ -176,9 +176,19 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                Button("Create Wallet") {
+                Button(action: {
                     viewModel.createWallet()
+                }) {
+                    HStack {
+                        if viewModel.isCreatingWallet {
+                            ProgressView()
+                                .scaleEffect(0.8)
+                                .foregroundColor(Color(uiColor: .systemBackground))
+                        }
+                        Text(viewModel.isCreatingWallet ? "Creating..." : "Create Wallet")
+                    }
                 }
+                .disabled(viewModel.isCreatingWallet)
                 .buttonStyle(
                     BitcoinFilled(
                         tintColor: .primary,

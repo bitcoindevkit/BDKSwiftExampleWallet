@@ -9,14 +9,34 @@ import BitcoinDevKit
 import Foundation
 import SwiftUI
 
+struct TimeoutError: Error {}
+
+func withTimeout<T>(seconds: TimeInterval, operation: @escaping () throws -> T) async throws -> T {
+    try await withThrowingTaskGroup(of: T.self) { group in
+        group.addTask {
+            return try operation()
+        }
+        
+        group.addTask {
+            try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+            throw TimeoutError()
+        }
+        
+        let result = try await group.next()!
+        group.cancelAll()
+        return result
+    }
+}
+
 // Can't make @Observable yet
 // https://developer.apple.com/forums/thread/731187
 // Feature or Bug?
 class OnboardingViewModel: ObservableObject {
     let bdkClient: BDKClient
 
-    @AppStorage("isOnboarding") var isOnboarding: Bool?
+    @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @Published var createWithPersistError: CreateWithPersistError?
+    @Published var isCreatingWallet = false
     var isDescriptor: Bool {
         words.hasPrefix("tr(") || words.hasPrefix("wpkh(") || words.hasPrefix("wsh(")
             || words.hasPrefix("sh(")
@@ -90,24 +110,53 @@ class OnboardingViewModel: ObservableObject {
     }
 
     func createWallet() {
-        do {
-            if isDescriptor {
-                try bdkClient.createWalletFromDescriptor(words)
-            } else if isXPub {
-                try bdkClient.createWalletFromXPub(words)
-            } else {
-                try bdkClient.createWalletFromSeed(words)
-            }
+        // Check if wallet already exists
+        if let existingBackup = try? bdkClient.getBackupInfo() {
             DispatchQueue.main.async {
                 self.isOnboarding = false
             }
-        } catch let error as CreateWithPersistError {
-            DispatchQueue.main.async {
-                self.createWithPersistError = error
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.onboardingViewError = .generic(message: error.localizedDescription)
+            return
+        }
+        
+        guard !isCreatingWallet else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.isCreatingWallet = true
+        }
+        
+        Task {
+            do {
+                try await withTimeout(seconds: 30) {
+                    if self.isDescriptor {
+                        try self.bdkClient.createWalletFromDescriptor(self.words)
+                    } else if self.isXPub {
+                        try self.bdkClient.createWalletFromXPub(self.words)
+                    } else {
+                        try self.bdkClient.createWalletFromSeed(self.words)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.isCreatingWallet = false
+                    self.isOnboarding = false
+                    NotificationCenter.default.post(name: .walletCreated, object: nil)
+                }
+            } catch let error as CreateWithPersistError {
+                DispatchQueue.main.async {
+                    self.isCreatingWallet = false
+                    self.createWithPersistError = error
+                }
+            } catch is TimeoutError {
+                DispatchQueue.main.async {
+                    self.isCreatingWallet = false
+                    self.onboardingViewError = .generic(message: "Wallet creation timed out. Please try again.")
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.isCreatingWallet = false
+                    self.onboardingViewError = .generic(message: error.localizedDescription)
+                }
             }
         }
     }
