@@ -10,8 +10,8 @@ import Foundation
 
 enum BlockchainClientType: String, CaseIterable {
     case esplora = "esplora"
-    case kyoto = "kyoto"      // future
-    case electrum = "electrum" // future
+    case kyoto = "kyoto"  // future
+    case electrum = "electrum"  // future
 }
 
 struct BlockchainClient {
@@ -62,7 +62,7 @@ private class BDKService {
 
         let storedClientType = try? keyClient.getClientType()
         self.clientType = storedClientType ?? .esplora
-        
+
         self.blockchainURL = (try? keyClient.getEsploraURL()) ?? self.network.url
         self.blockchainClient = BlockchainClient.esplora(url: self.blockchainURL)
         updateBlockchainClient()
@@ -585,17 +585,17 @@ extension BDKService {
     func updateAddressType(_ newAddressType: AddressType) {
         try? keyClient.saveAddressType(newAddressType.description)
     }
-    
+
     func updateClientType(_ newType: BlockchainClientType) {
         self.clientType = newType
         try? keyClient.saveClientType(newType)
         updateBlockchainClient()
     }
-    
+
     var esploraURL: String {
         return blockchainURL
     }
-    
+
     func updateEsploraURL(_ newURL: String) {
         updateBlockchainURL(newURL)
     }

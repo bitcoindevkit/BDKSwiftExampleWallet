@@ -70,11 +70,11 @@ private struct KeyService {
     func saveAddressType(addressType: String) throws {
         keychain[string: "SelectedAddressType"] = addressType
     }
-    
+
     func getClientType() throws -> String? {
         return keychain[string: "SelectedClientType"]
     }
-    
+
     func saveClientType(_ clientType: String) throws {
         keychain[string: "SelectedClientType"] = clientType
     }
@@ -138,7 +138,8 @@ extension KeyClient {
         saveBackupInfo: { backupInfo in try KeyService().saveBackupInfo(backupInfo: backupInfo) },
         saveEsploraURL: { url in try KeyService().saveEsploraURL(url: url) },
         saveNetwork: { network in try KeyService().saveNetwork(network: network) },
-        saveAddressType: { addressType in try KeyService().saveAddressType(addressType: addressType) },
+        saveAddressType: { addressType in try KeyService().saveAddressType(addressType: addressType)
+        },
         getClientType: {
             let raw = try KeyService().getClientType()
             return BlockchainClientType(rawValue: raw ?? "") ?? .esplora
