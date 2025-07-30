@@ -12,15 +12,16 @@ import SwiftUI
 struct BDKSwiftExampleWalletApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @State private var navigationPath = NavigationPath()
+    @State private var refreshTrigger = UUID()
 
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $navigationPath) {
-                let value = try? KeyClient.live.getBackupInfo()
-                if isOnboarding && (value == nil) {
+                if !walletExists {
                     OnboardingView(viewModel: .init(bdkClient: .live))
-                } else if !isOnboarding && (value == nil) {
-                    OnboardingView(viewModel: .init(bdkClient: .live))
+                        .onReceive(NotificationCenter.default.publisher(for: .walletCreated)) { _ in
+                            refreshTrigger = UUID()
+                        }
                 } else {
                     HomeView(viewModel: .init(bdkClient: .live), navigationPath: $navigationPath)
                 }
@@ -30,5 +31,14 @@ struct BDKSwiftExampleWalletApp: App {
                 navigationPath = NavigationPath()
             }
         }
+    }
+}
+
+extension BDKSwiftExampleWalletApp {
+    private var walletExists: Bool {
+        // Force re-evaluation by reading refreshTrigger and isOnboarding
+        let _ = refreshTrigger
+        let _ = isOnboarding
+        return (try? KeyClient.live.getBackupInfo()) != nil
     }
 }

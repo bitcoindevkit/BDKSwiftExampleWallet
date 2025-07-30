@@ -176,9 +176,19 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                Button("Create Wallet") {
+                Button(action: {
                     viewModel.createWallet()
+                }) {
+                    HStack {
+                        if viewModel.isCreatingWallet {
+                            ProgressView()
+                                .scaleEffect(0.8)
+                                .foregroundColor(Color(uiColor: .systemBackground))
+                        }
+                        Text(viewModel.isCreatingWallet ? "Creating..." : "Create Wallet")
+                    }
                 }
+                .disabled(viewModel.isCreatingWallet)
                 .buttonStyle(
                     BitcoinFilled(
                         tintColor: .primary,

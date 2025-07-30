@@ -8,16 +8,51 @@
 import BitcoinDevKit
 import Foundation
 
+enum BlockchainClientType: String, CaseIterable {
+    case esplora = "esplora"
+    case kyoto = "kyoto"  // future
+    case electrum = "electrum"  // future
+}
+
+struct BlockchainClient {
+    let sync: @Sendable (SyncRequest, UInt64) throws -> Update
+    let fullScan: @Sendable (FullScanRequest, UInt64, UInt64) throws -> Update
+    let broadcast: @Sendable (Transaction) throws -> Void
+    let getUrl: @Sendable () -> String
+    let getType: @Sendable () -> BlockchainClientType
+    let supportsFullScan: @Sendable () -> Bool = { true }
+}
+
+extension BlockchainClient {
+    static func esplora(url: String) -> Self {
+        let client = EsploraClient(url: url)
+        return Self(
+            sync: { request, parallel in
+                try client.sync(request: request, parallelRequests: parallel)
+            },
+            fullScan: { request, stopGap, parallel in
+                try client.fullScan(request: request, stopGap: stopGap, parallelRequests: parallel)
+            },
+            broadcast: { tx in
+                try client.broadcast(transaction: tx)
+            },
+            getUrl: { url },
+            getType: { .esplora }
+        )
+    }
+}
+
 private class BDKService {
-    static var shared: BDKService = BDKService()
+    static let shared: BDKService = BDKService()
 
     private var balance: Balance?
     private var persister: Persister?
-    private var esploraClient: EsploraClient
+    private var blockchainClient: BlockchainClient
+    internal private(set) var clientType: BlockchainClientType
     private let keyClient: KeyClient
     private var needsFullScan: Bool = false
     private(set) var network: Network
-    private(set) var esploraURL: String
+    private var blockchainURL: String
     private var wallet: Wallet?
 
     init(keyClient: KeyClient = .live) {
@@ -25,9 +60,12 @@ private class BDKService {
         let storedNetworkString = try? keyClient.getNetwork() ?? Network.signet.description
         self.network = Network(stringValue: storedNetworkString ?? "") ?? .signet
 
-        self.esploraURL = (try? keyClient.getEsploraURL()) ?? self.network.url
+        let storedClientType = try? keyClient.getClientType()
+        self.clientType = storedClientType ?? .esplora
 
-        self.esploraClient = EsploraClient(url: self.esploraURL)
+        self.blockchainURL = (try? keyClient.getEsploraURL()) ?? self.network.url
+        self.blockchainClient = BlockchainClient.esplora(url: self.blockchainURL)
+        updateBlockchainClient()
     }
 
     func updateNetwork(_ newNetwork: Network) {
@@ -40,20 +78,33 @@ private class BDKService {
             try? keyClient.saveNetwork(newNetwork.description)
 
             let newURL = newNetwork.url
-            updateEsploraURL(newURL)
+            updateBlockchainURL(newURL)
         }
     }
 
-    func updateEsploraURL(_ newURL: String) {
-        if newURL != self.esploraURL {
-            self.esploraURL = newURL
-            try? keyClient.saveEsploraURL(newURL)
-            updateEsploraClient()
+    func updateBlockchainURL(_ newURL: String) {
+        if newURL != self.blockchainURL {
+            self.blockchainURL = newURL
+            try? keyClient.saveEsploraURL(newURL)  // TODO: Future - saveURL(newURL, for: clientType)
+            updateBlockchainClient()
         }
     }
 
-    private func updateEsploraClient() {
-        self.esploraClient = EsploraClient(url: self.esploraURL)
+    internal func updateBlockchainClient() {
+        do {
+            switch clientType {
+            case .esplora:
+                self.blockchainClient = .esplora(url: self.blockchainURL)
+            case .kyoto:
+                throw WalletError.backendNotImplemented
+            case .electrum:
+                throw WalletError.backendNotImplemented
+            }
+        } catch {
+            // Fallback to esplora if selected backend not implemented
+            self.clientType = .esplora
+            self.blockchainClient = .esplora(url: self.blockchainURL)
+        }
     }
 
     private func getCurrentAddressType() -> AddressType {
@@ -211,8 +262,8 @@ private class BDKService {
         try keyClient.saveBackupInfo(backupInfo)
         try keyClient.saveNetwork(self.network.description)
         try keyClient.saveEsploraURL(baseUrl)
-        self.esploraURL = baseUrl
-        updateEsploraClient()
+        self.blockchainURL = baseUrl
+        updateBlockchainClient()
 
         let wallet = try Wallet(
             descriptor: descriptor,
@@ -313,8 +364,8 @@ private class BDKService {
         try keyClient.saveBackupInfo(backupInfo)
         try keyClient.saveNetwork(self.network.description)
         try keyClient.saveEsploraURL(baseUrl)
-        self.esploraURL = baseUrl
-        updateEsploraClient()
+        self.blockchainURL = baseUrl
+        updateBlockchainClient()
 
         let wallet = try Wallet(
             descriptor: descriptor,
@@ -357,7 +408,6 @@ private class BDKService {
                 self.wallet = wallet
             } catch is LoadWithPersistError {
                 // Database is corrupted or incompatible, delete and recreate
-                print("Wallet database is corrupted, recreating...")
                 try Persister.deleteConnection()
 
                 let persister = try Persister.createConnection()
@@ -441,8 +491,7 @@ private class BDKService {
         let isSigned = try wallet.sign(psbt: psbt)
         if isSigned {
             let transaction = try psbt.extractTx()
-            let client = self.esploraClient
-            try client.broadcast(transaction: transaction)
+            try self.blockchainClient.broadcast(transaction)
         } else {
             throw WalletError.notSigned
         }
@@ -450,13 +499,12 @@ private class BDKService {
 
     func syncWithInspector(inspector: SyncScriptInspector) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let esploraClient = self.esploraClient
         let syncRequest = try wallet.startSyncWithRevealedSpks()
             .inspectSpks(inspector: inspector)
             .build()
-        let update = try esploraClient.sync(
-            request: syncRequest,
-            parallelRequests: UInt64(5)
+        let update = try self.blockchainClient.sync(
+            syncRequest,
+            UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
         guard let persister = self.persister else {
@@ -467,16 +515,18 @@ private class BDKService {
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
-        let esploraClient = esploraClient
+        guard self.blockchainClient.supportsFullScan() else {
+            throw WalletError.fullScanUnsupported
+        }
         let fullScanRequest = try wallet.startFullScan()
             .inspectSpksForAllKeychains(inspector: inspector)
             .build()
-        let update = try esploraClient.fullScan(
-            request: fullScanRequest,
+        let update = try self.blockchainClient.fullScan(
+            fullScanRequest,
             // using https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#address-gap-limit
-            stopGap: UInt64(20),
+            UInt64(20),
             // using https://github.com/bitcoindevkit/bdk/blob/master/example-crates/example_wallet_esplora_blocking/src/main.rs
-            parallelRequests: UInt64(5)
+            UInt64(5)
         )
         let _ = try wallet.applyUpdate(update: update)
         guard let persister = self.persister else {
@@ -532,7 +582,27 @@ extension BDKService {
     }
 
     func updateAddressType(_ newAddressType: AddressType) {
+        let currentType = getCurrentAddressType()
         try? keyClient.saveAddressType(newAddressType.description)
+
+        // If address type changed, we need a full scan to find transactions with new derivation paths
+        if currentType != newAddressType {
+            needsFullScan = true
+        }
+    }
+
+    func updateClientType(_ newType: BlockchainClientType) {
+        self.clientType = newType
+        try? keyClient.saveClientType(newType)
+        updateBlockchainClient()
+    }
+
+    var esploraURL: String {
+        return blockchainURL
+    }
+
+    func updateEsploraURL(_ newURL: String) {
+        updateBlockchainURL(newURL)
     }
 }
 
@@ -563,6 +633,8 @@ struct BDKClient {
     let updateEsploraURL: (String) -> Void
     let getAddressType: () -> AddressType
     let updateAddressType: (AddressType) -> Void
+    let getClientType: () -> BlockchainClientType
+    let updateClientType: (BlockchainClientType) -> Void
 }
 
 extension BDKClient {
@@ -622,6 +694,10 @@ extension BDKClient {
         },
         updateAddressType: { newAddressType in
             BDKService.shared.updateAddressType(newAddressType)
+        },
+        getClientType: { BDKService.shared.clientType },
+        updateClientType: { newType in
+            BDKService.shared.updateClientType(newType)
         }
     )
 }
@@ -681,7 +757,9 @@ extension BDKClient {
             updateNetwork: { _ in },
             updateEsploraURL: { _ in },
             getAddressType: { .bip86 },
-            updateAddressType: { _ in }
+            updateAddressType: { _ in },
+            getClientType: { .esplora },
+            updateClientType: { _ in }
         )
     }
 #endif

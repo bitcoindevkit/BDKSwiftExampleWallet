@@ -83,6 +83,7 @@
 		AE96F6622A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift */; };
 		AE97E74D2E315A8F000A407D /* AddressType+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE97E74C2E315A8F000A407D /* AddressType+Extensions.swift */; };
 		AEA0A6272E297203008A525B /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AEA0A6262E297203008A525B /* BitcoinDevKit */; };
+		AEAA61BF2E380D62006ED2D0 /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAA61BE2E380D62006ED2D0 /* Notification+Extensions.swift */; };
 		AEAB03112ABDDB86000C9528 /* FeeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB03102ABDDB86000C9528 /* FeeViewModel.swift */; };
 		AEAB03132ABDDBF4000C9528 /* AmountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB03122ABDDBF4000C9528 /* AmountViewModel.swift */; };
 		AEAF83B62B7BD4D10019B23B /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = AEAF83B52B7BD4D10019B23B /* CodeScanner */; };
@@ -189,6 +190,7 @@
 		AE91CEEE2C0FDBC7000AAD20 /* CanonicalTx+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CanonicalTx+Extensions.swift"; sourceTree = "<group>"; };
 		AE96F6612A424C400055623C /* BDKSwiftExampleWalletReceiveViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BDKSwiftExampleWalletReceiveViewModelTests.swift; sourceTree = "<group>"; };
 		AE97E74C2E315A8F000A407D /* AddressType+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressType+Extensions.swift"; sourceTree = "<group>"; };
+		AEAA61BE2E380D62006ED2D0 /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		AEAB03102ABDDB86000C9528 /* FeeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeViewModel.swift; sourceTree = "<group>"; };
 		AEAB03122ABDDBF4000C9528 /* AmountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountViewModel.swift; sourceTree = "<group>"; };
 		AEB130C82A44E4850087785B /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				AE7F67062A744CE200CED561 /* Double+Extensions.swift */,
 				AEB159D42D51A8680006AE9E /* View+Extensions.swift */,
 				AE8D001B2D19F1760029C4C9 /* UIScreen+Extensions.swift */,
+				AEAA61BE2E380D62006ED2D0 /* Notification+Extensions.swift */,
 				AEE6C74D2ABCB48600442ADD /* BDK+Extensions */,
 			);
 			path = Extensions;
@@ -745,6 +748,7 @@
 				AEB130C92A44E4850087785B /* TransactionDetailView.swift in Sources */,
 				AE287E772C0F6D200036A748 /* Array+Extensions.swift in Sources */,
 				AE6715FD2A9AC056005C193F /* PriceServiceError.swift in Sources */,
+				AEAA61BF2E380D62006ED2D0 /* Notification+Extensions.swift in Sources */,
 				AE34DDAC2B6B31ED00F04AD4 /* WalletRecoveryView.swift in Sources */,
 				AE2ADD742B61E8F500C2A823 /* SettingsView.swift in Sources */,
 				AE2381AF2C605B1D00F6B00C /* ActivityListViewModel.swift in Sources */,
