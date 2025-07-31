@@ -42,6 +42,11 @@ class WalletViewModel {
     var needsFullScan: Bool {
         bdkClient.needsFullScan()
     }
+    var isKyotoClient: Bool {
+        bdkClient.getClientType() == .kyoto
+    }
+    var isKyotoConnected: Bool = false
+    var currentBlockHeight: UInt32 = 0
 
     private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
         { [weak self] inspected, total in
@@ -49,6 +54,17 @@ class WalletViewModel {
                 self?.totalScripts = total
                 self?.inspectedScripts = inspected
                 self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
+            }
+        }
+    }
+
+    private var updateKyotoProgress: @Sendable (Float) -> Void {
+        { [weak self] progress in
+            DispatchQueue.main.async {
+                self?.progress = progress
+                let progressPercent = UInt64(progress * 100)
+                self?.inspectedScripts = progressPercent
+                self?.totalScripts = 100
             }
         }
     }
@@ -73,6 +89,36 @@ class WalletViewModel {
         self.priceClient = priceClient
         self.transactions = transactions
         self.walletSyncState = walletSyncState
+
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("KyotoProgressUpdate"),
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            if let progress = notification.userInfo?["progress"] as? Float {
+                self?.updateKyotoProgress(progress)
+            }
+        }
+
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("KyotoConnectionUpdate"),
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            if let connected = notification.userInfo?["connected"] as? Bool {
+                self?.isKyotoConnected = connected
+            }
+        }
+
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("KyotoChainHeightUpdate"),
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            if let height = notification.userInfo?["height"] as? UInt32 {
+                self?.currentBlockHeight = height
+            }
+        }
     }
 
     private func fullScanWithProgress() async {

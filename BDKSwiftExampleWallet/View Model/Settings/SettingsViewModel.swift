@@ -35,11 +35,20 @@ class SettingsViewModel: ObservableObject {
     ) {
         self.bdkClient = bdkClient
         self.network = bdkClient.getNetwork().description
-        self.esploraURL = bdkClient.getEsploraURL()
+        self.addressType = bdkClient.getAddressType()
+
+        let clientType = bdkClient.getClientType()
+        if clientType == .kyoto {
+            self.esploraURL = "Kyoto (P2P)"
+        } else {
+            self.esploraURL = bdkClient.getEsploraURL()
+        }
     }
 
     func getAddressType() {
-        self.addressType = bdkClient.getAddressType()
+        DispatchQueue.main.async {
+            self.addressType = self.bdkClient.getAddressType()
+        }
     }
 
     func delete() {
@@ -94,6 +103,11 @@ class SettingsViewModel: ObservableObject {
     }
 
     func getEsploraUrl() {
-        self.esploraURL = bdkClient.getEsploraURL()
+        let clientType = bdkClient.getClientType()
+        if clientType == .kyoto {
+            self.esploraURL = "Kyoto (P2P)"
+        } else {
+            self.esploraURL = bdkClient.getEsploraURL()
+        }
     }
 }

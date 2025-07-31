@@ -122,24 +122,38 @@ struct OnboardingView: View {
                     .opacity(animateContent ? 1 : 0)
                     .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
 
-                    Picker("Esplora Server", selection: $viewModel.selectedURL) {
-                        ForEach(viewModel.availableURLs, id: \.self) { url in
-                            Text(
-                                url.replacingOccurrences(
-                                    of: "https://",
-                                    with: ""
-                                ).replacingOccurrences(
-                                    of: "http://",
-                                    with: ""
-                                )
-                            )
-                            .tag(url)
+                    Picker("Client", selection: $viewModel.selectedClientType) {
+                        Text("Esplora").tag(BlockchainClientType.esplora)
+                        if viewModel.selectedNetwork == .signet {
+                            Text("Kyoto").tag(BlockchainClientType.kyoto)
                         }
                     }
                     .pickerStyle(.automatic)
                     .tint(.primary)
+                    .accessibilityLabel("Select Client Type")
                     .opacity(animateContent ? 1 : 0)
                     .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
+
+                    if viewModel.selectedClientType == .esplora {
+                        Picker("Esplora Server", selection: $viewModel.selectedURL) {
+                            ForEach(viewModel.availableURLs, id: \.self) { url in
+                                Text(
+                                    url.replacingOccurrences(
+                                        of: "https://",
+                                        with: ""
+                                    ).replacingOccurrences(
+                                        of: "http://",
+                                        with: ""
+                                    )
+                                )
+                                .tag(url)
+                            }
+                        }
+                        .pickerStyle(.automatic)
+                        .tint(.primary)
+                        .opacity(animateContent ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5).delay(1.5), value: animateContent)
+                    }
 
                     Picker("Address Type", selection: $viewModel.selectedAddressType) {
                         ForEach(AddressType.allCases, id: \.self) { type in

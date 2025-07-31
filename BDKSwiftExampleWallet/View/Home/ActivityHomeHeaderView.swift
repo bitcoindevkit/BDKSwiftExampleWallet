@@ -14,6 +14,9 @@ struct ActivityHomeHeaderView: View {
     let inspectedScripts: UInt64
     let totalScripts: UInt64
     let needsFullScan: Bool
+    let isKyotoClient: Bool
+    let isKyotoConnected: Bool
+    let currentBlockHeight: UInt32
 
     let showAllTransactions: () -> Void
 
@@ -37,28 +40,46 @@ struct ActivityHomeHeaderView: View {
                 } else if walletSyncState == .syncing {
                     HStack {
                         if progress < 1.0 {
-                            Text("\(inspectedScripts)")
-                                .padding(.trailing, -5.0)
-                                .fontWeight(.semibold)
-                                .contentTransition(.numericText())
-                                .transition(.opacity)
+                            if isKyotoClient {
+                                if currentBlockHeight > 0 {
+                                    Text("Block \(currentBlockHeight)")
+                                        .padding(.trailing, -5.0)
+                                        .fontWeight(.semibold)
+                                        .contentTransition(.numericText())
+                                        .transition(.opacity)
+                                } else {
+                                    Text("Syncing")
+                                        .padding(.trailing, -5.0)
+                                        .fontWeight(.semibold)
+                                        .contentTransition(.numericText())
+                                        .transition(.opacity)
+                                }
+                            } else {
+                                Text("\(inspectedScripts)")
+                                    .padding(.trailing, -5.0)
+                                    .fontWeight(.semibold)
+                                    .contentTransition(.numericText())
+                                    .transition(.opacity)
 
-                            Text("/")
-                                .padding(.trailing, -5.0)
-                                .transition(.opacity)
-                            Text("\(totalScripts)")
-                                .contentTransition(.numericText())
-                                .transition(.opacity)
+                                Text("/")
+                                    .padding(.trailing, -5.0)
+                                    .transition(.opacity)
+                                Text("\(totalScripts)")
+                                    .contentTransition(.numericText())
+                                    .transition(.opacity)
+                            }
                         }
 
-                        Text(
-                            String(
-                                format: "%.0f%%",
-                                progress * 100
+                        if !isKyotoClient || (isKyotoClient && progress > 0) {
+                            Text(
+                                String(
+                                    format: "%.0f%%",
+                                    progress * 100
+                                )
                             )
-                        )
-                        .contentTransition(.numericText())
-                        .transition(.opacity)
+                            .contentTransition(.numericText())
+                            .transition(.opacity)
+                        }
                     }
                     .fontDesign(.monospaced)
                     .foregroundStyle(.secondary)
@@ -72,6 +93,9 @@ struct ActivityHomeHeaderView: View {
             HStack {
                 HStack(spacing: 5) {
                     self.syncImageIndicator()
+                    if isKyotoClient {
+                        self.networkConnectionIndicator()
+                    }
                 }
                 .contentTransition(.symbolEffect(.replace.offUp))
 
@@ -106,12 +130,21 @@ struct ActivityHomeHeaderView: View {
             )
 
         case .syncing:
-            AnyView(
-                Image(systemName: "slowmo")
-                    .symbolEffect(
-                        .variableColor.cumulative
-                    )
-            )
+            if isKyotoClient && progress > 0 {
+                AnyView(
+                    ProgressView(value: Double(progress * 100), total: 100)
+                        .foregroundStyle(.green)
+                        .frame(width: 20)
+                        .animation(.interactiveSpring, value: progress)
+                )
+            } else {
+                AnyView(
+                    Image(systemName: "slowmo")
+                        .symbolEffect(
+                            .variableColor.cumulative
+                        )
+                )
+            }
 
         case .notStarted:
             AnyView(
@@ -122,6 +155,21 @@ struct ActivityHomeHeaderView: View {
                 Image(
                     systemName: "person.crop.circle.badge.exclamationmark"
                 )
+            )
+        }
+    }
+
+    @ViewBuilder
+    private func networkConnectionIndicator() -> some View {
+        if isKyotoConnected {
+            AnyView(
+                Image(systemName: "network")
+                    .foregroundStyle(.green)
+            )
+        } else {
+            AnyView(
+                Image(systemName: "network.slash")
+                    .foregroundStyle(.red)
             )
         }
     }
