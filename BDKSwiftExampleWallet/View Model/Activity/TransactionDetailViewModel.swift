@@ -31,13 +31,13 @@ class TransactionDetailViewModel {
 
         switch network {
         case "signet":
-            if savedEsploraURL == Constants.Config.EsploraServerURLNetwork.Signet.bdk {
+            if savedEsploraURL == Constants.Networks.Signet.Regular.esploraServers.first {
                 self.esploraURL = "https://mempool.space/signet"
             } else {
                 self.esploraURL = "https://mutinynet.com"
             }
         case "testnet":
-            if savedEsploraURL == Constants.Config.EsploraServerURLNetwork.Testnet.blockstream {
+            if savedEsploraURL == Constants.Networks.Testnet.esploraServers.last {
                 self.esploraURL = "https://blockstream.info/testnet"
             } else {
                 self.esploraURL = "https://mempool.space/testnet"

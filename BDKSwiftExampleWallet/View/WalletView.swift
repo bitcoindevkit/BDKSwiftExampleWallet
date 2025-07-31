@@ -47,7 +47,10 @@ struct WalletView: View {
                         progress: viewModel.progress,
                         inspectedScripts: viewModel.inspectedScripts,
                         totalScripts: viewModel.totalScripts,
-                        needsFullScan: viewModel.needsFullScan
+                        needsFullScan: viewModel.needsFullScan,
+                        isKyotoClient: viewModel.isKyotoClient,
+                        isKyotoConnected: viewModel.isKyotoConnected,
+                        currentBlockHeight: viewModel.currentBlockHeight
                     ) {
                         showAllTransactions = true
                     }
@@ -58,10 +61,16 @@ struct WalletView: View {
                         walletSyncState: viewModel.walletSyncState
                     )
                     .refreshable {
-                        await viewModel.syncOrFullScan()
-                        viewModel.getBalance()
-                        viewModel.getTransactions()
-                        await viewModel.getPrices()
+                        if viewModel.isKyotoClient {
+                            viewModel.getBalance()
+                            viewModel.getTransactions()
+                            await viewModel.getPrices()
+                        } else {
+                            await viewModel.syncOrFullScan()
+                            viewModel.getBalance()
+                            viewModel.getTransactions()
+                            await viewModel.getPrices()
+                        }
                     }
 
                     HStack {

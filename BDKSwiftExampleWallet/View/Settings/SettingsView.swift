@@ -118,7 +118,6 @@ struct SettingsView: View {
             .onAppear {
                 viewModel.getNetwork()
                 viewModel.getEsploraUrl()
-                viewModel.getAddressType()
             }
             .padding(.top, 40.0)
 
