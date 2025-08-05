@@ -34,6 +34,79 @@ extension CbfClient {
     }
 
     func startBackgroundMonitoring() {
+        Task {
+            var isConnected = false
+            while true {
+                if let log = try? await self.nextLog() {
+                    // Parse specific sync stage messages
+                    if log.contains("Attempting to load headers from the database") {
+                        await MainActor.run {
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoProgressUpdate"),
+                                object: nil,
+                                userInfo: ["progress": Float(0.2)]
+                            )
+                        }
+                    } else if log.contains("]: headers") {
+                        await MainActor.run {
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoProgressUpdate"),
+                                object: nil,
+                                userInfo: ["progress": Float(0.4)]
+                            )
+                        }
+                    } else if log.contains("Chain updated") {
+                        let components = log.components(separatedBy: " ")
+                        if components.count >= 4,
+                            components[0] == "Chain" && components[1] == "updated",
+                            let height = UInt32(components[2])
+                        {
+                            await MainActor.run {
+                                NotificationCenter.default.post(
+                                    name: NSNotification.Name("KyotoChainHeightUpdate"),
+                                    object: nil,
+                                    userInfo: ["height": height]
+                                )
+                            }
+                        }
+
+                        if !isConnected {
+                            isConnected = true
+                            await MainActor.run {
+                                NotificationCenter.default.post(
+                                    name: NSNotification.Name("KyotoConnectionUpdate"),
+                                    object: nil,
+                                    userInfo: ["connected": true]
+                                )
+                            }
+                        }
+                    }
+
+                    if log.contains("Established an encrypted connection") && !isConnected {
+                        isConnected = true
+                        await MainActor.run {
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoConnectionUpdate"),
+                                object: nil,
+                                userInfo: ["connected": true]
+                            )
+                        }
+                    }
+
+                    if log.contains("Need connections") && isConnected {
+                        isConnected = false
+                        await MainActor.run {
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoConnectionUpdate"),
+                                object: nil,
+                                userInfo: ["connected": false]
+                            )
+                        }
+                    }
+                }
+                try? await Task.sleep(nanoseconds: 100_000_000)
+            }
+        }
 
         Task {
             var hasEstablishedConnection = false
