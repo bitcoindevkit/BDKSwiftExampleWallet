@@ -88,6 +88,12 @@ struct ActivityHomeHeaderView: View {
                     .animation(.easeInOut, value: inspectedScripts)
                     .animation(.easeInOut, value: totalScripts)
                     .animation(.easeInOut, value: progress)
+                } else if walletSyncState == .synced && isKyotoClient && currentBlockHeight > 0 {
+                    Text("Block \(currentBlockHeight)")
+                        .padding(.trailing, -5.0)
+                        .fontWeight(.semibold)
+                        .contentTransition(.numericText())
+                        .transition(.opacity)
                 }
             }
             HStack {
