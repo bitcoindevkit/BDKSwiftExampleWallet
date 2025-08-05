@@ -17,7 +17,7 @@ enum BlockchainClientType: String, CaseIterable {
 struct BlockchainClient {
     let sync: @Sendable (SyncRequest, UInt64) async throws -> Update
     let fullScan: @Sendable (FullScanRequest, UInt64, UInt64) async throws -> Update
-    let broadcast: @Sendable (Transaction) async throws -> Void
+    let broadcast: @Sendable (Transaction) throws -> Void
     let getUrl: @Sendable () -> String
     let getType: @Sendable () -> BlockchainClientType
     let supportsFullScan: @Sendable () -> Bool = { true }
@@ -44,7 +44,7 @@ extension BlockchainClient {
     static func kyoto(peer: String) -> Self {
         var cbfComponents: (client: CbfClient, node: CbfNode)? = nil
 
-        func getOrCreateComponents() async throws -> (client: CbfClient, node: CbfNode) {
+        func getOrCreateComponents() throws -> (client: CbfClient, node: CbfNode) {
             if let existing = cbfComponents {
                 return existing
             }
@@ -62,16 +62,16 @@ extension BlockchainClient {
 
         return Self(
             sync: { request, _ in
-                let components = try await getOrCreateComponents()
+                let components = try getOrCreateComponents()
                 return try await components.client.update()
             },
             fullScan: { request, stopGap, _ in
-                let components = try await getOrCreateComponents()
+                let components = try getOrCreateComponents()
                 return try await components.client.update()
             },
             broadcast: { tx in
-                let components = try await getOrCreateComponents()
-                try await components.client.broadcast(transaction: tx)
+                let components = try getOrCreateComponents()
+                try components.client.broadcast(transaction: tx)
             },
             getUrl: { peer },
             getType: { .kyoto }
@@ -560,7 +560,7 @@ private class BDKService {
         let isSigned = try wallet.sign(psbt: psbt)
         if isSigned {
             let transaction = try psbt.extractTx()
-            try await self.blockchainClient.broadcast(transaction)
+            try self.blockchainClient.broadcast(transaction)
         } else {
             throw WalletError.notSigned
         }
