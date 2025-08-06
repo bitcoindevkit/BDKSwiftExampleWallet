@@ -140,7 +140,7 @@ struct ActivityHomeHeaderView: View {
                 AnyView(
                     ProgressView(value: Double(progress), total: 100)
                         .foregroundStyle(.green)
-                        .frame(width: 20)
+                        .frame(width: 50)
                         .animation(.interactiveSpring, value: progress)
                 )
             } else {
