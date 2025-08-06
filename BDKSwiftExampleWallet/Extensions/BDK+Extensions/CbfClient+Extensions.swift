@@ -43,17 +43,6 @@ extension CbfClient {
                         }
                     }
 
-                    if log.contains("Established an encrypted connection") && !isConnected {
-                        isConnected = true
-                        await MainActor.run {
-                            NotificationCenter.default.post(
-                                name: NSNotification.Name("KyotoConnectionUpdate"),
-                                object: nil,
-                                userInfo: ["connected": true]
-                            )
-                        }
-                    }
-
                     if log.contains("Need connections") && isConnected {
                         isConnected = false
                         await MainActor.run {
@@ -107,6 +96,17 @@ extension CbfClient {
                                 object: nil,
                                 userInfo: ["connected": true]
                             )
+                        }
+                    case .successfulHandshake:
+                        await MainActor.run {
+                            if !hasEstablishedConnection {
+                                hasEstablishedConnection = true
+                                NotificationCenter.default.post(
+                                    name: NSNotification.Name("KyotoConnectionUpdate"),
+                                    object: nil,
+                                    userInfo: ["connected": true]
+                                )
+                            }
                         }
                     default:
                         break
