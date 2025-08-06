@@ -24,7 +24,7 @@ extension CbfClient {
             NotificationCenter.default.post(
                 name: NSNotification.Name("KyotoProgressUpdate"),
                 object: nil,
-                userInfo: ["progress": Float(0.2)]
+                userInfo: ["progress": Float(1)]
             )
             
             components.client.startBackgroundMonitoring()

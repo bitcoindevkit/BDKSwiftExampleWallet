@@ -74,7 +74,7 @@ struct ActivityHomeHeaderView: View {
                             Text(
                                 String(
                                     format: "%.0f%%",
-                                    progress * 100
+                                    progress
                                 )
                             )
                             .contentTransition(.numericText())
@@ -138,7 +138,7 @@ struct ActivityHomeHeaderView: View {
         case .syncing:
             if isKyotoClient && progress > 0 {
                 AnyView(
-                    ProgressView(value: Double(progress * 100), total: 100)
+                    ProgressView(value: Double(progress), total: 100)
                         .foregroundStyle(.green)
                         .frame(width: 20)
                         .animation(.interactiveSpring, value: progress)
