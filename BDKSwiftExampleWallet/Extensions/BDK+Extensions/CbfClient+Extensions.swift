@@ -17,14 +17,8 @@ extension CbfClient {
                 .dataDir(dataDir: Constants.Config.Kyoto.dbPath)
                 .peers(peers: Constants.Networks.Signet.Regular.kyotoPeers)
                 .build(wallet: wallet)
-            Task {
-                do {
-                    try await components.node.run()
-                } catch {
-                    // Kyoto: Failed to start node
-                }
-            }
 
+            components.node.run()
             components.client.startBackgroundMonitoring()
 
             return (client: components.client, node: components.node)
