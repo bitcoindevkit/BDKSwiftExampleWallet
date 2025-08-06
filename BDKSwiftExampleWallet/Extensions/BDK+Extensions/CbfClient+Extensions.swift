@@ -98,7 +98,7 @@ extension CbfClient {
                         }
                     }
                 }
-                try? await Task.sleep(nanoseconds: 100_000_000)
+
             }
         }
 
