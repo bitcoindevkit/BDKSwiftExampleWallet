@@ -41,39 +41,6 @@ extension CbfClient {
                                 userInfo: ["progress": Float(0.2)]
                             )
                         }
-                    } else if log.contains("]: headers") {
-                        await MainActor.run {
-                            NotificationCenter.default.post(
-                                name: NSNotification.Name("KyotoProgressUpdate"),
-                                object: nil,
-                                userInfo: ["progress": Float(0.4)]
-                            )
-                        }
-                    } else if log.contains("Chain updated") {
-                        let components = log.components(separatedBy: " ")
-                        if components.count >= 4,
-                            components[0] == "Chain" && components[1] == "updated",
-                            let height = UInt32(components[2])
-                        {
-                            await MainActor.run {
-                                NotificationCenter.default.post(
-                                    name: NSNotification.Name("KyotoChainHeightUpdate"),
-                                    object: nil,
-                                    userInfo: ["height": height]
-                                )
-                            }
-                        }
-
-                        if !isConnected {
-                            isConnected = true
-                            await MainActor.run {
-                                NotificationCenter.default.post(
-                                    name: NSNotification.Name("KyotoConnectionUpdate"),
-                                    object: nil,
-                                    userInfo: ["connected": true]
-                                )
-                            }
-                        }
                     }
 
                     if log.contains("Established an encrypted connection") && !isConnected {
