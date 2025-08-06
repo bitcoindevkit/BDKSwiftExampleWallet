@@ -19,6 +19,14 @@ extension CbfClient {
                 .build(wallet: wallet)
 
             components.node.run()
+            
+            // Send initial 20% progress after successful node startup
+            NotificationCenter.default.post(
+                name: NSNotification.Name("KyotoProgressUpdate"),
+                object: nil,
+                userInfo: ["progress": Float(0.2)]
+            )
+            
             components.client.startBackgroundMonitoring()
 
             return (client: components.client, node: components.node)
@@ -30,19 +38,7 @@ extension CbfClient {
     func startBackgroundMonitoring() {
         Task {
             while true {
-                if let log = try? await self.nextLog() {
-                    // Parse specific sync stage messages
-                    if log.contains("Attempting to load headers from the database") {
-                        await MainActor.run {
-                            NotificationCenter.default.post(
-                                name: NSNotification.Name("KyotoProgressUpdate"),
-                                object: nil,
-                                userInfo: ["progress": Float(0.2)]
-                            )
-                        }
-                    }
-                }
-
+                if let log = try? await self.nextLog() { }
             }
         }
 
