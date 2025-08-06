@@ -29,7 +29,6 @@ extension CbfClient {
 
     func startBackgroundMonitoring() {
         Task {
-            var isConnected = false
             while true {
                 if let log = try? await self.nextLog() {
                     // Parse specific sync stage messages
@@ -39,17 +38,6 @@ extension CbfClient {
                                 name: NSNotification.Name("KyotoProgressUpdate"),
                                 object: nil,
                                 userInfo: ["progress": Float(0.2)]
-                            )
-                        }
-                    }
-
-                    if log.contains("Need connections") && isConnected {
-                        isConnected = false
-                        await MainActor.run {
-                            NotificationCenter.default.post(
-                                name: NSNotification.Name("KyotoConnectionUpdate"),
-                                object: nil,
-                                userInfo: ["connected": false]
                             )
                         }
                     }
