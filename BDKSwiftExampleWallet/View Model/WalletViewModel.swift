@@ -117,6 +117,12 @@ class WalletViewModel {
         ) { [weak self] notification in
             if let height = notification.userInfo?["height"] as? UInt32 {
                 self?.currentBlockHeight = height
+                // Auto-refresh wallet data when Kyoto receives new blocks
+                self?.getBalance()
+                self?.getTransactions()
+                Task {
+                    await self?.getPrices()
+                }
             }
         }
     }
