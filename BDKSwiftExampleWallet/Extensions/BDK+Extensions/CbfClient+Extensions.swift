@@ -20,7 +20,7 @@ extension CbfClient {
 
             components.node.run()
             
-            // Send initial 20% progress after successful node startup
+            // Send initial 1% progress after successful node startup
             NotificationCenter.default.post(
                 name: NSNotification.Name("KyotoProgressUpdate"),
                 object: nil,
