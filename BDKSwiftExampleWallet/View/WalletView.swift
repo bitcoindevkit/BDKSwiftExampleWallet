@@ -11,6 +11,7 @@ import SwiftUI
 struct WalletView: View {
     @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
         .bitcoinSats
+    @AppStorage("KyotoLastBlockHeight") private var kyotoLastHeight: Int = 0
     @Bindable var viewModel: WalletViewModel
     @Binding var sendNavigationPath: NavigationPath
     @State private var isFirstAppear = true
@@ -126,6 +127,19 @@ struct WalletView: View {
                 }
                 viewModel.getTransactions()
                 await viewModel.getPrices()
+            }
+            .onAppear {
+                // Seed height from AppStorage on first show to avoid displaying 0 when Kyoto is active
+                if viewModel.isKyotoClient,
+                   viewModel.currentBlockHeight == 0,
+                   kyotoLastHeight > 0 {
+                    viewModel.currentBlockHeight = UInt32(kyotoLastHeight)
+                }
+            }
+            .onChange(of: viewModel.currentBlockHeight) { _, newValue in
+                if newValue > 0 {
+                    kyotoLastHeight = Int(newValue)
+                }
             }
 
         }
