@@ -94,6 +94,10 @@ struct ActivityHomeHeaderView: View {
                         .fontWeight(.semibold)
                         .contentTransition(.numericText())
                         .transition(.opacity)
+                        .fontDesign(.monospaced)
+                        .foregroundStyle(.secondary)
+                        .font(.caption2)
+                        .fontWeight(.thin)
                 }
             }
             HStack {
