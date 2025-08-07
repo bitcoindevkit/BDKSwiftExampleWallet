@@ -134,10 +134,14 @@ struct ActivityHomeHeaderView: View {
     private func syncImageIndicator() -> some View {
         switch walletSyncState {
         case .synced:
-            AnyView(
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
-            )
+            if !isKyotoClient {
+                AnyView(
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                )
+            } else {
+                AnyView(EmptyView())
+            }
 
         case .syncing:
             if isKyotoClient && progress > 0 {
