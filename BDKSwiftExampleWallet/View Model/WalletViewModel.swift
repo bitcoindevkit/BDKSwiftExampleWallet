@@ -97,6 +97,13 @@ class WalletViewModel {
         ) { [weak self] notification in
             if let progress = notification.userInfo?["progress"] as? Float {
                 self?.updateKyotoProgress(progress)
+                
+                // Update sync state based on Kyoto progress
+                if progress >= 100 {
+                    self?.walletSyncState = .synced
+                } else if progress > 0 {
+                    self?.walletSyncState = .syncing
+                }
             }
         }
 
@@ -107,6 +114,16 @@ class WalletViewModel {
         ) { [weak self] notification in
             if let connected = notification.userInfo?["connected"] as? Bool {
                 self?.isKyotoConnected = connected
+                
+                // When Kyoto connects, update sync state if needed
+                if connected && self?.walletSyncState == .notStarted {
+                    // Check current progress to determine state
+                    if let progress = self?.progress, progress >= 100 {
+                        self?.walletSyncState = .synced
+                    } else {
+                        self?.walletSyncState = .syncing
+                    }
+                }
             }
         }
 
