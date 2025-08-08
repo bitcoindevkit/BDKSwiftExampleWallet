@@ -118,6 +118,10 @@ struct BuildTransactionView: View {
                     if !isSent {
                         Button {
                             if let amt = UInt64(amount) {
+                                print("[BuildTransactionView] Send button pressed with:")
+                                print("  - Address: \(address)")
+                                print("  - Amount: \(amt) sats")
+                                print("  - Fee: \(fee) sat/vB")
                                 viewModel.buildTransactionViewError = nil
                                 isError = false
                                 viewModel.send(
@@ -208,13 +212,20 @@ struct BuildTransactionView: View {
             .padding()
             .navigationTitle("Transaction")
             .onAppear {
+                print("[BuildTransactionView.onAppear] View appeared with:")
+                print("  - Address: \(address)")
+                print("  - Amount: \(amount) sats")
+                print("  - Fee: \(fee) sat/vB")
                 viewModel.buildTransaction(
                     address: address,
                     amount: UInt64(amount) ?? 0,
                     feeRate: UInt64(fee)
                 )
                 if let tx = viewModel.extractTransaction() {
+                    print("[BuildTransactionView.onAppear] Extracted transaction, calculating fee")
                     viewModel.getCalulateFee(tx: tx)
+                } else {
+                    print("[BuildTransactionView.onAppear] Failed to extract transaction")
                 }
             }
             .alert(isPresented: $viewModel.showingBuildTransactionViewErrorAlert) {
