@@ -34,7 +34,8 @@ class WalletRecoveryViewModel {
 
     func getNetwork() -> Network {
         let savedNetwork = bdkClient.getNetwork()
-        return savedNetwork
+        let clientType = bdkClient.getClientType()
+        return clientType == .kyoto ? .signet : savedNetwork
     }
 
     func getBackupInfo(network: Network) {

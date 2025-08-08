@@ -100,6 +100,12 @@ private class BDKService {
         let storedClientType = try? keyClient.getClientType()
         self.clientType = storedClientType ?? .esplora
 
+        // Ensure Kyoto always uses Signet
+        if self.clientType == .kyoto && self.network != .signet {
+            self.network = .signet
+            try? keyClient.saveNetwork(Network.signet.description)
+        }
+
         if self.clientType == .kyoto {
             self.blockchainURL = Constants.Config.Kyoto.getDefaultPeer(for: self.network)
         } else {
@@ -118,6 +124,15 @@ private class BDKService {
                 return
             }
 
+            // If Kyoto is selected force network to Signet and persist correction
+            if self.clientType == .kyoto && newNetwork != .signet {
+                self.network = .signet
+                try? keyClient.saveNetwork(Network.signet.description)
+                self.blockchainURL = Constants.Config.Kyoto.getDefaultPeer(for: .signet)
+                updateBlockchainClient()
+                return
+            }
+
             self.network = newNetwork
             try? keyClient.saveNetwork(newNetwork.description)
 
@@ -126,7 +141,7 @@ private class BDKService {
                 let newURL = newNetwork.url
                 updateBlockchainURL(newURL)
             } else if self.clientType == .kyoto {
-                // For Kyoto, update to the correct peer for the new network
+                // For Kyoto update to the correct peer for the new network
                 let newPeer = Constants.Config.Kyoto.getDefaultPeer(for: newNetwork)
                 self.blockchainURL = newPeer
                 updateBlockchainClient()
@@ -666,7 +681,12 @@ extension BDKService {
 
         // Update URL to match the new client type
         if newType == .kyoto {
-            self.blockchainURL = Constants.Config.Kyoto.getDefaultPeer(for: self.network)
+            // Force Signet network for Kyoto and persist the corrected network
+            if self.network != .signet {
+                self.network = .signet
+                try? keyClient.saveNetwork(Network.signet.description)
+            }
+            self.blockchainURL = Constants.Config.Kyoto.getDefaultPeer(for: .signet)
         } else if newType == .esplora {
             // Keep existing URL if it's valid for this network, otherwise use default
             let defaultEsploraURL = self.network.url
