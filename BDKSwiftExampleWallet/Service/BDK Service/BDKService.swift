@@ -462,17 +462,28 @@ private class BDKService {
         amount: UInt64,
         feeRate: UInt64
     ) async throws {
+        print("[BDKService.send] Starting send with address: \(address), amount: \(amount), feeRate: \(feeRate)")
         let psbt = try buildTransaction(
             address: address,
             amount: amount,
             feeRate: feeRate
         )
+        print("[BDKService.send] PSBT built successfully")
         try signAndBroadcast(psbt: psbt)
+        print("[BDKService.send] Transaction signed and broadcast successfully")
     }
 
     func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws
         -> Psbt
     {
+        print("[BDKService.buildTransaction] Building transaction with:")
+        print("  - Network: \(self.network)")
+        print("  - Esplora URL: \(self.blockchainURL)")
+        print("  - Address: \(address)")
+        print("  - Amount: \(amount) sats")
+        print("  - Original feeRate param: \(feeRate) sat/vB")
+        print("  - Using hardcoded: 247 sat/kwu (0.99 sat/vB)")
+        
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let script = try Address(address: address, network: self.network)
             .scriptPubkey()
@@ -481,18 +492,36 @@ private class BDKService {
                 script: script,
                 amount: Amount.fromSat(satoshi: amount)
             )
-            .feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
+            .feeRate(feeRate: FeeRate.fromSatPerKwu(satKwu: 247)) // for 0.99 sat/vB //.feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
             .finish(wallet: wallet)
+        
+        print("[BDKService.buildTransaction] Transaction built successfully")
         return txBuilder
     }
 
     private func signAndBroadcast(psbt: Psbt) throws {
+        print("[BDKService.signAndBroadcast] Starting sign and broadcast")
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
+        
         let isSigned = try wallet.sign(psbt: psbt)
+        print("[BDKService.signAndBroadcast] Signing result: \(isSigned)")
+        
         if isSigned {
             let transaction = try psbt.extractTx()
-            try self.blockchainClient.broadcast(transaction)
+            let txid = transaction.computeTxid()
+            print("[BDKService.signAndBroadcast] Transaction ID: \(txid)")
+            
+            do {
+                try self.blockchainClient.broadcast(transaction)
+                print("[BDKService.signAndBroadcast] Broadcast successful!")
+            } catch {
+                print("[BDKService.signAndBroadcast] Broadcast failed with error: \(error)")
+                print("[BDKService.signAndBroadcast] Error type: \(type(of: error))")
+                print("[BDKService.signAndBroadcast] Error details: \(error.localizedDescription)")
+                throw error
+            }
         } else {
+            print("[BDKService.signAndBroadcast] Failed to sign transaction")
             throw WalletError.notSigned
         }
     }
