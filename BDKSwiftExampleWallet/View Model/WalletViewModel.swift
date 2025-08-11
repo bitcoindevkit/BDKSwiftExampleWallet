@@ -62,7 +62,7 @@ class WalletViewModel {
         { [weak self] progress in
             DispatchQueue.main.async {
                 self?.progress = progress
-                let progressPercent = UInt64(progress * 100)
+                let progressPercent = UInt64(progress)
                 self?.inspectedScripts = progressPercent
                 self?.totalScripts = 100
             }
