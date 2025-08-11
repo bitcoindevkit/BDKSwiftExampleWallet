@@ -110,6 +110,11 @@ struct WalletView: View {
                 ),
                 perform: { _ in
                     Task {
+                        // Show cached state first
+                        viewModel.getBalance()
+                        viewModel.getTransactions()
+
+                        // Then sync and refresh
                         await viewModel.syncOrFullScan()
                         viewModel.getBalance()
                         viewModel.getTransactions()
@@ -119,13 +124,14 @@ struct WalletView: View {
             )
             .task {
                 viewModel.getBalance()
+                viewModel.getTransactions()
                 if isFirstAppear || newTransactionSent {
                     await viewModel.syncOrFullScan()
                     isFirstAppear = false
                     newTransactionSent = false
                     viewModel.getBalance()
+                    viewModel.getTransactions()
                 }
-                viewModel.getTransactions()
                 await viewModel.getPrices()
             }
             .onAppear {
