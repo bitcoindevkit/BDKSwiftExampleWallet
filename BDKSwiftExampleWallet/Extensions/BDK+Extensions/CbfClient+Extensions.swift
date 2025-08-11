@@ -12,6 +12,7 @@ extension CbfClient {
     // Track monitoring tasks per client for clean cancellation
     private static var monitoringTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
     private static var warningTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
+    private static var logTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
     private static var heartbeatTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
     private static var lastInfoAt: [ObjectIdentifier: Date] = [:]
     private static let monitoringTasksQueue = DispatchQueue(label: "cbf.monitoring.tasks")
@@ -179,6 +180,30 @@ extension CbfClient {
         Self.monitoringTasksQueue.sync {
             Self.warningTasks[id] = warnings
         }
+
+        // Log listener for detailed debugging
+        let logs = Task { [self] in
+            while true {
+                if Task.isCancelled { break }
+                do {
+                    #if DEBUG
+                    print("[Kyoto] calling nextLog()")
+                    #endif
+                    let log = try await self.nextLog()
+                    #if DEBUG
+                    print("[Kyoto] nextLog() returned: \(log)")
+                    #endif
+                } catch is CancellationError {
+                    break
+                } catch {
+                    // ignore
+                }
+            }
+        }
+
+        Self.monitoringTasksQueue.sync {
+            Self.logTasks[id] = logs
+        }
     }
 
     func stopBackgroundMonitoring() {
@@ -188,6 +213,7 @@ extension CbfClient {
             task.cancel()
             if let hb = Self.heartbeatTasks.removeValue(forKey: id) { hb.cancel() }
             if let wt = Self.warningTasks.removeValue(forKey: id) { wt.cancel() }
+            if let lt = Self.logTasks.removeValue(forKey: id) { lt.cancel() }
             Self.lastInfoAt.removeValue(forKey: id)
         }
     }
@@ -196,9 +222,11 @@ extension CbfClient {
         Self.monitoringTasksQueue.sync {
             for (_, task) in Self.monitoringTasks { task.cancel() }
             for (_, wt) in Self.warningTasks { wt.cancel() }
+            for (_, lt) in Self.logTasks { lt.cancel() }
             for (_, hb) in Self.heartbeatTasks { hb.cancel() }
             Self.monitoringTasks.removeAll()
             Self.warningTasks.removeAll()
+            Self.logTasks.removeAll()
             Self.heartbeatTasks.removeAll()
             Self.lastInfoAt.removeAll()
         }
