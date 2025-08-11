@@ -63,11 +63,25 @@ extension BlockchainClient {
         return Self(
             sync: { request, _ in
                 let components = try getOrCreateComponents()
-                return try await components.client.update()
+                #if DEBUG
+                print("[Kyoto][BDKService] calling update() (sync)")
+                #endif
+                let upd = try await components.client.update()
+                #if DEBUG
+                print("[Kyoto][BDKService] update() returned (sync)")
+                #endif
+                return upd
             },
             fullScan: { request, stopGap, _ in
                 let components = try getOrCreateComponents()
-                return try await components.client.update()
+                #if DEBUG
+                print("[Kyoto][BDKService] calling update() (fullScan)")
+                #endif
+                let upd = try await components.client.update()
+                #if DEBUG
+                print("[Kyoto][BDKService] update() returned (fullScan)")
+                #endif
+                return upd
             },
             broadcast: { tx in
                 let components = try getOrCreateComponents()
@@ -155,6 +169,9 @@ private class BDKService {
                         self.blockchainURL.isEmpty
                         ? Constants.Config.Kyoto.getDefaultPeer(for: self.network)
                         : self.blockchainURL
+                    #if DEBUG
+                    print("[BDKService] selecting Kyoto peer=\(peer)")
+                    #endif
                     self.blockchainClient = .kyoto(peer: peer)
                 }
             case .electrum:

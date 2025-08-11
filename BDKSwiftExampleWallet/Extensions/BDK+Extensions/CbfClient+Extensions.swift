@@ -9,8 +9,10 @@ import BitcoinDevKit
 import Foundation
 
 extension CbfClient {
-    // Track one monitoring task per client for clean cancellation
+    // Track monitoring tasks per client for clean cancellation
     private static var monitoringTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
+    private static var heartbeatTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
+    private static var lastInfoAt: [ObjectIdentifier: Date] = [:]
     private static let monitoringTasksQueue = DispatchQueue(label: "cbf.monitoring.tasks")
 
     static func createComponents(wallet: Wallet) -> (client: CbfClient, node: CbfNode) {
@@ -23,8 +25,14 @@ extension CbfClient {
                 .build(wallet: wallet)
 
             components.node.run()
+            #if DEBUG
+            print("[Kyoto] node started; peers=\(Constants.Networks.Signet.Regular.kyotoPeers.count)")
+            #endif
             
             components.client.startBackgroundMonitoring()
+            #if DEBUG
+            print("[Kyoto] background monitoring started")
+            #endif
 
             return (client: components.client, node: components.node)
         } catch {
@@ -41,8 +49,12 @@ extension CbfClient {
                 if Task.isCancelled { break }
                 do {
                     let info = try await self.nextInfo()
+                    CbfClient.monitoringTasksQueue.sync { Self.lastInfoAt[id] = Date() }
                     switch info {
                     case let .progress(progress):
+                        #if DEBUG
+                        print("[Kyoto] progress: \(progress)")
+                        #endif
                         await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoProgressUpdate"),
@@ -51,6 +63,9 @@ extension CbfClient {
                             )
                         }
                     case let .newChainHeight(height):
+                        #if DEBUG
+                        print("[Kyoto] newChainHeight: \(height)")
+                        #endif
                         await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoChainHeightUpdate"),
@@ -67,6 +82,9 @@ extension CbfClient {
                             }
                         }
                     case .connectionsMet, .successfulHandshake:
+                        #if DEBUG
+                        print("[Kyoto] connections established")
+                        #endif
                         await MainActor.run {
                             if !hasEstablishedConnection {
                                 hasEstablishedConnection = true
@@ -90,6 +108,29 @@ extension CbfClient {
 
         Self.monitoringTasksQueue.sync {
             Self.monitoringTasks[id] = task
+            Self.lastInfoAt[id] = Date()
+        }
+
+        // Heartbeat task to signal idleness while awaiting Info events
+        let heartbeat = Task {
+            while true {
+                if Task.isCancelled { break }
+                try? await Task.sleep(nanoseconds: 5_000_000_000)
+                if Task.isCancelled { break }
+                var idleFor: TimeInterval = 0
+                CbfClient.monitoringTasksQueue.sync {
+                    if let last = Self.lastInfoAt[id] { idleFor = Date().timeIntervalSince(last) }
+                }
+                #if DEBUG
+                if idleFor >= 5 {
+                    print("[Kyoto] idle: waiting for info… \(Int(idleFor))s")
+                }
+                #endif
+            }
+        }
+
+        Self.monitoringTasksQueue.sync {
+            Self.heartbeatTasks[id] = heartbeat
         }
     }
 
@@ -98,13 +139,18 @@ extension CbfClient {
         Self.monitoringTasksQueue.sync {
             guard let task = Self.monitoringTasks.removeValue(forKey: id) else { return }
             task.cancel()
+            if let hb = Self.heartbeatTasks.removeValue(forKey: id) { hb.cancel() }
+            Self.lastInfoAt.removeValue(forKey: id)
         }
     }
 
     static func cancelAllMonitoring() {
         Self.monitoringTasksQueue.sync {
             for (_, task) in Self.monitoringTasks { task.cancel() }
+            for (_, hb) in Self.heartbeatTasks { hb.cancel() }
             Self.monitoringTasks.removeAll()
+            Self.heartbeatTasks.removeAll()
+            Self.lastInfoAt.removeAll()
         }
     }
 }
