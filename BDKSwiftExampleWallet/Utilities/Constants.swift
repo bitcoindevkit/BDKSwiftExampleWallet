@@ -72,7 +72,6 @@ struct Constants {
                 static let kyotoPeerStrings = [
                     "seed.signet.bitcoin.sprovoost.nl:38333",
                     "signet-seed.achownodes.xyz:38333",
-                    "vrajjeirttkmnt32wpy3cowmnwr13fkla7hpxc4okr3ysd3kqtzmqd.onion:38333",
                 ]
 
                 static let kyotoPeers = [
