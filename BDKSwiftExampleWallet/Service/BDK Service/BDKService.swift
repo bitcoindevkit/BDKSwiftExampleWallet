@@ -100,10 +100,10 @@ private class BDKService {
         let storedClientType = try? keyClient.getClientType()
         self.clientType = storedClientType ?? .esplora
 
-        // Ensure Kyoto always uses Signet
+        // If starting in Kyoto, constrain in-memory network to Signet, but do not persist here.
+        // Persistence should happen only when the user confirms Kyoto via updateClientType/updateNetwork.
         if self.clientType == .kyoto && self.network != .signet {
             self.network = .signet
-            try? keyClient.saveNetwork(Network.signet.description)
         }
 
         if self.clientType == .kyoto {
