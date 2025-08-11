@@ -147,6 +147,9 @@
         }
       }
     },
+    "%" : {
+
+    },
     "%@ • %@" : {
       "localizations" : {
         "en" : {
@@ -210,6 +213,9 @@
           }
         }
       }
+    },
+    "%lld" : {
+
     },
     "%lld Output%@" : {
       "localizations" : {

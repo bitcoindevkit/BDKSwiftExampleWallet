@@ -39,8 +39,8 @@ struct ActivityHomeHeaderView: View {
                         .animation(.easeInOut, value: inspectedScripts)
                 } else if walletSyncState == .syncing {
                     HStack {
-                        if progress < 1.0 {
-                            if isKyotoClient {
+                        if isKyotoClient {
+                            if progress < 100.0 { // Kyoto progress is percent
                                 if currentBlockHeight > 0 {
                                     Text("Block \(currentBlockHeight)")
                                         .padding(.trailing, -5.0)
@@ -54,30 +54,28 @@ struct ActivityHomeHeaderView: View {
                                         .contentTransition(.numericText())
                                         .transition(.opacity)
                                 }
-                            } else {
-                                Text("\(inspectedScripts)")
-                                    .padding(.trailing, -5.0)
-                                    .fontWeight(.semibold)
-                                    .contentTransition(.numericText())
-                                    .transition(.opacity)
-
-                                Text("/")
-                                    .padding(.trailing, -5.0)
-                                    .transition(.opacity)
-                                Text("\(totalScripts)")
-                                    .contentTransition(.numericText())
-                                    .transition(.opacity)
                             }
+                        } else if progress < 1.0 { // Esplora progress is fraction
+                            Text("\(inspectedScripts)")
+                                .padding(.trailing, -5.0)
+                                .fontWeight(.semibold)
+                                .contentTransition(.numericText())
+                                .transition(.opacity)
+
+                            Text("/")
+                                .padding(.trailing, -5.0)
+                                .transition(.opacity)
+                            Text("\(totalScripts)")
+                                .contentTransition(.numericText())
+                                .transition(.opacity)
                         }
 
                         if !isKyotoClient || (isKyotoClient && progress > 0) {
-                            Text(
-                                String(
-                                    format: "%.0f%%",
-                                    progress
-                                )
-                            )
-                            .contentTransition(.numericText())
+                            HStack(spacing: 0) {
+                                Text("\(Int(progress))")
+                                    .contentTransition(.numericText())
+                                Text("%")
+                            }
                             .transition(.opacity)
                         }
                     }
