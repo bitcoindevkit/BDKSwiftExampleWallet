@@ -18,6 +18,22 @@ extension CbfClient {
 
     static func createComponents(wallet: Wallet) -> (client: CbfClient, node: CbfNode) {
         do {
+            #if DEBUG
+            let dataDirPath = Constants.Config.Kyoto.dbPath
+            print("[Kyoto] dataDir: \(dataDirPath)")
+            do {
+                let testFile = (dataDirPath as NSString).appendingPathComponent(".write_test")
+                try Data("ok".utf8).write(to: URL(fileURLWithPath: testFile))
+                try? FileManager.default.removeItem(atPath: testFile)
+                print("[Kyoto] dataDir writable: true")
+            } catch {
+                print("[Kyoto] dataDir writable: false error=\(error)")
+            }
+            let peers = Constants.Networks.Signet.Regular.kyotoPeers
+            print("[Kyoto] peers count: \(peers.count)")
+            for peer in peers { print("[Kyoto] peer: \(peer)") }
+            #endif
+
             let components = try CbfBuilder()
                 .logLevel(logLevel: .debug)
                 .scanType(scanType: .sync)
