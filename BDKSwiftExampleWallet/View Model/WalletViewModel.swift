@@ -95,14 +95,17 @@ class WalletViewModel {
             object: nil,
             queue: .main
         ) { [weak self] notification in
+            guard let self else { return }
+            // Ignore Kyoto updates unless client type is Kyoto
+            if self.bdkClient.getClientType() != .kyoto { return }
             if let progress = notification.userInfo?["progress"] as? Float {
-                self?.updateKyotoProgress(progress)
+                self.updateKyotoProgress(progress)
                 
                 // Update sync state based on Kyoto progress
                 if progress >= 100 {
-                    self?.walletSyncState = .synced
+                    self.walletSyncState = .synced
                 } else if progress > 0 {
-                    self?.walletSyncState = .syncing
+                    self.walletSyncState = .syncing
                 }
             }
         }
@@ -132,13 +135,16 @@ class WalletViewModel {
             object: nil,
             queue: .main
         ) { [weak self] notification in
+            guard let self else { return }
+            // Ignore Kyoto updates unless client type is Kyoto
+            if self.bdkClient.getClientType() != .kyoto { return }
             if let height = notification.userInfo?["height"] as? UInt32 {
-                self?.currentBlockHeight = height
+                self.currentBlockHeight = height
                 // Auto-refresh wallet data when Kyoto receives new blocks
-                self?.getBalance()
-                self?.getTransactions()
+                self.getBalance()
+                self.getTransactions()
                 Task {
-                    await self?.getPrices()
+                    await self.getPrices()
                 }
             }
         }

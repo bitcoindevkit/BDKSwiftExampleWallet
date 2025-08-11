@@ -100,11 +100,7 @@ private class BDKService {
         let storedClientType = try? keyClient.getClientType()
         self.clientType = storedClientType ?? .esplora
 
-        // If starting in Kyoto, constrain in-memory network to Signet, but do not persist here.
-        // Persistence should happen only when the user confirms Kyoto via updateClientType/updateNetwork.
-        if self.clientType == .kyoto && self.network != .signet {
-            self.network = .signet
-        }
+        // No init-time coercion; backend selection handles constraints
 
         if self.clientType == .kyoto {
             self.blockchainURL = Constants.Config.Kyoto.getDefaultPeer(for: self.network)
@@ -124,15 +120,6 @@ private class BDKService {
                 return
             }
 
-            // If Kyoto is selected force network to Signet and persist correction
-            if self.clientType == .kyoto && newNetwork != .signet {
-                self.network = .signet
-                try? keyClient.saveNetwork(Network.signet.description)
-                self.blockchainURL = Constants.Config.Kyoto.getDefaultPeer(for: .signet)
-                updateBlockchainClient()
-                return
-            }
-
             self.network = newNetwork
             try? keyClient.saveNetwork(newNetwork.description)
 
@@ -140,31 +127,28 @@ private class BDKService {
             if self.clientType == .esplora {
                 let newURL = newNetwork.url
                 updateBlockchainURL(newURL)
-            } else if self.clientType == .kyoto {
-                // For Kyoto update to the correct peer for the new network
-                let newPeer = Constants.Config.Kyoto.getDefaultPeer(for: newNetwork)
-                self.blockchainURL = newPeer
-                updateBlockchainClient()
             }
         }
     }
 
     func updateBlockchainURL(_ newURL: String) {
-        if newURL != self.blockchainURL {
-            self.blockchainURL = newURL
-            try? keyClient.saveEsploraURL(newURL)
-            updateBlockchainClient()
-        }
+        if newURL == self.blockchainURL { return }
+        self.blockchainURL = newURL
+        try? keyClient.saveEsploraURL(newURL)
+        updateBlockchainClient()
     }
 
     internal func updateBlockchainClient() {
         do {
             switch clientType {
             case .esplora:
+                // Cancel any Kyoto background tasks when switching to Esplora
+                CbfClient.cancelAllMonitoring()
                 self.blockchainClient = .esplora(url: self.blockchainURL)
             case .kyoto:
                 if self.network != .signet {
                     self.clientType = .esplora
+                    CbfClient.cancelAllMonitoring()
                     self.blockchainClient = .esplora(url: self.blockchainURL)
                 } else {
                     let peer =
@@ -178,6 +162,7 @@ private class BDKService {
             }
         } catch {
             self.clientType = .esplora
+            CbfClient.cancelAllMonitoring()
             self.blockchainClient = .esplora(url: self.blockchainURL)
         }
     }

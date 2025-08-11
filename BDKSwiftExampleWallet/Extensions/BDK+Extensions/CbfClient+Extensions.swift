@@ -9,6 +9,10 @@ import BitcoinDevKit
 import Foundation
 
 extension CbfClient {
+    // Track one monitoring task per client for clean cancellation
+    private static var monitoringTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
+    private static let monitoringTasksQueue = DispatchQueue(label: "cbf.monitoring.tasks")
+
     static func createComponents(wallet: Wallet) -> (client: CbfClient, node: CbfNode) {
         do {
             let components = try CbfBuilder()
@@ -20,13 +24,6 @@ extension CbfClient {
 
             components.node.run()
             
-            // Send initial 1% progress after successful node startup
-            NotificationCenter.default.post(
-                name: NSNotification.Name("KyotoProgressUpdate"),
-                object: nil,
-                userInfo: ["progress": Float(1)]
-            )
-            
             components.client.startBackgroundMonitoring()
 
             return (client: components.client, node: components.node)
@@ -36,16 +33,14 @@ extension CbfClient {
     }
 
     func startBackgroundMonitoring() {
-        Task {
-            while true {
-                if let log = try? await self.nextLog() { }
-            }
-        }
+        let id = ObjectIdentifier(self)
 
-        Task {
+        let task = Task { [self] in
             var hasEstablishedConnection = false
             while true {
-                if let info = try? await self.nextInfo() {
+                if Task.isCancelled { break }
+                do {
+                    let info = try await self.nextInfo()
                     switch info {
                     case let .progress(progress):
                         await MainActor.run {
@@ -62,7 +57,6 @@ extension CbfClient {
                                 object: nil,
                                 userInfo: ["height": height]
                             )
-
                             if !hasEstablishedConnection {
                                 hasEstablishedConnection = true
                                 NotificationCenter.default.post(
@@ -72,16 +66,7 @@ extension CbfClient {
                                 )
                             }
                         }
-                    case .connectionsMet:
-                        await MainActor.run {
-                            hasEstablishedConnection = true
-                            NotificationCenter.default.post(
-                                name: NSNotification.Name("KyotoConnectionUpdate"),
-                                object: nil,
-                                userInfo: ["connected": true]
-                            )
-                        }
-                    case .successfulHandshake:
+                    case .connectionsMet, .successfulHandshake:
                         await MainActor.run {
                             if !hasEstablishedConnection {
                                 hasEstablishedConnection = true
@@ -95,27 +80,31 @@ extension CbfClient {
                     default:
                         break
                     }
+                } catch is CancellationError {
+                    break
+                } catch {
+                    // ignore
                 }
             }
         }
 
-        Task {
-            while true {
-                if let warning = try? await self.nextWarning() {
-                    switch warning {
-                    case .needConnections:
-                        await MainActor.run {
-                            NotificationCenter.default.post(
-                                name: NSNotification.Name("KyotoConnectionUpdate"),
-                                object: nil,
-                                userInfo: ["connected": false]
-                            )
-                        }
-                    default:
-                        break
-                    }
-                }
-            }
+        Self.monitoringTasksQueue.sync {
+            Self.monitoringTasks[id] = task
+        }
+    }
+
+    func stopBackgroundMonitoring() {
+        let id = ObjectIdentifier(self)
+        Self.monitoringTasksQueue.sync {
+            guard let task = Self.monitoringTasks.removeValue(forKey: id) else { return }
+            task.cancel()
+        }
+    }
+
+    static func cancelAllMonitoring() {
+        Self.monitoringTasksQueue.sync {
+            for (_, task) in Self.monitoringTasks { task.cancel() }
+            Self.monitoringTasks.removeAll()
         }
     }
 }
