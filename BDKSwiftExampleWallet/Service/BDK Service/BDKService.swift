@@ -518,20 +518,14 @@ private class BDKService {
     }
 
     func deleteWallet() throws {
-        let savedURL = try? keyClient.getEsploraURL()
-        let savedNetwork = try? keyClient.getNetwork()
-
         if let bundleID = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleID)
         }
         try self.keyClient.deleteBackupInfo()
         try Persister.deleteConnection()
-        if let savedURL = savedURL {
-            try keyClient.saveEsploraURL(savedURL)
-        }
-        if let savedNetwork = savedNetwork {
-            try keyClient.saveNetwork(savedNetwork)
-        }
+        // Clear persisted network and esplora URL to avoid cross-network carryover
+        try? keyClient.deleteNetwork()
+        try? keyClient.deleteEsplora()
 
         needsFullScan = true
     }
