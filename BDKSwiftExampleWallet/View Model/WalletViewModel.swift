@@ -51,9 +51,16 @@ class WalletViewModel {
     private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
         { [weak self] inspected, total in
             DispatchQueue.main.async {
+                // When using Kyoto, progress is provided separately as percent
+                if self?.isKyotoClient == true { return }
                 self?.totalScripts = total
                 self?.inspectedScripts = inspected
-                self?.progress = total > 0 ? Float(inspected) / Float(total) : 0
+                let fraction = total > 0 ? Float(inspected) / Float(total) : 0
+                self?.progress = fraction
+                #if DEBUG
+                let percent = Int((fraction * 100).rounded())
+                print("[Esplora][VM] inspected=\(inspected)/\(total) fraction=\(String(format: "%.4f", fraction)) percent=\(percent)%")
+                #endif
             }
         }
     }
@@ -65,6 +72,9 @@ class WalletViewModel {
                 let progressPercent = UInt64(progress)
                 self?.inspectedScripts = progressPercent
                 self?.totalScripts = 100
+                #if DEBUG
+                print("[Kyoto][VM] percent=\(Int(progress))%")
+                #endif
             }
         }
     }

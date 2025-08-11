@@ -71,8 +71,11 @@ struct ActivityHomeHeaderView: View {
                         }
 
                         if !isKyotoClient || (isKyotoClient && progress > 0) {
+                            let percent: Int = isKyotoClient
+                                ? Int(progress.rounded())
+                                : Int((progress * 100).rounded())
                             HStack(spacing: 0) {
-                                Text("\(Int(progress))")
+                                Text("\(percent)")
                                     .contentTransition(.numericText())
                                 Text("%")
                             }
