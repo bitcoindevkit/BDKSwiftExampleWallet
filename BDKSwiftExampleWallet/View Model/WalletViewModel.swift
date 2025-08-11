@@ -110,6 +110,11 @@ class WalletViewModel {
             if self.bdkClient.getClientType() != .kyoto { return }
             if let progress = notification.userInfo?["progress"] as? Float {
                 self.updateKyotoProgress(progress)
+                // Consider any progress update as evidence of an active connection
+                // so the UI does not falsely show a red disconnected indicator while syncing.
+                if progress > 0 {
+                    self.isKyotoConnected = true
+                }
                 
                 // Update sync state based on Kyoto progress
                 if progress >= 100 {
@@ -150,6 +155,8 @@ class WalletViewModel {
             if self.bdkClient.getClientType() != .kyoto { return }
             if let height = notification.userInfo?["height"] as? UInt32 {
                 self.currentBlockHeight = height
+                // Receiving chain height implies we have peer connectivity
+                self.isKyotoConnected = true
                 // Auto-refresh wallet data when Kyoto receives new blocks
                 self.getBalance()
                 self.getTransactions()
