@@ -26,7 +26,7 @@ struct ActivityHomeHeaderView: View {
             Spacer()
 
             HStack {
-                if needsFullScan {
+                if needsFullScan && !isKyotoClient {
                     Text("\(inspectedScripts)")
                         .padding(.trailing, -5.0)
                         .fontWeight(.semibold)

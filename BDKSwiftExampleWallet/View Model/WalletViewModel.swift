@@ -157,6 +157,8 @@ class WalletViewModel {
                 self.currentBlockHeight = height
                 // Receiving chain height implies we have peer connectivity
                 self.isKyotoConnected = true
+                // Ensure UI reflects syncing as soon as we see chain activity
+                if self.walletSyncState == .notStarted { self.walletSyncState = .syncing }
                 // Auto-refresh wallet data when Kyoto receives new blocks
                 self.getBalance()
                 self.getTransactions()
