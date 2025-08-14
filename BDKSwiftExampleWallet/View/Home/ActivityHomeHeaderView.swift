@@ -176,15 +176,23 @@ struct ActivityHomeHeaderView: View {
 
     @ViewBuilder
     private func networkConnectionIndicator() -> some View {
-        if isKyotoConnected {
+        // Tri-state indicator for Kyoto peer connectivity
+        // - Green: actively connected OR showing sync activity
+        // - Gray (secondary): synced but not currently connected
+        // - Red: not synced, no activity, and not connected
+        let isFullySynced = walletSyncState == .synced
+        let hasSyncActivity = (progress > 0) || (currentBlockHeight > 0)
+
+        if isFullySynced {
             AnyView(
                 Image(systemName: "network")
-                    .foregroundStyle(.green)
+                    .foregroundStyle(isKyotoConnected ? .green : .secondary)
             )
         } else {
+            let ok = isKyotoConnected || hasSyncActivity
             AnyView(
-                Image(systemName: "network.slash")
-                    .foregroundStyle(.red)
+                Image(systemName: ok ? "network" : "network.slash")
+                    .foregroundStyle(ok ? .green : .red)
             )
         }
     }
