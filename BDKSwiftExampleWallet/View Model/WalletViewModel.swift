@@ -250,6 +250,7 @@ class WalletViewModel {
     }
 
     func syncOrFullScan() async {
+        self.walletSyncState = .syncing
         if bdkClient.needsFullScan() {
             await fullScanWithProgress()
             bdkClient.setNeedsFullScan(false)
