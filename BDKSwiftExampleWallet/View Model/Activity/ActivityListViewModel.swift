@@ -111,6 +111,7 @@ class ActivityListViewModel {
     }
 
     func syncOrFullScan() async {
+        self.walletSyncState = .syncing
         await startSyncWithProgress()
     }
 }

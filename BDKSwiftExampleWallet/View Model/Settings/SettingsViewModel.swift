@@ -62,9 +62,7 @@ class SettingsViewModel: ObservableObject {
     }
 
     func fullScanWithProgress() async {
-        DispatchQueue.main.async {
-            self.walletSyncState = .syncing
-        }
+        self.walletSyncState = .syncing
         do {
             let inspector = WalletFullScanScriptInspector(updateProgress: updateProgressFullScan)
             try await bdkClient.fullScanWithInspector(inspector)
