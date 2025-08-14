@@ -40,7 +40,7 @@ struct ActivityHomeHeaderView: View {
                 } else if walletSyncState == .syncing {
                     HStack {
                         if isKyotoClient {
-                            if progress < 100.0 { // Kyoto progress is percent
+                            if progress < 100.0 {  // Kyoto progress is percent
                                 if currentBlockHeight > 0 {
                                     Text("Block \(currentBlockHeight)")
                                         .padding(.trailing, -5.0)
@@ -55,7 +55,7 @@ struct ActivityHomeHeaderView: View {
                                         .transition(.opacity)
                                 }
                             }
-                        } else if progress < 1.0 { // Esplora progress is fraction
+                        } else if progress < 1.0 {  // Esplora progress is fraction
                             Text("\(inspectedScripts)")
                                 .padding(.trailing, -5.0)
                                 .fontWeight(.semibold)
@@ -71,7 +71,8 @@ struct ActivityHomeHeaderView: View {
                         }
 
                         if !isKyotoClient || (isKyotoClient && progress > 0) {
-                            let percent: Int = isKyotoClient
+                            let percent: Int =
+                                isKyotoClient
                                 ? Int(progress.rounded())
                                 : Int((progress * 100).rounded())
                             HStack(spacing: 0) {

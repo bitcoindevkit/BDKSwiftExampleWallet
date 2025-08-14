@@ -137,8 +137,9 @@ struct WalletView: View {
             .onAppear {
                 // Seed height from AppStorage on first show to avoid displaying 0 when Kyoto is active
                 if viewModel.isKyotoClient,
-                   viewModel.currentBlockHeight == 0,
-                   kyotoLastHeight > 0 {
+                    viewModel.currentBlockHeight == 0,
+                    kyotoLastHeight > 0
+                {
                     viewModel.currentBlockHeight = UInt32(kyotoLastHeight)
                 }
             }

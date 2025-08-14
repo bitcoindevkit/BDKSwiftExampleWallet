@@ -28,7 +28,7 @@ extension CbfClient {
                 .build(wallet: wallet)
 
             components.node.run()
-            
+
             components.client.startBackgroundMonitoring()
 
             return (client: components.client, node: components.node)
