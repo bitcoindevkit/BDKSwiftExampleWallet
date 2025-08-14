@@ -10,13 +10,13 @@ import Foundation
 
 enum BlockchainClientType: String, CaseIterable {
     case esplora = "esplora"
-    case kyoto = "kyoto"  // future
+    case kyoto = "kyoto"
     case electrum = "electrum"  // future
 }
 
 struct BlockchainClient {
-    let sync: @Sendable (SyncRequest, UInt64) throws -> Update
-    let fullScan: @Sendable (FullScanRequest, UInt64, UInt64) throws -> Update
+    let sync: @Sendable (SyncRequest, UInt64) async throws -> Update
+    let fullScan: @Sendable (FullScanRequest, UInt64, UInt64) async throws -> Update
     let broadcast: @Sendable (Transaction) throws -> Void
     let getUrl: @Sendable () -> String
     let getType: @Sendable () -> BlockchainClientType
@@ -40,6 +40,45 @@ extension BlockchainClient {
             getType: { .esplora }
         )
     }
+
+    static func kyoto(peer: String) -> Self {
+        var cbfComponents: (client: CbfClient, node: CbfNode)? = nil
+
+        func getOrCreateComponents() throws -> (client: CbfClient, node: CbfNode) {
+            if let existing = cbfComponents {
+                return existing
+            }
+
+            guard let wallet = BDKService.shared.wallet else {
+                throw WalletError.walletNotFound
+            }
+
+            try FileManager.default.ensureDirectoryExists(at: Constants.Config.Kyoto.dbDirectoryURL)
+
+            let components = CbfClient.createComponents(wallet: wallet)
+            cbfComponents = components
+            return components
+        }
+
+        return Self(
+            sync: { request, _ in
+                let components = try getOrCreateComponents()
+                let upd = try await components.client.update()
+                return upd
+            },
+            fullScan: { request, stopGap, _ in
+                let components = try getOrCreateComponents()
+                let upd = try await components.client.update()
+                return upd
+            },
+            broadcast: { tx in
+                let components = try getOrCreateComponents()
+                try components.client.broadcast(transaction: tx)
+            },
+            getUrl: { peer },
+            getType: { .kyoto }
+        )
+    }
 }
 
 private class BDKService {
@@ -53,7 +92,7 @@ private class BDKService {
     private var needsFullScan: Bool = false
     private(set) var network: Network
     private var blockchainURL: String
-    private var wallet: Wallet?
+    internal private(set) var wallet: Wallet?
 
     init(keyClient: KeyClient = .live) {
         self.keyClient = keyClient
@@ -63,7 +102,16 @@ private class BDKService {
         let storedClientType = try? keyClient.getClientType()
         self.clientType = storedClientType ?? .esplora
 
-        self.blockchainURL = (try? keyClient.getEsploraURL()) ?? self.network.url
+        // No init-time coercion; backend selection handles constraints
+
+        if self.clientType == .kyoto {
+            self.blockchainURL = Constants.Config.Kyoto.getDefaultPeer(for: self.network)
+        } else {
+            self.blockchainURL = (try? keyClient.getEsploraURL()) ?? ""
+            if self.blockchainURL.isEmpty {
+                self.blockchainURL = self.network.url
+            }
+        }
         self.blockchainClient = BlockchainClient.esplora(url: self.blockchainURL)
         updateBlockchainClient()
     }
@@ -77,32 +125,46 @@ private class BDKService {
             self.network = newNetwork
             try? keyClient.saveNetwork(newNetwork.description)
 
-            let newURL = newNetwork.url
-            updateBlockchainURL(newURL)
+            // Only update URL for Esplora clients, Kyoto uses peer addresses
+            if self.clientType == .esplora {
+                let newURL = newNetwork.url
+                updateBlockchainURL(newURL)
+            }
         }
     }
 
     func updateBlockchainURL(_ newURL: String) {
-        if newURL != self.blockchainURL {
-            self.blockchainURL = newURL
-            try? keyClient.saveEsploraURL(newURL)  // TODO: Future - saveURL(newURL, for: clientType)
-            updateBlockchainClient()
-        }
+        if newURL == self.blockchainURL { return }
+        self.blockchainURL = newURL
+        try? keyClient.saveEsploraURL(newURL)
+        updateBlockchainClient()
     }
 
     internal func updateBlockchainClient() {
         do {
             switch clientType {
             case .esplora:
+                // Cancel any Kyoto background tasks when switching to Esplora
+                CbfClient.cancelAllMonitoring()
                 self.blockchainClient = .esplora(url: self.blockchainURL)
             case .kyoto:
-                throw WalletError.backendNotImplemented
+                if self.network != .signet {
+                    self.clientType = .esplora
+                    CbfClient.cancelAllMonitoring()
+                    self.blockchainClient = .esplora(url: self.blockchainURL)
+                } else {
+                    let peer =
+                        self.blockchainURL.isEmpty
+                        ? Constants.Config.Kyoto.getDefaultPeer(for: self.network)
+                        : self.blockchainURL
+                    self.blockchainClient = .kyoto(peer: peer)
+                }
             case .electrum:
                 throw WalletError.backendNotImplemented
             }
         } catch {
-            // Fallback to esplora if selected backend not implemented
             self.clientType = .esplora
+            CbfClient.cancelAllMonitoring()
             self.blockchainClient = .esplora(url: self.blockchainURL)
         }
     }
@@ -227,8 +289,13 @@ private class BDKService {
             throw WalletError.dbNotFound
         }
 
-        let savedURL = try? keyClient.getEsploraURL()
-        let baseUrl = savedURL ?? network.url
+        let baseUrl: String
+        if self.clientType == .kyoto {
+            baseUrl = Constants.Config.Kyoto.getDefaultPeer(for: network)
+        } else {
+            let savedURL = try? keyClient.getEsploraURL()
+            baseUrl = savedURL ?? network.url
+        }
 
         var words12: String
         if let words = words, !words.isEmpty {
@@ -335,9 +402,13 @@ private class BDKService {
             throw WalletError.dbNotFound
         }
 
-        let savedURL = try? keyClient.getEsploraURL()
-
-        let baseUrl = savedURL ?? network.url
+        let baseUrl: String
+        if self.clientType == .kyoto {
+            baseUrl = Constants.Config.Kyoto.getDefaultPeer(for: network)
+        } else {
+            let savedURL = try? keyClient.getEsploraURL()
+            baseUrl = savedURL ?? network.url
+        }
 
         guard let xpubString = xpub, !xpubString.isEmpty else {
             throw WalletError.walletNotFound
@@ -434,20 +505,14 @@ private class BDKService {
     }
 
     func deleteWallet() throws {
-        let savedURL = try? keyClient.getEsploraURL()
-        let savedNetwork = try? keyClient.getNetwork()
-
         if let bundleID = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleID)
         }
         try self.keyClient.deleteBackupInfo()
         try Persister.deleteConnection()
-        if let savedURL = savedURL {
-            try keyClient.saveEsploraURL(savedURL)
-        }
-        if let savedNetwork = savedNetwork {
-            try keyClient.saveNetwork(savedNetwork)
-        }
+        // Clear persisted network and esplora URL to avoid cross-network carryover
+        try? keyClient.deleteNetwork()
+        try? keyClient.deleteEsplora()
 
         needsFullScan = true
     }
@@ -467,7 +532,7 @@ private class BDKService {
             amount: amount,
             feeRate: feeRate
         )
-        try signAndBroadcast(psbt: psbt)
+        try await signAndBroadcast(psbt: psbt)
     }
 
     func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws
@@ -486,7 +551,7 @@ private class BDKService {
         return txBuilder
     }
 
-    private func signAndBroadcast(psbt: Psbt) throws {
+    private func signAndBroadcast(psbt: Psbt) async throws {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let isSigned = try wallet.sign(psbt: psbt)
         if isSigned {
@@ -502,7 +567,7 @@ private class BDKService {
         let syncRequest = try wallet.startSyncWithRevealedSpks()
             .inspectSpks(inspector: inspector)
             .build()
-        let update = try self.blockchainClient.sync(
+        let update = try await self.blockchainClient.sync(
             syncRequest,
             UInt64(5)
         )
@@ -521,7 +586,7 @@ private class BDKService {
         let fullScanRequest = try wallet.startFullScan()
             .inspectSpksForAllKeychains(inspector: inspector)
             .build()
-        let update = try self.blockchainClient.fullScan(
+        let update = try await self.blockchainClient.fullScan(
             fullScanRequest,
             // using https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#address-gap-limit
             UInt64(20),
@@ -594,6 +659,23 @@ extension BDKService {
     func updateClientType(_ newType: BlockchainClientType) {
         self.clientType = newType
         try? keyClient.saveClientType(newType)
+
+        // Update URL to match the new client type
+        if newType == .kyoto {
+            // Force Signet network for Kyoto and persist the corrected network
+            if self.network != .signet {
+                self.network = .signet
+                try? keyClient.saveNetwork(Network.signet.description)
+            }
+            self.blockchainURL = Constants.Config.Kyoto.getDefaultPeer(for: .signet)
+        } else if newType == .esplora {
+            // Keep existing URL if it's valid for this network, otherwise use default
+            let defaultEsploraURL = self.network.url
+            if self.blockchainURL.isEmpty || self.blockchainURL.starts(with: "127.0.0.1") {
+                self.blockchainURL = defaultEsploraURL
+            }
+        }
+
         updateBlockchainClient()
     }
 
@@ -753,7 +835,7 @@ extension BDKClient {
             needsFullScan: { true },
             setNeedsFullScan: { _ in },
             getNetwork: { .signet },
-            getEsploraURL: { Constants.Config.EsploraServerURLNetwork.Signet.mutiny },
+            getEsploraURL: { Constants.Networks.Signet.Mutiny.esploraServers.first ?? "" },
             updateNetwork: { _ in },
             updateEsploraURL: { _ in },
             getAddressType: { .bip86 },

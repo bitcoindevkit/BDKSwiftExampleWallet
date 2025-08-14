@@ -46,6 +46,19 @@ class ActivityListViewModel {
         self.bdkClient = bdkClient
         self.transactions = transactions
         self.walletSyncState = walletSyncState
+
+        // Preload cached data synchronously so UI has content before first render
+        // transactions + listUnspent items are available from the persisted wallet db
+        if self.transactions.isEmpty {
+            if let cached = try? bdkClient.transactions() {
+                self.transactions = cached
+            }
+        }
+        if self.localOutputs.isEmpty {
+            if let cachedUtxos = try? bdkClient.listUnspent() {
+                self.localOutputs = cachedUtxos
+            }
+        }
     }
 
     func getTransactions() {
@@ -98,6 +111,7 @@ class ActivityListViewModel {
     }
 
     func syncOrFullScan() async {
+        self.walletSyncState = .syncing
         await startSyncWithProgress()
     }
 }

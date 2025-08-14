@@ -147,6 +147,9 @@
         }
       }
     },
+    "%" : {
+
+    },
     "%@ • %@" : {
       "localizations" : {
         "en" : {
@@ -210,6 +213,9 @@
           }
         }
       }
+    },
+    "%lld" : {
+
     },
     "%lld Output%@" : {
       "localizations" : {
@@ -468,6 +474,9 @@
         }
       }
     },
+    "Block %u" : {
+
+    },
     "Build Transaction Error" : {
       "localizations" : {
         "fr" : {
@@ -483,6 +492,9 @@
           }
         }
       }
+    },
+    "Client" : {
+
     },
     "Coldcard Verify Address" : {
 
@@ -624,6 +636,9 @@
         }
       }
     },
+    "Esplora" : {
+
+    },
     "Esplora Server" : {
       "localizations" : {
         "fr" : {
@@ -733,6 +748,9 @@
           }
         }
       }
+    },
+    "Kyoto" : {
+
     },
     "Navigation Title" : {
       "extractionState" : "stale",
@@ -1049,6 +1067,9 @@
           }
         }
       }
+    },
+    "Select Client Type" : {
+
     },
     "Select Fee" : {
       "localizations" : {

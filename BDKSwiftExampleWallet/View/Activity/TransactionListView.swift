@@ -31,20 +31,17 @@ struct TransactionListView: View {
                     Text("No Transactions")
                         .font(.subheadline)
 
-                    let mutinyFaucetURL = URL(string: "https://faucet.mutinynet.com")
-                    let signetFaucetURL = URL(string: "https://signetfaucet.com")
+                    let signetNetwork = Constants.Config.SignetNetwork.from(
+                        esploraURL: viewModel.getEsploraURL()
+                    )
 
-                    if let mutinyFaucetURL,
-                        let signetFaucetURL,
-                        viewModel.getNetwork() != Network.testnet.description
-                            && viewModel.getNetwork() != Network.testnet4.description
+                    if viewModel.getNetwork() != Network.testnet.description
+                        && viewModel.getNetwork() != Network.testnet4.description
                     {
                         Button {
-                            UIApplication.shared.open(
-                                viewModel.getEsploraURL()
-                                    == Constants.Config.EsploraServerURLNetwork.Signet.mutiny
-                                    ? mutinyFaucetURL : signetFaucetURL
-                            )
+                            if let faucetURL = signetNetwork.defaultFaucet {
+                                UIApplication.shared.open(faucetURL)
+                            }
                         } label: {
                             HStack(spacing: 2) {
                                 Text("Get sats from faucet")
@@ -57,7 +54,7 @@ struct TransactionListView: View {
                         .buttonStyle(.plain)
                     }
 
-                    let testnet4FaucetURL = URL(string: "https://mempool.space/testnet4/faucet")
+                    let testnet4FaucetURL = Constants.Networks.Testnet4.Faucet.mempool.url
 
                     if let testnet4FaucetURL,
                         viewModel.getNetwork() == Network.testnet4.description

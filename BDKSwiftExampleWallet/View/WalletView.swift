@@ -11,6 +11,7 @@ import SwiftUI
 struct WalletView: View {
     @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
         .bitcoinSats
+    @AppStorage("KyotoLastBlockHeight") private var kyotoLastHeight: Int = 0
     @Bindable var viewModel: WalletViewModel
     @Binding var sendNavigationPath: NavigationPath
     @State private var isFirstAppear = true
@@ -47,7 +48,10 @@ struct WalletView: View {
                         progress: viewModel.progress,
                         inspectedScripts: viewModel.inspectedScripts,
                         totalScripts: viewModel.totalScripts,
-                        needsFullScan: viewModel.needsFullScan
+                        needsFullScan: viewModel.needsFullScan,
+                        isKyotoClient: viewModel.isKyotoClient,
+                        isKyotoConnected: viewModel.isKyotoConnected,
+                        currentBlockHeight: viewModel.currentBlockHeight
                     ) {
                         showAllTransactions = true
                     }
@@ -58,10 +62,16 @@ struct WalletView: View {
                         walletSyncState: viewModel.walletSyncState
                     )
                     .refreshable {
-                        await viewModel.syncOrFullScan()
-                        viewModel.getBalance()
-                        viewModel.getTransactions()
-                        await viewModel.getPrices()
+                        if viewModel.isKyotoClient {
+                            viewModel.getBalance()
+                            viewModel.getTransactions()
+                            await viewModel.getPrices()
+                        } else {
+                            await viewModel.syncOrFullScan()
+                            viewModel.getBalance()
+                            viewModel.getTransactions()
+                            await viewModel.getPrices()
+                        }
                     }
 
                     HStack {
@@ -100,6 +110,11 @@ struct WalletView: View {
                 ),
                 perform: { _ in
                     Task {
+                        // Show cached state first
+                        viewModel.getBalance()
+                        viewModel.getTransactions()
+
+                        // Then sync and refresh
                         await viewModel.syncOrFullScan()
                         viewModel.getBalance()
                         viewModel.getTransactions()
@@ -109,14 +124,29 @@ struct WalletView: View {
             )
             .task {
                 viewModel.getBalance()
+                viewModel.getTransactions()
                 if isFirstAppear || newTransactionSent {
                     await viewModel.syncOrFullScan()
                     isFirstAppear = false
                     newTransactionSent = false
                     viewModel.getBalance()
+                    viewModel.getTransactions()
                 }
-                viewModel.getTransactions()
                 await viewModel.getPrices()
+            }
+            .onAppear {
+                // Seed height from AppStorage on first show to avoid displaying 0 when Kyoto is active
+                if viewModel.isKyotoClient,
+                    viewModel.currentBlockHeight == 0,
+                    kyotoLastHeight > 0
+                {
+                    viewModel.currentBlockHeight = UInt32(kyotoLastHeight)
+                }
+            }
+            .onChange(of: viewModel.currentBlockHeight) { _, newValue in
+                if newValue > 0 {
+                    kyotoLastHeight = Int(newValue)
+                }
             }
 
         }

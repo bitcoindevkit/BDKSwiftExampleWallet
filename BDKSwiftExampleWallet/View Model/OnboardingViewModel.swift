@@ -9,7 +9,6 @@ import BitcoinDevKit
 import Foundation
 import SwiftUI
 
-
 // Can't make @Observable yet
 // https://developer.apple.com/forums/thread/731187
 // Feature or Bug?
@@ -30,19 +29,46 @@ class OnboardingViewModel: ObservableObject {
     @Published var onboardingViewError: AppError?
     @Published var selectedNetwork: Network = .signet {
         didSet {
+            guard !isInitializing else { return }
             bdkClient.updateNetwork(selectedNetwork)
-            selectedURL = availableURLs.first ?? ""
-            bdkClient.updateEsploraURL(selectedURL)
+            // If switching away from Signet and Kyoto is selected, switch to Esplora
+            if selectedNetwork != .signet && selectedClientType == .kyoto {
+                selectedClientType = .esplora
+            }
+            if selectedClientType == .esplora {
+                selectedURL = availableURLs.first ?? ""
+            } else if selectedClientType == .kyoto {
+                // Set to a valid Esplora URL to avoid picker warnings, even though Kyoto won't use it
+                selectedURL = availableURLs.first ?? ""
+            }
         }
     }
     @Published var selectedURL: String = "" {
         didSet {
-            bdkClient.updateEsploraURL(selectedURL)
+            guard !isInitializing else { return }
+            // Only update Esplora URL for Esplora clients
+            if selectedClientType == .esplora {
+                bdkClient.updateEsploraURL(selectedURL)
+            }
         }
     }
     @Published var selectedAddressType: AddressType = .bip86 {
         didSet {
+            guard !isInitializing else { return }
             bdkClient.updateAddressType(selectedAddressType)
+        }
+    }
+    @Published var selectedClientType: BlockchainClientType = .esplora {
+        didSet {
+            guard !isInitializing else { return }
+            bdkClient.updateClientType(selectedClientType)
+            // When switching client types, update URL appropriately
+            if selectedClientType == .kyoto {
+                // Set to a valid Esplora URL to avoid picker warnings, even though Kyoto won't use it
+                selectedURL = availableURLs.first ?? ""
+            } else if selectedClientType == .esplora {
+                selectedURL = availableURLs.first ?? ""
+            }
         }
     }
     @Published var words: String = ""
@@ -56,15 +82,15 @@ class OnboardingViewModel: ObservableObject {
     var availableURLs: [String] {
         switch selectedNetwork {
         case .bitcoin:
-            return Constants.Config.EsploraServerURLNetwork.Bitcoin.allValues
+            return Constants.Networks.Bitcoin.esploraServers
         case .testnet:
-            return Constants.Config.EsploraServerURLNetwork.Testnet.allValues
+            return Constants.Networks.Testnet.esploraServers
         case .regtest:
-            return Constants.Config.EsploraServerURLNetwork.Regtest.allValues
+            return Constants.Networks.Regtest.esploraServers
         case .signet:
-            return Constants.Config.EsploraServerURLNetwork.Signet.allValues
+            return Constants.Networks.Signet.allEsploraServers
         case .testnet4:
-            return Constants.Config.EsploraServerURLNetwork.Testnet4.allValues
+            return Constants.Networks.Testnet4.esploraServers
         }
     }
     var buttonColor: Color {
@@ -82,13 +108,22 @@ class OnboardingViewModel: ObservableObject {
         }
     }
 
+    private var isInitializing = true
+
     init(
         bdkClient: BDKClient = .live
     ) {
         self.bdkClient = bdkClient
+
+        // Set properties during initialization to avoid didSet side effects
         self.selectedNetwork = bdkClient.getNetwork()
-        self.selectedURL = bdkClient.getEsploraURL()
         self.selectedAddressType = bdkClient.getAddressType()
+        self.selectedClientType = bdkClient.getClientType()
+
+        // Always set to Esplora URL for UI consistency (Kyoto will use peer internally)
+        self.selectedURL = bdkClient.getEsploraURL()
+
+        isInitializing = false
     }
 
     func createWallet() {
