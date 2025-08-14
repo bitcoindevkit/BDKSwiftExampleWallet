@@ -19,21 +19,6 @@ extension CbfClient {
 
     static func createComponents(wallet: Wallet) -> (client: CbfClient, node: CbfNode) {
         do {
-            #if DEBUG
-            let dataDirPath = Constants.Config.Kyoto.dbPath
-            print("[Kyoto] dataDir: \(dataDirPath)")
-            do {
-                let testFile = (dataDirPath as NSString).appendingPathComponent(".write_test")
-                try Data("ok".utf8).write(to: URL(fileURLWithPath: testFile))
-                try? FileManager.default.removeItem(atPath: testFile)
-                print("[Kyoto] dataDir writable: true")
-            } catch {
-                print("[Kyoto] dataDir writable: false error=\(error)")
-            }
-            let peers = Constants.Networks.Signet.Regular.kyotoPeers
-            print("[Kyoto] peers count: \(peers.count)")
-            for peer in peers { print("[Kyoto] peer: \(peer)") }
-            #endif
 
             let components = try CbfBuilder()
                 .logLevel(logLevel: .debug)
@@ -43,14 +28,8 @@ extension CbfClient {
                 .build(wallet: wallet)
 
             components.node.run()
-            #if DEBUG
-            print("[Kyoto] node started; peers=\(Constants.Networks.Signet.Regular.kyotoPeers.count)")
-            #endif
             
             components.client.startBackgroundMonitoring()
-            #if DEBUG
-            print("[Kyoto] background monitoring started")
-            #endif
 
             return (client: components.client, node: components.node)
         } catch {
@@ -70,9 +49,6 @@ extension CbfClient {
                     CbfClient.monitoringTasksQueue.sync { Self.lastInfoAt[id] = Date() }
                     switch info {
                     case let .progress(progress):
-                        #if DEBUG
-                        print("[Kyoto] progress: \(progress)")
-                        #endif
                         await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoProgressUpdate"),
@@ -81,9 +57,6 @@ extension CbfClient {
                             )
                         }
                     case let .newChainHeight(height):
-                        #if DEBUG
-                        print("[Kyoto] newChainHeight: \(height)")
-                        #endif
                         await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoChainHeightUpdate"),
@@ -100,9 +73,6 @@ extension CbfClient {
                             }
                         }
                     case .connectionsMet, .successfulHandshake:
-                        #if DEBUG
-                        print("[Kyoto] connections established")
-                        #endif
                         await MainActor.run {
                             if !hasEstablishedConnection {
                                 hasEstablishedConnection = true
@@ -139,11 +109,6 @@ extension CbfClient {
                 CbfClient.monitoringTasksQueue.sync {
                     if let last = Self.lastInfoAt[id] { idleFor = Date().timeIntervalSince(last) }
                 }
-                #if DEBUG
-                if idleFor >= 5 {
-                    print("[Kyoto] idle: waiting for info… \(Int(idleFor))s")
-                }
-                #endif
             }
         }
 
@@ -157,9 +122,6 @@ extension CbfClient {
                 if Task.isCancelled { break }
                 do {
                     let warning = try await self.nextWarning()
-                    #if DEBUG
-                    print("[Kyoto][warning] \(String(describing: warning))")
-                    #endif
                     if case .needConnections = warning {
                         await MainActor.run {
                             NotificationCenter.default.post(
@@ -186,13 +148,7 @@ extension CbfClient {
             while true {
                 if Task.isCancelled { break }
                 do {
-                    #if DEBUG
-                    print("[Kyoto] calling nextLog()")
-                    #endif
                     let log = try await self.nextLog()
-                    #if DEBUG
-                    print("[Kyoto] nextLog() returned: \(log)")
-                    #endif
                 } catch is CancellationError {
                     break
                 } catch {

@@ -57,10 +57,6 @@ class WalletViewModel {
                 self?.inspectedScripts = inspected
                 let fraction = total > 0 ? Float(inspected) / Float(total) : 0
                 self?.progress = fraction
-                #if DEBUG
-                let percent = Int((fraction * 100).rounded())
-                print("[Esplora][VM] inspected=\(inspected)/\(total) fraction=\(String(format: "%.4f", fraction)) percent=\(percent)%")
-                #endif
             }
         }
     }
@@ -72,9 +68,6 @@ class WalletViewModel {
                 let progressPercent = UInt64(progress)
                 self?.inspectedScripts = progressPercent
                 self?.totalScripts = 100
-                #if DEBUG
-                print("[Kyoto][VM] percent=\(Int(progress))%")
-                #endif
             }
         }
     }
