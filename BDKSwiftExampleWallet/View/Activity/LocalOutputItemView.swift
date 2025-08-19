@@ -9,9 +9,12 @@ import BitcoinDevKit
 import SwiftUI
 
 struct LocalOutputItemView: View {
+    @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
+        .bitcoinSats
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     let isRedacted: Bool
     let output: LocalOutput
+    let fiatPrice: Double
 
     var body: some View {
         HStack(spacing: 15) {
@@ -53,14 +56,24 @@ struct LocalOutputItemView: View {
             .redacted(reason: isRedacted ? .placeholder : [])
 
             Spacer()
-
-            Text("\(output.txout.value.toSat()) sats")
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .fontDesign(.rounded)
-                .lineLimit(1)
-                .redacted(reason: isRedacted ? .placeholder : [])
-
+            
+            Group {
+                HStack {
+                    Text(balanceFormat.displayPrefix)
+                    Text(
+                        balanceFormat.formatted(
+                            output.txout.value.toSat(),
+                            fiatPrice: fiatPrice
+                        )
+                    )
+                    Text(balanceFormat.displayText)
+                }
+            }
+            .font(.subheadline)
+            .fontWeight(.semibold)
+            .fontDesign(.rounded)
+            .lineLimit(1)
+            .redacted(reason: isRedacted ? .placeholder : [])
         }
         .padding(.vertical, 15.0)
         .padding(.vertical, 5.0)
@@ -71,6 +84,7 @@ struct LocalOutputItemView: View {
 #Preview {
     LocalOutputItemView(
         isRedacted: false,
-        output: .mock
+        output: .mock,
+        fiatPrice: 714.23
     )
 }

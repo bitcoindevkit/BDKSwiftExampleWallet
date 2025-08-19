@@ -14,10 +14,6 @@ struct BalanceView: View {
     private var format: BalanceDisplayFormat
     private let balance: UInt64
     private var fiatPrice: Double
-    private var satsPrice: Double {
-        let usdValue = Double(balance).valueInUSD(price: fiatPrice)
-        return usdValue
-    }
 
     private var currencySymbol: some View {
         Image(systemName: format == .fiat ? "dollarsign" : "bitcoinsign")
@@ -37,34 +33,23 @@ struct BalanceView: View {
 
     @MainActor
     private var formattedBalance: String {
-        switch format {
-        case .sats:
-            return balance.formatted(.number)
-        case .bitcoin:
-            return String(format: "%.8f", Double(balance) / 100_000_000)
-        case .bitcoinSats:
-            return balance.formattedSatoshis()
-        case .fiat:
-            return satsPrice.formatted(.number.precision(.fractionLength(2)))
-        case .bip177:
-            return balance.formattedBip177()
-        }
+        return format.formatted(balance, fiatPrice: fiatPrice)
     }
 
     @MainActor
     var balanceText: some View {
-        Text(format == .fiat && satsPrice == 0 ? "00.00" : formattedBalance)
+        Text(format == .fiat && fiatPrice == 0 ? "00.00" : formattedBalance)
             .contentTransition(.numericText(countsDown: true))
             .fontWeight(.semibold)
             .fontDesign(.rounded)
             .foregroundStyle(
-                format == .fiat && satsPrice == 0 ? .secondary : .primary
+                format == .fiat && fiatPrice == 0 ? .secondary : .primary
             )
             .opacity(
-                format == .fiat && satsPrice == 0 ? balanceTextPulsingOpacity : 1
+                format == .fiat && fiatPrice == 0 ? balanceTextPulsingOpacity : 1
             )
             .animation(.spring(response: 0.4, dampingFraction: 0.8), value: format)
-            .animation(.easeInOut, value: satsPrice)
+            .animation(.easeInOut, value: fiatPrice)
             .onAppear {
                 withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
                     balanceTextPulsingOpacity = 0.3

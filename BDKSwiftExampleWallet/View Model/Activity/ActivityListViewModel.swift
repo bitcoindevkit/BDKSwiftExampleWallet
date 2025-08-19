@@ -22,6 +22,7 @@ class ActivityListViewModel {
     var totalScripts: UInt64 = 0
     var walletSyncState: WalletSyncState
     var walletViewError: AppError?
+    var fiatPrice: Double
 
     private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
         { [weak self] inspected, total in
@@ -41,11 +42,13 @@ class ActivityListViewModel {
     init(
         bdkClient: BDKClient = .live,
         transactions: [CanonicalTx] = [],
-        walletSyncState: WalletSyncState = .notStarted
+        walletSyncState: WalletSyncState = .notStarted,
+        fiatPrice: Double
     ) {
         self.bdkClient = bdkClient
         self.transactions = transactions
         self.walletSyncState = walletSyncState
+        self.fiatPrice = fiatPrice
 
         // Preload cached data synchronously so UI has content before first render
         // transactions + listUnspent items are available from the persisted wallet db

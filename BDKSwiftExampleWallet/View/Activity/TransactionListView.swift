@@ -13,14 +13,32 @@ struct TransactionListView: View {
     @Bindable var viewModel: TransactionListViewModel
     let transactions: [CanonicalTx]
     let walletSyncState: WalletSyncState
+    private let format: BalanceDisplayFormat
+    private let fiatPrice: Double
 
+    init(
+        viewModel: TransactionListViewModel,
+        transactions: [CanonicalTx],
+        walletSyncState: WalletSyncState,
+        format: BalanceDisplayFormat,
+        fiatPrice: Double
+    ) {
+        self.viewModel = viewModel
+        self.transactions = transactions
+        self.walletSyncState = walletSyncState
+        self.format = format
+        self.fiatPrice = fiatPrice
+    }
+    
     var body: some View {
 
         List {
             if transactions.isEmpty && walletSyncState == .syncing {
                 TransactionItemView(
                     txDetails: .mock,
-                    isRedacted: true
+                    isRedacted: true,
+                    format: format,
+                    fiatPrice: fiatPrice
                 )
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
@@ -94,12 +112,15 @@ struct TransactionListView: View {
                                 viewModel: .init(
                                     bdkClient: .live
                                 ),
-                                txDetails: txDetails
+                                txDetails: txDetails,
+                                fiatPrice: fiatPrice
                             )
                         ) {
                             TransactionItemView(
                                 txDetails: txDetails,
-                                isRedacted: false
+                                isRedacted: false,
+                                format: format,
+                                fiatPrice: fiatPrice
                             )
                         }
 
@@ -139,7 +160,9 @@ struct TransactionListView: View {
             transactions: [
                 .mock
             ],
-            walletSyncState: .synced
+            walletSyncState: .synced,
+            format: .bip177,
+            fiatPrice: 714.23
         )
     }
     #Preview {
@@ -148,7 +171,9 @@ struct TransactionListView: View {
                 bdkClient: .mock
             ),
             transactions: [],
-            walletSyncState: .synced
+            walletSyncState: .synced,
+            format: .bip177,
+            fiatPrice: 714.23
         )
     }
 #endif

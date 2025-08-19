@@ -59,7 +59,9 @@ struct WalletView: View {
                     TransactionListView(
                         viewModel: .init(),
                         transactions: viewModel.recentTransactions,
-                        walletSyncState: viewModel.walletSyncState
+                        walletSyncState: viewModel.walletSyncState,
+                        format: balanceFormat,
+                        fiatPrice: viewModel.price
                     )
                     .refreshable {
                         if viewModel.isKyotoClient {
@@ -151,7 +153,7 @@ struct WalletView: View {
 
         }
         .navigationDestination(isPresented: $showAllTransactions) {
-            ActivityListView(viewModel: .init())
+            ActivityListView(viewModel: .init(fiatPrice: viewModel.price))
         }
         .navigationDestination(for: NavigationDestination.self) { destination in
             switch destination {
