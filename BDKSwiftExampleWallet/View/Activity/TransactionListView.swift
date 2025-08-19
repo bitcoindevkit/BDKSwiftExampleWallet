@@ -112,7 +112,8 @@ struct TransactionListView: View {
                                 viewModel: .init(
                                     bdkClient: .live
                                 ),
-                                txDetails: txDetails
+                                txDetails: txDetails,
+                                fiatPrice: fiatPrice
                             )
                         ) {
                             TransactionItemView(

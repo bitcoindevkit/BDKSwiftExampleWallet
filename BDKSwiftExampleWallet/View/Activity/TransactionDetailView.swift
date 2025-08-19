@@ -10,10 +10,13 @@ import BitcoinUI
 import SwiftUI
 
 struct TransactionDetailView: View {
+    @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
+        .bitcoinSats
     @Bindable var viewModel: TransactionDetailViewModel
     @State private var isCopied = false
     @State private var showCheckmark = false
     let txDetails: TxDetails
+    let fiatPrice: Double
 
     var body: some View {
 
@@ -55,8 +58,14 @@ struct TransactionDetailView: View {
 
             VStack(spacing: 8) {
                 HStack {
-                    Text(abs(txDetails.balanceDelta).delimiter)
-                    Text("sats")
+                    Text(balanceFormat.displayPrefix)
+                    Text(
+                        balanceFormat.formatted(
+                            UInt64(abs(txDetails.balanceDelta)),
+                            fiatPrice: fiatPrice
+                        )
+                    )
+                    Text(balanceFormat.displayText)
                 }
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
@@ -168,7 +177,8 @@ struct TransactionDetailView: View {
             viewModel: .init(
                 bdkClient: .mock
             ),
-            txDetails: .mock
+            txDetails: .mock,
+            fiatPrice: 714.23
         )
     }
 #endif

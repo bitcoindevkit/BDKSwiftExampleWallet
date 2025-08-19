@@ -288,6 +288,7 @@
       }
     },
     "%llu sats" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fr" : {
           "stringUnit" : {

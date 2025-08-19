@@ -36,7 +36,8 @@ struct ActivityListView: View {
                 } else {
                     LocalOutputListView(
                         localOutputs: viewModel.localOutputs,
-                        walletSyncState: viewModel.walletSyncState
+                        walletSyncState: viewModel.walletSyncState,
+                        fiatPrice: viewModel.fiatPrice
                     )
                     .transition(.blurReplace)
                 }
