@@ -8,6 +8,7 @@
 import BitcoinDevKit
 import Foundation
 import Observation
+import os
 import SwiftUI
 
 @MainActor
@@ -16,6 +17,7 @@ class WalletViewModel {
     let bdkClient: BDKClient
     let keyClient: KeyClient
     let priceClient: PriceClient
+    private let logger = Logger(subsystem: "com.bitcoindevkit.bdkswiftexamplewallet", category: "WalletViewModel")
 
     var balanceTotal: UInt64 = 0
     var canSend: Bool {
@@ -172,6 +174,9 @@ class WalletViewModel {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch let error as EsploraError {
+            logger.error(
+                "full scan esplora error: url=\(self.bdkClient.getEsploraURL(), privacy: .public) message=\(error.localizedDescription, privacy: .public)"
+            )
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch let error as PersistenceError {
@@ -230,6 +235,9 @@ class WalletViewModel {
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch let error as EsploraError {
+            logger.error(
+                "sync esplora error: url=\(self.bdkClient.getEsploraURL(), privacy: .public) message=\(error.localizedDescription, privacy: .public)"
+            )
             self.walletViewError = .generic(message: error.localizedDescription)
             self.showingWalletViewErrorAlert = true
         } catch let error as RequestBuilderError {
