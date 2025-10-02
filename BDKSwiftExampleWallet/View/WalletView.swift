@@ -76,26 +76,6 @@ struct WalletView: View {
                         }
                     }
 
-                    HStack {
-                        Button {
-                            showReceiveView = true
-                        } label: {
-                            Image(systemName: "qrcode")
-                                .font(.title)
-                                .foregroundStyle(.primary)
-                        }
-
-                        Spacer()
-
-                        NavigationLink(value: NavigationDestination.address) {
-                            Image(systemName: "qrcode.viewfinder")
-                                .font(.title)
-                                .foregroundStyle(viewModel.canSend ? .primary : .secondary)
-                        }
-                        .disabled(!viewModel.canSend)
-                    }
-                    .padding([.horizontal, .bottom])
-
                 }
 
             }
@@ -212,6 +192,23 @@ struct WalletView: View {
                 } label: {
                     Image(systemName: "person.and.background.dotted")
                 }
+            }
+
+            ToolbarItemGroup(placement: .bottomBar) {
+                Button {
+                    showReceiveView = true
+                } label: {
+                    Image(systemName: "qrcode")
+                }
+
+                Spacer()
+
+                Button {
+                    sendNavigationPath.append(NavigationDestination.address)
+                } label: {
+                    Image(systemName: "qrcode.viewfinder")
+                }
+                .disabled(!viewModel.canSend)
             }
         }
     }
