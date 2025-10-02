@@ -29,7 +29,7 @@ struct TransactionListView: View {
         self.format = format
         self.fiatPrice = fiatPrice
     }
-    
+
     var body: some View {
 
         List {

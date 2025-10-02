@@ -48,7 +48,7 @@ extension CbfClient {
                     let info = try await self.nextInfo()
                     CbfClient.monitoringTasksQueue.sync { Self.lastInfoAt[id] = Date() }
                     switch info {
-                    case let .progress(progress):
+                    case .progress(let progress):
                         await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoProgressUpdate"),
@@ -56,7 +56,7 @@ extension CbfClient {
                                 userInfo: ["progress": progress]
                             )
                         }
-                    case let .newChainHeight(height):
+                    case .newChainHeight(let height):
                         await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoChainHeightUpdate"),
