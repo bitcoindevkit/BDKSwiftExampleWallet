@@ -56,7 +56,7 @@ struct LocalOutputItemView: View {
             .redacted(reason: isRedacted ? .placeholder : [])
 
             Spacer()
-            
+
             Group {
                 HStack {
                     Text(balanceFormat.displayPrefix)

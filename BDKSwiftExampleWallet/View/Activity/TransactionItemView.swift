@@ -15,7 +15,7 @@ struct TransactionItemView: View {
     let isRedacted: Bool
     private let format: BalanceDisplayFormat
     private var fiatPrice: Double
-    
+
     init(
         txDetails: TxDetails,
         isRedacted: Bool,

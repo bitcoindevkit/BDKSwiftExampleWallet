@@ -19,10 +19,10 @@ enum BalanceDisplayFormat: String, CaseIterable, Codable {
         switch self {
         case .bitcoinSats, .bitcoin, .bip177: return "₿"
         case .fiat: return "$"
-        default : return ""
+        default: return ""
         }
     }
-    
+
     var displayText: String {
         switch self {
         case .sats, .bitcoinSats: return "sats"
@@ -31,7 +31,7 @@ enum BalanceDisplayFormat: String, CaseIterable, Codable {
         case .fiat: return "USD"
         }
     }
-    
+
     func formatted(_ btcAmount: UInt64, fiatPrice: Double) -> String {
         switch self {
         case .sats:
