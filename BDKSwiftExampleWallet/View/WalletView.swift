@@ -190,7 +190,7 @@ struct WalletView: View {
                 Button {
                     showSettingsView = true
                 } label: {
-                    Image(systemName: "person.and.background.dotted")
+                    Image(systemName: "ellipsis")
                 }
             }
 
