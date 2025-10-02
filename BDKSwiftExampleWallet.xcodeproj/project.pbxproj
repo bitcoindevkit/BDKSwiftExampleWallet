@@ -108,6 +108,7 @@
 		AEE6C74F2ABCBA4600442ADD /* WalletSyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6C74E2ABCBA4600442ADD /* WalletSyncState.swift */; };
 		AEE83A492C07F54B00834468 /* BitcoinDevKit in Frameworks */ = {isa = PBXBuildFile; productRef = AEE83A482C07F54B00834468 /* BitcoinDevKit */; };
 		AEEA0E402DEF80B600C83255 /* Outpoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA0E3F2DEF80B600C83255 /* Outpoint+Extensions.swift */; };
+		AEEC65532E8EC260003B55E8 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = AEEC65522E8EC25F003B55E8 /* AppIcon.icon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +214,7 @@
 		AEE6C74B2ABCB3E200442ADD /* Transaction+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+Extensions.swift"; sourceTree = "<group>"; };
 		AEE6C74E2ABCBA4600442ADD /* WalletSyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSyncState.swift; sourceTree = "<group>"; };
 		AEEA0E3F2DEF80B600C83255 /* Outpoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Outpoint+Extensions.swift"; sourceTree = "<group>"; };
+		AEEC65522E8EC25F003B55E8 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +269,7 @@
 		A7FBCE392A72944C007C960E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AEEC65522E8EC25F003B55E8 /* AppIcon.icon */,
 				A733D6CF2A81113000F333B4 /* Localizable.xcstrings */,
 			);
 			path = Resources;
@@ -697,6 +700,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE4984A62A1BBCB8009951E2 /* README.md in Resources */,
+				AEEC65532E8EC260003B55E8 /* AppIcon.icon in Resources */,
 				A733D6D02A81113000F333B4 /* Localizable.xcstrings in Resources */,
 				AE4984832A1BBBD7009951E2 /* Preview Assets.xcassets in Resources */,
 				AE4984802A1BBBD7009951E2 /* Assets.xcassets in Resources */,
