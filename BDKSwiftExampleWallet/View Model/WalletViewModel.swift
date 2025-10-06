@@ -62,12 +62,13 @@ class WalletViewModel {
     }
 
     private var updateKyotoProgress: @Sendable (Float) -> Void {
-        { [weak self] progress in
-            DispatchQueue.main.async {
-                self?.progress = progress
-                let progressPercent = UInt64(progress)
-                self?.inspectedScripts = progressPercent
-                self?.totalScripts = 100
+        { [weak self] rawProgress in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                let sanitized = rawProgress.isFinite ? min(max(rawProgress, 0), 100) : 0
+                self.progress = sanitized
+                self.inspectedScripts = UInt64(sanitized)
+                self.totalScripts = 100
             }
         }
     }
