@@ -41,7 +41,6 @@ extension CbfClient {
         let id = ObjectIdentifier(self)
 
         let task = Task { [self] in
-            var hasEstablishedConnection = false
             while true {
                 if Task.isCancelled { break }
                 do {
@@ -63,25 +62,32 @@ extension CbfClient {
                                 object: nil,
                                 userInfo: ["height": height]
                             )
-                            if !hasEstablishedConnection {
-                                hasEstablishedConnection = true
-                                NotificationCenter.default.post(
-                                    name: NSNotification.Name("KyotoConnectionUpdate"),
-                                    object: nil,
-                                    userInfo: ["connected": true]
-                                )
-                            }
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoConnectionUpdate"),
+                                object: nil,
+                                userInfo: ["connected": true]
+                            )
+                        }
+                    case .stateUpdate(let nodeState):
+                        await MainActor.run {
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoStateUpdate"),
+                                object: nil,
+                                userInfo: ["state": nodeState]
+                            )
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoConnectionUpdate"),
+                                object: nil,
+                                userInfo: ["connected": true]
+                            )
                         }
                     case .connectionsMet, .successfulHandshake:
                         await MainActor.run {
-                            if !hasEstablishedConnection {
-                                hasEstablishedConnection = true
-                                NotificationCenter.default.post(
-                                    name: NSNotification.Name("KyotoConnectionUpdate"),
-                                    object: nil,
-                                    userInfo: ["connected": true]
-                                )
-                            }
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoConnectionUpdate"),
+                                object: nil,
+                                userInfo: ["connected": true]
+                            )
                         }
                     default:
                         break

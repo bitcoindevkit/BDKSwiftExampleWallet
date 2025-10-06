@@ -47,6 +47,7 @@ class WalletViewModel {
     }
     var isKyotoConnected: Bool = false
     var currentBlockHeight: UInt32 = 0
+    var kyotoNodeState: NodeState?
 
     private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
         { [weak self] inspected, total in
@@ -62,12 +63,13 @@ class WalletViewModel {
     }
 
     private var updateKyotoProgress: @Sendable (Float) -> Void {
-        { [weak self] progress in
-            DispatchQueue.main.async {
-                self?.progress = progress
-                let progressPercent = UInt64(progress)
-                self?.inspectedScripts = progressPercent
-                self?.totalScripts = 100
+        { [weak self] rawProgress in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                let sanitized = rawProgress.isFinite ? min(max(rawProgress, 0), 100) : 0
+                self.progress = sanitized
+                self.inspectedScripts = UInt64(sanitized)
+                self.totalScripts = 100
             }
         }
     }
@@ -157,6 +159,23 @@ class WalletViewModel {
                 self.getTransactions()
                 Task {
                     await self.getPrices()
+                }
+            }
+        }
+
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("KyotoStateUpdate"),
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let self else { return }
+            if self.bdkClient.getClientType() != .kyoto { return }
+            if let nodeState = notification.userInfo?["state"] as? NodeState {
+                self.kyotoNodeState = nodeState
+                if nodeState == .transactionsSynced {
+                    self.walletSyncState = .synced
+                } else {
+                    self.walletSyncState = .syncing
                 }
             }
         }

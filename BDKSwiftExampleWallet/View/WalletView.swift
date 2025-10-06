@@ -51,7 +51,8 @@ struct WalletView: View {
                         needsFullScan: viewModel.needsFullScan,
                         isKyotoClient: viewModel.isKyotoClient,
                         isKyotoConnected: viewModel.isKyotoConnected,
-                        currentBlockHeight: viewModel.currentBlockHeight
+                        currentBlockHeight: viewModel.currentBlockHeight,
+                        kyotoNodeState: viewModel.kyotoNodeState
                     ) {
                         showAllTransactions = true
                     }
