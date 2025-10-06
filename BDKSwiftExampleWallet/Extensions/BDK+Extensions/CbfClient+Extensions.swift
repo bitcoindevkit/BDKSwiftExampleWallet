@@ -72,6 +72,14 @@ extension CbfClient {
                                 )
                             }
                         }
+                    case .stateUpdate(let nodeState):
+                        await MainActor.run {
+                            NotificationCenter.default.post(
+                                name: NSNotification.Name("KyotoStateUpdate"),
+                                object: nil,
+                                userInfo: ["state": nodeState]
+                            )
+                        }
                     case .connectionsMet, .successfulHandshake:
                         await MainActor.run {
                             if !hasEstablishedConnection {
