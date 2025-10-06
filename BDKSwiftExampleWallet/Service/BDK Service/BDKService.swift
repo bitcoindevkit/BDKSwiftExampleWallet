@@ -557,6 +557,16 @@ private class BDKService {
         if isSigned {
             let transaction = try psbt.extractTx()
             try self.blockchainClient.broadcast(transaction)
+
+            if self.clientType == .kyoto {
+                let lastSeen = UInt64(Date().timeIntervalSince1970)
+                let unconfirmedTx = UnconfirmedTx(tx: transaction, lastSeen: lastSeen)
+                wallet.applyUnconfirmedTxs(unconfirmedTxs: [unconfirmedTx])
+                guard let persister = self.persister else {
+                    throw WalletError.dbNotFound
+                }
+                let _ = try wallet.persist(persister: persister)
+            }
         } else {
             throw WalletError.notSigned
         }
