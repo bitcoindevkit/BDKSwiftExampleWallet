@@ -47,7 +47,6 @@ class WalletViewModel {
     }
     var isKyotoConnected: Bool = false
     var currentBlockHeight: UInt32 = 0
-    var kyotoNodeState: NodeState?
 
     private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
         { [weak self] inspected, total in
@@ -105,6 +104,9 @@ class WalletViewModel {
             if self.bdkClient.getClientType() != .kyoto { return }
             if let progress = notification.userInfo?["progress"] as? Float {
                 self.updateKyotoProgress(progress)
+                if let height = notification.userInfo?["height"] as? Int {
+                    self.currentBlockHeight = UInt32(max(height, 0))
+                }
                 // Consider any progress update as evidence of an active connection
                 // so the UI does not falsely show a red disconnected indicator while syncing.
                 if progress > 0 {
@@ -148,8 +150,8 @@ class WalletViewModel {
             guard let self else { return }
             // Ignore Kyoto updates unless client type is Kyoto
             if self.bdkClient.getClientType() != .kyoto { return }
-            if let height = notification.userInfo?["height"] as? UInt32 {
-                self.currentBlockHeight = height
+            if let height = notification.userInfo?["height"] as? Int {
+                self.currentBlockHeight = UInt32(max(height, 0))
                 // Receiving chain height implies we have peer connectivity
                 self.isKyotoConnected = true
                 // Ensure UI reflects syncing as soon as we see chain activity
@@ -159,23 +161,6 @@ class WalletViewModel {
                 self.getTransactions()
                 Task {
                     await self.getPrices()
-                }
-            }
-        }
-
-        NotificationCenter.default.addObserver(
-            forName: NSNotification.Name("KyotoStateUpdate"),
-            object: nil,
-            queue: .main
-        ) { [weak self] notification in
-            guard let self else { return }
-            if self.bdkClient.getClientType() != .kyoto { return }
-            if let nodeState = notification.userInfo?["state"] as? NodeState {
-                self.kyotoNodeState = nodeState
-                if nodeState == .transactionsSynced {
-                    self.walletSyncState = .synced
-                } else {
-                    self.walletSyncState = .syncing
                 }
             }
         }

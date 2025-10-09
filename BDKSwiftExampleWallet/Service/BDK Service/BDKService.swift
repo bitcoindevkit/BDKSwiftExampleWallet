@@ -17,7 +17,7 @@ enum BlockchainClientType: String, CaseIterable {
 struct BlockchainClient {
     let sync: @Sendable (SyncRequest, UInt64) async throws -> Update
     let fullScan: @Sendable (FullScanRequest, UInt64, UInt64) async throws -> Update
-    let broadcast: @Sendable (Transaction) throws -> Void
+    let broadcast: @Sendable (Transaction) async throws -> Void
     let getUrl: @Sendable () -> String
     let getType: @Sendable () -> BlockchainClientType
     let supportsFullScan: @Sendable () -> Bool = { true }
@@ -55,7 +55,24 @@ extension BlockchainClient {
 
             try FileManager.default.ensureDirectoryExists(at: Constants.Config.Kyoto.dbDirectoryURL)
 
-            let components = CbfClient.createComponents(wallet: wallet)
+            let scanType: ScanType
+            if BDKService.shared.needsFullScanOfWallet() {
+                let addressType = BDKService.shared.getAddressType()
+                let checkpoint: RecoveryPoint =
+                    addressType == .bip86 ? .taprootActivation : .segwitActivation
+                scanType = .recovery(
+                    usedScriptIndex: 1000,
+                    checkpoint: checkpoint
+                )
+            } else {
+                scanType = .sync
+            }
+
+            let components = CbfClient.createComponents(
+                wallet: wallet,
+                scanType: scanType,
+                peers: Constants.Networks.Signet.Regular.kyotoPeers
+            )
             cbfComponents = components
             return components
         }
@@ -73,7 +90,7 @@ extension BlockchainClient {
             },
             broadcast: { tx in
                 let components = try getOrCreateComponents()
-                try components.client.broadcast(transaction: tx)
+                try await components.client.broadcast(transaction: tx)
             },
             getUrl: { peer },
             getType: { .kyoto }
@@ -556,7 +573,7 @@ private class BDKService {
         let isSigned = try wallet.sign(psbt: psbt)
         if isSigned {
             let transaction = try psbt.extractTx()
-            try self.blockchainClient.broadcast(transaction)
+            try await self.blockchainClient.broadcast(transaction)
 
             if self.clientType == .kyoto {
                 let lastSeen = UInt64(Date().timeIntervalSince1970)
