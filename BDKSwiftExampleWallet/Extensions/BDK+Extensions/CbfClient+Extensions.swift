@@ -21,7 +21,7 @@ extension CbfClient {
         do {
 
             let components = try CbfBuilder()
-                .logLevel(logLevel: .debug)
+//                .logLevel(logLevel: .debug)
                 .scanType(scanType: .sync)
                 .dataDir(dataDir: Constants.Config.Kyoto.dbPath)
                 .peers(peers: Constants.Networks.Signet.Regular.kyotoPeers)
@@ -154,7 +154,7 @@ extension CbfClient {
             while true {
                 if Task.isCancelled { break }
                 do {
-                    let log = try await self.nextLog()
+//                    let log = try await self.nextLog()
                 } catch is CancellationError {
                     break
                 } catch {
