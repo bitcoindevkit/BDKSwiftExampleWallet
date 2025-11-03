@@ -230,16 +230,16 @@ private class BDKService {
         publicKey: DescriptorPublicKey,
         fingerprint: String,
         network: Network
-    ) -> (descriptor: Descriptor, changeDescriptor: Descriptor) {
+    ) throws -> (descriptor: Descriptor, changeDescriptor: Descriptor) {
         switch addressType {
         case .bip86:
-            let descriptor = Descriptor.newBip86Public(
+            let descriptor = try Descriptor.newBip86Public(
                 publicKey: publicKey,
                 fingerprint: fingerprint,
                 keychainKind: .external,
                 network: network
             )
-            let changeDescriptor = Descriptor.newBip86Public(
+            let changeDescriptor = try Descriptor.newBip86Public(
                 publicKey: publicKey,
                 fingerprint: fingerprint,
                 keychainKind: .internal,
@@ -247,13 +247,13 @@ private class BDKService {
             )
             return (descriptor, changeDescriptor)
         case .bip84:
-            let descriptor = Descriptor.newBip84Public(
+            let descriptor = try Descriptor.newBip84Public(
                 publicKey: publicKey,
                 fingerprint: fingerprint,
                 keychainKind: .external,
                 network: network
             )
-            let changeDescriptor = Descriptor.newBip84Public(
+            let changeDescriptor = try Descriptor.newBip84Public(
                 publicKey: publicKey,
                 fingerprint: fingerprint,
                 keychainKind: .internal,
@@ -434,7 +434,7 @@ private class BDKService {
         let descriptorPublicKey = try DescriptorPublicKey.fromString(publicKey: xpubString)
         let fingerprint = descriptorPublicKey.masterFingerprint()
         let currentAddressType = getCurrentAddressType()
-        let descriptors = createPublicDescriptors(
+        let descriptors = try createPublicDescriptors(
             for: currentAddressType,
             publicKey: descriptorPublicKey,
             fingerprint: fingerprint,
