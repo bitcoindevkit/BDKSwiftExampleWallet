@@ -10,9 +10,9 @@ Download the app on [TestFlight](https://testflight.apple.com/join/A3nAuYvZ).
 
 ## Build
 
-### BDK 1.0
+### BDK Version
 
-The `main` branch of BDK Swift Example Wallet uses [bdk-swift](https://github.com/bitcoindevkit/bdk-swift) 1.0+.
+The `main` branch of BDK Swift Example Wallet uses [bdk-swift](https://github.com/bitcoindevkit/bdk-swift) 2.0+.
 
 ## Functionality
 

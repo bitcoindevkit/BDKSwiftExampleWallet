@@ -12,19 +12,26 @@ extension CbfClient {
     // Track monitoring tasks per client for clean cancellation
     private static var monitoringTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
     private static var warningTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
-    private static var logTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
     private static var heartbeatTasks: [ObjectIdentifier: Task<Void, Never>] = [:]
     private static var lastInfoAt: [ObjectIdentifier: Date] = [:]
     private static let monitoringTasksQueue = DispatchQueue(label: "cbf.monitoring.tasks")
 
-    static func createComponents(wallet: Wallet) -> (client: CbfClient, node: CbfNode) {
+    static func createComponents(
+        wallet: Wallet,
+        scanType: ScanType,
+        peers: [Peer]
+    ) -> (client: CbfClient, node: CbfNode) {
         do {
+            let network = wallet.network()
+            let dataDir = Constants.Config.Kyoto.dbPath
+            print(
+                "[Kyoto] Preparing CBF components – network: \(network), dataDir: \(dataDir), peers: \(peers.count), scanType: \(scanType)"
+            )
 
             let components = try CbfBuilder()
-                .logLevel(logLevel: .debug)
-                .scanType(scanType: .sync)
-                .dataDir(dataDir: Constants.Config.Kyoto.dbPath)
-                .peers(peers: Constants.Networks.Signet.Regular.kyotoPeers)
+                .scanType(scanType: scanType)
+                .dataDir(dataDir: dataDir)
+                .peers(peers: peers)
                 .build(wallet: wallet)
 
             components.node.run()
@@ -47,20 +54,20 @@ extension CbfClient {
                     let info = try await self.nextInfo()
                     CbfClient.monitoringTasksQueue.sync { Self.lastInfoAt[id] = Date() }
                     switch info {
-                    case .progress(let progress):
+                    case .progress(let chainHeight, let filtersDownloadedPercent):
                         await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoProgressUpdate"),
                                 object: nil,
-                                userInfo: ["progress": progress]
+                                userInfo: [
+                                    "progress": filtersDownloadedPercent,
+                                    "height": Int(chainHeight),
+                                ]
                             )
-                        }
-                    case .newChainHeight(let height):
-                        await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoChainHeightUpdate"),
                                 object: nil,
-                                userInfo: ["height": height]
+                                userInfo: ["height": Int(chainHeight)]
                             )
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoConnectionUpdate"),
@@ -68,13 +75,8 @@ extension CbfClient {
                                 userInfo: ["connected": true]
                             )
                         }
-                    case .stateUpdate(let nodeState):
+                    case .blockReceived(_):
                         await MainActor.run {
-                            NotificationCenter.default.post(
-                                name: NSNotification.Name("KyotoStateUpdate"),
-                                object: nil,
-                                userInfo: ["state": nodeState]
-                            )
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoConnectionUpdate"),
                                 object: nil,
@@ -89,8 +91,6 @@ extension CbfClient {
                                 userInfo: ["connected": true]
                             )
                         }
-                    default:
-                        break
                     }
                 } catch is CancellationError {
                     break
@@ -149,23 +149,6 @@ extension CbfClient {
             Self.warningTasks[id] = warnings
         }
 
-        // Log listener for detailed debugging
-        let logs = Task { [self] in
-            while true {
-                if Task.isCancelled { break }
-                do {
-                    let log = try await self.nextLog()
-                } catch is CancellationError {
-                    break
-                } catch {
-                    // ignore
-                }
-            }
-        }
-
-        Self.monitoringTasksQueue.sync {
-            Self.logTasks[id] = logs
-        }
     }
 
     func stopBackgroundMonitoring() {
@@ -175,7 +158,6 @@ extension CbfClient {
             task.cancel()
             if let hb = Self.heartbeatTasks.removeValue(forKey: id) { hb.cancel() }
             if let wt = Self.warningTasks.removeValue(forKey: id) { wt.cancel() }
-            if let lt = Self.logTasks.removeValue(forKey: id) { lt.cancel() }
             Self.lastInfoAt.removeValue(forKey: id)
         }
     }
@@ -184,11 +166,9 @@ extension CbfClient {
         Self.monitoringTasksQueue.sync {
             for (_, task) in Self.monitoringTasks { task.cancel() }
             for (_, wt) in Self.warningTasks { wt.cancel() }
-            for (_, lt) in Self.logTasks { lt.cancel() }
             for (_, hb) in Self.heartbeatTasks { hb.cancel() }
             Self.monitoringTasks.removeAll()
             Self.warningTasks.removeAll()
-            Self.logTasks.removeAll()
             Self.heartbeatTasks.removeAll()
             Self.lastInfoAt.removeAll()
         }
