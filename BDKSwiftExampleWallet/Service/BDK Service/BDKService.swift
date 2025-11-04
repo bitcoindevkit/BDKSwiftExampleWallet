@@ -98,7 +98,7 @@ extension BlockchainClient {
     }
 }
 
-private class BDKService {
+final class BDKService {
     static let shared: BDKService = BDKService()
 
     private var balance: Balance?
@@ -110,6 +110,8 @@ private class BDKService {
     private(set) var network: Network
     private var blockchainURL: String
     internal private(set) var wallet: Wallet?
+    private var kyotoPendingTxs: [Wtxid: Txid] = [:]
+    private let kyotoPendingTxQueue = DispatchQueue(label: "bdk.service.kyoto.pending")
 
     init(keyClient: KeyClient = .live) {
         self.keyClient = keyClient
@@ -532,6 +534,7 @@ private class BDKService {
         try? keyClient.deleteEsplora()
 
         needsFullScan = true
+        clearKyotoTrackedTransactions()
     }
 
     func getBackupInfo() throws -> BackupInfo {
@@ -576,6 +579,7 @@ private class BDKService {
             try await self.blockchainClient.broadcast(transaction)
 
             if self.clientType == .kyoto {
+                trackKyotoBroadcast(transaction)
                 let lastSeen = UInt64(Date().timeIntervalSince1970)
                 let unconfirmedTx = UnconfirmedTx(tx: transaction, lastSeen: lastSeen)
                 wallet.applyUnconfirmedTxs(unconfirmedTxs: [unconfirmedTx])
@@ -586,6 +590,40 @@ private class BDKService {
             }
         } else {
             throw WalletError.notSigned
+        }
+    }
+
+    private func trackKyotoBroadcast(_ transaction: Transaction) {
+        let wtxid = transaction.computeWtxid()
+        let txid = transaction.computeTxid()
+        kyotoPendingTxQueue.sync {
+            kyotoPendingTxs[wtxid] = txid
+        }
+    }
+
+    private func takeKyotoTx(for wtxid: Wtxid) -> Txid? {
+        kyotoPendingTxQueue.sync {
+            kyotoPendingTxs.removeValue(forKey: wtxid)
+        }
+    }
+
+    private func clearKyotoTrackedTransactions() {
+        kyotoPendingTxQueue.sync {
+            kyotoPendingTxs.removeAll()
+        }
+    }
+
+    func handleKyotoRejectedTransaction(wtxidHex: String) {
+        guard let wtxid = try? Wtxid.fromString(hex: wtxidHex.lowercased()) else { return }
+        guard let txid = takeKyotoTx(for: wtxid) else { return }
+        guard let wallet = self.wallet else { return }
+        let evictedTx = EvictedTx(
+            txid: txid,
+            evictedAt: UInt64(Date().timeIntervalSince1970)
+        )
+        wallet.applyEvictedTxs(evictedTxs: [evictedTx])
+        if let persister = self.persister {
+            try? wallet.persist(persister: persister)
         }
     }
 

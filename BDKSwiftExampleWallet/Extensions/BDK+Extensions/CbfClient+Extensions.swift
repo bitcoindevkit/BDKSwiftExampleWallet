@@ -128,7 +128,8 @@ extension CbfClient {
                 if Task.isCancelled { break }
                 do {
                     let warning = try await self.nextWarning()
-                    if case .needConnections = warning {
+                    switch warning {
+                    case .needConnections:
                         await MainActor.run {
                             NotificationCenter.default.post(
                                 name: NSNotification.Name("KyotoConnectionUpdate"),
@@ -136,6 +137,15 @@ extension CbfClient {
                                 userInfo: ["connected": false]
                             )
                         }
+                    case let .transactionRejected(wtxid, reason):
+                        BDKService.shared.handleKyotoRejectedTransaction(wtxidHex: wtxid)
+                        if let reason {
+                            print("Kyoto rejected tx \(wtxid): \(reason)")
+                        } else {
+                            print("Kyoto rejected tx \(wtxid)")
+                        }
+                    default:
+                        break
                     }
                 } catch is CancellationError {
                     break
