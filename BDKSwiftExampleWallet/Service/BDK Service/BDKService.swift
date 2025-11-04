@@ -110,7 +110,7 @@ final class BDKService {
     private(set) var network: Network
     private var blockchainURL: String
     internal private(set) var wallet: Wallet?
-    private var kyotoPendingTxs: [String: Txid] = [:]
+    private var kyotoPendingTxs: [Wtxid: Txid] = [:]
     private let kyotoPendingTxQueue = DispatchQueue(label: "bdk.service.kyoto.pending")
 
     init(keyClient: KeyClient = .live) {
@@ -594,17 +594,16 @@ final class BDKService {
     }
 
     private func trackKyotoBroadcast(_ transaction: Transaction) {
-        let wtxidData = transaction.computeWtxid().serialize()
-        let wtxidHex = [UInt8](wtxidData).hexString.lowercased()
+        let wtxid = transaction.computeWtxid()
         let txid = transaction.computeTxid()
         kyotoPendingTxQueue.sync {
-            kyotoPendingTxs[wtxidHex] = txid
+            kyotoPendingTxs[wtxid] = txid
         }
     }
 
-    private func takeKyotoTx(for wtxidHex: String) -> Txid? {
+    private func takeKyotoTx(for wtxid: Wtxid) -> Txid? {
         kyotoPendingTxQueue.sync {
-            kyotoPendingTxs.removeValue(forKey: wtxidHex.lowercased())
+            kyotoPendingTxs.removeValue(forKey: wtxid)
         }
     }
 
@@ -615,7 +614,8 @@ final class BDKService {
     }
 
     func handleKyotoRejectedTransaction(wtxidHex: String) {
-        guard let txid = takeKyotoTx(for: wtxidHex) else { return }
+        guard let wtxid = try? Wtxid.fromString(hex: wtxidHex.lowercased()) else { return }
+        guard let txid = takeKyotoTx(for: wtxid) else { return }
         guard let wallet = self.wallet else { return }
         let evictedTx = EvictedTx(
             txid: txid,
