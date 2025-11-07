@@ -24,62 +24,44 @@ struct FeeView: View {
 
                 Spacer()
 
-                HStack {
-                    Spacer()
-
-                    Picker("Select Fee", selection: $viewModel.selectedFeeIndex) {
-                        HStack {
-                            Image(
-                                systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
-                                variableValue: 0.0
-                            )
-                            Text(
-                                " None • \(viewModel.recommendedFees?.minimumFee ?? 1)"
-                            )
-                        }
-                        .tag(0)
-                        HStack {
-                            Image(
-                                systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
-                                variableValue: 0.33
-                            )
-                            Text(
-                                " Low • \(viewModel.recommendedFees?.hourFee ?? 1)"
-                            )
-                        }
-                        .tag(1)
-                        HStack {
-                            Image(
-                                systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
-                                variableValue: 0.66
-                            )
-                            Text(
-                                " Medium • \(viewModel.recommendedFees?.halfHourFee ?? 1)"
-                            )
-                        }
-                        .tag(2)
-                        HStack {
-                            Image(
-                                systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
-                                variableValue: 1.0
-                            )
-                            Text(
-                                " High • \(viewModel.recommendedFees?.fastestFee ?? 1)"
-                            )
-                        }
-                        .tag(3)
+                VStack(spacing: 12) {
+                    Slider(
+                        value: feeSliderBinding,
+                        in: 0...3,
+                        step: 1
+                    ) {
+                        Text("Fee Priority")
+                    } minimumValueLabel: {
+                        Text(feeTitle(for: 0))
+                    } maximumValueLabel: {
+                        Text(feeTitle(for: 3))
                     }
-                    .pickerStyle(.automatic)
                     .tint(.primary)
                     .accessibilityLabel("Select Transaction Fee")
                     .accessibilityValue("\(viewModel.selectedFee ?? 1) satoshis per vbyte")
 
-                    Text("sat/vb")
-                        .foregroundStyle(.secondary)
-                        .fontWeight(.thin)
+                    HStack(spacing: 8) {
+                        ForEach(0..<4, id: \.self) { index in
+                            VStack(spacing: 4) {
+                                feeIcon(for: index)
+                                    .font(.headline)
+                                Text("\(feeTitle(for: index)) • \(feeValue(for: index))")
+                                    .font(.caption2)
+                                    .multilineTextAlignment(.center)
+                                    .foregroundStyle(
+                                        index == viewModel.selectedFeeIndex
+                                            ? .primary : .secondary
+                                    )
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                    }
 
-                    Spacer()
+                    Text("Selected: \(viewModel.selectedFee ?? 1) sat/vb fee")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
+                .padding(.horizontal)
 
                 Spacer()
 
@@ -126,6 +108,42 @@ struct FeeView: View {
 
     }
 
+}
+
+extension FeeView {
+    fileprivate var feeSliderBinding: Binding<Double> {
+        Binding(
+            get: { Double(viewModel.selectedFeeIndex) },
+            set: { viewModel.selectedFeeIndex = Int($0.rounded()) }
+        )
+    }
+
+    fileprivate func feeValue(for index: Int) -> Int {
+        guard let fees = viewModel.recommendedFees else { return 1 }
+        switch index {
+        case 0: return fees.minimumFee
+        case 1: return fees.hourFee
+        case 2: return fees.halfHourFee
+        default: return fees.fastestFee
+        }
+    }
+
+    fileprivate func feeTitle(for index: Int) -> String {
+        switch index {
+        case 0: return "None"
+        case 1: return "Low"
+        case 2: return "Medium"
+        default: return "High"
+        }
+    }
+
+    @ViewBuilder
+    fileprivate func feeIcon(for index: Int) -> some View {
+        Image(
+            systemName: "bitcoinsign.gauge.chart.leftthird.topthird.rightthird",
+            variableValue: Double(index) / 3.0
+        )
+    }
 }
 
 #if DEBUG
