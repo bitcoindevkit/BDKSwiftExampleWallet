@@ -29,7 +29,10 @@ struct LocalOutputListView: View {
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
             } else {
-                ForEach(localOutputs, id: \.outpoint) { output in
+                let sortedOutputs = localOutputs.sorted { lhs, rhs in
+                    lhs.outpoint.txid.description < rhs.outpoint.txid.description
+                }
+                ForEach(sortedOutputs, id: \.outpoint) { output in
                     LocalOutputItemView(
                         isRedacted: false,
                         output: output,
