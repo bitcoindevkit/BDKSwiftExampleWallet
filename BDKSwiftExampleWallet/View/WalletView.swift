@@ -56,6 +56,11 @@ struct WalletView: View {
                         showAllTransactions = true
                     }
 
+                    if shouldShowKyotoInitialSyncNotice {
+                        KyotoInitialSyncNoticeView(isConnected: viewModel.isKyotoConnected)
+                            .transition(.opacity)
+                    }
+
                     TransactionListView(
                         viewModel: .init(),
                         transactions: viewModel.recentTransactions,
@@ -227,3 +232,40 @@ struct WalletView: View {
         )
     }
 #endif
+
+extension WalletView {
+    fileprivate var shouldShowKyotoInitialSyncNotice: Bool {
+        viewModel.isKyotoClient
+            && viewModel.needsFullScan
+            && viewModel.walletSyncState == .syncing
+    }
+}
+
+private struct KyotoInitialSyncNoticeView: View {
+    let isConnected: Bool
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "clock.arrow.circlepath")
+                .font(.title3)
+                .foregroundStyle(.orange)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(
+                    "Keep Kyoto open while it bootstraps."
+                )
+                .font(.subheadline)
+                .fontWeight(.semibold)
+
+                Text(
+                    "This one-time sync can take a few minutes."
+                )
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+    }
+}
