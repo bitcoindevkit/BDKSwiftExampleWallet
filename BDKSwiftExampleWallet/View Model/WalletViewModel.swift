@@ -164,6 +164,19 @@ class WalletViewModel {
                 }
             }
         }
+
+        NotificationCenter.default.addObserver(
+            forName: .walletDidUpdate,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self else { return }
+            self.getBalance()
+            self.getTransactions()
+            Task {
+                await self.getPrices()
+            }
+        }
     }
 
     private func fullScanWithProgress() async {
