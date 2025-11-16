@@ -641,6 +641,7 @@ final class BDKService {
             throw WalletError.dbNotFound
         }
         let _ = try wallet.persist(persister: persister)
+        NotificationCenter.default.post(name: .walletDidUpdate, object: nil)
     }
 
     func fullScanWithInspector(inspector: FullScanScriptInspector) async throws {
@@ -663,6 +664,7 @@ final class BDKService {
             throw WalletError.dbNotFound
         }
         let _ = try wallet.persist(persister: persister)
+        NotificationCenter.default.post(name: .walletDidUpdate, object: nil)
     }
 
     func calculateFee(tx: Transaction) throws -> Amount {
