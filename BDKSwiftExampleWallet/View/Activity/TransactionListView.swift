@@ -125,7 +125,12 @@ struct TransactionListView: View {
                         }
 
                     } else {
-                        Image(systemName: "questionmark")
+                        TransactionItemView(
+                            txDetails: .mock,
+                            isRedacted: true,
+                            format: format,
+                            fiatPrice: fiatPrice
+                        )
                     }
 
                 }
