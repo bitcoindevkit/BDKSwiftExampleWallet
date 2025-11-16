@@ -151,7 +151,7 @@ struct ActivityHomeHeaderView: View {
                 AnyView(EmptyView())
             }
 
-        case .syncing:
+        case .syncing, .notStarted:
             if isKyotoClient && progress > 0 {
                 AnyView(
                     ProgressView(value: Double(progress), total: 100)
@@ -168,10 +168,6 @@ struct ActivityHomeHeaderView: View {
                 )
             }
 
-        case .notStarted:
-            AnyView(
-                Image(systemName: "arrow.clockwise")
-            )
         default:
             AnyView(
                 Image(
