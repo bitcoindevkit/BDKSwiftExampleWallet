@@ -112,8 +112,8 @@ struct TransactionItemView: View {
                     .fontDesign(.monospaced)
                     .font(.callout)
                     .foregroundStyle(.primary)
+                Spacer(minLength: 80)
             }
-            .padding(.trailing, 100.0)
             .redacted(reason: isRedacted ? .placeholder : [])
 
         }
