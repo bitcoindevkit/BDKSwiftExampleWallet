@@ -11,7 +11,7 @@ import SwiftUI
 
 struct TransactionDetailView: View {
     @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
-        .bitcoinSats
+        .bip177
     @Bindable var viewModel: TransactionDetailViewModel
     @State private var isCopied = false
     @State private var showCheckmark = false

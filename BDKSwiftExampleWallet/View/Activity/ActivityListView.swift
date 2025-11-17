@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ActivityListView: View {
     @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
-        .bitcoinSats
+        .bip177
     @Bindable var viewModel: ActivityListViewModel
 
     var body: some View {
