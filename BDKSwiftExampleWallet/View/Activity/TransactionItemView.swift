@@ -38,7 +38,7 @@ struct TransactionItemView: View {
             let suffix = format.displayText
 
             Text("\(prefix)\(amount) \(suffix)")
-                .font(.title)
+                .font(.title3)
                 .fontWeight(.semibold)
                 .fontDesign(.rounded)
                 .lineLimit(1)
@@ -103,7 +103,7 @@ struct TransactionItemView: View {
 
             }
             .foregroundStyle(.secondary)
-            .font(.callout)
+            .font(.caption)
 
             //            HStack {
             //                Text(txDetails.txid.description)
