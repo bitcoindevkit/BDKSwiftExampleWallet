@@ -30,7 +30,7 @@ struct TransactionItemView: View {
 
     var body: some View {
 
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 6) {
 
             let delta = txDetails.balanceDelta
             let prefix = (delta >= 0 ? "+ " : "- ").appending("\(format.displayPrefix) ")
