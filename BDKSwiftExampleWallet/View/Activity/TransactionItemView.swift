@@ -83,6 +83,7 @@ struct TransactionItemView: View {
                         )
                     )
                     .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+                    .redacted(reason: isRedacted ? .placeholder : [])
                 case .unconfirmed(let timestamp):
                     if let timestamp {
                         Text(
@@ -92,14 +93,15 @@ struct TransactionItemView: View {
                             )
                         )
                         .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+                        .redacted(reason: isRedacted ? .placeholder : [])
                     } else {
                         Text("Pending")
                             .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+                            .redacted(reason: isRedacted ? .placeholder : [])
                     }
                 }
 
             }
-            .redacted(reason: isRedacted ? .placeholder : [])
             .foregroundStyle(.secondary)
             .font(.callout)
 
