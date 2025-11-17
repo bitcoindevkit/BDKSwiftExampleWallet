@@ -45,34 +45,34 @@ struct TransactionItemView: View {
                 .redacted(reason: isRedacted ? .placeholder : [])
 
             HStack {
-                if isRedacted {
-                    Image(
-                        systemName:
-                            "circle.fill"
-                    )
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(
-                        Color.gray.opacity(0.5)
-                    )
-                } else {
-                    ZStack {
-                        Image(
-                            systemName:
-                                txDetails.balanceDelta >= 0
-                                ? "arrow.down" : "arrow.up"
-                        )
-                        .foregroundStyle(
-                            {
-                                switch txDetails.chainPosition {
-                                case .confirmed(_, _):
-                                    Color.bitcoinOrange
-                                case .unconfirmed(_):
-                                    Color.gray.opacity(0.5)
-                                }
-                            }()
-                        )
-                    }
-                }
+                //                if isRedacted {
+                //                    Image(
+                //                        systemName:
+                //                            "circle.fill"
+                //                    )
+                //                    .symbolRenderingMode(.palette)
+                //                    .foregroundStyle(
+                //                        Color.gray.opacity(0.5)
+                //                    )
+                //                } else {
+                //                    ZStack {
+                //                        Image(
+                //                            systemName:
+                //                                txDetails.balanceDelta >= 0
+                //                                ? "arrow.down" : "arrow.up"
+                //                        )
+                //                        .foregroundStyle(
+                //                            {
+                //                                switch txDetails.chainPosition {
+                //                                case .confirmed(_, _):
+                //                                    Color.bitcoinOrange
+                //                                case .unconfirmed(_):
+                //                                    Color.gray.opacity(0.5)
+                //                                }
+                //                            }()
+                //                        )
+                //                    }
+                //                }
 
                 switch txDetails.chainPosition {
                 case .confirmed(let confirmationBlockTime, _):
