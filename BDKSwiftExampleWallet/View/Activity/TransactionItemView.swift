@@ -105,16 +105,16 @@ struct TransactionItemView: View {
             .foregroundStyle(.secondary)
             .font(.callout)
 
-            HStack {
-                Text(txDetails.txid.description)
-                    .truncationMode(.middle)
-                    .lineLimit(1)
-                    .fontDesign(.monospaced)
-                    .font(.callout)
-                    .foregroundStyle(.primary)
-                Spacer(minLength: 80)
-            }
-            .redacted(reason: isRedacted ? .placeholder : [])
+            //            HStack {
+            //                Text(txDetails.txid.description)
+            //                    .truncationMode(.middle)
+            //                    .lineLimit(1)
+            //                    .fontDesign(.monospaced)
+            //                    .font(.callout)
+            //                    .foregroundStyle(.primary)
+            //                Spacer(minLength: 80)
+            //            }
+            //            .redacted(reason: isRedacted ? .placeholder : [])
 
         }
         .padding(.vertical)
