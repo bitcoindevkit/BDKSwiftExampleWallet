@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LocalOutputItemView: View {
     @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
-        .bitcoinSats
+        .bip177
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     let isRedacted: Bool
     let output: LocalOutput

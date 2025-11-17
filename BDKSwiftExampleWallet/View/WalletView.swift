@@ -10,7 +10,7 @@ import SwiftUI
 
 struct WalletView: View {
     @AppStorage("balanceDisplayFormat") private var balanceFormat: BalanceDisplayFormat =
-        .bitcoinSats
+        .bip177
     @AppStorage("KyotoLastBlockHeight") private var kyotoLastHeight: Int = 0
     @Bindable var viewModel: WalletViewModel
     @Binding var sendNavigationPath: NavigationPath
