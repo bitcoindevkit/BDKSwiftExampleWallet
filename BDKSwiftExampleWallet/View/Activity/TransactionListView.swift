@@ -32,7 +32,7 @@ struct TransactionListView: View {
 
     var body: some View {
 
-        List {
+        LazyVStack(alignment: .leading) {
             if transactions.isEmpty && walletSyncState == .syncing {
                 TransactionItemView(
                     txDetails: .mock,
@@ -40,8 +40,6 @@ struct TransactionListView: View {
                     format: format,
                     fiatPrice: fiatPrice
                 )
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
             } else if transactions.isEmpty {
 
                 VStack(alignment: .leading) {
@@ -94,8 +92,6 @@ struct TransactionListView: View {
                     }
 
                 }
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
 
             } else {
 
@@ -122,6 +118,14 @@ struct TransactionListView: View {
                                 format: format,
                                 fiatPrice: fiatPrice
                             )
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .overlay(alignment: .trailing) {
+                                Image(systemName: "chevron.right")
+                                    .font(.footnote.weight(.semibold))
+                                    .foregroundStyle(.tertiary)
+                                    .padding(.leading, 8)
+                            }
+                            .padding(.trailing, 4)
                         }
 
                     } else {
@@ -134,14 +138,11 @@ struct TransactionListView: View {
                     }
 
                 }
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
 
             }
 
         }
-        .listStyle(.plain)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .alert(isPresented: $viewModel.showingWalletTransactionsViewErrorAlert) {
             Alert(
                 title: Text("Wallet Transaction Error"),

@@ -27,64 +27,68 @@ struct WalletView: View {
             Color(uiColor: .systemBackground)
                 .ignoresSafeArea()
 
-            VStack(spacing: 20) {
+            ScrollView {
+                VStack(spacing: 20) {
 
-                BalanceView(
-                    format: balanceFormat,
-                    balance: viewModel.balanceTotal,
-                    fiatPrice: viewModel.price
-                ).onTapGesture {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        balanceFormat =
-                            BalanceDisplayFormat.allCases[
-                                (balanceFormat.index + 1) % BalanceDisplayFormat.allCases.count
-                            ]
-                    }
-                }
-
-                VStack {
-                    ActivityHomeHeaderView(
-                        walletSyncState: viewModel.walletSyncState,
-                        progress: viewModel.progress,
-                        inspectedScripts: viewModel.inspectedScripts,
-                        totalScripts: viewModel.totalScripts,
-                        needsFullScan: viewModel.needsFullScan,
-                        isKyotoClient: viewModel.isKyotoClient,
-                        isKyotoConnected: viewModel.isKyotoConnected,
-                        currentBlockHeight: viewModel.currentBlockHeight
-                    ) {
-                        showAllTransactions = true
-                    }
-
-                    if shouldShowKyotoInitialSyncNotice {
-                        KyotoInitialSyncNoticeView(isConnected: viewModel.isKyotoConnected)
-                            .transition(.opacity)
-                    }
-
-                    TransactionListView(
-                        viewModel: .init(),
-                        transactions: viewModel.recentTransactions,
-                        walletSyncState: viewModel.walletSyncState,
+                    BalanceView(
                         format: balanceFormat,
+                        balance: viewModel.balanceTotal,
                         fiatPrice: viewModel.price
-                    )
-                    .refreshable {
-                        if viewModel.isKyotoClient {
-                            viewModel.getBalance()
-                            viewModel.getTransactions()
-                            await viewModel.getPrices()
-                        } else {
-                            await viewModel.syncOrFullScan()
-                            viewModel.getBalance()
-                            viewModel.getTransactions()
-                            await viewModel.getPrices()
+                    ).onTapGesture {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            balanceFormat =
+                                BalanceDisplayFormat.allCases[
+                                    (balanceFormat.index + 1)
+                                        % BalanceDisplayFormat
+                                        .allCases.count
+                                ]
                         }
                     }
 
-                }
+                    VStack {
+                        ActivityHomeHeaderView(
+                            walletSyncState: viewModel.walletSyncState,
+                            progress: viewModel.progress,
+                            inspectedScripts: viewModel.inspectedScripts,
+                            totalScripts: viewModel.totalScripts,
+                            needsFullScan: viewModel.needsFullScan,
+                            isKyotoClient: viewModel.isKyotoClient,
+                            isKyotoConnected: viewModel.isKyotoConnected,
+                            currentBlockHeight: viewModel.currentBlockHeight
+                        ) {
+                            showAllTransactions = true
+                        }
 
+                        if shouldShowKyotoInitialSyncNotice {
+                            KyotoInitialSyncNoticeView(isConnected: viewModel.isKyotoConnected)
+                                .transition(.opacity)
+                        }
+
+                        TransactionListView(
+                            viewModel: .init(),
+                            transactions: viewModel.recentTransactions,
+                            walletSyncState: viewModel.walletSyncState,
+                            format: balanceFormat,
+                            fiatPrice: viewModel.price
+                        )
+
+                    }
+
+                }
+                .padding()
             }
-            .padding()
+            .refreshable {
+                if viewModel.isKyotoClient {
+                    viewModel.getBalance()
+                    viewModel.getTransactions()
+                    await viewModel.getPrices()
+                } else {
+                    await viewModel.syncOrFullScan()
+                    viewModel.getBalance()
+                    viewModel.getTransactions()
+                    await viewModel.getPrices()
+                }
+            }
             .onReceive(
                 NotificationCenter.default.publisher(for: Notification.Name("TransactionSent")),
                 perform: { _ in
