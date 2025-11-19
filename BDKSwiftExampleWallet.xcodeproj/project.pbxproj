@@ -1071,7 +1071,7 @@
 			repositoryURL = "https://github.com/bitcoindevkit/bdk-swift";
 			requirement = {
 				kind = exactVersion;
-				version = 2.2.0;
+				version = 2.2.1;
 			};
 		};
 		AF77B2222F4B2C9E00000002 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
