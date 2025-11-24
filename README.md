@@ -12,6 +12,8 @@ Download the app on [TestFlight](https://testflight.apple.com/join/A3nAuYvZ).
 
 ### BDK Version
 
+*Note: Xcode 26 preferred because `BDK Swift Example Wallet` App Icon built with the new [Icon Composer](https://developer.apple.com/icon-composer/).
+
 The `main` branch of BDK Swift Example Wallet uses [bdk-swift](https://github.com/bitcoindevkit/bdk-swift) 2.0+.
 
 Watch how to build a simple bitcoin iOS wallet with BDK on [YouTube](https://www.youtube.com/watch?v=M9AYugUF5uQ).
