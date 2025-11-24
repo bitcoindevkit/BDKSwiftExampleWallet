@@ -270,4 +270,13 @@ class WalletViewModel {
             await startSyncWithProgress()
         }
     }
+
+    /// Retry Kyoto sync and refresh cached data.
+    func retryKyotoSync() async {
+        guard isKyotoClient else { return }
+        await syncOrFullScan()
+        getBalance()
+        getTransactions()
+        await getPrices()
+    }
 }
