@@ -142,7 +142,7 @@ struct TransactionListView: View {
             }
 
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .topLeading)
         .alert(isPresented: $viewModel.showingWalletTransactionsViewErrorAlert) {
             Alert(
                 title: Text("Wallet Transaction Error"),

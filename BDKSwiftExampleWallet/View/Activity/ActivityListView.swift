@@ -25,13 +25,17 @@ struct ActivityListView: View {
                     .padding(.vertical)
 
                 if viewModel.displayMode == .transactions {
-                    TransactionListView(
-                        viewModel: .init(),
-                        transactions: viewModel.transactions,
-                        walletSyncState: viewModel.walletSyncState,
-                        format: balanceFormat,
-                        fiatPrice: viewModel.fiatPrice
-                    )
+                    ScrollView {
+                        TransactionListView(
+                            viewModel: .init(),
+                            transactions: viewModel.transactions,
+                            walletSyncState: viewModel.walletSyncState,
+                            format: balanceFormat,
+                            fiatPrice: viewModel.fiatPrice
+                        )
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                    }
+                    .ignoresSafeArea(edges: .bottom)
                     .transition(.blurReplace)
                 } else {
                     LocalOutputListView(
@@ -53,8 +57,8 @@ struct ActivityListView: View {
                 : "\(viewModel.localOutputs.count) Output\(viewModel.localOutputs.count == 1 ? "" : "s")"
         )
         .navigationBarTitleDisplayMode(.inline)
+        .padding(.horizontal)
         .padding(.top)
-        .padding()
 
     }
 
