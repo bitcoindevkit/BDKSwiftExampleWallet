@@ -18,6 +18,9 @@ struct ActivityHomeHeaderView: View {
     let isKyotoConnected: Bool
     let currentBlockHeight: UInt32
 
+    /// Optional retry action used for Kyoto errors.
+    let retryKyotoSync: (() -> Void)?
+
     let showAllTransactions: () -> Void
 
     var body: some View {
@@ -116,6 +119,13 @@ struct ActivityHomeHeaderView: View {
                     }
                 }
                 .contentTransition(.symbolEffect(.replace.offUp))
+                .contentShape(Rectangle())  // Expand tap target for retry on error
+                .onTapGesture {
+                    guard isKyotoClient else { return }
+                    if case .error = walletSyncState {
+                        retryKyotoSync?()
+                    }
+                }
 
             }
             .foregroundStyle(.secondary)
