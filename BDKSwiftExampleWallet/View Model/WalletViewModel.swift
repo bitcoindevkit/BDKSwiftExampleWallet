@@ -270,4 +270,13 @@ class WalletViewModel {
             await startSyncWithProgress()
         }
     }
+
+    /// Retry sync pipeline for Kyoto when a prior attempt failed.
+    func retryKyotoSync() async {
+        guard isKyotoClient else { return }
+        await syncOrFullScan()
+        getBalance()
+        getTransactions()
+        await getPrices()
+    }
 }
