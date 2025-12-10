@@ -79,9 +79,7 @@ struct WalletView: View {
             }
             .refreshable {
                 if viewModel.isKyotoClient {
-                    viewModel.getBalance()
-                    viewModel.getTransactions()
-                    await viewModel.getPrices()
+                    await viewModel.retryKyotoSync()
                 } else {
                     await viewModel.syncOrFullScan()
                     viewModel.getBalance()
