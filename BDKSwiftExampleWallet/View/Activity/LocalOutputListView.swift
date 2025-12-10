@@ -30,7 +30,7 @@ struct LocalOutputListView: View {
                     .listRowSeparator(.hidden)
             } else {
                 let sortedOutputs = localOutputs.sorted { lhs, rhs in
-                    lhs.outpoint.txid.description < rhs.outpoint.txid.description
+                    lhs.outpoint.txid < rhs.outpoint.txid
                 }
                 ForEach(sortedOutputs, id: \.outpoint) { output in
                     LocalOutputItemView(
