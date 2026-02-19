@@ -16,7 +16,7 @@ private struct KeyService {
         let keychain = Keychain(service: "com.matthewramsden.bdkswiftexamplewallet.testservice")
             .label(Bundle.main.displayName)
             .synchronizable(false)
-            .accessibility(.whenUnlocked)
+            .accessibility(.afterFirstUnlock)
         self.keychain = keychain
     }
 
