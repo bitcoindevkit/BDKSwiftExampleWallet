@@ -12,7 +12,6 @@ import SwiftUI
 struct OnboardingView: View {
     @AppStorage("isOnboarding") var isOnboarding: Bool?
     @ObservedObject var viewModel: OnboardingViewModel
-    @State private var showingOnboardingViewErrorAlert = false
     @State private var showingImportView = false
     @State private var showingScanner = false
     let pasteboard = UIPasteboard.general
@@ -219,14 +218,22 @@ struct OnboardingView: View {
                 )
             }
         }
-        .alert(isPresented: $showingOnboardingViewErrorAlert) {
-            Alert(
-                title: Text("Onboarding Error"),
-                message: Text(viewModel.onboardingViewError?.description ?? "Unknown"),
-                dismissButton: .default(Text("OK")) {
-                    viewModel.onboardingViewError = nil
+        .alert(
+            "Onboarding Error",
+            isPresented: Binding(
+                get: { viewModel.onboardingViewError != nil },
+                set: { newValue in
+                    if !newValue {
+                        viewModel.onboardingViewError = nil
+                    }
                 }
             )
+        ) {
+            Button("OK") {
+                viewModel.onboardingViewError = nil
+            }
+        } message: {
+            Text(viewModel.onboardingViewError?.description ?? "Unknown")
         }
         .sheet(isPresented: $showingScanner) {
             CustomScannerView(

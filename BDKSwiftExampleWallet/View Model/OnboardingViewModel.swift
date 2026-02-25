@@ -145,6 +145,11 @@ class OnboardingViewModel: ObservableObject {
 
         Task {
             do {
+                if self.looksLikeWif(self.words) {
+                    throw AppError.generic(
+                        message: "WIF is for sweep, not wallet creation. Open an existing wallet and use Send > Scan/Paste to sweep it."
+                    )
+                }
                 if self.isDescriptor {
                     try self.bdkClient.createWalletFromDescriptor(self.words)
                 } else if self.isXPub {
@@ -162,6 +167,11 @@ class OnboardingViewModel: ObservableObject {
                     self.isCreatingWallet = false
                     self.createWithPersistError = error
                 }
+            } catch let error as AppError {
+                DispatchQueue.main.async {
+                    self.isCreatingWallet = false
+                    self.onboardingViewError = error
+                }
             } catch {
                 DispatchQueue.main.async {
                     self.isCreatingWallet = false
@@ -169,5 +179,22 @@ class OnboardingViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    private func looksLikeWif(_ value: String) -> Bool {
+        let token = value.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard token.count == 51 || token.count == 52 else {
+            return false
+        }
+
+        guard let first = token.first, "5KL9c".contains(first) else {
+            return false
+        }
+
+        let base58Charset = CharacterSet(
+            charactersIn: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+        )
+        return token.unicodeScalars.allSatisfy { base58Charset.contains($0) }
     }
 }
