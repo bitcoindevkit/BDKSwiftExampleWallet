@@ -133,7 +133,7 @@ extension AddressView {
         }
     }
 
-    private func extractWif(from value: String) -> String? {
+    func extractWif(from value: String) -> String? {
         var candidates = [value]
 
         if let components = URLComponents(string: value),
@@ -164,7 +164,7 @@ extension AddressView {
         return nil
     }
 
-    private func isLikelyWif(_ value: String) -> Bool {
+    func isLikelyWif(_ value: String) -> Bool {
         guard value.count == 51 || value.count == 52 else {
             return false
         }
