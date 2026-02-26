@@ -14,7 +14,6 @@ struct AddressView: View {
     @Binding var navigationPath: NavigationPath
     @State var address: String = ""
     @State private var isShowingAlert = false
-    @State private var alertTitle = "Error"
     @State private var alertMessage = ""
     @State private var isSweeping = false
     private let bdkClient: BDKClient = .live
@@ -33,7 +32,7 @@ struct AddressView: View {
             )
             .alert(isPresented: $isShowingAlert) {
                 Alert(
-                    title: Text(alertTitle),
+                    title: Text("Error"),
                     message: Text(alertMessage),
                     dismissButton: .default(Text("OK"))
                 )
@@ -65,12 +64,10 @@ extension AddressView {
                 address = bitcoinAddress
                 navigationPath.append(NavigationDestination.amount(address: bitcoinAddress))
             } else {
-                alertTitle = "Error"
                 alertMessage = "The scanned QR code did not contain a valid Bitcoin address."
                 isShowingAlert = true
             }
         case .failure(let error):
-            alertTitle = "Error"
             alertMessage = "Scanning failed: \(error.localizedDescription)"
             isShowingAlert = true
         }
@@ -79,14 +76,12 @@ extension AddressView {
     private func pasteAddress() {
         if let pasteboardContent = UIPasteboard.general.string {
             if pasteboardContent.isEmpty {
-                alertTitle = "Error"
                 alertMessage = "The pasteboard is empty."
                 isShowingAlert = true
                 return
             }
             let trimmedContent = pasteboardContent.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmedContent.isEmpty {
-                alertTitle = "Error"
                 alertMessage = "The pasteboard contains only whitespace."
                 isShowingAlert = true
                 return
@@ -101,7 +96,6 @@ extension AddressView {
             address = lowercaseAddress
             navigationPath.append(NavigationDestination.amount(address: address))
         } else {
-            alertTitle = "Error"
             alertMessage = "Unable to access the pasteboard. Please try copying the address again."
             isShowingAlert = true
         }
@@ -123,7 +117,6 @@ extension AddressView {
                 let txidText = txids.map { "\($0)" }.joined(separator: ", ")
 
                 await MainActor.run {
-                    alertTitle = "Success"
                     alertMessage = "Sweep broadcasted: \(txidText)"
                     isShowingAlert = true
                     NotificationCenter.default.post(
@@ -133,7 +126,6 @@ extension AddressView {
                 }
             } catch {
                 await MainActor.run {
-                    alertTitle = "Error"
                     alertMessage = "Sweep failed: \(error.localizedDescription)"
                     isShowingAlert = true
                 }
