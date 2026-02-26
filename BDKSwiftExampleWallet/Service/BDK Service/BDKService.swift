@@ -575,10 +575,12 @@ final class BDKService {
 
         var sweptTxids: [Txid] = []
         for descriptorString in candidates {
-            guard let descriptor = try? Descriptor(
-                descriptor: descriptorString,
-                network: self.network
-            ) else {
+            guard
+                let descriptor = try? Descriptor(
+                    descriptor: descriptorString,
+                    network: self.network
+                )
+            else {
                 continue
             }
 

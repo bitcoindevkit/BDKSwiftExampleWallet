@@ -147,7 +147,8 @@ class OnboardingViewModel: ObservableObject {
             do {
                 if self.looksLikeWif(self.words) {
                     throw AppError.generic(
-                        message: "WIF is for sweep, not wallet creation. Open an existing wallet and use Send > Scan/Paste to sweep it."
+                        message:
+                            "WIF is for sweep, not wallet creation. Open an existing wallet and use Send > Scan/Paste to sweep it."
                     )
                 }
                 if self.isDescriptor {

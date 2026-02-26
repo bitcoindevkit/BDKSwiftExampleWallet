@@ -173,7 +173,9 @@ extension AddressView {
             return false
         }
 
-        let base58Charset = CharacterSet(charactersIn: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz")
+        let base58Charset = CharacterSet(
+            charactersIn: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+        )
         return value.unicodeScalars.allSatisfy { base58Charset.contains($0) }
     }
 }
