@@ -145,7 +145,7 @@ class OnboardingViewModel: ObservableObject {
 
         Task {
             do {
-                if self.looksLikeWif(self.words) {
+                if WifParser.extract(from: self.words) != nil {
                     throw AppError.generic(
                         message:
                             "WIF is for sweep, not wallet creation. Open an existing wallet and use Send > Scan/Paste to sweep it."
@@ -180,22 +180,5 @@ class OnboardingViewModel: ObservableObject {
                 }
             }
         }
-    }
-
-    private func looksLikeWif(_ value: String) -> Bool {
-        let token = value.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        guard token.count == 51 || token.count == 52 else {
-            return false
-        }
-
-        guard let first = token.first, "5KL9c".contains(first) else {
-            return false
-        }
-
-        let base58Charset = CharacterSet(
-            charactersIn: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-        )
-        return token.unicodeScalars.allSatisfy { base58Charset.contains($0) }
     }
 }

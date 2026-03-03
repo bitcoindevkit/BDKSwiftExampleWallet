@@ -5,7 +5,6 @@
 //  Created by Matthew Ramsden on 5/22/23.
 //
 
-import SwiftUI
 import XCTest
 
 @testable import BDKSwiftExampleWallet
@@ -13,12 +12,15 @@ import XCTest
 final class BDKSwiftExampleWalletTests: XCTestCase {
 
     func testExtractWifDetectsPrefixedWifAndRejectsRandomString() {
-        let view = AddressView(navigationPath: .constant(NavigationPath()))
         let likelyWif = "c" + String(repeating: "1", count: 51)
 
-        XCTAssertEqual(view.extractWif(from: "wif:\(likelyWif)"), likelyWif)
+        XCTAssertEqual(WifParser.extract(from: "wif:\(likelyWif)"), likelyWif)
+        XCTAssertEqual(
+            WifParser.extract(from: "bitcoin:?wif=\(likelyWif)"),
+            likelyWif
+        )
         XCTAssertNil(
-            view.extractWif(
+            WifParser.extract(
                 from: "12cUi8cuUJRiFmGEu4jCAsonSS1dkVyaD7Aoo6URRiXpmaokikuyM778786"
             )
         )
