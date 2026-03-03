@@ -574,6 +574,7 @@ final class BDKService {
         ]
 
         var sweptTxids: [Txid] = []
+        var lastWIFOperationError: Error?
         for descriptorString in candidates {
             guard
                 let descriptor = try? Descriptor(
@@ -606,23 +607,28 @@ final class BDKService {
                 continue
             }
 
-            let psbt = try TxBuilder()
-                .drainTo(script: destinationScript)
-                .drainWallet()
-                .feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
-                .finish(wallet: sweepWallet)
+            do {
+                let psbt = try TxBuilder()
+                    .drainTo(script: destinationScript)
+                    .drainWallet()
+                    .feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
+                    .finish(wallet: sweepWallet)
 
-            guard try sweepWallet.sign(psbt: psbt) else {
-                throw WalletError.notSigned
+                guard try sweepWallet.sign(psbt: psbt) else {
+                    continue
+                }
+
+                let tx = try psbt.extractTx()
+                try await self.blockchainClient.broadcast(tx)
+                sweptTxids.append(tx.computeTxid())
+            } catch {
+                lastWIFOperationError = error
+                continue
             }
-
-            let tx = try psbt.extractTx()
-            try await self.blockchainClient.broadcast(tx)
-            sweptTxids.append(tx.computeTxid())
         }
 
         guard !sweptTxids.isEmpty else {
-            throw WalletError.noSweepableFunds
+            throw lastWIFOperationError ?? WalletError.noSweepableFunds
         }
 
         return sweptTxids
