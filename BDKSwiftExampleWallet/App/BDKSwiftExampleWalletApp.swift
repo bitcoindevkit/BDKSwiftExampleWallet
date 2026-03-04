@@ -59,6 +59,16 @@ private enum BackgroundCBFSyncTask {
     static let identifier = "com.bitcoindevkit.bdkswiftexamplewallet.cbf-sync"
     private static let minimumInterval: TimeInterval = 60 * 60 * 24 * 7
 
+    private actor TaskCompletionTracker {
+        private var didComplete = false
+
+        func complete(task: BGProcessingTask, success: Bool) {
+            guard !didComplete else { return }
+            didComplete = true
+            task.setTaskCompleted(success: success)
+        }
+    }
+
     static func register() {
         BGTaskScheduler.shared.register(
             forTaskWithIdentifier: identifier,
@@ -87,19 +97,23 @@ private enum BackgroundCBFSyncTask {
 
     private static func handle(_ task: BGProcessingTask) {
         schedule()
+        let completionTracker = TaskCompletionTracker()
 
         let syncTask = Task.detached(priority: .background) {
             do {
                 try await runKyotoSync()
-                task.setTaskCompleted(success: true)
+                await completionTracker.complete(task: task, success: true)
             } catch {
                 print("[BackgroundCBF] Background sync failed: \(error)")
-                task.setTaskCompleted(success: false)
+                await completionTracker.complete(task: task, success: false)
             }
         }
 
         task.expirationHandler = {
             syncTask.cancel()
+            Task {
+                await completionTracker.complete(task: task, success: false)
+            }
         }
     }
 
