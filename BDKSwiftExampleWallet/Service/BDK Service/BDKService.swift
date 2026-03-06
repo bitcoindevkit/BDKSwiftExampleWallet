@@ -562,10 +562,6 @@ final class BDKService {
             throw WalletError.sweepEsploraOnly
         }
 
-        let destinationAddress = try getAddress()
-        let destinationScript = try Address(address: destinationAddress, network: self.network)
-            .scriptPubkey()
-
         let candidates = [
             "pkh(\(wif))",
             "wpkh(\(wif))",
@@ -575,6 +571,9 @@ final class BDKService {
 
         var sweptTxids: [Txid] = []
         var lastWIFOperationError: Error?
+        
+        var destinationScript: Script?
+        
         for descriptorString in candidates {
             guard
                 let descriptor = try? Descriptor(
@@ -605,6 +604,16 @@ final class BDKService {
 
             if sweepWallet.balance().total.toSat() == 0 {
                 continue
+            }
+
+            if destinationScript == nil {
+                let destinationAddress = try getAddress()
+                destinationScript = try Address(address: destinationAddress, network: self.network)
+                    .scriptPubkey()
+            }
+
+            guard let destinationScript else {
+                throw WalletError.noSweepableFunds
             }
 
             do {
