@@ -14,7 +14,11 @@ struct AddressView: View {
     @Binding var navigationPath: NavigationPath
     @State var address: String = ""
     @State private var isShowingAlert = false
+    @State private var alertTitle = "Error"
     @State private var alertMessage = ""
+    @State private var isSweeping = false
+    private let bdkClient: BDKClient = .live
+    private let sweepFeeRate: UInt64 = 2
     let pasteboard = UIPasteboard.general
 
     var body: some View {
@@ -29,7 +33,7 @@ struct AddressView: View {
             )
             .alert(isPresented: $isShowingAlert) {
                 Alert(
-                    title: Text("Error"),
+                    title: Text(alertTitle),
                     message: Text(alertMessage),
                     dismissButton: .default(Text("OK"))
                 )
@@ -45,7 +49,14 @@ extension AddressView {
     func handleScan(result: Result<ScanResult, ScanError>) {
         switch result {
         case .success(let result):
-            let scannedAddress = result.string.lowercased().replacingOccurrences(
+            let scannedValue = result.string.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            if let wif = WifParser.extract(from: scannedValue) {
+                sweep(wif: wif)
+                return
+            }
+
+            let scannedAddress = scannedValue.lowercased().replacingOccurrences(
                 of: "bitcoin:",
                 with: ""
             )
@@ -54,10 +65,12 @@ extension AddressView {
                 address = bitcoinAddress
                 navigationPath.append(NavigationDestination.amount(address: bitcoinAddress))
             } else {
+                alertTitle = "Error"
                 alertMessage = "The scanned QR code did not contain a valid Bitcoin address."
                 isShowingAlert = true
             }
         case .failure(let error):
+            alertTitle = "Error"
             alertMessage = "Scanning failed: \(error.localizedDescription)"
             isShowingAlert = true
         }
@@ -66,24 +79,68 @@ extension AddressView {
     private func pasteAddress() {
         if let pasteboardContent = UIPasteboard.general.string {
             if pasteboardContent.isEmpty {
+                alertTitle = "Error"
                 alertMessage = "The pasteboard is empty."
                 isShowingAlert = true
                 return
             }
             let trimmedContent = pasteboardContent.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmedContent.isEmpty {
+                alertTitle = "Error"
                 alertMessage = "The pasteboard contains only whitespace."
                 isShowingAlert = true
                 return
             }
+
+            if let wif = WifParser.extract(from: trimmedContent) {
+                sweep(wif: wif)
+                return
+            }
+
             let lowercaseAddress = trimmedContent.lowercased()
             address = lowercaseAddress
             navigationPath.append(NavigationDestination.amount(address: address))
         } else {
+            alertTitle = "Error"
             alertMessage = "Unable to access the pasteboard. Please try copying the address again."
             isShowingAlert = true
         }
     }
+
+    private func sweep(wif: String) {
+        guard !isSweeping else { return }
+        isSweeping = true
+
+        Task {
+            defer {
+                Task { @MainActor in
+                    isSweeping = false
+                }
+            }
+
+            do {
+                let txids = try await bdkClient.sweepWif(wif, sweepFeeRate)
+                let txidText = txids.map { "\($0)" }.joined(separator: ", ")
+
+                await MainActor.run {
+                    alertTitle = "Success"
+                    alertMessage = "Sweep broadcasted: \(txidText)"
+                    isShowingAlert = true
+                    NotificationCenter.default.post(
+                        name: Notification.Name("TransactionSent"),
+                        object: nil
+                    )
+                }
+            } catch {
+                await MainActor.run {
+                    alertTitle = "Error"
+                    alertMessage = "Sweep failed: \(error.localizedDescription)"
+                    isShowingAlert = true
+                }
+            }
+        }
+    }
+
 }
 
 struct CustomScannerView: View {

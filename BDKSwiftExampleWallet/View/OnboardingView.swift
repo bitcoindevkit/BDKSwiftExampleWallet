@@ -225,6 +225,7 @@ struct OnboardingView: View {
                 message: Text(viewModel.onboardingViewError?.description ?? "Unknown"),
                 dismissButton: .default(Text("OK")) {
                     viewModel.onboardingViewError = nil
+                    showingOnboardingViewErrorAlert = false
                 }
             )
         }
@@ -250,6 +251,9 @@ struct OnboardingView: View {
             withAnimation {
                 animateContent = true
             }
+        }
+        .onReceive(viewModel.$onboardingViewError) { error in
+            showingOnboardingViewErrorAlert = (error != nil)
         }
     }
 }

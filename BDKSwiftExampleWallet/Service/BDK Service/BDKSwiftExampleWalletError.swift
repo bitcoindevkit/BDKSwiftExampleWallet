@@ -14,6 +14,8 @@ enum WalletError: Error {
     case walletNotFound
     case fullScanUnsupported
     case backendNotImplemented
+    case sweepEsploraOnly
+    case noSweepableFunds
 }
 
 extension WalletError: LocalizedError {
@@ -31,6 +33,10 @@ extension WalletError: LocalizedError {
             return "Full scan is not supported by the selected blockchain client"
         case .backendNotImplemented:
             return "The selected blockchain backend is not yet implemented"
+        case .sweepEsploraOnly:
+            return "Sweep is available only with Esplora in this example app"
+        case .noSweepableFunds:
+            return "No sweepable funds found for this WIF"
         }
     }
 }

@@ -145,6 +145,12 @@ class OnboardingViewModel: ObservableObject {
 
         Task {
             do {
+                if WifParser.extract(from: self.words) != nil {
+                    throw AppError.generic(
+                        message:
+                            "WIF is for sweep, not wallet creation. Open an existing wallet and use Send > Scan/Paste to sweep it."
+                    )
+                }
                 if self.isDescriptor {
                     try self.bdkClient.createWalletFromDescriptor(self.words)
                 } else if self.isXPub {
@@ -161,6 +167,11 @@ class OnboardingViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.isCreatingWallet = false
                     self.createWithPersistError = error
+                }
+            } catch let error as AppError {
+                DispatchQueue.main.async {
+                    self.isCreatingWallet = false
+                    self.onboardingViewError = error
                 }
             } catch {
                 DispatchQueue.main.async {

@@ -555,6 +555,94 @@ final class BDKService {
         try await signAndBroadcast(psbt: psbt)
     }
 
+    func sweepWif(wif: String, feeRate: UInt64) async throws -> [Txid] {
+        // Keep sweep minimal and predictable across signet/testnet/testnet4 in this example:
+        // use the Esplora path only.
+        guard self.clientType == .esplora else {
+            throw WalletError.sweepEsploraOnly
+        }
+
+        let candidates = [
+            "pkh(\(wif))",
+            "wpkh(\(wif))",
+            "sh(wpkh(\(wif)))",
+            "tr(\(wif))",
+        ]
+
+        var sweptTxids: [Txid] = []
+        var lastWIFOperationError: Error?
+        
+        var destinationScript: Script?
+        
+        for descriptorString in candidates {
+            guard
+                let descriptor = try? Descriptor(
+                    descriptor: descriptorString,
+                    network: self.network
+                )
+            else {
+                continue
+            }
+
+            let tempDir = FileManager.default.temporaryDirectory
+                .appendingPathComponent("bdk-sweep-\(UUID().uuidString)", isDirectory: true)
+            try? FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+            defer { try? FileManager.default.removeItem(at: tempDir) }
+
+            let tempPath = tempDir.appendingPathComponent("wallet.sqlite").path
+            let sweepPersister = try Persister.newSqlite(path: tempPath)
+            let sweepWallet = try Wallet.createSingle(
+                descriptor: descriptor,
+                network: self.network,
+                persister: sweepPersister
+            )
+
+            let _ = sweepWallet.revealNextAddress(keychain: .external)
+            let syncRequest = try sweepWallet.startSyncWithRevealedSpks().build()
+            let update = try await self.blockchainClient.sync(syncRequest, UInt64(5))
+            try sweepWallet.applyUpdate(update: update)
+
+            if sweepWallet.balance().total.toSat() == 0 {
+                continue
+            }
+
+            if destinationScript == nil {
+                let destinationAddress = try getAddress()
+                destinationScript = try Address(address: destinationAddress, network: self.network)
+                    .scriptPubkey()
+            }
+
+            guard let destinationScript else {
+                throw WalletError.noSweepableFunds
+            }
+
+            do {
+                let psbt = try TxBuilder()
+                    .drainTo(script: destinationScript)
+                    .drainWallet()
+                    .feeRate(feeRate: FeeRate.fromSatPerVb(satVb: feeRate))
+                    .finish(wallet: sweepWallet)
+
+                guard try sweepWallet.sign(psbt: psbt) else {
+                    continue
+                }
+
+                let tx = try psbt.extractTx()
+                try await self.blockchainClient.broadcast(tx)
+                sweptTxids.append(tx.computeTxid())
+            } catch {
+                lastWIFOperationError = error
+                continue
+            }
+        }
+
+        guard !sweptTxids.isEmpty else {
+            throw lastWIFOperationError ?? WalletError.noSweepableFunds
+        }
+
+        return sweptTxids
+    }
+
     func buildTransaction(address: String, amount: UInt64, feeRate: UInt64) throws
         -> Psbt
     {
@@ -768,6 +856,7 @@ struct BDKClient {
     let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
     let getAddress: () throws -> String
     let send: (String, UInt64, UInt64) throws -> Void
+    let sweepWif: (String, UInt64) async throws -> [Txid]
     let calculateFee: (Transaction) throws -> Amount
     let calculateFeeRate: (Transaction) throws -> UInt64
     let sentAndReceived: (Transaction) throws -> SentAndReceivedValues
@@ -811,6 +900,9 @@ extension BDKClient {
             Task {
                 try await BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
             }
+        },
+        sweepWif: { (wif, feeRate) in
+            try await BDKService.shared.sweepWif(wif: wif, feeRate: feeRate)
         },
         calculateFee: { tx in try BDKService.shared.calculateFee(tx: tx) },
         calculateFeeRate: { tx in try BDKService.shared.calculateFeeRate(tx: tx) },
@@ -874,6 +966,7 @@ extension BDKClient {
             fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
             send: { _, _, _ in },
+            sweepWif: { _, _ in [] },
             calculateFee: { _ in Amount.mock },
             calculateFeeRate: { _ in UInt64(6.15) },
             sentAndReceived: { _ in
