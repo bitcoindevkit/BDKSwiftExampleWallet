@@ -68,9 +68,9 @@ class BuildTransactionViewModel {
         }
     }
 
-    func send(address: String, amount: UInt64, feeRate: UInt64) {
+    func send(address: String, amount: UInt64, feeRate: UInt64) async {
         do {
-            try bdkClient.send(address, amount, feeRate)
+            try await bdkClient.send(address, amount, feeRate)
             NotificationCenter.default.post(
                 name: .transactionSent,
                 object: nil
