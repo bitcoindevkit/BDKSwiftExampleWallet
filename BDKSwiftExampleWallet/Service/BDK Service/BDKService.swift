@@ -571,9 +571,9 @@ final class BDKService {
 
         var sweptTxids: [Txid] = []
         var lastWIFOperationError: Error?
-        
+
         var destinationScript: Script?
-        
+
         for descriptorString in candidates {
             guard
                 let descriptor = try? Descriptor(
@@ -855,7 +855,7 @@ struct BDKClient {
     let syncWithInspector: (SyncScriptInspector) async throws -> Void
     let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
     let getAddress: () throws -> String
-    let send: (String, UInt64, UInt64) throws -> Void
+    let send: (String, UInt64, UInt64) async throws -> Void
     let sweepWif: (String, UInt64) async throws -> [Txid]
     let calculateFee: (Transaction) throws -> Amount
     let calculateFeeRate: (Transaction) throws -> UInt64
@@ -897,9 +897,7 @@ extension BDKClient {
         },
         getAddress: { try BDKService.shared.getAddress() },
         send: { (address, amount, feeRate) in
-            Task {
-                try await BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
-            }
+            try await BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
         },
         sweepWif: { (wif, feeRate) in
             try await BDKService.shared.sweepWif(wif: wif, feeRate: feeRate)
