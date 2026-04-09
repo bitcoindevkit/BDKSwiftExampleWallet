@@ -16,7 +16,7 @@ class TransactionDetailViewModel {
 
     var esploraError: EsploraError?
     var esploraURL: String?
-    var network: String?
+    var network: Network?
     var showingTransactionDetailsViewErrorAlert = false
     var transactionDetailsError: AppError?
 
@@ -30,13 +30,13 @@ class TransactionDetailViewModel {
         let savedEsploraURL = bdkClient.getEsploraURL()
 
         switch network {
-        case "signet":
+        case .signet:
             if savedEsploraURL == Constants.Networks.Signet.Regular.esploraServers.first {
                 self.esploraURL = "https://mempool.space/signet"
             } else {
                 self.esploraURL = "https://mutinynet.com"
             }
-        case "testnet":
+        case .testnet:
             if savedEsploraURL == Constants.Networks.Testnet.esploraServers.last {
                 self.esploraURL = "https://blockstream.info/testnet"
             } else {
@@ -48,7 +48,7 @@ class TransactionDetailViewModel {
     }
 
     func getNetwork() {
-        self.network = bdkClient.getNetwork().description
+        self.network = bdkClient.getNetwork()
     }
 
 }

@@ -50,9 +50,10 @@ struct TransactionListView: View {
                     let signetNetwork = Constants.Config.SignetNetwork.from(
                         esploraURL: viewModel.getEsploraURL()
                     )
+                    let network = viewModel.getNetwork()
 
-                    if viewModel.getNetwork() != Network.testnet.description
-                        && viewModel.getNetwork() != Network.testnet4.description
+                    if network != .testnet
+                        && network != .testnet4
                     {
                         Button {
                             if let faucetURL = signetNetwork.defaultFaucet {
@@ -73,7 +74,7 @@ struct TransactionListView: View {
                     let testnet4FaucetURL = Constants.Networks.Testnet4.Faucet.mempool.url
 
                     if let testnet4FaucetURL,
-                        viewModel.getNetwork() == Network.testnet4.description
+                        network == .testnet4
                     {
                         Button {
                             UIApplication.shared.open(

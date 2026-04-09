@@ -105,7 +105,7 @@ struct TransactionDetailView: View {
             Spacer()
 
             HStack {
-                if viewModel.network != Network.regtest.description {
+                if viewModel.network != .regtest {
                     Button {
                         if let esploraURL = viewModel.esploraURL {
                             let urlString =
