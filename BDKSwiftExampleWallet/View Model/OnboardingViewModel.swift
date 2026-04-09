@@ -128,10 +128,8 @@ class OnboardingViewModel: ObservableObject {
 
     func createWallet() {
         // Check if wallet already exists
-        if let existingBackup = try? bdkClient.getBackupInfo() {
-            Task { @MainActor in
-                self.isOnboarding = false
-            }
+        if (try? bdkClient.getBackupInfo()) != nil {
+            self.isOnboarding = false
             return
         }
 
@@ -139,24 +137,25 @@ class OnboardingViewModel: ObservableObject {
             return
         }
 
-        Task { @MainActor in
-            self.isCreatingWallet = true
-        }
+        self.isCreatingWallet = true
+        let words = self.words
+        let isDescriptor = self.isDescriptor
+        let isXPub = self.isXPub
 
         Task {
             do {
-                if WifParser.extract(from: self.words) != nil {
+                if WifParser.extract(from: words) != nil {
                     throw AppError.generic(
                         message:
                             "WIF is for sweep, not wallet creation. Open an existing wallet and use Send > Scan/Paste to sweep it."
                     )
                 }
-                if self.isDescriptor {
-                    try self.bdkClient.createWalletFromDescriptor(self.words)
-                } else if self.isXPub {
-                    try self.bdkClient.createWalletFromXPub(self.words)
+                if isDescriptor {
+                    try self.bdkClient.createWalletFromDescriptor(words)
+                } else if isXPub {
+                    try self.bdkClient.createWalletFromXPub(words)
                 } else {
-                    try self.bdkClient.createWalletFromSeed(self.words)
+                    try self.bdkClient.createWalletFromSeed(words)
                 }
                 await MainActor.run {
                     self.isCreatingWallet = false
