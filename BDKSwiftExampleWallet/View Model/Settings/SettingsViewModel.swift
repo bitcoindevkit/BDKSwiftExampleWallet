@@ -68,7 +68,7 @@ class SettingsViewModel: ObservableObject {
             try await bdkClient.fullScanWithInspector(inspector)
             DispatchQueue.main.async {
                 NotificationCenter.default.post(
-                    name: Notification.Name("TransactionSent"),
+                    name: .transactionSent,
                     object: nil
                 )
                 self.walletSyncState = .synced

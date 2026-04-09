@@ -88,7 +88,7 @@ struct WalletView: View {
                 }
             }
             .onReceive(
-                NotificationCenter.default.publisher(for: Notification.Name("TransactionSent")),
+                NotificationCenter.default.publisher(for: .transactionSent),
                 perform: { _ in
                     newTransactionSent = true
                 }

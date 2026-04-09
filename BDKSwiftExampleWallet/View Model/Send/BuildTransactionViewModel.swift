@@ -72,7 +72,7 @@ class BuildTransactionViewModel {
         do {
             try bdkClient.send(address, amount, feeRate)
             NotificationCenter.default.post(
-                name: Notification.Name("TransactionSent"),
+                name: .transactionSent,
                 object: nil
             )
         } catch let error as EsploraError {
