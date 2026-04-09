@@ -8,7 +8,7 @@
 import BitcoinDevKit
 import Foundation
 
-extension OutPoint: Hashable {
+extension OutPoint: @retroactive Hashable {
     public static func == (lhs: OutPoint, rhs: OutPoint) -> Bool {
         lhs.txid == rhs.txid && lhs.vout == rhs.vout
     }
