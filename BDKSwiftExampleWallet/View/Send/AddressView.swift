@@ -127,7 +127,7 @@ extension AddressView {
                     alertMessage = "Sweep broadcasted: \(txidText)"
                     isShowingAlert = true
                     NotificationCenter.default.post(
-                        name: Notification.Name("TransactionSent"),
+                        name: .transactionSent,
                         object: nil
                     )
                 }
