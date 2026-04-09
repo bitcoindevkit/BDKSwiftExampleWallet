@@ -26,7 +26,7 @@ class ActivityListViewModel {
 
     private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
         { [weak self] inspected, total in
-            DispatchQueue.main.async {
+            Task { @MainActor [weak self] in
                 self?.totalScripts = total
                 self?.inspectedScripts = inspected
                 self?.progress = total > 0 ? Float(inspected) / Float(total) : 0

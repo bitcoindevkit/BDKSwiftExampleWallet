@@ -24,7 +24,7 @@ class SettingsViewModel: ObservableObject {
 
     private var updateProgressFullScan: @Sendable (UInt64) -> Void {
         { [weak self] inspected in
-            DispatchQueue.main.async {
+            Task { @MainActor [weak self] in
                 self?.inspectedScripts = inspected
             }
         }
@@ -46,9 +46,7 @@ class SettingsViewModel: ObservableObject {
     }
 
     func getAddressType() {
-        DispatchQueue.main.async {
-            self.addressType = self.bdkClient.getAddressType()
-        }
+        self.addressType = self.bdkClient.getAddressType()
     }
 
     func delete() {
@@ -66,33 +64,23 @@ class SettingsViewModel: ObservableObject {
         do {
             let inspector = WalletFullScanScriptInspector(updateProgress: updateProgressFullScan)
             try await bdkClient.fullScanWithInspector(inspector)
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(
-                    name: .transactionSent,
-                    object: nil
-                )
-                self.walletSyncState = .synced
-            }
+            NotificationCenter.default.post(
+                name: .transactionSent,
+                object: nil
+            )
+            self.walletSyncState = .synced
         } catch let error as CannotConnectError {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-                self.showingSettingsViewErrorAlert = true
-            }
+            self.settingsError = .generic(message: error.localizedDescription)
+            self.showingSettingsViewErrorAlert = true
         } catch let error as EsploraError {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-                self.showingSettingsViewErrorAlert = true
-            }
+            self.settingsError = .generic(message: error.localizedDescription)
+            self.showingSettingsViewErrorAlert = true
         } catch let error as PersistenceError {
-            DispatchQueue.main.async {
-                self.settingsError = .generic(message: error.localizedDescription)
-                self.showingSettingsViewErrorAlert = true
-            }
+            self.settingsError = .generic(message: error.localizedDescription)
+            self.showingSettingsViewErrorAlert = true
         } catch {
-            DispatchQueue.main.async {
-                self.walletSyncState = .error(error)
-                self.showingSettingsViewErrorAlert = true
-            }
+            self.walletSyncState = .error(error)
+            self.showingSettingsViewErrorAlert = true
         }
     }
 
