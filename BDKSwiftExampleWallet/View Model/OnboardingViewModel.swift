@@ -129,7 +129,7 @@ class OnboardingViewModel: ObservableObject {
     func createWallet() {
         // Check if wallet already exists
         if let existingBackup = try? bdkClient.getBackupInfo() {
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 self.isOnboarding = false
             }
             return
@@ -139,7 +139,7 @@ class OnboardingViewModel: ObservableObject {
             return
         }
 
-        DispatchQueue.main.async {
+        Task { @MainActor in
             self.isCreatingWallet = true
         }
 
@@ -158,23 +158,23 @@ class OnboardingViewModel: ObservableObject {
                 } else {
                     try self.bdkClient.createWalletFromSeed(self.words)
                 }
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.isCreatingWallet = false
                     self.isOnboarding = false
                     NotificationCenter.default.post(name: .walletCreated, object: nil)
                 }
             } catch let error as CreateWithPersistError {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.isCreatingWallet = false
                     self.createWithPersistError = error
                 }
             } catch let error as AppError {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.isCreatingWallet = false
                     self.onboardingViewError = error
                 }
             } catch {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.isCreatingWallet = false
                     self.onboardingViewError = .generic(message: error.localizedDescription)
                 }

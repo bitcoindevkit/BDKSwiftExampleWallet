@@ -97,7 +97,7 @@ extension ReceiveViewModel {
             return
         }
 
-        DispatchQueue.main.async {
+        Task { @MainActor in
             self.receiveViewError = .generic(message: error.localizedDescription)
             self.showingReceiveViewErrorAlert = true
         }

@@ -50,7 +50,7 @@ class WalletViewModel {
 
     private var updateProgress: @Sendable (UInt64, UInt64) -> Void {
         { [weak self] inspected, total in
-            DispatchQueue.main.async {
+            Task { @MainActor [weak self] in
                 // When using Kyoto, progress is provided separately as percent
                 if self?.isKyotoClient == true { return }
                 self?.totalScripts = total
@@ -63,7 +63,7 @@ class WalletViewModel {
 
     private var updateKyotoProgress: @Sendable (Float) -> Void {
         { [weak self] rawProgress in
-            DispatchQueue.main.async { [weak self] in
+            Task { @MainActor [weak self] in
                 guard let self else { return }
                 let sanitized = rawProgress.isFinite ? min(max(rawProgress, 0), 100) : 0
                 self.progress = sanitized
@@ -75,7 +75,7 @@ class WalletViewModel {
 
     private var updateProgressFullScan: @Sendable (UInt64) -> Void {
         { [weak self] inspected in
-            DispatchQueue.main.async {
+            Task { @MainActor [weak self] in
                 self?.inspectedScripts = inspected
             }
         }
@@ -99,25 +99,27 @@ class WalletViewModel {
             object: nil,
             queue: .main
         ) { [weak self] notification in
-            guard let self else { return }
-            // Ignore Kyoto updates unless client type is Kyoto
-            if self.bdkClient.getClientType() != .kyoto { return }
-            if let progress = notification.userInfo?["progress"] as? Float {
-                self.updateKyotoProgress(progress)
-                if let height = notification.userInfo?["height"] as? Int {
-                    self.currentBlockHeight = UInt32(max(height, 0))
-                }
-                // Consider any progress update as evidence of an active connection
-                // so the UI does not falsely show a red disconnected indicator while syncing.
-                if progress > 0 {
-                    self.isKyotoConnected = true
-                }
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                // Ignore Kyoto updates unless client type is Kyoto
+                if self.bdkClient.getClientType() != .kyoto { return }
+                if let progress = notification.userInfo?["progress"] as? Float {
+                    self.updateKyotoProgress(progress)
+                    if let height = notification.userInfo?["height"] as? Int {
+                        self.currentBlockHeight = UInt32(max(height, 0))
+                    }
+                    // Consider any progress update as evidence of an active connection
+                    // so the UI does not falsely show a red disconnected indicator while syncing.
+                    if progress > 0 {
+                        self.isKyotoConnected = true
+                    }
 
-                // Update sync state based on Kyoto progress
-                if progress >= 100 {
-                    self.walletSyncState = .synced
-                } else if progress > 0 {
-                    self.walletSyncState = .syncing
+                    // Update sync state based on Kyoto progress
+                    if progress >= 100 {
+                        self.walletSyncState = .synced
+                    } else if progress > 0 {
+                        self.walletSyncState = .syncing
+                    }
                 }
             }
         }
@@ -127,16 +129,19 @@ class WalletViewModel {
             object: nil,
             queue: .main
         ) { [weak self] notification in
-            if let connected = notification.userInfo?["connected"] as? Bool {
-                self?.isKyotoConnected = connected
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                if let connected = notification.userInfo?["connected"] as? Bool {
+                    self.isKyotoConnected = connected
 
-                // When Kyoto connects, update sync state if needed
-                if connected && self?.walletSyncState == .notStarted {
-                    // Check current progress to determine state
-                    if let progress = self?.progress, progress >= 100 {
-                        self?.walletSyncState = .synced
-                    } else {
-                        self?.walletSyncState = .syncing
+                    // When Kyoto connects, update sync state if needed
+                    if connected && self.walletSyncState == .notStarted {
+                        // Check current progress to determine state
+                        if self.progress >= 100 {
+                            self.walletSyncState = .synced
+                        } else {
+                            self.walletSyncState = .syncing
+                        }
                     }
                 }
             }
@@ -147,19 +152,19 @@ class WalletViewModel {
             object: nil,
             queue: .main
         ) { [weak self] notification in
-            guard let self else { return }
-            // Ignore Kyoto updates unless client type is Kyoto
-            if self.bdkClient.getClientType() != .kyoto { return }
-            if let height = notification.userInfo?["height"] as? Int {
-                self.currentBlockHeight = UInt32(max(height, 0))
-                // Receiving chain height implies we have peer connectivity
-                self.isKyotoConnected = true
-                // Ensure UI reflects syncing as soon as we see chain activity
-                if self.walletSyncState == .notStarted { self.walletSyncState = .syncing }
-                // Auto-refresh wallet data when Kyoto receives new blocks
-                self.getBalance()
-                self.getTransactions()
-                Task {
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                // Ignore Kyoto updates unless client type is Kyoto
+                if self.bdkClient.getClientType() != .kyoto { return }
+                if let height = notification.userInfo?["height"] as? Int {
+                    self.currentBlockHeight = UInt32(max(height, 0))
+                    // Receiving chain height implies we have peer connectivity
+                    self.isKyotoConnected = true
+                    // Ensure UI reflects syncing as soon as we see chain activity
+                    if self.walletSyncState == .notStarted { self.walletSyncState = .syncing }
+                    // Auto-refresh wallet data when Kyoto receives new blocks
+                    self.getBalance()
+                    self.getTransactions()
                     await self.getPrices()
                 }
             }
@@ -170,10 +175,10 @@ class WalletViewModel {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            guard let self else { return }
-            self.getBalance()
-            self.getTransactions()
-            Task {
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.getBalance()
+                self.getTransactions()
                 await self.getPrices()
             }
         }
