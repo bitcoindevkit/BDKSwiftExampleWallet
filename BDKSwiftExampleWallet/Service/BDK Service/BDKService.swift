@@ -199,29 +199,30 @@ final class BDKService {
         secretKey: DescriptorSecretKey,
         network: Network
     ) -> (descriptor: Descriptor, changeDescriptor: Descriptor) {
+        let networkKind = network.kind
         switch addressType {
         case .bip86:
             let descriptor = Descriptor.newBip86(
                 secretKey: secretKey,
                 keychainKind: .external,
-                network: network
+                networkKind: networkKind
             )
             let changeDescriptor = Descriptor.newBip86(
                 secretKey: secretKey,
                 keychainKind: .internal,
-                network: network
+                networkKind: networkKind
             )
             return (descriptor, changeDescriptor)
         case .bip84:
             let descriptor = Descriptor.newBip84(
                 secretKey: secretKey,
                 keychainKind: .external,
-                network: network
+                networkKind: networkKind
             )
             let changeDescriptor = Descriptor.newBip84(
                 secretKey: secretKey,
                 keychainKind: .internal,
-                network: network
+                networkKind: networkKind
             )
             return (descriptor, changeDescriptor)
         }
@@ -233,19 +234,20 @@ final class BDKService {
         fingerprint: String,
         network: Network
     ) throws -> (descriptor: Descriptor, changeDescriptor: Descriptor) {
+        let networkKind = network.kind
         switch addressType {
         case .bip86:
             let descriptor = try Descriptor.newBip86Public(
                 publicKey: publicKey,
                 fingerprint: fingerprint,
                 keychainKind: .external,
-                network: network
+                networkKind: networkKind
             )
             let changeDescriptor = try Descriptor.newBip86Public(
                 publicKey: publicKey,
                 fingerprint: fingerprint,
                 keychainKind: .internal,
-                network: network
+                networkKind: networkKind
             )
             return (descriptor, changeDescriptor)
         case .bip84:
@@ -253,13 +255,13 @@ final class BDKService {
                 publicKey: publicKey,
                 fingerprint: fingerprint,
                 keychainKind: .external,
-                network: network
+                networkKind: networkKind
             )
             let changeDescriptor = try Descriptor.newBip84Public(
                 publicKey: publicKey,
                 fingerprint: fingerprint,
                 keychainKind: .internal,
-                network: network
+                networkKind: networkKind
             )
             return (descriptor, changeDescriptor)
         }
@@ -327,7 +329,7 @@ final class BDKService {
         }
         let mnemonic = try Mnemonic.fromString(mnemonic: words12)
         let secretKey = DescriptorSecretKey(
-            network: network,
+            networkKind: network.kind,
             mnemonic: mnemonic,
             password: nil
         )
@@ -381,7 +383,7 @@ final class BDKService {
         if descriptorStrings.count == 1 {
             let parsedDescriptor = try Descriptor(
                 descriptor: descriptorStrings[0],
-                network: network
+                networkKind: network.kind
             )
             let singleDescriptors = try parsedDescriptor.toSingleDescriptors()
             guard singleDescriptors.count >= 2 else {
@@ -390,8 +392,11 @@ final class BDKService {
             descriptor = singleDescriptors[0]
             changeDescriptor = singleDescriptors[1]
         } else if descriptorStrings.count == 2 {
-            descriptor = try Descriptor(descriptor: descriptorStrings[0], network: network)
-            changeDescriptor = try Descriptor(descriptor: descriptorStrings[1], network: network)
+            descriptor = try Descriptor(descriptor: descriptorStrings[0], networkKind: network.kind)
+            changeDescriptor = try Descriptor(
+                descriptor: descriptorStrings[1],
+                networkKind: network.kind
+            )
         } else {
             throw WalletError.walletNotFound
         }
@@ -515,10 +520,13 @@ final class BDKService {
 
     func loadWalletFromBackup() throws {
         let backupInfo = try keyClient.getBackupInfo()
-        let descriptor = try Descriptor(descriptor: backupInfo.descriptor, network: self.network)
+        let descriptor = try Descriptor(
+            descriptor: backupInfo.descriptor,
+            networkKind: self.network.kind
+        )
         let changeDescriptor = try Descriptor(
             descriptor: backupInfo.changeDescriptor,
-            network: self.network
+            networkKind: self.network.kind
         )
         try self.loadWallet(descriptor: descriptor, changeDescriptor: changeDescriptor)
     }
@@ -578,7 +586,7 @@ final class BDKService {
             guard
                 let descriptor = try? Descriptor(
                     descriptor: descriptorString,
-                    network: self.network
+                    networkKind: self.network.kind
                 )
             else {
                 continue

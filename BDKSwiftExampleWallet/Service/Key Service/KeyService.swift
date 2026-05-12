@@ -161,19 +161,19 @@ extension KeyClient {
                     "space echo position wrist orient erupt relief museum myself grain wisdom tumble"
                 let mnemonic = try Mnemonic.fromString(mnemonic: words12)
                 let secretKey = DescriptorSecretKey(
-                    network: mockKeyClientNetwork,
+                    networkKind: mockKeyClientNetwork.kind,
                     mnemonic: mnemonic,
                     password: nil
                 )
                 let descriptor = Descriptor.newBip86(
                     secretKey: secretKey,
                     keychainKind: .external,
-                    network: mockKeyClientNetwork
+                    networkKind: mockKeyClientNetwork.kind
                 )
                 let changeDescriptor = Descriptor.newBip86(
                     secretKey: secretKey,
                     keychainKind: .internal,
-                    network: mockKeyClientNetwork
+                    networkKind: mockKeyClientNetwork.kind
                 )
                 let backupInfo = BackupInfo(
                     mnemonic: mnemonic.description,

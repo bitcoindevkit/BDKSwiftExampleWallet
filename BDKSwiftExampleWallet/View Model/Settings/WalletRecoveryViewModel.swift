@@ -44,13 +44,13 @@ class WalletRecoveryViewModel {
 
             let externalPublicDescriptor = try Descriptor.init(
                 descriptor: backupInfo.descriptor,
-                network: network
+                networkKind: network.kind
             )
             self.publicDescriptor = externalPublicDescriptor
 
             let internalPublicDescriptor = try Descriptor.init(
                 descriptor: backupInfo.changeDescriptor,
-                network: network
+                networkKind: network.kind
             )
             self.publicChangeDescriptor = internalPublicDescriptor
 
