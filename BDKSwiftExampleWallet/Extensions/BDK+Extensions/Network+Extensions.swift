@@ -9,6 +9,13 @@ import BitcoinDevKit
 import Foundation
 
 extension Network {
+    var kind: NetworkKind {
+        switch self {
+        case .bitcoin: return .main
+        case .testnet, .testnet4, .signet, .regtest: return .test
+        }
+    }
+
     var description: String {
         switch self {
         case .bitcoin: return "bitcoin"

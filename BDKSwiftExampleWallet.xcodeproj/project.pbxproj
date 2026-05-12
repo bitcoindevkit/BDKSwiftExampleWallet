@@ -658,7 +658,7 @@
 				AF77B2242F4B2C9E00000004 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				AF77B2232F4B2C9E00000003 /* XCRemoteSwiftPackageReference "BitcoinUI" */,
 				AF77B2222F4B2C9E00000002 /* XCRemoteSwiftPackageReference "CodeScanner" */,
-				AF77B2212F4B2C9E00000001 /* XCRemoteSwiftPackageReference "bdk-swift" */,
+				AF77B2212F4B2C9E00000001 /* XCLocalSwiftPackageReference "bdk-swift" */,
 			);
 			productRefGroup = AE4984792A1BBBD6009951E2 /* Products */;
 			projectDirPath = "";
@@ -1069,15 +1069,14 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		AF77B2212F4B2C9E00000001 /* XCRemoteSwiftPackageReference "bdk-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/bitcoindevkit/bdk-swift";
-			requirement = {
-				kind = exactVersion;
-				version = 2.3.1;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		AF77B2212F4B2C9E00000001 /* XCLocalSwiftPackageReference "bdk-swift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../bdk-ffi-release-3.0/bdk-swift";
 		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
 		AF77B2222F4B2C9E00000002 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/CodeScanner.git";
@@ -1107,7 +1106,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		AF77B2142F4B2C9E00000001 /* BitcoinDevKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AF77B2212F4B2C9E00000001 /* XCRemoteSwiftPackageReference "bdk-swift" */;
+			package = AF77B2212F4B2C9E00000001 /* XCLocalSwiftPackageReference "bdk-swift" */;
 			productName = BitcoinDevKit;
 		};
 		AF77B2152F4B2C9E00000002 /* CodeScanner */ = {
