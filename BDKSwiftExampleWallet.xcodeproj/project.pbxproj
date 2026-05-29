@@ -1072,7 +1072,7 @@
 /* Begin XCLocalSwiftPackageReference section */
 		AF77B2212F4B2C9E00000001 /* XCLocalSwiftPackageReference "bdk-swift" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../bdk-ffi-release-3.0-rc.3/bdk-swift";
+			relativePath = "../bdk-ffi-release-3.0.0/bdk-swift";
 		};
 /* End XCLocalSwiftPackageReference section */
 
