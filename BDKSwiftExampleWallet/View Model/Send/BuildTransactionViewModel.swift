@@ -13,6 +13,7 @@ import Foundation
 class BuildTransactionViewModel {
     let bdkClient: BDKClient
 
+    var broadcastTxid: Txid?
     var buildTransactionViewError: AppError?
     var calculateFee: String?
     var psbt: Psbt?
@@ -68,9 +69,14 @@ class BuildTransactionViewModel {
         }
     }
 
-    func send(address: String, amount: UInt64, feeRate: UInt64) async {
+    func send() async {
+        guard let psbt = self.psbt else {
+            self.buildTransactionViewError = .generic(message: "No transaction to send")
+            self.showingBuildTransactionViewErrorAlert = true
+            return
+        }
         do {
-            try await bdkClient.send(address, amount, feeRate)
+            self.broadcastTxid = try await bdkClient.send(psbt)
             NotificationCenter.default.post(
                 name: .transactionSent,
                 object: nil

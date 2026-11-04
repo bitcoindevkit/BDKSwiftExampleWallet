@@ -550,16 +550,7 @@ final class BDKService {
         return backupInfo
     }
 
-    func send(
-        address: String,
-        amount: UInt64,
-        feeRate: UInt64
-    ) async throws {
-        let psbt = try buildTransaction(
-            address: address,
-            amount: amount,
-            feeRate: feeRate
-        )
+    func send(psbt: Psbt) async throws -> Txid {
         try await signAndBroadcast(psbt: psbt)
     }
 
@@ -667,7 +658,7 @@ final class BDKService {
         return txBuilder
     }
 
-    private func signAndBroadcast(psbt: Psbt) async throws {
+    private func signAndBroadcast(psbt: Psbt) async throws -> Txid {
         guard let wallet = self.wallet else { throw WalletError.walletNotFound }
         let isSigned = try wallet.sign(psbt: psbt)
         if isSigned {
@@ -684,6 +675,7 @@ final class BDKService {
                 }
                 let _ = try wallet.persist(persister: persister)
             }
+            return transaction.computeTxid()
         } else {
             throw WalletError.notSigned
         }
@@ -863,7 +855,7 @@ struct BDKClient {
     let syncWithInspector: (SyncScriptInspector) async throws -> Void
     let fullScanWithInspector: (FullScanScriptInspector) async throws -> Void
     let getAddress: () throws -> String
-    let send: (String, UInt64, UInt64) async throws -> Void
+    let send: (Psbt) async throws -> Txid
     let sweepWif: (String, UInt64) async throws -> [Txid]
     let calculateFee: (Transaction) throws -> Amount
     let calculateFeeRate: (Transaction) throws -> UInt64
@@ -904,8 +896,8 @@ extension BDKClient {
             try await BDKService.shared.fullScanWithInspector(inspector: inspector)
         },
         getAddress: { try BDKService.shared.getAddress() },
-        send: { (address, amount, feeRate) in
-            try await BDKService.shared.send(address: address, amount: amount, feeRate: feeRate)
+        send: { psbt in
+            try await BDKService.shared.send(psbt: psbt)
         },
         sweepWif: { (wif, feeRate) in
             try await BDKService.shared.sweepWif(wif: wif, feeRate: feeRate)
@@ -971,7 +963,7 @@ extension BDKClient {
             syncWithInspector: { _ in },
             fullScanWithInspector: { _ in },
             getAddress: { "tb1pd8jmenqpe7rz2mavfdx7uc8pj7vskxv4rl6avxlqsw2u8u7d4gfs97durt" },
-            send: { _, _, _ in },
+            send: { _ in try Txid.fromString(hex: String.mockHashHex) },
             sweepWif: { _, _ in [] },
             calculateFee: { _ in Amount.mock },
             calculateFeeRate: { _ in UInt64(6.15) },
