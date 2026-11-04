@@ -117,32 +117,25 @@ struct BuildTransactionView: View {
 
                     if !isSent {
                         Button {
-                            if let amt = UInt64(amount) {
-                                viewModel.buildTransactionViewError = nil
-                                isError = false
-                                Task { @MainActor in
-                                    await viewModel.send(
-                                        address: address,
-                                        amount: amt,
-                                        feeRate: UInt64(fee)
-                                    )
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        if self.viewModel.buildTransactionViewError == nil {
-                                            self.isSent = true
-                                            DispatchQueue.main.asyncAfter(
-                                                deadline: .now() + 1.5
-                                            ) {
-                                                self.navigationPath.removeLast(
-                                                    self.navigationPath.count
-                                                )
-                                            }
-                                        } else {
-                                            self.isSent = false
-                                            self.isError = true
+                            viewModel.buildTransactionViewError = nil
+                            isError = false
+                            Task { @MainActor in
+                                await viewModel.send()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    if self.viewModel.buildTransactionViewError == nil {
+                                        self.isSent = true
+                                        DispatchQueue.main.asyncAfter(
+                                            deadline: .now() + 1.5
+                                        ) {
+                                            self.navigationPath.removeLast(
+                                                self.navigationPath.count
+                                            )
                                         }
+                                    } else {
+                                        self.isSent = false
+                                        self.isError = true
                                     }
                                 }
-                            } else {
                             }
                         } label: {
                             Text("Send")
@@ -171,14 +164,14 @@ struct BuildTransactionView: View {
                         VStack {
                             Image(systemName: "checkmark")
                                 .foregroundStyle(.green)
-                            if let transaction = viewModel.extractTransaction() {
+                            if let txid = viewModel.broadcastTxid {
                                 HStack {
-                                    Text("\(transaction.computeTxid())")
+                                    Text("\(txid)")
                                         .lineLimit(1)
                                         .truncationMode(.middle)
                                     Spacer()
                                     Button {
-                                        UIPasteboard.general.string = "\(transaction.computeTxid())"
+                                        UIPasteboard.general.string = "\(txid)"
                                         isCopied = true
                                         showCheckmark = true
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

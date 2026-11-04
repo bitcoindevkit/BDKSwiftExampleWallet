@@ -16,7 +16,7 @@ final class BDKSwiftExampleWalletSendViewModelTests: XCTestCase {
     }
 
     private func makeBDKClient(
-        send: @escaping (String, UInt64, UInt64) async throws -> Void
+        send: @escaping (Psbt) async throws -> Txid
     ) -> BDKClient {
         BDKClient(
             loadWallet: BDKClient.mock.loadWallet,
@@ -95,15 +95,16 @@ final class BDKSwiftExampleWalletSendViewModelTests: XCTestCase {
     @MainActor
     func testBuildTransactionViewModelSendPostsTransactionSentNotification() async {
         let viewModel = BuildTransactionViewModel(
-            bdkClient: makeBDKClient(send: { _, _, _ in })
+            bdkClient: makeBDKClient(send: BDKClient.mock.send)
         )
         let expectation = XCTNSNotificationExpectation(name: .transactionSent)
-
-        await viewModel.send(
+        viewModel.buildTransaction(
             address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
             amount: 100_000,
             feeRate: 17
         )
+
+        await viewModel.send()
 
         await fulfillment(of: [expectation], timeout: 1.0)
         XCTAssertNil(viewModel.buildTransactionViewError)
@@ -113,19 +114,57 @@ final class BDKSwiftExampleWalletSendViewModelTests: XCTestCase {
     @MainActor
     func testBuildTransactionViewModelSendSurfacesAsyncFailure() async {
         let viewModel = BuildTransactionViewModel(
-            bdkClient: makeBDKClient(send: { _, _, _ in
+            bdkClient: makeBDKClient(send: { _ in
                 throw TestSendError.failed
             })
         )
-
-        await viewModel.send(
+        viewModel.buildTransaction(
             address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
             amount: 100_000,
             feeRate: 17
         )
 
+        await viewModel.send()
+
         XCTAssertNotNil(viewModel.buildTransactionViewError)
         XCTAssertTrue(viewModel.showingBuildTransactionViewErrorAlert)
+        XCTAssertNil(viewModel.broadcastTxid)
+    }
+
+    @MainActor
+    func testBuildTransactionViewModelSendBroadcastsReviewedPsbtAndStoresReturnedTxid() async throws
+    {
+        let broadcastTxid = try Txid.fromString(hex: String.mockHashHex)
+        var sentTxid: String?
+        let viewModel = BuildTransactionViewModel(
+            bdkClient: makeBDKClient(send: { psbt in
+                sentTxid = try psbt.extractTx().transactionID
+                return broadcastTxid
+            })
+        )
+        viewModel.buildTransaction(
+            address: "tb1pxg0lakl0x4jee73f38m334qsma7mn2yv764x9an5ylht6tx8ccdsxtktrt",
+            amount: 100_000,
+            feeRate: 17
+        )
+        let reviewedTxid = try XCTUnwrap(viewModel.psbt).extractTx().transactionID
+
+        await viewModel.send()
+
+        XCTAssertEqual(sentTxid, reviewedTxid)
+        XCTAssertEqual(viewModel.broadcastTxid.map { "\($0)" }, "\(broadcastTxid)")
+        XCTAssertNil(viewModel.buildTransactionViewError)
+    }
+
+    @MainActor
+    func testBuildTransactionViewModelSendWithoutPsbtSurfacesError() async {
+        let viewModel = BuildTransactionViewModel(bdkClient: .mock)
+
+        await viewModel.send()
+
+        XCTAssertNotNil(viewModel.buildTransactionViewError)
+        XCTAssertTrue(viewModel.showingBuildTransactionViewErrorAlert)
+        XCTAssertNil(viewModel.broadcastTxid)
     }
 
 }
